@@ -1,19 +1,23 @@
-﻿using BuildingBlock.Domain.Entities;
-using BuildingBlock.Domain.ValueObject.Email.Exceptions;
+﻿using BuildingBlock.Domain.ValueObject.Email.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BuildingBlock.Domain.ValueObjects.Emails
 {
     public partial struct Email : IValueObject
     {
+        private const string ProviderSeparator = "@";
+        private const string WhiteSpace = " ";
+        private const string Dot = ".";
+
+        public static string Empty { get => "meunome@email.com"; }
+
         private Email(string email)
         {
             Value = email ?? throw new ArgumentNullException(nameof(email));
         }
 
-        public static string Empty { get => "meunome@email.com"; }
+        public string Value { get; init; }
 
-        private string Value { get; init; }
 
         public static Email Parse(string? email)
         {
@@ -22,18 +26,18 @@ namespace BuildingBlock.Domain.ValueObjects.Emails
                 throw new EmptyEmailException();
             }
 
-            if (!email.Contains("@"))
+            if (!email.Contains(Email.ProviderSeparator) || email.Contains(Email.WhiteSpace))
             {
                 throw new InvalidEmailException();
             }
 
-            var emailProvider = email.Split("@")[1];
+            var emailProvider = email.Split(Email.ProviderSeparator)[1];
             if (string.IsNullOrEmpty(emailProvider))
             {
                 throw new InvalidEmailException();
             }
 
-            if (!email.Contains("."))
+            if (!email.Contains(Email.Dot))
             {
                 throw new InvalidEmailException();
             }

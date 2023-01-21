@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.Entities
+﻿namespace BuildingBlock.Domain.ValueObjects
 {
     public interface IValueObject
     {

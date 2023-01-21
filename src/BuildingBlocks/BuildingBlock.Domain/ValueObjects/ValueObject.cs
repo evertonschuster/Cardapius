@@ -2,7 +2,7 @@
 using BuildingBlock.Domain.Rules;
 using System.Reflection;
 
-namespace BuildingBlock.Domain.Entities
+namespace BuildingBlock.Domain.ValueObjects
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4035:Classes implementing \"IEquatable<T>\" should be sealed", Justification = "<Pendente>")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Bug", "S1206:\"Equals(Object)\" and \"GetHashCode()\" should be overridden in pairs", Justification = "<Pendente>")]
@@ -15,7 +15,7 @@ namespace BuildingBlock.Domain.Entities
 
         public bool Equals(ValueObject? other)
         {
-            return this.Equals(other as object);
+            return Equals(other as object);
         }
 
         public override bool Equals(object? obj)
@@ -23,7 +23,7 @@ namespace BuildingBlock.Domain.Entities
             if (obj is not ValueObject)
                 return false;
 
-            if (Object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
                 return true;
 
             return GetProperties().All(p => PropertiesAreEqual(obj, p))
@@ -32,29 +32,29 @@ namespace BuildingBlock.Domain.Entities
 
         private bool PropertiesAreEqual(object obj, PropertyInfo p)
         {
-            return object.Equals(p.GetValue(this, null), p.GetValue(obj, null));
+            return Equals(p.GetValue(this, null), p.GetValue(obj, null));
         }
 
         private bool FieldsAreEqual(object obj, FieldInfo f)
         {
-            return object.Equals(f.GetValue(this), f.GetValue(obj));
+            return Equals(f.GetValue(this), f.GetValue(obj));
         }
 
         private IEnumerable<PropertyInfo> GetProperties()
         {
-            this._properties ??= GetType()
+            _properties ??= GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .ToList();
 
-            return this._properties;
+            return _properties;
         }
 
         private IEnumerable<FieldInfo> GetFields()
         {
-            this._fields ??= GetType().GetFields(BindingFlags.Instance | BindingFlags.Public)
+            _fields ??= GetType().GetFields(BindingFlags.Instance | BindingFlags.Public)
                     .ToList();
 
-            return this._fields;
+            return _fields;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Marcar membros como estáticos", Justification = "<Pendente>")]

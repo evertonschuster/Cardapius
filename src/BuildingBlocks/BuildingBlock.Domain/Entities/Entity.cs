@@ -32,7 +32,7 @@ namespace BuildingBlock.Domain.Entities
 
         public override int GetHashCode() => RuntimeHelpers.GetHashCode(this);
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Entity? left, Entity? right)
         {
             if (Object.Equals(left, null))
                 return (Object.Equals(right, null));
@@ -40,7 +40,7 @@ namespace BuildingBlock.Domain.Entities
                 return left.Equals(right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Entity? left, Entity? right)
         {
             return !(left == right);
         }
