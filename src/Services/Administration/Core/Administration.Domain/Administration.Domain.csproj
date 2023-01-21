@@ -7,10 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Products\Events\" />
-    <Folder Include="Products\Entities\" />
-    <Folder Include="Products\Services\" />
-    <Folder Include="Products\Repositories\" />
+    <ProjectReference Include="..\..\..\..\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
   </ItemGroup>
 
 </Project>

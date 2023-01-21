@@ -6,11 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Products\Events\" />
-    <Folder Include="Products\Entities\" />
-    <Folder Include="Products\Services\" />
-    <Folder Include="Products\Repositories\" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+	</ItemGroup>
 
 </Project>
