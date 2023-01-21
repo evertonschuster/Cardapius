@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Domain", "src\Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "src\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{0DC7B4D8-825A-4757-9782-3C24D9631C64}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7DD3E2D6-D107-404F-801F-AC3B2C6A7623}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{1BC612CD-BB0A-4FEF-96E0-5E70CAA4DDF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driven", "Driven", "{694CD29F-7249-4F9C-A2E7-B18ED667F165}"
@@ -74,6 +72,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7213A766-40C3-4263-88CF-4BF0CA38FAF0}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+  EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5E98F153-6465-4EA8-B4D6-DD21A40C277B}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Architecture.md = docs\Architecture.md
+		docs\Domain Driven Design and Practice.md = docs\Domain Driven Design and Practice.md
 	EndProjectSection
 EndProject
 Global
