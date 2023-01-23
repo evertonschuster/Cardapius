@@ -4,20 +4,21 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>6a766fa8-edb5-47d8-babc-0b4c1754a863</UserSecretsId>
+    <UserSecretsId>dce683d0-8ec4-4a92-bba8-f096ea7f3513</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..\..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="NovaPasta\" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObject.Json\BuildingBlock.Domain.ValueObject.Json.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
+    <ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
   </ItemGroup>
 
 </Project>
