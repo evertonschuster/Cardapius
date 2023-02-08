@@ -15,7 +15,7 @@ namespace Administration.Domain.Clients
         //public CNPJ CNPJ { get; private set; }
 
         public Email Email { get; private set; }
-
+        public string Name { get; private set; }
 
         //public Telephone CommercialPhone { get; private set; }
         //public Telephone AdministrativePhone { get; private set; }

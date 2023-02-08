@@ -12,5 +12,12 @@ namespace Administration.Api.Controllers
         {
             return Ok(command);
         }
+
+        [HttpPut]
+        [Route("update")]
+        public IActionResult UpdateClient([FromBody] CreateClientCommand command)
+        {
+            return Ok(command);
+        }
     }
 }
