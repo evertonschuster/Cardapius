@@ -5,12 +5,13 @@ namespace Administration.Application.Clients.Commands
 {
     public class CreateClientCommand
     {
-        public Email Name { get; set; }
+        public Email Email { get; set; }
+        public string? Name { get; set; }
 
 
         public Client ToEntity()
         {
-            return Client.Create(this.Name);
+            return Client.Create(Email, Name);
         }
     }
 }
