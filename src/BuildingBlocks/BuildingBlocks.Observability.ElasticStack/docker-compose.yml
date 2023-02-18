@@ -1,0 +1,55 @@
+﻿version: '3.9'
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.9
+    ports:
+     - 9200:9200
+    volumes:
+     - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+     - xpack.monitoring.enabled=true
+     - xpack.watcher.enabled=false
+     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+     - discovery.type=single-node
+     - ELASTICSEARCH_USERNAME=elastic
+     - ELASTICSEARCH_PASSWORD=MagicWord
+    networks:
+     - elastic
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.17.9
+    ports:
+     - 5601:5601
+    depends_on:
+     - elasticsearch
+    environment:
+     - ELASTICSEARCH_URL=http://localhost:9200
+     - ELASTICSEARCH_USERNAME=elastic
+     - ELASTICSEARCH_PASSWORD=MagicWord
+    networks:
+     - elastic
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.17.9
+    container_name: apm-server
+    ports:
+      - "8200:8200"
+      - "8201:8200"
+    environment:
+      - output.elasticsearch.hosts=['http://localhost:9200']
+      - apm-server.host="0.0.0.0:8200"
+      - setup.kibana.host="kibana:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
+  
+networks:
+  elastic:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:

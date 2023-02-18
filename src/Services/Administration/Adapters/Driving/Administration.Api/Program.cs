@@ -1,6 +1,7 @@
 using BuildingBlock.Application.Extensions;
 using BuildingBlock.Domain.ValueObject.Json.Extensions;
 using BuildingBlocks.Api.Extensions;
+using BuildingBlocks.Observability.ElasticStack.Extensions;
 
 namespace Administration.Api
 {
@@ -9,6 +10,9 @@ namespace Administration.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
+
+            builder.AddObservability(configuration.GetSection("Observability").Bind);
 
             builder.Services.AddControllers();
             builder.Services.AddApplicationDomainData();
@@ -17,9 +21,9 @@ namespace Administration.Api
             builder.Services.AddApplicationSwagger();
 
 
-
             var app = builder.Build();
 
+            app.UseObservability();
             app.UseApplicationSwagger();
             app.UseHttpsRedirection();
             app.UseAuthorization();

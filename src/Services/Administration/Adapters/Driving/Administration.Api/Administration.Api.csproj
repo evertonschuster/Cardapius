@@ -18,6 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObject.Json\BuildingBlock.Domain.ValueObject.Json.csproj" />
     <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj" />
     <ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,12 @@
+﻿namespace BuildingBlocks.Observability.ElasticStack.Options
+{
+    public class ObservabilityOption
+    {
+        public ObservabilityElasticOption Elastic { get; set; } = new ObservabilityElasticOption();
+    }
+
+    public class ObservabilityElasticOption
+    {
+        public string URI { get; set; } = string.Empty;
+    }
+}
