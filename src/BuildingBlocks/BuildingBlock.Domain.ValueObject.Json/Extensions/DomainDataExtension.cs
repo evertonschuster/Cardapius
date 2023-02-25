@@ -1,4 +1,6 @@
 ﻿using BuildingBlock.Domain.ValueObject.Json.Configurations;
+using BuildingBlock.Domain.ValueObject.Json.Emails;
+using System.Text.Json.Serialization;
 
 namespace BuildingBlock.Domain.ValueObject.Json.Extensions
 {
@@ -8,6 +10,8 @@ namespace BuildingBlock.Domain.ValueObject.Json.Extensions
         {
             services.ConfigureOptions<JsonOptionsConfiguration>();
             services.ConfigureOptions<MvcOptionsFormattersConfigure>();
+
+            services.AddTransient<JsonConverter, EmailJsonConverter>();
         }
     }
 }

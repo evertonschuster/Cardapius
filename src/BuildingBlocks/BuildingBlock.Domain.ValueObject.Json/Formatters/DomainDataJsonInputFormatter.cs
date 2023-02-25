@@ -19,7 +19,7 @@ namespace BuildingBlock.Domain.ValueObject.Json.Formatters
             catch (BusinessException businessException)
             {
                 var key = businessException.KeyError ?? string.Empty;
-                key = char.ToLower(key[0]) + key.Substring(1);
+                key = char.ToLower(key[0]) + key[1..];
 
                 var inputFormatterException = new InputFormatterException(businessException.Message, businessException);
                 context.ModelState.TryAddModelError(key, inputFormatterException, context.Metadata);
