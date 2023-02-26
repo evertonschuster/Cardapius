@@ -1,11 +1,11 @@
-﻿using BuildingBlock.Domain.ValueObject.Json.Emails;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace BuildingBlock.Domain.ValueObject.Json.Configurations
 {
-    public class JsonOptionsConfiguration : IConfigureOptions<JsonOptions>
+    public class JsonOptionsConfiguration : IConfigureOptions<MvcNewtonsoftJsonOptions>
     {
         public JsonOptionsConfiguration(IEnumerable<JsonConverter> jsonConverters)
         {
@@ -14,11 +14,13 @@ namespace BuildingBlock.Domain.ValueObject.Json.Configurations
 
         public IEnumerable<JsonConverter> JsonConverters { get; set; }
 
-        public void Configure(JsonOptions options)
+        public void Configure(MvcNewtonsoftJsonOptions options)
         {
+            options.UseCamelCasing(processDictionaryKeys: true);
+
             foreach (var jsonConverter in JsonConverters)
             {
-                options.JsonSerializerOptions.Converters.Add(jsonConverter);
+                options.SerializerSettings.Converters.Add(jsonConverter);
             }
         }
     }

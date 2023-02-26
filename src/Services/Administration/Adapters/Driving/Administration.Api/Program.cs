@@ -14,7 +14,9 @@ namespace Administration.Api
 
             builder.AddObservability(configuration.GetSection("Observability").Bind);
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson();
+
             builder.Services.AddApplicationDomainData();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddApplicationValidation();

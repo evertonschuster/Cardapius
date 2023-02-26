@@ -1,28 +1,27 @@
 ﻿using BuildingBlock.Domain.Exceptions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace BuildingBlock.Domain.ValueObject.Json.Emails
 {
     //TODO: Auto registrarion with ioc
     public class EmailJsonConverter : JsonConverter<ValueObjects.Emails.Email>
     {
-        public override ValueObjects.Emails.Email Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override ValueObjects.Emails.Email ReadJson(JsonReader reader, Type objectType, ValueObjects.Emails.Email existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             try
             {
-                var value = reader.GetString();
+                var value = reader.Value as string;
                 return ValueObjects.Emails.Email.Parse(value);
             }
             catch (BusinessException business)
             {
-                throw new BusinessException(business.Message, typeToConvert.Name, business);
+                throw new JsonReaderException(business.Message, business);
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, ValueObjects.Emails.Email value, JsonSerializerOptions options)
+        public override void WriteJson(JsonWriter writer, ValueObjects.Emails.Email value, JsonSerializer serializer)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteValue(value.ToString());
         }
     }
 }

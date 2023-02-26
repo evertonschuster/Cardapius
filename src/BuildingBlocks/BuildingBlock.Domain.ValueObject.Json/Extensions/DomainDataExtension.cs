@@ -1,6 +1,7 @@
 ﻿using BuildingBlock.Domain.ValueObject.Json.Configurations;
 using BuildingBlock.Domain.ValueObject.Json.Emails;
-using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace BuildingBlock.Domain.ValueObject.Json.Extensions
 {

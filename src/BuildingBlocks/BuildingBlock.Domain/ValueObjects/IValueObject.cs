@@ -2,5 +2,6 @@
 {
     public interface IValueObject
     {
+        bool IsValid();
     }
 }

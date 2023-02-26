@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BuildingBlock.Domain.ValueObjects.Emails
 {
-    public partial struct Email : IValueObject
+    public readonly struct Email : IValueObject
     {
         private const string ProviderSeparator = "@";
         private const string WhiteSpace = " ";
@@ -60,9 +60,24 @@ namespace BuildingBlock.Domain.ValueObjects.Emails
             return this.Value;
         }
 
+        public bool IsValid()
+        {
+            return false;
+        }
+
         public static implicit operator string?(Email email)
         {
             return email.ToString();
+        }
+
+        public static bool operator ==(Email left, Email right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Email left, Email right)
+        {
+            return !(left == right);
         }
     }
 }
