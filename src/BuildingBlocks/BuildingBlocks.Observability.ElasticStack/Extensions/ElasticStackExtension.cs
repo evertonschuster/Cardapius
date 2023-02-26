@@ -24,8 +24,11 @@ namespace BuildingBlocks.Observability.ElasticStack.Extensions
             var configuration = builder.ApplicationServices.GetService<IConfiguration>()!;
             var elasticApmConfiguration = configuration.GetSection("Observability:ElasticApm");
 
-            builder.UseMiddleware<RequestSerilLogMiddleware>();
-            builder.UseElasticStackTracking(elasticApmConfiguration);
+            if (elasticApmConfiguration.GetValue("Enabled", true))
+            {
+                builder.UseMiddleware<RequestSerilLogMiddleware>();
+                builder.UseElasticStackTracking(elasticApmConfiguration);
+            }
         }
 
 

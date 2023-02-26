@@ -5,6 +5,7 @@ using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Configuration;
 using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
@@ -15,7 +16,6 @@ namespace BuildingBlocks.Observability.ElasticStack.Extensions
     {
         public static string EnvironmentName { get; } = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? throw new EnvironmentNotSetException();
         private static string ApplicationName { get; } = (Assembly.GetEntryAssembly()?.GetName().Name ?? "unknow").ToLowerInvariant().Replace(".", "_");
-
 
 
         public static void AddElasticStackLoggin(this WebApplicationBuilder builder, ObservabilityOption option)
@@ -35,7 +35,7 @@ namespace BuildingBlocks.Observability.ElasticStack.Extensions
                 .Enrich.WithProperty("Environment", customEnvironment)
                 .WriteTo.Debug()
                 .WriteTo.Console()
-                .WriteTo.Elasticsearch(elasticsearchSinkOptions)
+                .WriteTo.Conditional(e => option.Elastic.Enabled, a => a.Elasticsearch(elasticsearchSinkOptions))
                 .CreateLogger();
 
 
