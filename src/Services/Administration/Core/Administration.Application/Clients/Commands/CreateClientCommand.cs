@@ -6,15 +6,7 @@ namespace Administration.Application.Clients.Commands
 {
     public class CreateClientCommand
     {
-        public Email Name123 { get; set; }
-        public DateTime Namea { get; set; }
-
-        [Required]
-        public string? MyProperty { get; set; }
-
-        public Client ToEntity()
-        {
-            return Client.Create(this.Name123);
-        }
+        public int Id { get; set; }
+        public Email Email { get; set; }
     }
 }
