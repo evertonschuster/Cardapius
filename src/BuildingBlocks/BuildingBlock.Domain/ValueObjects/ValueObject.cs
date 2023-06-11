@@ -65,6 +65,11 @@ namespace BuildingBlock.Domain.ValueObjects
                 throw new BusinessRuleValidationException(rule);
             }
         }
+
+        public bool IsValid()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 #pragma warning restore CS0659 // O tipo substitui Object. Equals (objeto o), mas não substitui o Object.GetHashCode()

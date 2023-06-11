@@ -13,7 +13,6 @@ namespace BuildingBlocks.Api.Extensions
         {
             services.AddSwaggerGen(options =>
             {
-                //TODO: Auto registrarion with ioc
                 options.MapType<Email>(() => new OpenApiSchema
                 {
                     Type = "string",

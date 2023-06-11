@@ -1,15 +1,27 @@
-﻿using BuildingBlock.Domain.ValueObject.Json.Emails;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace BuildingBlock.Domain.ValueObject.Json.Configurations
 {
-    public class JsonOptionsConfiguration : IConfigureOptions<JsonOptions>
+    public class JsonOptionsConfiguration : IConfigureOptions<MvcNewtonsoftJsonOptions>
     {
-        public void Configure(JsonOptions options)
+        public JsonOptionsConfiguration(IEnumerable<JsonConverter> jsonConverters)
         {
-            //TODO: Auto registrarion with ioc
-            options.JsonSerializerOptions.Converters.Add(new EmailJsonConverter());
+            JsonConverters = jsonConverters ?? throw new ArgumentNullException(nameof(jsonConverters));
+        }
+
+        public IEnumerable<JsonConverter> JsonConverters { get; set; }
+
+        public void Configure(MvcNewtonsoftJsonOptions options)
+        {
+            options.UseCamelCasing(processDictionaryKeys: true);
+
+            foreach (var jsonConverter in JsonConverters)
+            {
+                options.SerializerSettings.Converters.Add(jsonConverter);
+            }
         }
     }
 }

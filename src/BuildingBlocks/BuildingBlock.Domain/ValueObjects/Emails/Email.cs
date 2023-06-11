@@ -3,12 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BuildingBlock.Domain.ValueObjects.Emails
 {
-    public partial struct Email : IValueObject
+    public readonly struct Email : IValueObject
     {
-        private const string ProviderSeparator = "@";
-        private const string WhiteSpace = " ";
-        private const string Dot = ".";
-
         public static string Empty { get => "meunome@email.com"; }
 
         private Email(string email)
@@ -26,18 +22,7 @@ namespace BuildingBlock.Domain.ValueObjects.Emails
                 throw new EmptyEmailException();
             }
 
-            if (!email.Contains(Email.ProviderSeparator) || email.Contains(Email.WhiteSpace))
-            {
-                throw new InvalidEmailException();
-            }
-
-            var emailProvider = email.Split(Email.ProviderSeparator)[1];
-            if (string.IsNullOrEmpty(emailProvider))
-            {
-                throw new InvalidEmailException();
-            }
-
-            if (!email.Contains(Email.Dot))
+            if (!EmailValidator.IsValid(email))
             {
                 throw new InvalidEmailException();
             }
@@ -60,9 +45,24 @@ namespace BuildingBlock.Domain.ValueObjects.Emails
             return this.Value;
         }
 
+        public bool IsValid()
+        {
+            return EmailValidator.IsValid(this.Value);
+        }
+
         public static implicit operator string?(Email email)
         {
             return email.ToString();
+        }
+
+        public static bool operator ==(Email left, Email right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Email left, Email right)
+        {
+            return !(left == right);
         }
     }
 }

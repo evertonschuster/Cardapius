@@ -21,7 +21,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             //Asserts
             email.Value
                 .Should()
-                .Be(email);
+                .Be(emailText);
         }
 
         [Theory]
