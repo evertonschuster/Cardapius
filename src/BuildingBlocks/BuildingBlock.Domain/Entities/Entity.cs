@@ -10,6 +10,10 @@ namespace BuildingBlock.Domain.Entities
             Id = id;
         }
 
+        protected Entity()
+        {
+        }
+
         public Guid Id { get; private set; }
 
         public override bool Equals(object? obj)

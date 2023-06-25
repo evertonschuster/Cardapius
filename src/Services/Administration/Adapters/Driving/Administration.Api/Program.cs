@@ -1,5 +1,7 @@
+using Administration.Application;
+using Administration.Infra.DataBase.EntityFramework.Extensions;
 using BuildingBlock.Application.Extensions;
-using BuildingBlock.Domain.ValueObject.Json.Extensions;
+using BuildingBlock.Domain.ValueObjects.Json.Extensions;
 using BuildingBlocks.Api.Extensions;
 using BuildingBlocks.Observability.ElasticStack.Extensions;
 
@@ -12,15 +14,26 @@ namespace Administration.Api
             var builder = WebApplication.CreateBuilder(args);
             var configuration = builder.Configuration;
 
-            builder.AddObservability(configuration.GetSection("Observability").Bind);
 
+            //Microsoft
             builder.Services.AddControllers()
                 .AddNewtonsoftJson();
-
-            builder.Services.AddApplicationDomainData();
             builder.Services.AddEndpointsApiExplorer();
+
+
+            //BuildingBlocks
+            builder.Services.AddApplicationDomainDataJsonConvert();
             builder.Services.AddApplicationValidation();
+            //builder.Services.AddApplicationMediatr();
             builder.Services.AddApplicationSwagger();
+            builder.AddObservability(configuration.GetSection("Observability").Bind);
+
+
+            //Current service
+            builder.Services.AddApplication();
+            builder.Services.AddInfraDataBaseEntityFramework(configuration);
+
+
 
 
             var app = builder.Build();

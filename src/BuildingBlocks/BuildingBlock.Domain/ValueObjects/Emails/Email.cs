@@ -1,9 +1,9 @@
-﻿using BuildingBlock.Domain.ValueObject.Email.Exceptions;
+﻿using BuildingBlock.Domain.ValueObjects.Emails.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BuildingBlock.Domain.ValueObjects.Emails
 {
-    public readonly struct Email : IValueObject
+    public struct Email : IValueObject
     {
         public static string Empty { get => "meunome@email.com"; }
 

@@ -1,5 +1,5 @@
-﻿using BuildingBlock.Domain.ValueObject.Email.Exceptions;
-using BuildingBlock.Domain.ValueObjects.Emails;
+﻿using BuildingBlock.Domain.ValueObjects.Emails;
+using BuildingBlock.Domain.ValueObjects.Emails.Exceptions;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects
 {

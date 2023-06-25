@@ -1,6 +1,6 @@
 ﻿using BuildingBlock.Domain.Exceptions;
 
-namespace BuildingBlock.Domain.ValueObject.Email.Exceptions
+namespace BuildingBlock.Domain.ValueObjects.Emails.Exceptions
 {
     public class EmptyEmailException : BusinessException
     {

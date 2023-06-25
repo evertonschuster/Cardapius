@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Domain.ValueObjects.EFCore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\..\Core\Administration.Domain\Administration.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

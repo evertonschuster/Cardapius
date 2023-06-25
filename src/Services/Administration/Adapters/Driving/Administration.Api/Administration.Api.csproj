@@ -1,27 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dce683d0-8ec4-4a92-bba8-f096ea7f3513</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..\..\..\..</DockerfileContext>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>dce683d0-8ec4-4a92-bba8-f096ea7f3513</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..\..\..\..</DockerfileContext>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObject.Json\BuildingBlock.Domain.ValueObject.Json.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj" />
-    <ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObjects.Json\BuildingBlock.Domain.ValueObjects.Json.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj" />
+		<ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
+		<ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
+	</ItemGroup>
 
 </Project>

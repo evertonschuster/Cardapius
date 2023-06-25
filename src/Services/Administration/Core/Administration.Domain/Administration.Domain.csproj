@@ -10,4 +10,10 @@
     <ProjectReference Include="..\..\..\..\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Restaurants\Exceptions\" />
+    <Folder Include="Restaurants\Events\" />
+    <Folder Include="Restaurants\Services\" />
+  </ItemGroup>
+
 </Project>

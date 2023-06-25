@@ -61,7 +61,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application", "src\BuildingBlocks\BuildingBlock.Application\BuildingBlock.Application.csproj", "{E53C6107-D019-40AB-8B23-DAAE9A59D7A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObject.Json", "src\BuildingBlocks\BuildingBlock.Domain.ValueObject.Json\BuildingBlock.Domain.ValueObject.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObjects.Json", "src\BuildingBlocks\BuildingBlock.Domain.ValueObjects.Json\BuildingBlock.Domain.ValueObjects.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Api", "src\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
 EndProject
@@ -80,9 +80,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5E98F153-6
 		docs\Domain Driven Design and Practice.md = docs\Domain Driven Design and Practice.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Observability", "src\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability", "src\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Observability.ElasticStack", "src\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj", "{349931E5-E66F-4FEE-A2E2-67BB8F94403E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability.ElasticStack", "src\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj", "{349931E5-E66F-4FEE-A2E2-67BB8F94403E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "src\BuildingBlocks\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase", "src\BuildingBlocks\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj", "{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.EntityFramework", "src\Services\Administration\Adapters\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj", "{5050AAD6-3240-462F-861E-7E6F350E7F4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObjects.EFCore", "src\BuildingBlocks\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Domain.ValueObjects.EFCore.csproj", "{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -150,6 +158,22 @@ Global
 		{349931E5-E66F-4FEE-A2E2-67BB8F94403E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{349931E5-E66F-4FEE-A2E2-67BB8F94403E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{349931E5-E66F-4FEE-A2E2-67BB8F94403E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5050AAD6-3240-462F-861E-7E6F350E7F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5050AAD6-3240-462F-861E-7E6F350E7F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5050AAD6-3240-462F-861E-7E6F350E7F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5050AAD6-3240-462F-861E-7E6F350E7F4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +213,10 @@ Global
 		{7612A299-0434-4369-9796-4794FBF59F17} = {0484F8B7-A921-4DC5-90DA-53432D531232}
 		{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
 		{349931E5-E66F-4FEE-A2E2-67BB8F94403E} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{5050AAD6-3240-462F-861E-7E6F350E7F4C} = {694CD29F-7249-4F9C-A2E7-B18ED667F165}
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAE2897-37FA-4B81-85DC-C10775CABF1B}
