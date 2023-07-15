@@ -7,13 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Restaurants\Exceptions\" />
-    <Folder Include="Restaurants\Events\" />
-    <Folder Include="Restaurants\Services\" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\BuildingBlocks\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
+    <ProjectReference Include="..\..\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,10 +24,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObjects.Json\BuildingBlock.Domain.ValueObjects.Json.csproj" />
-		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj" />
-		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj" />
-		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Observability.ElasticStack\BuildingBlock.Observability.ElasticStack.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Observability\BuildingBlock.Observability.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj" />
 		<ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
 		<ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
 	</ItemGroup>

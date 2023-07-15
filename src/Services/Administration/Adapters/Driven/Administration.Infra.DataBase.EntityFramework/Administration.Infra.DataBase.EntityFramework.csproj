@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Domain.ValueObjects.EFCore.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Infra.Domain.ValueObjects.EFCore.csproj" />
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj" />
     <ProjectReference Include="..\..\..\Core\Administration.Domain\Administration.Domain.csproj" />
   </ItemGroup>
 

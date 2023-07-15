@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{69DF63DC-FE2A-4B08-BC52-369C4B497989}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObjects.Json", "BuildingBlock.Domain.ValueObjects.Json\BuildingBlock.Domain.ValueObjects.Json.csproj", "{CC6FEE73-6189-4FE0-B67F-4C2C0FCAE664}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Domain.ValueObjects.Json", "BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj", "{CC6FEE73-6189-4FE0-B67F-4C2C0FCAE664}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{41EF20AA-1DBB-4CD7-84EE-EB8E409B1D60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Api", "BuildingBlocks.Api\BuildingBlocks.Api.csproj", "{2AAC7203-6B5A-4E6A-B26B-0B6E77E698F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api", "BuildingBlock.Api\BuildingBlock.Api.csproj", "{2AAC7203-6B5A-4E6A-B26B-0B6E77E698F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability", "BuildingBlocks.Observability\BuildingBlocks.Observability.csproj", "{83716665-DAE7-4648-ABEC-226E7CC68A58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability", "BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{83716665-DAE7-4648-ABEC-226E7CC68A58}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability.ElasticStack", "BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj", "{A9FD27E9-8A13-478C-8E7A-56DC6E5202FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability.ElasticStack", "BuildingBlock.Observability.ElasticStack\BuildingBlock.Observability.ElasticStack.csproj", "{A9FD27E9-8A13-478C-8E7A-56DC6E5202FC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BE1E4D4F-74FE-4407-AAA0-B32DF5BBFF7A}"
 EndProject

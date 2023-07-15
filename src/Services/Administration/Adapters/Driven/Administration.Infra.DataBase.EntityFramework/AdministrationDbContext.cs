@@ -1,5 +1,5 @@
 ﻿using Administration.Domain.Restaurants.Models;
-using BuildingBlock.Domain.ValueObjects.EFCore.Extensions;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Administration.Infra.DataBase.EntityFramework

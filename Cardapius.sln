@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Application", "src\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Domain", "src\Services\Store\Core\Store.Domain\Store.Domain.csproj", "{8B7554B0-9E38-407B-8B1F-FB61848EFDA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "src\BuildingBlocks\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{0DC7B4D8-825A-4757-9782-3C24D9631C64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "src\BuildingBlocks\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{0DC7B4D8-825A-4757-9782-3C24D9631C64}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{1BC612CD-BB0A-4FEF-96E0-5E70CAA4DDF6}"
 EndProject
@@ -59,15 +59,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Api", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.MongoDb", "src\Services\Administration\Adapters\Driven\Administration.Infra.DataBase.MongoDb\Administration.Infra.DataBase.MongoDb.csproj", "{984D671D-5890-4B1C-BB64-07CFEF781B81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application", "src\BuildingBlocks\BuildingBlock.Application\BuildingBlock.Application.csproj", "{E53C6107-D019-40AB-8B23-DAAE9A59D7A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application", "src\BuildingBlocks\Core\BuildingBlock.Application\BuildingBlock.Application.csproj", "{E53C6107-D019-40AB-8B23-DAAE9A59D7A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObjects.Json", "src\BuildingBlocks\BuildingBlock.Domain.ValueObjects.Json\BuildingBlock.Domain.ValueObjects.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Domain.ValueObjects.Json", "src\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Api", "src\BuildingBlocks\BuildingBlocks.Api\BuildingBlocks.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api", "src\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0484F8B7-A921-4DC5-90DA-53432D531232}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.UnitTest", "src\BuildingBlocks\test\BuildingBlock.Domain.UnitTest\BuildingBlock.Domain.UnitTest.csproj", "{7612A299-0434-4369-9796-4794FBF59F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.UnitTest", "src\BuildingBlocks\Core\test\BuildingBlock.Domain.UnitTest\BuildingBlock.Domain.UnitTest.csproj", "{7612A299-0434-4369-9796-4794FBF59F17}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7213A766-40C3-4263-88CF-4BF0CA38FAF0}"
 	ProjectSection(SolutionItems) = preProject
@@ -80,17 +80,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5E98F153-6
 		docs\Domain Driven Design and Practice.md = docs\Domain Driven Design and Practice.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability", "src\BuildingBlocks\BuildingBlocks.Observability\BuildingBlocks.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability", "src\BuildingBlocks\Driven\BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlocks.Observability.ElasticStack", "src\BuildingBlocks\BuildingBlocks.Observability.ElasticStack\BuildingBlocks.Observability.ElasticStack.csproj", "{349931E5-E66F-4FEE-A2E2-67BB8F94403E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability.ElasticStack", "src\BuildingBlocks\Driven\BuildingBlock.Observability.ElasticStack\BuildingBlock.Observability.ElasticStack.csproj", "{349931E5-E66F-4FEE-A2E2-67BB8F94403E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "src\BuildingBlocks\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase", "src\BuildingBlocks\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj", "{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj", "{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.EntityFramework", "src\Services\Administration\Adapters\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj", "{5050AAD6-3240-462F-861E-7E6F350E7F4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.ValueObjects.EFCore", "src\BuildingBlocks\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Domain.ValueObjects.EFCore.csproj", "{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.Domain.ValueObjects.EFCore", "src\BuildingBlocks\Driven\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Infra.Domain.ValueObjects.EFCore.csproj", "{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C5C1C35A-9D88-4800-AF9C-CC2787E1C07F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driving", "Driving", "{6CFF2E60-D35B-41E7-B295-409D5A07A7AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driven", "Driven", "{218944F3-F484-4BA3-9705-375A246801C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,7 +203,7 @@ Global
 		{6720F458-06FB-40B7-8E4A-39FCFFB034F4} = {A670F067-19C8-48AA-B961-DCDF16119DDD}
 		{BD22A0FB-E31E-4DA0-9773-3449D1F60787} = {6720F458-06FB-40B7-8E4A-39FCFFB034F4}
 		{8B7554B0-9E38-407B-8B1F-FB61848EFDA8} = {6720F458-06FB-40B7-8E4A-39FCFFB034F4}
-		{0DC7B4D8-825A-4757-9782-3C24D9631C64} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{0DC7B4D8-825A-4757-9782-3C24D9631C64} = {C5C1C35A-9D88-4800-AF9C-CC2787E1C07F}
 		{1BC612CD-BB0A-4FEF-96E0-5E70CAA4DDF6} = {C49A4FC2-BC67-4163-B00A-B3C092D87182}
 		{694CD29F-7249-4F9C-A2E7-B18ED667F165} = {1BC612CD-BB0A-4FEF-96E0-5E70CAA4DDF6}
 		{62439BF3-78D1-460E-99CA-7210C906827F} = {1BC612CD-BB0A-4FEF-96E0-5E70CAA4DDF6}
@@ -206,17 +212,20 @@ Global
 		{A09FF40C-1E35-4874-A877-4D82B33B8C92} = {085B0324-B995-4B49-BD04-0BB767844CD6}
 		{B07D0748-A3CA-4927-8F2C-729E5BEDD12B} = {62439BF3-78D1-460E-99CA-7210C906827F}
 		{984D671D-5890-4B1C-BB64-07CFEF781B81} = {694CD29F-7249-4F9C-A2E7-B18ED667F165}
-		{E53C6107-D019-40AB-8B23-DAAE9A59D7A5} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{D5094D7B-CDC9-4591-B323-569A14EA918B} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{DA0F81D0-91AC-4238-8F41-49F3389FD476} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{0484F8B7-A921-4DC5-90DA-53432D531232} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{E53C6107-D019-40AB-8B23-DAAE9A59D7A5} = {C5C1C35A-9D88-4800-AF9C-CC2787E1C07F}
+		{D5094D7B-CDC9-4591-B323-569A14EA918B} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
+		{DA0F81D0-91AC-4238-8F41-49F3389FD476} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
+		{0484F8B7-A921-4DC5-90DA-53432D531232} = {C5C1C35A-9D88-4800-AF9C-CC2787E1C07F}
 		{7612A299-0434-4369-9796-4794FBF59F17} = {0484F8B7-A921-4DC5-90DA-53432D531232}
-		{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{349931E5-E66F-4FEE-A2E2-67BB8F94403E} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
-		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{349931E5-E66F-4FEE-A2E2-67BB8F94403E} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{A2458F6D-816F-4272-8B54-07EFCEF9E6B9} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{F359C929-8A85-47A8-B5C0-4C81B6CD31D0} = {218944F3-F484-4BA3-9705-375A246801C3}
 		{5050AAD6-3240-462F-861E-7E6F350E7F4C} = {694CD29F-7249-4F9C-A2E7-B18ED667F165}
-		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{58726A43-24CC-43A3-AFEE-ED2A7EE6309B} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{C5C1C35A-9D88-4800-AF9C-CC2787E1C07F} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{6CFF2E60-D35B-41E7-B295-409D5A07A7AC} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
+		{218944F3-F484-4BA3-9705-375A246801C3} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAE2897-37FA-4B81-85DC-C10775CABF1B}
