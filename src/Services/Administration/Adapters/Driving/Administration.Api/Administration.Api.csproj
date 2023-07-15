@@ -28,6 +28,7 @@
 		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Observability\BuildingBlock.Observability.csproj" />
 		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj" />
 		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Swashbuckle\BuildingBlock.Swashbuckle.csproj" />
 		<ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
 		<ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
 	</ItemGroup>

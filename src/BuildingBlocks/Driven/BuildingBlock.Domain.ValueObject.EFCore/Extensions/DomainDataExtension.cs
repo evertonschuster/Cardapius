@@ -1,9 +1,9 @@
-﻿using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails;
-using BuildingBlock.Infra.Domain.ValueObjects.EFCore.PersonNames;
-using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Phones;
-using BuildingBlock.Domain.ValueObjects.Emails;
+﻿using BuildingBlock.Domain.ValueObjects.Emails;
 using BuildingBlock.Domain.ValueObjects.PersonNames;
 using BuildingBlock.Domain.ValueObjects.Phones;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.PersonNames;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Phones;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
@@ -21,7 +21,7 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
                 .Properties<Phone>()
                 .HaveConversion<PhoneConvert>()
                 .HaveMaxLength(32);
-            
+
             configurationBuilder
                 .Properties<PersonName>()
                 .HaveConversion<PersonNameConvert>()

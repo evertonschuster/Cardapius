@@ -1,9 +1,9 @@
 using Administration.Application;
 using Administration.Infra.DataBase.EntityFramework.Extensions;
-using BuildingBlock.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
-using BuildingBlock.Api.Extensions;
+using BuildingBlock.Application.Extensions;
 using BuildingBlock.Observability.ElasticStack.Extensions;
+using BuildingBlock.Swashbuckle.Extensions;
 
 namespace Administration.Api
 {
