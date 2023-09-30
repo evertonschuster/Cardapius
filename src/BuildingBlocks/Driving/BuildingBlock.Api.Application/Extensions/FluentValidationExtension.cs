@@ -1,7 +1,7 @@
 ﻿using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlock.Application.Extensions
+namespace BuildingBlock.Api.Application.Extensions
 {
     public static class FluentValidationExtension
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace BuildingBlock.Swashbuckle.Extensions
+namespace BuildingBlock.Api.Swashbuckle.Extensions
 {
     public static class SwashbuckleExtension
     {

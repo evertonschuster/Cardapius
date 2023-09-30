@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace BuildingBlock.Application.Extensions
+namespace BuildingBlock.Api.Application.Extensions
 {
     public static class MediatRExtensions
     {
