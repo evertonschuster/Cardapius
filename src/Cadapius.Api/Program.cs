@@ -1,6 +1,7 @@
 using Administration.Api.Extensions;
-using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Application.Extensions;
+using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
+using BuildingBlock.Api.Modules.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
 using BuildingBlock.Api.Version.Extensions;
 
@@ -13,7 +14,9 @@ var configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddControllers()
-    .AddAdministrationService();
+    .AddApplicationControllerModules();
+
+
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationVersion();
@@ -48,6 +51,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
+app.UseApplicationControllerModules();
 
 
 app.Run();

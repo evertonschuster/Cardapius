@@ -7,7 +7,7 @@ namespace Administration.Api.Controllers
 {
     [ApiController]
     [ApiVersion(1.0)]
-    [Route("api/v{version:apiVersion}/restaurants")]
+    [Route("[module]/api/v{version:apiVersion}/restaurants")]
     public class RestaurantController : ControllerBase
     {
         public RestaurantController(IMediator mediator)
