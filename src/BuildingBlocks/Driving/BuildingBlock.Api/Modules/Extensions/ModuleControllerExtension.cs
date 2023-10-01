@@ -28,11 +28,7 @@ namespace BuildingBlock.Api.Modules.Extensions
             //Adds endpoints defined in modules
             foreach (var module in modules)
             {
-                app.Map($"/{module.RoutePrefix}", builder =>
-                {
-                    builder.UseRouting();
-                    module.Startup.Configure(builder, configuration);
-                });
+                module.Startup.Configure(app, configuration);
             }
 
             return app;
