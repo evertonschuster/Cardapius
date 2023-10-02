@@ -12,7 +12,6 @@ namespace Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories
         public override void Save(Restaurant entity)
         {
             base.Save(entity);
-            (_IDbContext as AdministrationDbContext).SaveChanges();
         }
     }
 }

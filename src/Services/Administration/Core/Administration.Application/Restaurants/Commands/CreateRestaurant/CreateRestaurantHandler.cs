@@ -1,22 +1,28 @@
 ﻿using Administration.Domain.Restaurants.Repositories;
+using BuildingBlock.Domain;
 
 namespace Administration.Application.Restaurants.Commands.CreateRestaurant
 {
     public class CreateRestaurantHandler : IRequestHandler<CreateRestaurantCommand, CreateRestaurantResult>
     {
         private readonly IRestaurantRepository _restaurantRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateRestaurantHandler(IRestaurantRepository restaurantRepository)
+        public CreateRestaurantHandler(IRestaurantRepository restaurantRepository, IUnitOfWork unitOfWork)
         {
-            _restaurantRepository = restaurantRepository ?? throw new ArgumentNullException(nameof(restaurantRepository));
+            _restaurantRepository = restaurantRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public Task<CreateRestaurantResult> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
         {
             var model = request.ToModel();
-            _restaurantRepository.Save(model);
 
-            return Task.FromResult(new CreateRestaurantResult());
+            _restaurantRepository.Save(model);
+            _unitOfWork.Commit();
+
+            var result = new CreateRestaurantResult();
+            return Task.FromResult(result);
         }
     }
 }
