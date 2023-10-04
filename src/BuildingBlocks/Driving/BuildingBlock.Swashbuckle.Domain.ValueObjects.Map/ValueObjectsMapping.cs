@@ -36,7 +36,7 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                 Description = "Represent a valid phone number.",
                 Example = new OpenApiString(Phone.Empty),
             });
-            
+
             options.MapType<Address>(() => new OpenApiSchema
             {
                 Type = "object",

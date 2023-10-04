@@ -23,6 +23,11 @@ namespace BuildingBlock.Domain.ValueObjects.Phones
             return new Phone(phone);
         }
 
+        public override string? ToString()
+        {
+            return Value;
+        }
+
         public bool IsValid()
         {
             return PhoneValidator.IsValid(Value);

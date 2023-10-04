@@ -10,7 +10,7 @@ namespace BuildingBlock.Domain.ValueObjects.PersonNames
             Value = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public static string Empty { get => "fulano de tal"; }
+        public static string Empty { get => "Fulano de Tal"; }
 
         public string Value { get; init; }
 
@@ -22,6 +22,11 @@ namespace BuildingBlock.Domain.ValueObjects.PersonNames
             }
 
             return new PersonName(name);
+        }
+
+        public override string? ToString()
+        {
+            return Value;
         }
 
         public bool IsValid()

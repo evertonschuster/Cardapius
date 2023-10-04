@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BuildingBlock.Domain;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {
-    public class AppDbContext : DbContext, IDbContext
+    public class AppDbContext : DbContext, IDbContext, IUnitOfWork
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -37,6 +39,41 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         {
             this.Set<TEntity>()
                 .Remove(entity);
+        }
+
+        public int Commit()
+        {
+            return this.SaveChanges();
+        }
+
+        public Task<int> CommitAsync()
+        {
+            return this.SaveChangesAsync();
+        }
+
+        public void Rollback()
+        {
+            this.Database.RollbackTransaction();
+        }
+
+        public Task RollbackAsync()
+        {
+            return this.Database.RollbackTransactionAsync();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.AddApplicationDomainDataEFCoreConvert();
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            base.ConfigureConventions(configurationBuilder);
+
+            configurationBuilder
+                .AddApplicationDomainDataEFCoreConvert();
         }
     }
 }

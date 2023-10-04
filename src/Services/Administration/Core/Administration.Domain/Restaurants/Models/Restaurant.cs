@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Administration.Domain.Restaurants.Models
+﻿namespace Administration.Domain.Restaurants.Models
 {
     public class Restaurant : Entity, IAggregateRoot
     {
         protected Restaurant()
         {
+            this.Name = string.Empty;
         }
 
         public Restaurant(
@@ -35,23 +34,20 @@ namespace Administration.Domain.Restaurants.Models
         public string Name { get; private set; }
 
 
-        [NotMapped]
         public PersonName PrimaryContact { get; private set; }
 
-        [NotMapped]
         public Phone AdministrativePhone { get; private set; }
-        [NotMapped]
+
         public Phone CommercialPhone { get; private set; }
-        [NotMapped]
+
         public Phone Phone { get; private set; }
 
-        [NotMapped]
         public Email AdministrativeEmail { get; private set; }
-        [NotMapped]
+
         public Email CommercialEmail { get; private set; }
+
         public Email Email { get; private set; }
 
-        [NotMapped]
         public Address Address { get; private set; }
 
 

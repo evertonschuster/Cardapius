@@ -1,4 +1,5 @@
-﻿using BuildingBlock.Domain.ValueObjects.Emails;
+﻿using BuildingBlock.Domain.ValueObjects.Address;
+using BuildingBlock.Domain.ValueObjects.Emails;
 using BuildingBlock.Domain.ValueObjects.PersonNames;
 using BuildingBlock.Domain.ValueObjects.Phones;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails;
@@ -10,6 +11,11 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
 {
     public static class DomainDataExtension
     {
+        public static void AddApplicationDomainDataEFCoreConvert(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Owned<Address>();
+        }
+
         public static void AddApplicationDomainDataEFCoreConvert(this ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder
