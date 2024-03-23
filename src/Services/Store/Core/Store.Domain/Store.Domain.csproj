@@ -8,9 +8,12 @@
 
   <ItemGroup>
     <Folder Include="Products\Events\" />
-    <Folder Include="Products\Entities\" />
     <Folder Include="Products\Services\" />
     <Folder Include="Products\Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\BuildingBlocks\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
   </ItemGroup>
 
 </Project>

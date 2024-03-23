@@ -8,7 +8,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
-		<ProjectReference Include="..\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map.csproj" />
+		<ProjectReference Include="..\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map\BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

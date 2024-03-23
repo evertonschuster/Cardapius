@@ -10,7 +10,7 @@ var configuration = builder.Configuration;
 
 
 
-
+https://z4kn4fein.github.io/stashbox/docs/advanced/decorators#interception
 // Add services to the container.
 
 builder.Services.AddControllers()
