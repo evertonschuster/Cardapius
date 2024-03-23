@@ -2,12 +2,12 @@
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {
-        Task<TEntity?> GetBydIdAsync(Guid id);
+        Task<TEntity?> GetByIdAsync(Guid id);
 
-        void Save(TEntity entity);
+        Task SaveAsync(TEntity entity);
 
-        void SaveRange(IReadOnlyCollection<TEntity> entities);
+        Task SaveRangeAsync(IReadOnlyCollection<TEntity> entities);
 
-        void Remove(TEntity entity);
+        Task RemoveAsync(TEntity entity);
     }
 }

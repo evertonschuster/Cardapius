@@ -5,6 +5,6 @@ namespace Administration.Domain.Restaurants.Repositories
 {
     public interface IRestaurantRepository
     {
-        void Save(Restaurant model);
+        Task SaveAsync(Restaurant model);
     }
 }

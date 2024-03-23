@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj" />
+    <ProjectReference Include="..\..\..\Core\Store.Domain\Store.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

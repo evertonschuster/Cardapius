@@ -14,15 +14,15 @@ namespace Administration.Application.Restaurants.Commands.CreateRestaurant
             _unitOfWork = unitOfWork;
         }
 
-        public Task<CreateRestaurantResult> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
+        public async Task<CreateRestaurantResult> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
         {
             var model = request.ToModel();
 
-            _restaurantRepository.Save(model);
+            await _restaurantRepository.SaveAsync(model);
             _unitOfWork.Commit();
 
             var result = new CreateRestaurantResult();
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

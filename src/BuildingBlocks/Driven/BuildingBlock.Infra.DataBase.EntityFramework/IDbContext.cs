@@ -26,7 +26,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be inserted into the database.</param>
-        void Insert<TEntity>(TEntity entity)
+        Task InsertAsync<TEntity>(TEntity entity)
             where TEntity : Entity;
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entities">The entities to be inserted into the database.</param>
-        void InsertRange<TEntity>(IReadOnlyCollection<TEntity> entities)
+        Task InsertRangeAsync<TEntity>(IReadOnlyCollection<TEntity> entities)
             where TEntity : Entity;
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be removed from the database.</param>
-        void Remove<TEntity>(TEntity entity)
+        Task RemoveAsync<TEntity>(TEntity entity)
             where TEntity : Entity;
     }
 }

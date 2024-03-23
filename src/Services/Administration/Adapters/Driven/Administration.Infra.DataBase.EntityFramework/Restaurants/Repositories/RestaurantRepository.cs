@@ -8,10 +8,5 @@ namespace Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories
         public RestaurantRepository(IDbContext iDbContext) : base(iDbContext)
         {
         }
-
-        public override void Save(Restaurant entity)
-        {
-            base.Save(entity);
-        }
     }
 }

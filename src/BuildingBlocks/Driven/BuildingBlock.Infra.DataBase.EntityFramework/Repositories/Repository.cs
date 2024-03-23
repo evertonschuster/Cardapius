@@ -9,24 +9,24 @@
             _IDbContext = iDbContext;
         }
 
-        public virtual Task<TEntity?> GetBydIdAsync(Guid id)
+        public virtual Task<TEntity?> GetByIdAsync(Guid id)
         {
             return this._IDbContext.GetBydIdAsync<TEntity>(id);
         }
 
-        public virtual void Save(TEntity entity)
+        public virtual Task SaveAsync(TEntity entity)
         {
-            this._IDbContext.Insert(entity);
+            return this._IDbContext.InsertAsync(entity);
         }
 
-        public virtual void SaveRange(IReadOnlyCollection<TEntity> entities)
+        public virtual Task SaveRangeAsync(IReadOnlyCollection<TEntity> entities)
         {
-            this._IDbContext.InsertRange(entities);
+            return this._IDbContext.InsertRangeAsync(entities);
         }
 
-        public virtual void Remove(TEntity entity)
+        public virtual Task RemoveAsync(TEntity entity)
         {
-            this._IDbContext.Remove(entity);
+            return this._IDbContext.RemoveAsync(entity);
         }
     }
 }

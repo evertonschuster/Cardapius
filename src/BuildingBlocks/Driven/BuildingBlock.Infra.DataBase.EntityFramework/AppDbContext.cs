@@ -22,23 +22,23 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public void Insert<TEntity>(TEntity entity) where TEntity : Entity
+        public async Task InsertAsync<TEntity>(TEntity entity) where TEntity : Entity
         {
-            this.Set<TEntity>()
-                .Add(entity);
+            await this.Set<TEntity>()
+                .AddAsync(entity);
         }
 
-        public void InsertRange<TEntity>(IReadOnlyCollection<TEntity> entities) where TEntity : Entity
+        public Task InsertRangeAsync<TEntity>(IReadOnlyCollection<TEntity> entities) where TEntity : Entity
         {
-            this.Set<TEntity>()
-               .AddRange(entities);
+            return this.Set<TEntity>()
+                .AddRangeAsync(entities);
         }
 
-        public new void Remove<TEntity>(TEntity entity)
+        public Task RemoveAsync<TEntity>(TEntity entity)
             where TEntity : Entity
         {
-            this.Set<TEntity>()
-                .Remove(entity);
+            return Task.Run(() => this.Set<TEntity>()
+                .Remove(entity));
         }
 
         public int Commit()

@@ -6,15 +6,15 @@ namespace Store.Domain.Products.Entities
     {
         public Product(
             Guid id,
-            string name, 
-            string description, 
-            double price, 
-            List<string> images, 
-            ProductSubItem flavor, 
-            ProductSubItem additional, 
-            ProductSubItem preference, 
-            List<Product> sideDishes, 
-            ServesManyPeople servesManyPeople, 
+            string name,
+            string description,
+            double price,
+            List<string> images,
+            ProductSubItem flavor,
+            ProductSubItem additional,
+            ProductSubItem preference,
+            List<Product> sideDishes,
+            ServesManyPeople servesManyPeople,
             Type type
             ) : base(id)
         {
