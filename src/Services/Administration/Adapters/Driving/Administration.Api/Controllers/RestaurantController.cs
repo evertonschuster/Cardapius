@@ -7,15 +7,10 @@ namespace Administration.Api.Controllers
 {
     [ApiController]
     [ApiVersion(1.0)]
-    [Route("[module]/api/v{version:apiVersion}/restaurants")]
-    public class RestaurantController : ControllerBase
+    [Route("api/v{version:apiVersion}/restaurants")]
+    public class RestaurantController(IMediator mediator) : ControllerBase
     {
-        public RestaurantController(IMediator mediator)
-        {
-            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
-
-        public IMediator Mediator { get; private set; }
+        public IMediator Mediator { get; private set; } = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] CreateRestaurantCommand command)

@@ -28,4 +28,7 @@
     <ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
     <ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 </Project>

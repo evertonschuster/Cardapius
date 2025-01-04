@@ -25,7 +25,7 @@ namespace Administration.Api
             //BuildingBlocks
             builder.Services.AddApplicationDomainDataJsonConvert();
             builder.Services.AddApplicationValidation();
-            //builder.Services.AddApplicationMediatr();
+            builder.Services.AddApiVersioning();
             builder.Services.AddApplicationSwagger();
             builder.AddObservability(configuration.GetSection("Observability").Bind);
 
@@ -38,7 +38,6 @@ namespace Administration.Api
 
 
             var app = builder.Build();
-
             app.UseObservability();
             app.UseApplicationSwagger();
             app.UseHttpsRedirection();

@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
@@ -86,13 +85,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuck
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map", "src\BuildingBlocks\Driving\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map\BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map.csproj", "{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadapius.Api", "src\Cadapius.Api\Cadapius.Api.csproj", "{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Application", "src\BuildingBlocks\Driving\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj", "{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Version", "src\BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj", "{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.MongoDB", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj", "{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardapius.AppHost", "src\Cardapius.AppHost\Cardapius.AppHost.csproj", "{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,10 +183,6 @@ Global
 		{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -200,6 +195,10 @@ Global
 		{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -240,10 +239,10 @@ Global
 		{218944F3-F484-4BA3-9705-375A246801C3} = {E423B095-7FDF-4281-BB42-91B7DA8567BA}
 		{0AA78FE4-8C64-4D47-A344-B31EC8C5B1DE} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
 		{4FDB12A5-BB54-4B5B-94CA-7884E200B74A} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
-		{8EE824B1-9CB6-41D4-A01E-B6ADADDB8392} = {41896A3D-21B8-4440-B979-955305212955}
 		{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
 		{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
 		{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE} = {41896A3D-21B8-4440-B979-955305212955}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAE2897-37FA-4B81-85DC-C10775CABF1B}
