@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Version", "src\BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj", "{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Infra.DataBase.MongoDB", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj", "{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.MongoDB", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj", "{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
