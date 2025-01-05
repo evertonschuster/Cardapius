@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj" />
+		<ProjectReference Include="..\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj" />
+		<ProjectReference Include="..\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj" />
+		<ProjectReference Include="..\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj" />
+		<ProjectReference Include="..\BuildingBlock.Swashbuckle\BuildingBlock.Api.Swashbuckle.csproj" />
+	</ItemGroup>
 </Project>
