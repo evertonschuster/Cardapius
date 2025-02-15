@@ -21,6 +21,8 @@ jobs:
         with:
           dotnet-version: '8.0.x' 
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Definir variável de ambiente para autenticação
         run: echo "NUGET_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
