@@ -6,6 +6,7 @@ on:
       - 'src/Packages/**'  
     branches:
       - main  
+  workflow_dispatch:
 
 jobs:
   build-and-publish:
