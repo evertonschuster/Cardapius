@@ -24,33 +24,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webhooks", "Webhooks", "{59
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Administration", "Administration", "{C49A4FC2-BC67-4163-B00A-B3C092D87182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Api", "src\Services\Store\Adapters\Driving\Store.Api\Store.Api.csproj", "{1F09C5BF-8127-41FA-89CD-2502E50C5A5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Api", "Services\Store\Adapters\Driving\Store.Api\Store.Api.csproj", "{1F09C5BF-8127-41FA-89CD-2502E50C5A5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Infra.DataBase.MongoDb", "src\Services\Store\Adapters\Driven\Store.Infra.DataBase.MongoDb\Store.Infra.DataBase.MongoDb.csproj", "{BBA62C6C-C4A7-4B40-91EA-B8BAC801669D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Infra.DataBase.MongoDb", "Services\Store\Adapters\Driven\Store.Infra.DataBase.MongoDb\Store.Infra.DataBase.MongoDb.csproj", "{BBA62C6C-C4A7-4B40-91EA-B8BAC801669D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Application", "src\Services\Store\Core\Store.Application\Store.Application.csproj", "{BD22A0FB-E31E-4DA0-9773-3449D1F60787}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Application", "Services\Store\Core\Store.Application\Store.Application.csproj", "{BD22A0FB-E31E-4DA0-9773-3449D1F60787}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Domain", "src\Services\Store\Core\Store.Domain\Store.Domain.csproj", "{8B7554B0-9E38-407B-8B1F-FB61848EFDA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Domain", "Services\Store\Core\Store.Domain\Store.Domain.csproj", "{8B7554B0-9E38-407B-8B1F-FB61848EFDA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "src\BuildingBlocks\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{0DC7B4D8-825A-4757-9782-3C24D9631C64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain", "BuildingBlocks\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj", "{0DC7B4D8-825A-4757-9782-3C24D9631C64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Application", "src\Services\Administration\Core\Administration.Application\Administration.Application.csproj", "{BC7E1541-BB91-4E7F-B052-8EE71BBEB863}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Application", "Services\Administration\Core\Administration.Application\Administration.Application.csproj", "{BC7E1541-BB91-4E7F-B052-8EE71BBEB863}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Domain", "src\Services\Administration\Core\Administration.Domain\Administration.Domain.csproj", "{A09FF40C-1E35-4874-A877-4D82B33B8C92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Domain", "Services\Administration\Core\Administration.Domain\Administration.Domain.csproj", "{A09FF40C-1E35-4874-A877-4D82B33B8C92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Api", "src\Services\Administration\Adapters\Driving\Administration.Api\Administration.Api.csproj", "{B07D0748-A3CA-4927-8F2C-729E5BEDD12B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Api", "Services\Administration\Adapters\Driving\Administration.Api\Administration.Api.csproj", "{B07D0748-A3CA-4927-8F2C-729E5BEDD12B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.MongoDb", "src\Services\Administration\Adapters\Driven\Administration.Infra.DataBase.MongoDb\Administration.Infra.DataBase.MongoDb.csproj", "{984D671D-5890-4B1C-BB64-07CFEF781B81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.MongoDb", "Services\Administration\Adapters\Driven\Administration.Infra.DataBase.MongoDb\Administration.Infra.DataBase.MongoDb.csproj", "{984D671D-5890-4B1C-BB64-07CFEF781B81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application", "src\BuildingBlocks\Core\BuildingBlock.Application\BuildingBlock.Application.csproj", "{E53C6107-D019-40AB-8B23-DAAE9A59D7A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Application", "BuildingBlocks\Core\BuildingBlock.Application\BuildingBlock.Application.csproj", "{E53C6107-D019-40AB-8B23-DAAE9A59D7A5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Domain.ValueObjects.Json", "src\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Domain.ValueObjects.Json", "BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj", "{D5094D7B-CDC9-4591-B323-569A14EA918B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api", "src\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api", "BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0484F8B7-A921-4DC5-90DA-53432D531232}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.UnitTest", "src\BuildingBlocks\Core\test\BuildingBlock.Domain.UnitTest\BuildingBlock.Domain.UnitTest.csproj", "{7612A299-0434-4369-9796-4794FBF59F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.UnitTest", "BuildingBlocks\Core\test\BuildingBlock.Domain.UnitTest\BuildingBlock.Domain.UnitTest.csproj", "{7612A299-0434-4369-9796-4794FBF59F17}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7213A766-40C3-4263-88CF-4BF0CA38FAF0}"
 	ProjectSection(SolutionItems) = preProject
@@ -63,15 +63,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{5E98F153-6
 		docs\Domain Driven Design and Practice.md = docs\Domain Driven Design and Practice.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability", "src\BuildingBlocks\Driven\BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Observability", "BuildingBlocks\Driven\BuildingBlock.Observability\BuildingBlock.Observability.csproj", "{4CB00273-D891-4BF0-8BCA-3EA8C2ACC4C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.EntityFramework", "BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj", "{A2458F6D-816F-4272-8B54-07EFCEF9E6B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj", "{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase", "BuildingBlocks\Driven\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj", "{F359C929-8A85-47A8-B5C0-4C81B6CD31D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.EntityFramework", "src\Services\Administration\Adapters\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj", "{5050AAD6-3240-462F-861E-7E6F350E7F4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Administration.Infra.DataBase.EntityFramework", "Services\Administration\Adapters\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj", "{5050AAD6-3240-462F-861E-7E6F350E7F4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.Domain.ValueObjects.EFCore", "src\BuildingBlocks\Driven\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Infra.Domain.ValueObjects.EFCore.csproj", "{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.Domain.ValueObjects.EFCore", "BuildingBlocks\Driven\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Infra.Domain.ValueObjects.EFCore.csproj", "{58726A43-24CC-43A3-AFEE-ED2A7EE6309B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C5C1C35A-9D88-4800-AF9C-CC2787E1C07F}"
 EndProject
@@ -79,19 +79,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driving", "Driving", "{6CFF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driven", "Driven", "{218944F3-F484-4BA3-9705-375A246801C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuckle", "src\BuildingBlocks\Driving\BuildingBlock.Swashbuckle\BuildingBlock.Api.Swashbuckle.csproj", "{0AA78FE4-8C64-4D47-A344-B31EC8C5B1DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuckle", "BuildingBlocks\Driving\BuildingBlock.Swashbuckle\BuildingBlock.Api.Swashbuckle.csproj", "{0AA78FE4-8C64-4D47-A344-B31EC8C5B1DE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map", "src\BuildingBlocks\Driving\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map\BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map.csproj", "{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map", "BuildingBlocks\Driving\BuildingBlock.Swashbuckle.Domain.ValueObjects.Map\BuildingBlock.Api.Swashbuckle.Domain.ValueObjects.Map.csproj", "{4FDB12A5-BB54-4B5B-94CA-7884E200B74A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Application", "src\BuildingBlocks\Driving\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj", "{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Application", "BuildingBlocks\Driving\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj", "{6A4688C6-DDCA-4FC6-9143-7FC6A6A626A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Version", "src\BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj", "{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Version", "BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj", "{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.MongoDB", "src\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj", "{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Infra.DataBase.MongoDB", "BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.MongoDB\BuildingBlock.Infra.DataBase.MongoDB.csproj", "{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardapius.AppHost", "src\Cardapius.AppHost\Cardapius.AppHost.csproj", "{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardapius.AppHost", "Cardapius.AppHost\Cardapius.AppHost.csproj", "{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Observability.OpenTelemetry", "src\BuildingBlocks\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj", "{6AB1E6A4-43BB-477F-8046-A566160336B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Observability.OpenTelemetry", "BuildingBlocks\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj", "{6AB1E6A4-43BB-477F-8046-A566160336B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
