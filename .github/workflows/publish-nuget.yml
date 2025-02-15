@@ -3,7 +3,7 @@ name: Publish .NET Packages
 on:
   push:
     paths:
-      - 'src/packages/**'  
+      - 'src/Packages/**'  
     branches:
       - main  
 
@@ -22,14 +22,14 @@ jobs:
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
       - name: Restore dependencies
-        run: dotnet restore src/packages
+        run: dotnet restore src/Packages
 
       - name: Compile the project
-        run: dotnet build src/packages --configuration Release --no-restore
+        run: dotnet build src/Packages --configuration Release --no-restore
 
       - name: Criar e publicar apenas pacotes atualizados
         run: |
-          for project in $(find src/packages -name "*.csproj"); do
+          for project in $(find src/Packages -name "*.csproj"); do
             PACKAGE_NAME=$(basename "$project" .csproj)
             VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' "$project")
 
