@@ -1,0 +1,60 @@
+name: Publish .NET Packages
+
+on:
+  push:
+    paths:
+      - 'src/packages/**'  
+    branches:
+      - main  
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: configuration .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x' 
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+
+      - name: Restore dependencies
+        run: dotnet restore src/packages
+
+      - name: Compile the project
+        run: dotnet build src/packages --configuration Release --no-restore
+
+      - name: Criar e publicar apenas pacotes atualizados
+        run: |
+          for project in $(find src/packages -name "*.csproj"); do
+            PACKAGE_NAME=$(basename "$project" .csproj)
+            VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' "$project")
+
+            echo "🔍 Verificando $PACKAGE_NAME versão $VERSION..."
+
+            # Obtém a versão mais recente do pacote já publicada no GitHub Packages
+            LATEST_VERSION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" | \
+              jq -r --arg pkg "$PACKAGE_NAME" '.data[] | select(.name==$pkg) | .version' | sort -V | tail -n 1)
+
+            if [ "$VERSION" != "$LATEST_VERSION" ]; then
+              echo "📦 Criando pacote $PACKAGE_NAME v$VERSION..."
+              dotnet pack "$project" --configuration Release --output .
+            else
+              echo "✅ O pacote $PACKAGE_NAME já está na versão mais recente ($VERSION). Pulando publicação."
+            fi
+          done
+
+          # Publica apenas pacotes gerados
+          for package in *.nupkg; do
+            echo "🚀 Publicando $package..."
+            dotnet nuget push "$package" \
+              --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --skip-duplicate
+          done
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

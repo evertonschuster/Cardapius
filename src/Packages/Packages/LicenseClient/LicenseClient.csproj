@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>cardapius.license.client</Title>
+		<PackageId>cardapius.license.client</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Cardapius</Authors>
+		<Company>Cardapius</Company>
+		
+	</PropertyGroup>
+
+</Project>
