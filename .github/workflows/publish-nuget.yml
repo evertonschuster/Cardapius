@@ -1,0 +1,63 @@
+name: Publish .NET Packages
+
+on:
+  push:
+    paths:
+      - 'src/Packages/**'  
+    branches:
+      - main  
+  workflow_dispatch:
+
+jobs:
+  build-and-publish-packages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configuration .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x' 
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore dependencies
+        run: dotnet restore src/Packages
+
+      - name: Compile the project
+        run: dotnet build src/Packages --configuration Release --no-restore
+
+      - name: Create and publish only updated packages
+        run: |
+          for project in $(find src/Packages -name "*.csproj"); do
+            PACKAGE_NAME=$(basename "$project" .csproj)
+            VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' "$project")
+
+            echo "🔍 Check $PACKAGE_NAME version $VERSION..."
+
+            # Get the latest version of the package already published on GitHub Packages
+            LATEST_VERSION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" | \
+              jq -r --arg pkg "$PACKAGE_NAME" '.data[] | select(.name==$pkg) | .version' | sort -V | tail -n 1)
+
+            if [ "$VERSION" != "$LATEST_VERSION" ]; then
+              echo "📦 Creating package $PACKAGE_NAME v$VERSION..."
+              dotnet pack "$project" --configuration Release --output .
+            else
+              echo "✅ the package $PACKAGE_NAME is already in the latest version ($VERSION). Skipping publication."
+            fi
+          done
+
+          # Publish only generated packages
+          for package in *.nupkg; do
+            echo "🚀 Publishing $package..."
+            dotnet nuget push "$package" \
+              --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --skip-duplicate
+          done
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
