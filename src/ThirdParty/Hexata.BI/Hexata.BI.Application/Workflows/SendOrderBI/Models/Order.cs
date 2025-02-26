@@ -1,0 +1,87 @@
+﻿namespace Hexata.BI.Application.Workflows.SendOrderBI.Models
+{
+    class Order
+    {
+        public int Id { get; set; }
+        public required string Customer { get; set; }
+        public DateTime Date { get; set; }
+        public TimeSpan Time { get; set; }
+        public decimal ValueWithDiscount { get; set; }
+        public decimal Discount { get; set; }
+        public decimal ValueWithoutDiscount { get; set; }
+        public int Term { get; set; }
+        public decimal Change { get; set; }
+        public decimal CustomerValue { get; set; }
+        public int Employee { get; set; }
+        public decimal CashRegister { get; set; }
+        public decimal CommissionValue { get; set; }
+        public string Statu { get; set; }
+        public bool IsCardPayment { get; set; }
+        public int TableNumber { get; set; }
+        public int PeopleCount { get; set; }
+        public bool IsCreditCardPayment { get; set; }
+        public string CashOperator { get; set; }
+        public string Control { get; set; }
+        public string PC { get; set; }
+        public bool HasPrinted { get; set; }
+        public string Plate { get; set; }
+        public string TemporaryCard { get; set; }
+        public string DeliveryPerson { get; set; }
+        public DateTime DeliveryDate { get; set; }
+        public DateTime ArrivalDate { get; set; }
+        public TimeSpan ArrivalTime { get; set; }
+        public TimeSpan DeliveryTime { get; set; }
+        public decimal CardDiscount { get; set; }
+        public decimal Fee { get; set; }
+        public string Notes { get; set; }
+        public string SaleType { get; set; }
+        public bool IsPickup { get; set; }
+        public string CustomerName { get; set; }
+        public decimal CashValue { get; set; }
+        public decimal CardValue1 { get; set; }
+        public decimal CardValue2 { get; set; }
+        public decimal CheckValue { get; set; }
+        public decimal TermValue { get; set; }
+        public decimal DiscountValue { get; set; }
+        public string DeliveryAddress { get; set; }
+        public string Terminal { get; set; }
+        public bool PrintAccount { get; set; }
+        public string AlphaReference { get; set; }
+        public string PaymentStatus { get; set; }
+        public string CardService { get; set; }
+        public string TemporaryCardCode { get; set; }
+        public string Neighborhood { get; set; }
+        public TimeSpan ApproximateTime { get; set; }
+        public TimeSpan ApproximateCounterTime { get; set; }
+        public string Attention { get; set; }
+        public int DistanceKm { get; set; }
+        public TimeSpan ScheduledTime { get; set; }
+        public string CardHolderName1 { get; set; }
+        public string CardHolderName2 { get; set; }
+        public string AlphaDescription { get; set; }
+        public decimal DonatedChangeValue { get; set; }
+        public bool IsPending { get; set; }
+        public string WebOrderGenerator { get; set; }
+        public string WebReferenceGenerator { get; set; }
+        public string WebGeneratorCode { get; set; }
+        public string WebGeneratorRelation { get; set; }
+        public decimal IfoodCardValue { get; set; }
+        public bool IsPaidOnline { get; set; }
+        public TimeSpan ClosingTime { get; set; }
+        public DateTime ClosingDate { get; set; }
+        public string ClosingAttendantName { get; set; }
+        public string CPFNote { get; set; }
+        public bool PrintOnProductionControl { get; set; }
+        public bool FreeDelivery { get; set; }
+        public bool CounterReady { get; set; }
+        public bool CheckNet { get; set; }
+        public bool CheckPrintCP { get; set; }
+        public bool ProductionStarted { get; set; }
+        public decimal PixValue { get; set; }
+        public decimal AppPlatformDiscount { get; set; }
+        public decimal AppStoreDiscount { get; set; }
+        public decimal ConsumptionValue { get; set; }
+        public bool CallDeliveryIntegration { get; set; }
+        public bool AuxiliaryDeliveryIntegration { get; set; }
+    }
+}

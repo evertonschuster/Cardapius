@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.BI", "Hexata.BI\Hexata.BI.csproj", "{9964D0BB-F766-4A69-8AC0-846898878F92}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{380A7511-A354-6D7A-0CC0-8FA1F1BA7B6C}"
-	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hexata", "Hexata", "{0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.BI.Application", "Hexata.BI\Hexata.BI.Application\Hexata.BI.Application.csproj", "{8240F529-E374-4297-8257-3771657F4958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.Infrastructure.Firebird", "Hexata.BI\Hexata.BI.Infrastructure.Firebird\Hexata.Infrastructure.Firebird.csproj", "{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.Worker", "Hexata.BI\Hexata.BI.Worker\Hexata.Worker.csproj", "{97E97626-7848-462E-8638-D96DABE4BCC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,13 +23,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9964D0BB-F766-4A69-8AC0-846898878F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9964D0BB-F766-4A69-8AC0-846898878F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9964D0BB-F766-4A69-8AC0-846898878F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9964D0BB-F766-4A69-8AC0-846898878F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8240F529-E374-4297-8257-3771657F4958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8240F529-E374-4297-8257-3771657F4958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8240F529-E374-4297-8257-3771657F4958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8240F529-E374-4297-8257-3771657F4958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97E97626-7848-462E-8638-D96DABE4BCC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E97626-7848-462E-8638-D96DABE4BCC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E97626-7848-462E-8638-D96DABE4BCC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E97626-7848-462E-8638-D96DABE4BCC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8240F529-E374-4297-8257-3771657F4958} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
+		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
+		{97E97626-7848-462E-8638-D96DABE4BCC3} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {421A162B-5B7D-48CB-BD02-14183AF2A847}
