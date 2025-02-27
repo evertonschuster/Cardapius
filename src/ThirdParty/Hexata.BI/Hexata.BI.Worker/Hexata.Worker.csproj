@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>true</InvariantGlobalization>
-		<PublishAot>true</PublishAot>
+		<!--<PublishAot>true</PublishAot>-->
 		<ServerGarbageCollection>true</ServerGarbageCollection>
 		<UserSecretsId>dotnet-Hexata.BI.Worker-c78e7b14-63da-43c7-845a-656e116a7796</UserSecretsId>
 	</PropertyGroup>

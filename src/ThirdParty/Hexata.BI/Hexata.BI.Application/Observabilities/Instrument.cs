@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.Metrics;
 
-namespace Hexata.BI.Application.Workflows.SendOrderBI
+namespace Hexata.BI.Application.Observabilities
 {
-    internal class SendOrderBIInstrument : IDisposable
+    public class Instrument : IDisposable
     {
         private bool _disposed = false;
         private ActivitySource Tracer { get; }
 
-        public SendOrderBIInstrument(IMeterFactory meterFactory, ActivitySource tracer)
+        public Instrument(IMeterFactory meterFactory, ActivitySource tracer)
         {
             Tracer = tracer;
             var meter = meterFactory.Create("Hexata.SendOrderBI");

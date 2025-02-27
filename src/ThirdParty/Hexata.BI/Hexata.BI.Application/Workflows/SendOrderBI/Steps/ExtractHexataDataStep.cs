@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using Hexata.BI.Application.Observabilities;
 using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
+using Microsoft.Extensions.Logging;
 using System.Data;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
@@ -9,20 +11,32 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
     class ExtractHexataDataStep : StepBodyAsync
     {
         private readonly IDbConnection dbConnection;
-        private readonly SendOrderBIInstrument sendOrderBIInstrument;
+        private readonly Instrument instrument;
+        private readonly ILogger<ExtractHexataDataStep> logger;
+
+        public ExtractHexataDataStep(IDbConnection dbConnection, Instrument instrument, ILogger<ExtractHexataDataStep> logger)
+        {
+            this.dbConnection = dbConnection;
+            this.instrument = instrument;
+            this.logger = logger;
+        }
 
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public int NextPage { get => Page + 1; }
+
+        public List<SaleDto> Sales { get; set; }
+
 
         public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            using var activity = sendOrderBIInstrument.ExecuteDataBaseQuery();
+            logger.LogInformation("Extracting data from Hexata database page {Page}", Page);
 
-            var sales = await dbConnection.QueryAsync<SaleDto>(@"SELECT 
+            var sql = @"SELECT FIRST @PageSize SKIP @Page
                     CODIGO AS Id,
                     CLIENTE AS Customer,
-                    DATA AS Date,
-                    HORARIO AS Time,
+                    DATA AS ""Date"",
+                    HORARIO AS ""Time"",
                     VALORSDESC AS ValueWithDiscount,
                     DESCONTO AS Discount,
                     VALORCDESC AS ValueWithoutDiscount,
@@ -100,10 +114,14 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                     VALOREMCONSUMACAO AS ConsumptionValue,
                     CHAMARINTEGRACAOMOTOBOY AS CallDeliveryIntegration,
                     AUXINTEGRACAOMOTOBOY AS AuxiliaryDeliveryIntegration
-                FROM SAIDAS;");
+                FROM SAIDAS
+                ORDER BY CODIGO ASC
+                ;";
 
+            using var activity = instrument.ExecuteDataBaseQuery();
 
-
+            var sales = await dbConnection.QueryAsync<SaleDto>(sql, new { PageSize, Page });
+            Sales = sales.ToList();
 
             return ExecutionResult.Next();
         }
