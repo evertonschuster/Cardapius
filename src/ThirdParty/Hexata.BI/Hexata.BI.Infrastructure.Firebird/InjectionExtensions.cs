@@ -8,7 +8,7 @@ namespace Hexata.BI.Infrastructure.Firebird
     {
         public static void AddFirebird(this IServiceCollection services, string connectionString)
         {
-            services.AddScoped<IDbConnection>(sp =>
+            services.AddSingleton<IDbConnection>(sp =>
             {
                 return new FbConnection(connectionString);
             });

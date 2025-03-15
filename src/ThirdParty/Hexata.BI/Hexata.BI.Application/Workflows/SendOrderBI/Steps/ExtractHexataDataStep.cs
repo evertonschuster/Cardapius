@@ -32,7 +32,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
         {
             logger.LogInformation("Extracting data from Hexata database page {Page}", Page);
 
-            var sql = @"SELECT FIRST @PageSize SKIP @Page
+            const string sql = @"SELECT FIRST @PageSize SKIP @Page
                     CODIGO AS Id,
                     CLIENTE AS Customer,
                     DATA AS ""Date"",
@@ -121,6 +121,8 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
             using var activity = instrument.ExecuteDataBaseQuery();
 
             var sales = await dbConnection.QueryAsync<SaleDto>(sql, new { PageSize, Page });
+            
+            Sales?.Clear();
             Sales = sales.ToList();
 
             return ExecutionResult.Next();

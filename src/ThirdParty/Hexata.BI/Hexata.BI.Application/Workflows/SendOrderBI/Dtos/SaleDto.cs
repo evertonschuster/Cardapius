@@ -1,6 +1,6 @@
 ﻿namespace Hexata.BI.Application.Workflows.SendOrderBI.Dtos
 {
-    public class SaleDto
+    public record SaleDto
     {
         public int Id { get; set; }
         public int? Customer { get; set; }
@@ -15,7 +15,7 @@
         public int? Employee { get; set; }
         public int? CashRegister { get; set; }
         public decimal CommissionValue { get; set; }
-        public string? Estate { get; set; }
+        public string? Status { get; set; }
         public int? IsCardPayment { get; set; }
         public int? TableNumber { get; set; }
         public int? PeopleCount { get; set; }
@@ -37,12 +37,12 @@
         public string? SaleType { get; set; }
         public string? IsPickup { get; set; }
         public string? CustomerName { get; set; }
-        public decimal CashValue { get; set; }
-        public decimal CardValue1 { get; set; }
-        public decimal CardValue2 { get; set; }
-        public decimal CheckValue { get; set; }
-        public decimal TermValue { get; set; }
-        public decimal DiscountValue { get; set; }
+        public decimal? CashValue { get; set; }
+        public decimal? CardValue1 { get; set; }
+        public decimal? CardValue2 { get; set; }
+        public decimal? CheckValue { get; set; }
+        public decimal? TermValue { get; set; }
+        public decimal? DiscountValue { get; set; }
         public string? DeliveryAddress { get; set; }
         public string? Terminal { get; set; }
         public string? PrintAccount { get; set; }
@@ -67,20 +67,18 @@
         public string? WebGeneratorRelation { get; set; }
         public decimal IfoodCardValue { get; set; }
         public string? IsPaidOnline { get; set; }
-        public string? ClosingTime { get; set; }
         public DateTime? ClosingDate { get; set; }
+        public string? ClosingTime { get; set; }
         public string? ClosingAttendantName { get; set; }
         public string? CPFNote { get; set; }
         public string? PrintOnProductionControl { get; set; }
         public string? FreeDelivery { get; set; }
         public string? CounterReady { get; set; }
         public string? CheckNet { get; set; }
-        public string? CheckPrintCP { get; set; }
-        public string? ProductionStarted { get; set; }
-        public decimal PixValue { get; set; }
-        public decimal AppPlatformDiscount { get; set; }
-        public decimal AppStoreDiscount { get; set; }
-        public decimal ConsumptionValue { get; set; }
+        public decimal? PixValue { get; set; }
+        public decimal? AppPlatformDiscount { get; set; }
+        public decimal? AppStoreDiscount { get; set; }
+        public decimal? ConsumptionValue { get; set; }
         public string? CallDeliveryIntegration { get; set; }
         public string? AuxiliaryDeliveryIntegration { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using Hexata.BI.Application.Workflows.SendOrderBI.Steps;
+﻿using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
+using Hexata.BI.Application.Workflows.SendOrderBI.Steps;
 using WorkflowCore.Interface;
 
 namespace Hexata.BI.Application.Workflows.SendOrderBI
@@ -26,10 +27,11 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
                         .ForEach(data => data.Sales)
                         .Do(then =>
                         {
-                            then.StartWith(e =>
-                            {
-                                Console.WriteLine("Enviando dados para o BI...");
-                            });
+                            then.StartWith<ParseDataStep>()
+                                .Input(step => step.SaleDto, (data, context) => context.Item as SaleDto)
+                                .Output(step => step.Order, data => data.Order)
+                            .Then<EnrichLatLogDataStep>()
+                                .Input(step => step.Order, (data, context) => data.Order);
                         });
                 });
         }

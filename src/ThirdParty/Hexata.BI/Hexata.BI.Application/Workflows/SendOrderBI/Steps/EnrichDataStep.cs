@@ -6,10 +6,9 @@ using WorkflowCore.Models;
 
 namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
 {
-    class EnrichDataStep(IDbConnection dbConnection, Instrument sendOrderBIInstrument, ILogger<EnrichDataStep> logger, Instrument instrument) : StepBodyAsync
+    class EnrichDataStep(IDbConnection dbConnection, ILogger<EnrichDataStep> logger, Instrument instrument) : StepBodyAsync
     {
         private readonly IDbConnection dbConnection = dbConnection;
-        private readonly Instrument sendOrderBIInstrument = sendOrderBIInstrument;
         private readonly ILogger<EnrichDataStep> logger = logger;
         private readonly Instrument instrument = instrument;
 
