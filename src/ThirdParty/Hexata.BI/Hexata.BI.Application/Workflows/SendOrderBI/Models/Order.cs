@@ -1,9 +1,11 @@
-﻿namespace Hexata.BI.Application.Workflows.SendOrderBI.Models
+﻿using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
+
+namespace Hexata.BI.Application.Workflows.SendOrderBI.Models
 {
     public record Order
     {
         public int Id { get; set; }
-        public int? Customer { get; set; }
+        public int? CustomerId { get; set; }
         public DateTime Date { get; set; }
         public decimal ValueWithDiscount { get; set; }
         public decimal Discount { get; set; }
@@ -55,5 +57,8 @@
         public decimal? AppPlatformDiscount { get; set; }
         public decimal? AppStoreDiscount { get; set; }
         public decimal? ConsumptionValue { get; set; }
+        public CustomerDto? Customer { get; set; }
+
+        public LocalizationDto? Localization { get; set; }
     }
 }

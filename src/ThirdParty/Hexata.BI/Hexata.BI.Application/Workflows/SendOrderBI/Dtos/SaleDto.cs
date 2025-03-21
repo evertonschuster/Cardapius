@@ -3,7 +3,7 @@
     public record SaleDto
     {
         public int Id { get; set; }
-        public int? Customer { get; set; }
+        public int? CustomerId { get; set; }
         public DateTime Date { get; set; }
         public string Time { get; set; }
         public decimal ValueWithDiscount { get; set; }
@@ -81,6 +81,8 @@
         public decimal? ConsumptionValue { get; set; }
         public string? CallDeliveryIntegration { get; set; }
         public string? AuxiliaryDeliveryIntegration { get; set; }
+
+        public CustomerDto? Customer { get; set; }
     }
 
 }

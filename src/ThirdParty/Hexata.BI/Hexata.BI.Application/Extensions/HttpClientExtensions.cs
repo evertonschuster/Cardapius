@@ -26,7 +26,7 @@ namespace Hexata.BI.Application.Extensions
                 {
                     DefaultRateLimiterOptions = new ConcurrencyLimiterOptions()
                     {
-                        PermitLimit = 1,
+                        PermitLimit = 2,
                     }
                 });
             });

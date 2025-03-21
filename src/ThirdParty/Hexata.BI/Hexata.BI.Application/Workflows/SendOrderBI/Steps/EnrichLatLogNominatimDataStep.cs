@@ -1,4 +1,5 @@
-﻿using Hexata.BI.Application.Observabilities;
+﻿﻿using Hexata.BI.Application.Observabilities;
+using Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Nominatim;
 using Hexata.BI.Application.Workflows.SendOrderBI.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ using WorkflowCore.Models;
 
 namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
 {
-    class EnrichLatLogDataStep(HttpClient httpClient, Instrument instrument, ILogger<EnrichDataStep> logger) : StepBodyAsync
+    class EnrichLatLogNominatimDataStep(HttpClient httpClient, Instrument instrument, ILogger<EnrichDataStep> logger) : StepBodyAsync
     {
         public Order Order { get; internal set; }
 
@@ -31,7 +32,8 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                 Uri.EscapeDataString(endereco.Numero),
                 Uri.EscapeDataString(endereco.Cidade),
                 Uri.EscapeDataString(endereco.Estado),
-                Uri.EscapeDataString(endereco.Bairro)
+                Uri.EscapeDataString(endereco.Bairro),
+                Uri.EscapeDataString(endereco.CodigoPostal)
             );
 
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("MeuApp/1.0 (seuemail@exemplo.com)");
@@ -41,12 +43,19 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
 
-            dynamic resultado = JsonConvert.DeserializeObject(json);
-            double importance = (double)resultado[0].importance;
+            var resultado = JsonConvert.DeserializeObject<LocationResponse[]>(json) ?? [];
 
-            if(importance > 0.2)
+            if (resultado.Length == 0)
             {
-                logger.LogInformation("Enriching data with latitude and longitude importance {importance}", importance);
+                logger.LogWarning("No results found for address {Address}", endereco);
+                return ExecutionResult.Next();
+            }
+
+            double importance = resultado[0].Importance;
+
+            if (importance > 0.2)
+            {
+                logger.LogInformation("Enriching data with latitude and longitude importance {Importance}", importance);
             }
 
             return ExecutionResult.Next();

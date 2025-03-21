@@ -1,6 +1,5 @@
 ﻿using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
 using Hexata.BI.Application.Workflows.SendOrderBI.Models;
-using Newtonsoft.Json;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -17,7 +16,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
             Order = new Order()
             {
                 Id = SaleDto.Id,
-                Customer = SaleDto.Customer,
+                CustomerId = SaleDto.CustomerId,
                 Date = DateTime.Parse($"{SaleDto.Date.ToShortDateString()} {SaleDto.Time}"),
                 ValueWithDiscount = SaleDto.ValueWithDiscount,
                 Discount = SaleDto.Discount,
@@ -74,10 +73,9 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                 AppPlatformDiscount = SaleDto.AppPlatformDiscount,
                 AppStoreDiscount = SaleDto.AppStoreDiscount,
                 ConsumptionValue = SaleDto.ConsumptionValue,
-            };
 
-            var json = JsonConvert.SerializeObject(SaleDto);
-            var json1 = JsonConvert.SerializeObject(Order);
+                Customer = SaleDto.Customer
+            };
 
             return Task.FromResult(ExecutionResult.Next());
         }

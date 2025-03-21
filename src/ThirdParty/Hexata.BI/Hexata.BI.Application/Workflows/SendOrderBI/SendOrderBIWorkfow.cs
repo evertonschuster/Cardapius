@@ -1,4 +1,5 @@
 ﻿using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
+using Hexata.BI.Application.Workflows.SendOrderBI.Models;
 using Hexata.BI.Application.Workflows.SendOrderBI.Steps;
 using WorkflowCore.Interface;
 
@@ -30,8 +31,25 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
                             then.StartWith<ParseDataStep>()
                                 .Input(step => step.SaleDto, (data, context) => context.Item as SaleDto)
                                 .Output(step => step.Order, data => data.Order)
-                            .Then<EnrichLatLogDataStep>()
-                                .Input(step => step.Order, (data, context) => data.Order);
+                                .Output((a, b) =>
+                                {
+                                    b.Orders.Add(a.Order);
+                                })
+                                .Parallel();
+                        })
+                        .ForEach(data => data.Orders)
+                        .Do(then =>
+                        {
+                            then.StartWith<EnrichLatLogGoogleDataStep>()
+                                .Input(step => step.Order, (data, context) => context.Item as Order)
+                                .Parallel();
+                        })
+                        .ForEach(data => data.Orders)
+                        .Do(then =>
+                        {
+                            then.StartWith<EnrichLatLogNominatimDataStep>()
+                                .Input(step => step.Order, (data, context) => context.Item as Order)
+                                .Parallel();
                         });
                 });
         }
