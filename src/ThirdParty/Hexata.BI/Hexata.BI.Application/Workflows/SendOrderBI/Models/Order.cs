@@ -1,4 +1,5 @@
-﻿using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
+﻿using Hexata.BI.Application.Dtos;
+using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
 
 namespace Hexata.BI.Application.Workflows.SendOrderBI.Models
 {

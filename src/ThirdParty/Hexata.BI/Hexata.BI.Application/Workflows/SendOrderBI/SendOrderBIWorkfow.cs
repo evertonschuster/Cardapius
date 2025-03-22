@@ -40,14 +40,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
                         .ForEach(data => data.Orders)
                         .Do(then =>
                         {
-                            then.StartWith<EnrichLatLogGoogleDataStep>()
-                                .Input(step => step.Order, (data, context) => context.Item as Order)
-                                .Parallel();
-                        })
-                        .ForEach(data => data.Orders)
-                        .Do(then =>
-                        {
-                            then.StartWith<EnrichLatLogNominatimDataStep>()
+                            then.StartWith<EnrichLatLogDataStep>()
                                 .Input(step => step.Order, (data, context) => context.Item as Order)
                                 .Parallel();
                         });
