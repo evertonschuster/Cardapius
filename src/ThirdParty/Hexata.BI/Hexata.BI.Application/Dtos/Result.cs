@@ -2,9 +2,14 @@
 {
     public sealed record Result<TValue, TError>
     {
-        public TValue? Value { get; }
-        public TError? Error { get; }
-        public bool IsSuccess { get; }
+        public TValue? Value { get; set; }
+        public TError? Error { get; set; }
+        public bool IsSuccess { get; set; }
+
+        public Result()
+        {
+
+        }
 
         private Result(TValue value)
         {

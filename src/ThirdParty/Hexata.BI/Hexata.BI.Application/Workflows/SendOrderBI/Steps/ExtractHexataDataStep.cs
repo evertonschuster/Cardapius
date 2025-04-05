@@ -133,21 +133,22 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                     
                 FROM SAIDAS S
                 INNER JOIN CLIENTES c ON c.CODIGO = S.CLIENTE
-                ORDER BY S.CODIGO ASC
+                ORDER BY S.CODIGO DESC
                 ;";
 
             using var activity = instrument.ExecuteDataBaseQuery();
+            var param = new
+            {
+                PageSize,
+                Skip = (Page - 1) * PageSize
+            };
 
             var sales = await dbConnection.QueryAsync<SaleDto, CustomerDto, SaleDto>(sql, (sale, customer) =>
                 {
                     sale.Customer = customer;
                     return sale;
                 },
-                new
-                {
-                    PageSize,
-                    Skip = Page * PageSize
-                },
+                param,
                 splitOn: "Customer"
             );
 

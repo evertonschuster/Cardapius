@@ -1,12 +1,5 @@
-﻿using Hexata.BI.Application.Observabilities;
-using Hexata.BI.Application.Services.Localization;
-using Hexata.BI.Application.Workflows.SendOrderBI.Dtos;
-using Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Google;
+﻿using Hexata.BI.Application.Services.Localizations;
 using Hexata.BI.Application.Workflows.SendOrderBI.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -37,7 +30,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
 
             if (localization.IsSuccess)
             {
-                Order.Localization = localization.Value;
+                Order.Localization = localization.Value?.Localization;
             }
 
             return ExecutionResult.Next();

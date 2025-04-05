@@ -16,6 +16,8 @@ namespace Hexata.BI.Application.Observabilities
         public Counter<int> RequestNominatimGeocodeFailCount { get; }
         public Counter<int> RequestNominatimGeocodeSuccessCount { get; }
 
+        public Counter<int> LoadLocalizationCacheGeocodeCount { get; }
+
         public Instrument(IMeterFactory meterFactory, ActivitySource tracer)
         {
             Tracer = tracer;
@@ -28,6 +30,8 @@ namespace Hexata.BI.Application.Observabilities
             RequestNominatimGeocodeCount = meter.CreateCounter<int>("RequestNominatimGeocode", "Request to Nominatim Geocode API");
             RequestNominatimGeocodeFailCount = meter.CreateCounter<int>("RequestNominatimGeocodeFail", "Failed request to Nominatim Geocode API");
             RequestNominatimGeocodeSuccessCount = meter.CreateCounter<int>("RequestNominatimGeocodeSuccess", "Successful request to Nominatim Geocode API");
+
+            LoadLocalizationCacheGeocodeCount = meter.CreateCounter<int>("LoadLocalizationCacheGeocode", "Load localization cache");
         }
 
         public Activity? ExecuteDataBaseQuery()

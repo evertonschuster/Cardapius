@@ -1,5 +1,5 @@
 ﻿using Hexata.BI.Application.Observabilities;
-using Hexata.BI.Application.Services.Localization;
+using Hexata.BI.Application.Services.Localizations;
 using Hexata.BI.Application.Workflows.SendOrderBI;
 using Hexata.BI.Application.Workflows.SendOrderBI.Steps;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +22,7 @@ namespace Hexata.BI.Application.Extensions
             builder.Services.AddSingleton<ParseDataStep>();
             builder.Services.AddSingleton<EnrichDataStep>();
             builder.Services.AddSingleton<EnrichLatLogDataStep>();
+            builder.Services.AddSingleton<SaveDataStep>();
 
             builder.Services.AddSingleton<GoogleLocalizationService>();
             builder.Services.AddSingleton<NominatimLocalizationService>();

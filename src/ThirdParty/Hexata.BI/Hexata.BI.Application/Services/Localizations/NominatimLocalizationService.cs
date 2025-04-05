@@ -4,19 +4,19 @@ using Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Nominatim;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Hexata.BI.Application.Services.Localization
+namespace Hexata.BI.Application.Services.Localizations
 {
     public class NominatimLocalizationService(HttpClient httpClient, Instrument instrument, ILogger<NominatimLocalizationService> logger) : ILocalizationService
     {
-        public async Task<Result<LocalizationDto, string>> GetLocalizationAsync(AddressDto addressDto)
+        public async Task<Result<LocalizationResultDto, string>> GetLocalizationAsync(AddressDto addressDto)
         {
             string requestUri = string.Format(
                 "https://nominatim.openstreetmap.org/search?" +
                 "street={0}, {1}&city={2}&state={3}&country={4}&postalcode={5}&format=json&addressdetails=1&extratags=1&limit=1&dedupe=1&countrycodes=BR&bounded=1&suburb={6}",
                 Uri.EscapeDataString(addressDto.Street),
                 Uri.EscapeDataString(addressDto.Number),
-                Uri.EscapeDataString(addressDto.City),
-                Uri.EscapeDataString(addressDto.State),
+                Uri.EscapeDataString(addressDto.City ?? "Foz do iguaçu"),
+                Uri.EscapeDataString(addressDto.State ?? "Paraná"),
                 Uri.EscapeDataString(addressDto.Country),
                 Uri.EscapeDataString(addressDto.PostalCode),
                 Uri.EscapeDataString(addressDto.Neighborhood)
@@ -44,13 +44,17 @@ namespace Hexata.BI.Application.Services.Localization
                 logger.LogInformation("Enriching data with latitude and longitude importance {Importance}", importance);
                 instrument.RequestNominatimGeocodeSuccessCount.Add(1);
 
-                return new LocalizationDto()
+                return new LocalizationResultDto()
                 {
-                    Id = resultado[0].PlaceId.ToString(),
-                    Latitude = resultado[0].Lat,
-                    Longitude = resultado[0].Lon,
-                    Precision = importance.ToString(),
-                    Provider = "Nominatim"
+                    Localization = new LocalizationDto()
+                    {
+                        Id = resultado[0].PlaceId.ToString(),
+                        Latitude = resultado[0].Lat,
+                        Longitude = resultado[0].Lon,
+                        Precision = importance.ToString(),
+                        Provider = "Nominatim"
+                    },
+                    Json = json
                 };
             }
 

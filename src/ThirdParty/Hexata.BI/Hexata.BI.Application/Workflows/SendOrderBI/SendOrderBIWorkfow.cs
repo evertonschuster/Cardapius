@@ -30,7 +30,6 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
                         {
                             then.StartWith<ParseDataStep>()
                                 .Input(step => step.SaleDto, (data, context) => context.Item as SaleDto)
-                                .Output(step => step.Order, data => data.Order)
                                 .Output((a, b) =>
                                 {
                                     b.Orders.Add(a.Order);
@@ -43,7 +42,15 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
                             then.StartWith<EnrichLatLogDataStep>()
                                 .Input(step => step.Order, (data, context) => context.Item as Order)
                                 .Parallel();
+                        })
+                        .Then<SaveDataStep>()
+                            .Input(step => step.Orders, data => data.Orders)
+                        .Then(context =>
+                        {
+                            var data = context.Workflow.Data as SendOrderBIData;
+                            data?.Orders.Clear();
                         });
+                    ;
                 });
         }
     }

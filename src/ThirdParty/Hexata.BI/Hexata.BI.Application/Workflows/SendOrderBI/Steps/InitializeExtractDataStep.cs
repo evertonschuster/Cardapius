@@ -21,7 +21,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
 
             return ExecutionResult.Outcome(new SendOrderBIData
             {
-                Total = Total
+                Total = 15000
             });
         }
     }

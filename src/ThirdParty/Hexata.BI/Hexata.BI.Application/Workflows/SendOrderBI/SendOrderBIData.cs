@@ -5,7 +5,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI
 {
     public class SendOrderBIData
     {
-        public int Page { get; set; } = 11;
+        public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 100;
         public int Total { get; set; }
 

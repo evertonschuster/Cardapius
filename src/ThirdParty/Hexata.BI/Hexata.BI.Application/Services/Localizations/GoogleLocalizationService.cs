@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Hexata.BI.Application.Services.Localization
+namespace Hexata.BI.Application.Services.Localizations
 {
     public class GoogleLocalizationService(HttpClient httpClient, Instrument instrument, ILogger<GoogleLocalizationService> logger) : ILocalizationService
     {
@@ -16,7 +16,7 @@ namespace Hexata.BI.Application.Services.Localization
         private const string ApiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
         private const string ApiKey = "AIzaSyBvl9WUHD8-h90-wmTF1s2SGJbLnqdg0F8";
 
-        public async Task<Result<LocalizationDto, string>> GetLocalizationAsync(AddressDto addressDto)
+        public async Task<Result<LocalizationResultDto, string>> GetLocalizationAsync(AddressDto addressDto)
         {
             var address = new StringBuilder();
             address.Append($"{addressDto.Street}, {addressDto.Number} - {addressDto.Neighborhood} - {addressDto.City ?? "Foz do iguaçu"}");
@@ -64,13 +64,17 @@ namespace Hexata.BI.Application.Services.Localization
 
                 if (locationType == "ROOFTOP" || locationType == "RANGE_INTERPOLATED")
                 {
-                    return new LocalizationDto()
+                    return new LocalizationResultDto()
                     {
-                        Id = placeId,
-                        Latitude = lat,
-                        Longitude = lng,
-                        Precision = locationType,
-                        Provider = "Google"
+                        Localization = new LocalizationDto()
+                        {
+                            Id = placeId,
+                            Latitude = lat,
+                            Longitude = lng,
+                            Precision = locationType,
+                            Provider = "Google"
+                        },
+                        Json = response
                     };
 
                 }

@@ -48,8 +48,8 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                 CardService = SaleDto.CardService,
                 Neighborhood = string.IsNullOrWhiteSpace(SaleDto.Neighborhood) ? null : SaleDto.Neighborhood,
 
-                ApproximateTime = SaleDto.ApproximateTime is not null ? TimeOnly.Parse(SaleDto.ApproximateTime) : null,
-                ApproximateCounterTime = SaleDto.ApproximateCounterTime is not null ? TimeOnly.Parse(SaleDto.ApproximateCounterTime) : null,
+                //ApproximateTime = SaleDto.ApproximateTime,
+                //ApproximateCounterTime = SaleDto.ApproximateCounterTime,
 
                 CardHolderName1 = string.IsNullOrWhiteSpace(SaleDto.CardHolderName1) ? null : SaleDto.CardHolderName1,
                 CardHolderName2 = string.IsNullOrWhiteSpace(SaleDto.CardHolderName2) ? null : SaleDto.CardHolderName2,

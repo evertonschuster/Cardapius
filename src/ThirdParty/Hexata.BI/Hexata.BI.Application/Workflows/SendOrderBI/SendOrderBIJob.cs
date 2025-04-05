@@ -1,8 +1,9 @@
-﻿using WorkflowCore.Interface;
+﻿using Hexata.BI.Application.Workflows.SendOrderBI.Steps;
+using WorkflowCore.Interface;
 
 namespace Hexata.BI.Application.Workflows.SendOrderBI
 {
-    public class SendOrderBIJob(IWorkflowHost workflowHost)
+    public class SendOrderBIJob(IWorkflowHost workflowHost, SaveDataStep saveDataStep)
     {
         private readonly IWorkflowHost workflowHost = workflowHost;
 
