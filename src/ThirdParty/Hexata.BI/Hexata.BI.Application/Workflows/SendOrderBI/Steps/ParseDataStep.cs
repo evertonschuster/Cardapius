@@ -18,6 +18,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Steps
                 Id = SaleDto.Id,
                 CustomerId = SaleDto.CustomerId,
                 Date = DateTime.Parse($"{SaleDto.Date.ToShortDateString()} {SaleDto.Time}"),
+                DiaSemana = DateTime.Parse($"{SaleDto.Date.ToShortDateString()} {SaleDto.Time}").DayOfWeek.ToString(),
                 ValueWithDiscount = SaleDto.ValueWithDiscount,
                 Discount = SaleDto.Discount,
                 ValueWithoutDiscount = SaleDto.ValueWithoutDiscount,

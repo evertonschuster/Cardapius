@@ -9,6 +9,7 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Models
         public int Id { get; set; }
         public int? CustomerId { get; set; }
         public DateTime Date { get; set; }
+        public string DiaSemana { get ; set; }
         public double ValueWithDiscount { get; set; }
         public double Discount { get; set; }
         public double ValueWithoutDiscount { get; set; }

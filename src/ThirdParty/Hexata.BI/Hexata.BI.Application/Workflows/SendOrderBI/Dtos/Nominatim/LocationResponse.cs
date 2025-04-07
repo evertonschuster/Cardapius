@@ -61,10 +61,10 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Nominatim
         public long OsmId { get; set; }
 
         [JsonProperty("lat")]
-        public decimal Lat { get; set; }
+        public double Lat { get; set; }
 
         [JsonProperty("lon")]
-        public decimal Lon { get; set; }
+        public double Lon { get; set; }
 
         [JsonProperty("class")]
         public string Class { get; set; }

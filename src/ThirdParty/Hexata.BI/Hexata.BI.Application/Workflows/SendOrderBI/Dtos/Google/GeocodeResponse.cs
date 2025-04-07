@@ -25,10 +25,10 @@ namespace Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Google
     public class Location
     {
         [JsonProperty("lat")]
-        public decimal Lat { get; set; }
+        public double Lat { get; set; }
 
         [JsonProperty("lng")]
-        public decimal Lng { get; set; }
+        public double Lng { get; set; }
     }
 
     public class Viewport
