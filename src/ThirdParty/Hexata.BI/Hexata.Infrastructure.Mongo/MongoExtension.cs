@@ -1,10 +1,10 @@
 ﻿using Hexata.BI.Application.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Options;
+using MongoDB.Bson.Serialization.Serializers;
 
 
 namespace Hexata.Infrastructure.Mongo
@@ -20,8 +20,8 @@ namespace Hexata.Infrastructure.Mongo
 
 
             builder.Services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
-            builder.Services.AddSingleton(typeof(IRepository<>), typeof(MongoRepository<>));
-            builder.Services.AddSingleton(typeof(IRepository<,>), typeof(MongoRepository<,>));
+
+            builder.Services.AddSingleton<ILocalizationRepository, LocalizationRepository>();
 
             return builder;
         }

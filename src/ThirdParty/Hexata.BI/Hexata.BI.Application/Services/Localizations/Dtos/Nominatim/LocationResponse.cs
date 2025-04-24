@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Nominatim
+namespace Hexata.BI.Application.Services.Localizations.Dtos.Nominatim
 {
     using Newtonsoft.Json;
     using System;

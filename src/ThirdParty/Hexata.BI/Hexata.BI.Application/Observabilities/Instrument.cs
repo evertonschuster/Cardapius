@@ -21,7 +21,7 @@ namespace Hexata.BI.Application.Observabilities
         public Instrument(IMeterFactory meterFactory, ActivitySource tracer)
         {
             Tracer = tracer;
-            
+
             var meter = meterFactory.Create("Hexata.SendOrderBI");
             RequestGoogleGeocodeCount = meter.CreateCounter<int>("RequestGoogleGeocode", "Request to Google Geocode API");
             RequestGoogleGeocodeFailCount = meter.CreateCounter<int>("RequestGoogleGeocodeFail", "Failed request to Google Geocode API");

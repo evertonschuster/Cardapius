@@ -20,7 +20,7 @@ namespace Hexata.BI.Application.Services.Localizations
         public string? Number { get; set; }
         public string? Neighborhood { get; set; }
         public string? City { get; set; }
-        public string? State { get; set; }
+        public string? State { get; set; } = "Paraná";
         public string Country { get; set; } = "Brasil";
         public string? PostalCode { get; set; }
     }

@@ -1,5 +1,4 @@
 ﻿using Hexata.BI.Application.Dtos;
-using Hexata.BI.Application.Entities;
 using Hexata.BI.Application.Observabilities;
 using Hexata.BI.Application.Repositories;
 
@@ -7,15 +6,16 @@ namespace Hexata.BI.Application.Services.Localizations
 {
     public class LocalizationService : ILocalizationService
     {
+        static int total = 0;
         private readonly ILocalizationService _googleLocalizationService;
         private readonly ILocalizationService _nominatimLocalizationService;
-        private readonly IRepository<Localization> _localizationRepository;
+        private readonly ILocalizationRepository _localizationRepository;
         private readonly Instrument _instrument;
 
         public LocalizationService(
             GoogleLocalizationService googleLocalizationService,
             NominatimLocalizationService nominatimLocalizationService,
-            IRepository<Localization> localizationRepository,
+            ILocalizationRepository localizationRepository,
             Instrument instrument
             )
         {
@@ -32,12 +32,12 @@ namespace Hexata.BI.Application.Services.Localizations
                 return "Address is invalid";
             }
 
-            if(string.IsNullOrWhiteSpace(addressDto.Street) && string.IsNullOrWhiteSpace(addressDto.Number))
+            if (string.IsNullOrWhiteSpace(addressDto.Street) && string.IsNullOrWhiteSpace(addressDto.Number))
             {
                 return "Address is invalid";
             }
 
-            var address = GetAddress(addressDto);
+            var address = _localizationRepository.GetAddress(addressDto);
 
             if (address != null)
             {
@@ -45,33 +45,24 @@ namespace Hexata.BI.Application.Services.Localizations
                 return address;
             }
 
+            return "Address is invalid TODO";
+            if (total >= 200)
+            {
+                throw new NotImplementedException();
+            }
 
-            throw new NotImplementedException();
+            total++;
             if (!string.IsNullOrEmpty(addressDto.Number))
             {
                 var googleAddress = await _googleLocalizationService.GetLocalizationAsync(addressDto);
-                SaveAddress(addressDto, googleAddress);
+                _localizationRepository.SaveAddress(addressDto, googleAddress);
                 return googleAddress;
             }
 
             var nominatimAddress = await _nominatimLocalizationService.GetLocalizationAsync(addressDto);
-            SaveAddress(addressDto, nominatimAddress);
+            _localizationRepository.SaveAddress(addressDto, nominatimAddress);
             return nominatimAddress;
         }
 
-        private void SaveAddress(AddressDto addressDto, Result<LocalizationResultDto, string> localizationResultDto)
-        {
-            var entity = new Localization(addressDto, localizationResultDto);
-            _localizationRepository.InsertOne(entity);
-        }
-
-        private Result<LocalizationResultDto, string>? GetAddress(AddressDto addressDto)
-        {
-            var localization = _localizationRepository.AsQueryable()
-                 .Where(e => e.Street == addressDto.Street && e.Number == addressDto.Number && e.Neighborhood == addressDto.Neighborhood && e.City == addressDto.City && e.State == addressDto.State && e.Country == addressDto.Country && e.PostalCode == addressDto.PostalCode)
-                 .FirstOrDefault();
-
-            return localization?.Result;
-        }
     }
 }

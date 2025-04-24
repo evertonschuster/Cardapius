@@ -1,8 +1,8 @@
 using Hexata.BI.Application.Extensions;
 using Hexata.BI.Infrastructure.Firebird;
 using Hexata.BI.Worker;
-using Hexata.Worker.Extensions;
 using Hexata.Infrastructure.Mongo;
+using Hexata.Worker.Extensions;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -24,10 +24,6 @@ builder.Services.AddWindowsService(options =>
     options.ServiceName = "Hexata.BI";
 });
 
-
 var host = builder.Build();
-host.UseWorkflow();
-host.UseHangFire();
-
 
 await host.RunAsync();

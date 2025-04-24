@@ -1,6 +1,6 @@
 ﻿using Hexata.BI.Application.Dtos;
 using Hexata.BI.Application.Observabilities;
-using Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Nominatim;
+using Hexata.BI.Application.Services.Localizations.Dtos.Nominatim;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 

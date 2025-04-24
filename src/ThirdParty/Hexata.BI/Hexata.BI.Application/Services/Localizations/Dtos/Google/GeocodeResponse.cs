@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hexata.BI.Application.Workflows.SendOrderBI.Dtos.Google
+namespace Hexata.BI.Application.Services.Localizations.Dtos.Google
 {
     using Newtonsoft.Json;
     using System;
