@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Hexata.BI.Application.Services.Localizations.Dtos.Nominatim
 {
-    using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
 
     public class Address
     {

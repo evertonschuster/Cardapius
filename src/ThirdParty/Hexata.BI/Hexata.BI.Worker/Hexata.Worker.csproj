@@ -30,5 +30,6 @@
 		<ProjectReference Include="..\Hexata.BI.Application\Hexata.BI.Application.csproj" />
 		<ProjectReference Include="..\Hexata.BI.Infrastructure.Firebird\Hexata.Infrastructure.Firebird.csproj" />
 		<ProjectReference Include="..\Hexata.Infrastructure.Mongo\Hexata.Infrastructure.Mongo.csproj" />
+		<ProjectReference Include="..\Hexata.Infrastructure.SqlLite\Hexata.Infrastructure.SqlLite.csproj" />
 	</ItemGroup>
 </Project>

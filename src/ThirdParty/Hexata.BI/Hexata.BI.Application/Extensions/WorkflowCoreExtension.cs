@@ -5,7 +5,6 @@ using Hexata.BI.Application.Services.Localizations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
-using WorkflowCore.Interface;
 
 namespace Hexata.BI.Application.Extensions
 {
@@ -14,17 +13,17 @@ namespace Hexata.BI.Application.Extensions
         public static IHostApplicationBuilder AddWorkflowApp(this IHostApplicationBuilder builder)
         {
             builder.Services.AddSingleton(new ActivitySource("Hexata.BI"));
-            builder.Services.AddSingleton<Instrument>();
+            builder.Services.AddScoped<Instrument>();
 
 
-            builder.Services.AddSingleton<GoogleLocalizationService>();
-            builder.Services.AddSingleton<NominatimLocalizationService>();
-            builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
-            builder.Services.AddSingleton<ISyncService, SyncSaleService>();
+            builder.Services.AddScoped<GoogleLocalizationService>();
+            builder.Services.AddScoped<NominatimLocalizationService>();
+            builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+            builder.Services.AddScoped<ISyncService, SyncSaleService>();
+            builder.Services.AddScoped<SyncManagerService>();
 
 
             builder.Services.AddHttpClientPolly();
-            builder.Services.AddWorkflow();
 
             return builder;
         }

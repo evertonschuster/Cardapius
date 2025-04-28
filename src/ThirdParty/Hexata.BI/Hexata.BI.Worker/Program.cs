@@ -2,6 +2,7 @@ using Hexata.BI.Application.Extensions;
 using Hexata.BI.Infrastructure.Firebird;
 using Hexata.BI.Worker;
 using Hexata.Infrastructure.Mongo;
+using Hexata.Infrastructure.SqlLite;
 using Hexata.Worker.Extensions;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -15,6 +16,7 @@ builder.AddWorkflowApp();
 
 var firebirdConnectionString = builder.Configuration.GetConnectionString("FirebirdConnection")!;
 builder.Services.AddFirebird(firebirdConnectionString);
+builder.AddSqlLite();
 
 
 
@@ -25,5 +27,7 @@ builder.Services.AddWindowsService(options =>
 });
 
 var host = builder.Build();
+
+host.ApplyMigrations();
 
 await host.RunAsync();

@@ -21,23 +21,23 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
 
 
 
-        [DisplayName("Valor de desconto")]
-        public double ValueWithDiscount { get; set; }
+        [DisplayName("Valor com desconto")]
+        public double? ValueWithDiscount { get; set; }
 
         [DisplayName("Desconto")]
-        public double Discount { get; set; }
+        public double? Discount { get; set; }
 
         [DisplayName("Valor sem desconto")]
         public double ValueWithoutDiscount { get; set; }
 
         [DisplayName("Prazo")]
-        public int Term { get; set; }
+        public int? Term { get; set; }
 
         [DisplayName("Troco")]
-        public double Change { get; set; }
+        public double? Change { get; set; }
 
         [DisplayName("Valor do cliente")]
-        public double CustomerValue { get; set; }
+        public double? CustomerValue { get; set; }
 
         [DisplayName("Caixa")]
         public double? CashRegister { get; set; }
@@ -99,7 +99,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Data de chegada")]
         public DateTime? ArrivalDate { get; set; }
 
-        [DisplayName("Observação")]
+        [DisplayName("Observacao")]
         public string? Notes { get; set; }
 
         [DisplayName("Tipo de venda")]
@@ -116,7 +116,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Codigo entregador")]
         public int? DeliveryPersonId { get; set; }
 
-        [DisplayName("Endereço de entrega")]
+        [DisplayName("Endereço da entrega")]
         public string? DeliveryAddress { get; set; }
 
         [DisplayName("Bairro")]
@@ -156,6 +156,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         public string? CheckNet { get; set; }
 
 
+        [DisplayName("Geolocalizacao")]
         public LocalizationDto? Localization { get; set; }
 
 

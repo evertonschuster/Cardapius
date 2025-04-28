@@ -23,7 +23,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Telefone do cliente")]
         public string ClientPhone { get; set; }
 
-        [DisplayName("Conteúdo")]
+        [DisplayName("Conteudo")]
         public string Content { get; set; }
 
         [DisplayName("Unidade")]
@@ -34,19 +34,19 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Quantidade")]
         public double Quantity { get; set; }
 
-        [DisplayName("Valor Unitário")]
+        [DisplayName("Valor unitario")]
         public double UnitValue { get; set; }
 
         [DisplayName("Desconto")]
         public double Discount { get; set; }
 
-        [DisplayName("Total de Desconto")]
+        [DisplayName("Total de desconto")]
         public double TotalDiscount { get; set; }
 
-        [DisplayName("Valor Bruto")]
+        [DisplayName("Valor bruto")]
         public double GrossValue { get; set; }
 
-        [DisplayName("Valor da Comissão")]
+        [DisplayName("Valor da comissao")]
         public double CommissionValue { get; set; }
 
         [DisplayName("Especies auxiliar")]
@@ -55,16 +55,16 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         #endregion
 
         #region Employee Information
-        [DisplayName("Codigo funcionário")]
+        [DisplayName("Codigo funcionario")]
         public int? EmployeeId { get; set; }
 
-        [DisplayName("Codigo funcionário do desconto")]
+        [DisplayName("Codigo funcionario do desconto")]
         public int? DiscountEmployeeId { get; set; }
 
-        [DisplayName("Nome do Funcionário")]
+        [DisplayName("Nome do funcionario")]
         public string EmployeeName { get; set; }
 
-        [DisplayName("Nome do Funcionário de Desconto")]
+        [DisplayName("Nome do funcionario de desconto")]
         public string DiscountEmployeeName { get; set; }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Computador")]
         public string Computer { get; set; }
 
-        [DisplayName("Operador do Caixa")]
+        [DisplayName("Operador do caixa")]
         public string CashRegisterOperator { get; set; }
         #endregion
 
@@ -84,10 +84,10 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Data")]
         public DateTime Date { get; set; }
 
-        [DisplayName("Situação")]
+        [DisplayName("Situacao")]
         public string Situation { get; set; }
 
-        [DisplayName("Data de Retirada")]
+        [DisplayName("Data de retirada")]
         public DateTime? WithdrawalDate { get; set; }
 
         [DisplayName("Grupo A")]
@@ -99,13 +99,13 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Observação")]
         public string? Note { get; set; }
 
-        [DisplayName("Situação da Comissão")]
+        [DisplayName("Situação da comissao")]
         public string? CommissionSituation { get; set; }
 
-        [DisplayName("Data de Saída")]
+        [DisplayName("Data de saida")]
         public DateTime ExitDate { get; set; }
 
-        [DisplayName("Data de Retorno")]
+        [DisplayName("Data de retorno")]
         public DateTime? ReturnDate { get; set; }
 
         #endregion

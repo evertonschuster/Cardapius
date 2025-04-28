@@ -7,7 +7,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
 {
     public class SyncSaleService(
         IErpSaleRepository erpSaleRepository,
-        //IBISaleRepository bISaleRepository,
+        IBISaleRepository bISaleRepository,
         ILocalizationService localizationService,
         Instrument instrument,
         ILogger<SyncSaleService> logger
@@ -45,7 +45,8 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
             });
 
 
-            throw new Exception();
+            await bISaleRepository.SaveAsync(erpSales);
+            return SyncResultDto.DoneAndNextPage(syncDto);
         }
     }
 }

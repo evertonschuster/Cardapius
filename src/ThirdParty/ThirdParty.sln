@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.Worker", "Hexata.BI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.Infrastructure.Mongo", "Hexata.BI\Hexata.Infrastructure.Mongo\Hexata.Infrastructure.Mongo.csproj", "{A6316367-0EF3-44C7-8C28-A826F5F0F340}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hexata.Infrastructure.SqlLite", "Hexata.BI\Hexata.Infrastructure.SqlLite\Hexata.Infrastructure.SqlLite.csproj", "{B223E29B-C1BB-4DF9-823F-FD88C705C286}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{A6316367-0EF3-44C7-8C28-A826F5F0F340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6316367-0EF3-44C7-8C28-A826F5F0F340}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6316367-0EF3-44C7-8C28-A826F5F0F340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B223E29B-C1BB-4DF9-823F-FD88C705C286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B223E29B-C1BB-4DF9-823F-FD88C705C286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B223E29B-C1BB-4DF9-823F-FD88C705C286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B223E29B-C1BB-4DF9-823F-FD88C705C286}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{2E180D92-EBEC-4AF0-9DD9-D4F1A46FA033} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
 		{97E97626-7848-462E-8638-D96DABE4BCC3} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
 		{A6316367-0EF3-44C7-8C28-A826F5F0F340} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
+		{B223E29B-C1BB-4DF9-823F-FD88C705C286} = {0996CE73-9F20-4AB9-83A7-F2F03D3C5E9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {421A162B-5B7D-48CB-BD02-14183AF2A847}

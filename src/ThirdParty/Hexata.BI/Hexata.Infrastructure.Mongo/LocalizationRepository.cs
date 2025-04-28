@@ -9,27 +9,12 @@ using MongoDB.Driver;
 
 namespace Hexata.Infrastructure.Mongo
 {
-    internal class LocalizationRepository : ILocalizationRepository
+    internal class LocalizationRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Localization>(optionSettings, "Localizations"), ILocalizationRepository
     {
-        private readonly IMongoCollection<Localization> _collection;
-
-        public LocalizationRepository(IOptions<MongoDbSettings> optionSettings)
-        {
-            var settings = optionSettings.Value;
-
-            var mongoSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
-            mongoSettings.ServerApi = new ServerApi(ServerApiVersion.V1);
-
-            var client = new MongoClient(mongoSettings);
-
-            var database = client.GetDatabase(settings.DatabaseName);
-            _collection = database.GetCollection<Localization>("Localizations");
-        }
-
         public async Task CleanDataAsync()
         {
             var name = "State";
-            var filterEmpty = Builders<Localization>.Filter.Eq(name, (object)null);
+            var filterEmpty = Builders<Localization>.Filter.Eq(name, null as object);
             var filterBsonNull = Builders<Localization>.Filter.Eq(name, BsonNull.Value);
             var filter = Builders<Localization>.Filter.Or(filterEmpty, filterBsonNull);
 
