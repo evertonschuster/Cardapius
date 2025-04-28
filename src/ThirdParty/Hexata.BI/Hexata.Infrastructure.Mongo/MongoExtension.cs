@@ -1,4 +1,5 @@
-﻿using Hexata.BI.Application.DataBaseSyncs.Sales.Models;
+﻿using Hexata.BI.Application.DataBaseSyncs.Customers.Models;
+using Hexata.BI.Application.DataBaseSyncs.Sales.Models;
 using Hexata.BI.Application.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,10 +33,19 @@ namespace Hexata.Infrastructure.Mongo
                 cm.RegisterClassMapWithDisplayName();
             });
 
+            BsonClassMap.RegisterClassMap<Customer>(cm =>
+            {
+                cm.AutoMap();
+                cm.RegisterClassMapWithDisplayName();
+            });
+
+
 
             builder.Services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
-            builder.Services.AddSingleton<ILocalizationRepository, LocalizationRepository>();
-            builder.Services.AddSingleton<IBISaleRepository, BISaleRepository>();
+
+            builder.Services.AddScoped<ILocalizationRepository, LocalizationRepository>();
+            builder.Services.AddScoped<IBISaleRepository, BISaleRepository>();
+            builder.Services.AddScoped<IBICustomerRepository, BICustomerRepository>();
 
             return builder;
         }

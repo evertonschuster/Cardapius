@@ -19,7 +19,6 @@ namespace Hexata.BI.Application.DataBaseSyncs
 
                 try
                 {
-
                     do
                     {
                         logger.LogInformation(

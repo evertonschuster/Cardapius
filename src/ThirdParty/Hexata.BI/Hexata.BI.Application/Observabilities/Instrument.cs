@@ -34,9 +34,20 @@ namespace Hexata.BI.Application.Observabilities
             LoadLocalizationCacheGeocodeCount = meter.CreateCounter<int>("LoadLocalizationCacheGeocode", "Load localization cache");
         }
 
-        public Activity? ExecuteDataBaseQuery()
+        public Activity? ExecuteDataBaseQuery(string? tag)
         {
-            return Tracer.StartActivity("ExecuteDataBaseQuery");
+            return Tracer
+                .StartActivity("ExecuteDataBaseQuery")
+                ?.SetTag("QueryName", tag)
+                .Start();
+        }
+
+        public Activity? ExecuteDataBaseCommand(string? tag)
+        {
+            return Tracer
+                .StartActivity("ExecuteDataBaseCommand")
+                ?.SetTag("CommandName", tag)
+                .Start();
         }
 
         protected virtual void Dispose(bool disposing)

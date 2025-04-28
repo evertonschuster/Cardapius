@@ -23,7 +23,7 @@ namespace Hexata.Infrastructure.SqlLite
             var entity = await appContext.ServiceStates
                 .FirstOrDefaultAsync(x => x.Id == serviceName, cancellationToken);
 
-            
+
             if (entity != null)
             {
                 entity.Error = JsonConvert.SerializeObject(error);
@@ -52,7 +52,7 @@ namespace Hexata.Infrastructure.SqlLite
             var entity = await appContext.ServiceStates
                 .FirstOrDefaultAsync(x => x.Id == serviceName, cancellationToken);
 
-            
+
             if (entity is not null)
             {
                 entity.State = syncDto;

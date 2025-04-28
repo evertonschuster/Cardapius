@@ -1,5 +1,4 @@
 using Hexata.BI.Application.DataBaseSyncs;
-using Hexata.BI.Application.Repositories;
 
 namespace Hexata.BI.Worker
 {

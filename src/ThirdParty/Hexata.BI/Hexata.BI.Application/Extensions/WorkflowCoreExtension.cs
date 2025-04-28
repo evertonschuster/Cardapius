@@ -1,4 +1,5 @@
 ﻿using Hexata.BI.Application.DataBaseSyncs;
+using Hexata.BI.Application.DataBaseSyncs.Customers;
 using Hexata.BI.Application.DataBaseSyncs.Sales;
 using Hexata.BI.Application.Observabilities;
 using Hexata.BI.Application.Services.Localizations;
@@ -19,6 +20,7 @@ namespace Hexata.BI.Application.Extensions
             builder.Services.AddScoped<GoogleLocalizationService>();
             builder.Services.AddScoped<NominatimLocalizationService>();
             builder.Services.AddScoped<ILocalizationService, LocalizationService>();
+            builder.Services.AddScoped<ISyncService, SyncCustomerService>();
             builder.Services.AddScoped<ISyncService, SyncSaleService>();
             builder.Services.AddScoped<SyncManagerService>();
 

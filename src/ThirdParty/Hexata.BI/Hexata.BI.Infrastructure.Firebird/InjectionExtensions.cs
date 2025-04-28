@@ -23,7 +23,8 @@ namespace Hexata.BI.Infrastructure.Firebird
                 return new FbConnection(connectionString);
             });
 
-            services.AddSingleton<IErpSaleRepository, ErpSaleRepository>();
+            services.AddScoped<IErpSaleRepository, ErpSaleRepository>();
+            services.AddScoped<IErpCustomerRepository, ErpCustomerRepository>();
         }
     }
 }
