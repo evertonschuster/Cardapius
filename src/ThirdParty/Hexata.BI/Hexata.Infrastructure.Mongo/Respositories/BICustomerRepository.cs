@@ -3,9 +3,9 @@ using Hexata.BI.Application.Repositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Hexata.Infrastructure.Mongo
+namespace Hexata.Infrastructure.Mongo.Respositories
 {
-    internal class BICustomerRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Customer>(optionSettings, "Customers"), IBICustomerRepository
+    internal class BICustomerRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Customer>(optionSettings, "Clientes"), IBICustomerRepository
     {
         public async Task SaveAsync(IEnumerable<Customer> erpCustomers)
         {

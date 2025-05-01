@@ -8,8 +8,8 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Codigo")]
         public int Id { get; set; }
 
-        [DisplayName("Codigo de saída")]
-        public int ExitId { get; set; }
+        [DisplayName("Codigo de saida")]
+        public int OrderId { get; set; }
 
         [DisplayName("Produto")]
         public string Product { get; set; }

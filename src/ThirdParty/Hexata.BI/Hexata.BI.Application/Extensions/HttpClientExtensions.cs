@@ -18,7 +18,7 @@ namespace Hexata.BI.Application.Extensions
                 {
                     FallbackAction = _ => Outcome.FromResultAsValueTask(new HttpResponseMessage(HttpStatusCode.ServiceUnavailable))
                 })
-                .AddConcurrencyLimiter(100)
+                .AddConcurrencyLimiter(200)
                 .AddRetry(new HttpRetryStrategyOptions())
                 .AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions())
                 .AddTimeout(new HttpTimeoutStrategyOptions())
@@ -27,7 +27,8 @@ namespace Hexata.BI.Application.Extensions
                     DefaultRateLimiterOptions = new ConcurrencyLimiterOptions()
                     {
                         PermitLimit = 2,
-                    }
+                        QueueLimit = 10000
+                    },
                 });
             });
 

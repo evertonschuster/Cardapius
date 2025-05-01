@@ -1,88 +1,119 @@
 ﻿using Hexata.BI.Application.Dtos;
 using Hexata.BI.Application.Observabilities;
+using Hexata.BI.Application.Repositories;
 using Hexata.BI.Application.Services.Localizations.Dtos.Google;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Hexata.BI.Application.Services.Localizations
+namespace Hexata.BI.Application.Services.Localizations;
+
+public class GoogleLocalizationService(
+    HttpClient httpClient,
+    Instrument instrument,
+    IMonthlyConsumptionRepository consumptionRepository,
+    IOptions<LocalizationOption> options,
+    ILogger<GoogleLocalizationService> logger)
 {
-    public class GoogleLocalizationService(HttpClient httpClient, Instrument instrument, ILogger<GoogleLocalizationService> logger) : ILocalizationService
+    private readonly string ApiUrl = options.Value.GoogleApiUrl;
+    private readonly string ApiKey = options.Value.GoogleApiKey;
+    private readonly List<string> LocationType = options.Value.GoogleLocationType;
+    private readonly int MaxRequestMonth = options.Value.GoogleMaxRequestMonth;
+
+    public async Task<Result<LocalizationProviderDto, string>> GetLocalizationAsync(AddressDto addressDto)
     {
-        private readonly HttpClient _httpClient = httpClient;
-        private readonly Instrument _instrument = instrument;
-        private readonly ILogger<GoogleLocalizationService> _logger = logger;
-
-        private const string ApiUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-        private const string ApiKey = "AIzaSyBvl9WUHD8-h90-wmTF1s2SGJbLnqdg0F8";
-
-        public async Task<Result<LocalizationResultDto, string>> GetLocalizationAsync(AddressDto addressDto)
+        var consume = await consumptionRepository.GetByMonthAsync("GoogleLocalizationService", DateTime.Now);
+        if (consume != null && consume.Total >= MaxRequestMonth)
         {
-            var address = new StringBuilder();
-            address.Append($"{addressDto.Street}, {addressDto.Number} - {addressDto.Neighborhood} - {addressDto.City ?? "Foz do iguaçu"}");
-            if (!string.IsNullOrEmpty(addressDto.State))
+            return "Max request month reached";
+        }
+
+        string formattedAddress = BuildFormattedAddress(addressDto);
+        string requestUrl = $"{ApiUrl}?address={Uri.EscapeDataString(formattedAddress)}&key={ApiKey}";
+
+        string? responseJson = null;
+        try
+        {
+            responseJson = await httpClient.GetStringAsync(requestUrl);
+            var geocode = JsonConvert.DeserializeObject<GeocodeResponse>(responseJson);
+            await consumptionRepository.AddByMonthAsync("GoogleLocalizationService", DateTime.Now);
+
+            if (geocode == null || geocode.Results == null || geocode.Results.Count == 0)
             {
-                address.Append($", {addressDto.State}");
-            }
-            if (!string.IsNullOrEmpty(addressDto.Country))
-            {
-                address.Append($", {addressDto.Country}");
-            }
-            if (!string.IsNullOrEmpty(addressDto.PostalCode))
-            {
-                address.Append($", {addressDto.PostalCode}");
-            }
-
-
-            var url = $"{ApiUrl}?address={Uri.EscapeDataString(address.ToString())}&key={ApiKey}";
-
-            var response = await _httpClient.GetStringAsync(url);
-            var geocode = JsonConvert.DeserializeObject<GeocodeResponse>(response);
-
-
-            _instrument.RequestGoogleGeocodeCount.Add(1);
-
-            if (geocode is null)
-            {
-                _logger.LogError("Error getting lat/long for address {Address}", address);
-                _instrument.RequestGoogleGeocodeFailCount.Add(1);
+                LogFailure(formattedAddress, "Null or empty response");
                 return "Error getting lat/long for address";
             }
 
             if (geocode.Status == "OK")
             {
                 var result = geocode.Results[0];
-
-                var placeId = result.PlaceId;
                 var lat = result.Geometry.Location.Lat;
                 var lng = result.Geometry.Location.Lng;
                 var locationType = result.Geometry.LocationType;
 
-                _logger.LogInformation("Address {Address} has latitude {Lat} and longitude {Lng} and location_type {Location_type}",
-                    address, lat, lng, locationType);
-                _instrument.RequestGoogleGeocodeSuccessCount.Add(1);
+                logger.LogInformation("Geocoded address: {Address} → lat: {Lat}, lng: {Lng}, type: {Type}",
+                    formattedAddress, lat, lng, locationType);
+                instrument.RequestGoogleGeocodeSuccessCount.Add(1);
 
-                if (locationType == "ROOFTOP" || locationType == "RANGE_INTERPOLATED")
+                if (LocationType.Contains(locationType))
                 {
-                    return new LocalizationResultDto()
+                    return new LocalizationProviderDto
                     {
-                        Localization = new LocalizationDto()
-                        {
-                            Id = placeId,
-                            Latitude = lat,
-                            Longitude = lng,
-                            Precision = locationType,
-                            Provider = "Google"
-                        },
-                        Json = response
+                        Provider = "Google",
+                        Json = responseJson
                     };
-
                 }
             }
 
-            _logger.LogError("Error getting lat/long for address {Address}: {Status}", address, geocode.Status);
-            _instrument.RequestGoogleGeocodeFailCount.Add(1);
+            LogFailure(formattedAddress, geocode.Status);
             return "Error getting lat/long for address";
         }
+        catch (Exception ex)
+        {
+            return HandlerException(ex, formattedAddress, responseJson);
+        }
+        finally
+        {
+            instrument.RequestGoogleGeocodeCount.Add(1);
+        }
+    }
+
+    private Result<LocalizationProviderDto, string> HandlerException(Exception ex, string formattedAddress, string? responseJson)
+    {
+        logger.LogError(ex, "Exception occurred while requesting geocode for address {Address}", formattedAddress);
+        instrument.RequestGoogleGeocodeFailCount.Add(1);
+        return responseJson ?? "Exception during Google geocode request";
+    }
+
+    private static string BuildFormattedAddress(AddressDto dto)
+    {
+        var sb = new StringBuilder();
+        sb.Append($"{dto.Street}, {dto.Number}");
+
+        if (!string.IsNullOrWhiteSpace(dto.Neighborhood))
+            sb.Append($" - {dto.Neighborhood}");
+
+        if (!string.IsNullOrWhiteSpace(dto.City))
+            sb.Append($" - {dto.City}");
+        else
+            sb.Append(" - Foz do Iguaçu");
+
+        if (!string.IsNullOrWhiteSpace(dto.State))
+            sb.Append($", {dto.State}");
+
+        if (!string.IsNullOrWhiteSpace(dto.Country))
+            sb.Append($", {dto.Country}");
+
+        if (!string.IsNullOrWhiteSpace(dto.PostalCode))
+            sb.Append($", {dto.PostalCode}");
+
+        return sb.ToString();
+    }
+
+    private void LogFailure(string address, string reason)
+    {
+        logger.LogError("Failed to geocode address {Address}: {Reason}", address, reason);
+        instrument.RequestGoogleGeocodeFailCount.Add(1);
     }
 }

@@ -5,7 +5,7 @@ namespace Hexata.BI.Application.Entities
 {
     public class Localization : Entity
     {
-        public Localization(AddressDto addressDto, Result<LocalizationResultDto, string> localizationResultDto)
+        public Localization(AddressDto addressDto, Result<LocalizationProviderDto, string> localizationResultDto)
         {
             Street = addressDto.Street;
             Number = addressDto.Number;
@@ -25,7 +25,7 @@ namespace Hexata.BI.Application.Entities
         public string Country { get; set; }
         public string? PostalCode { get; set; }
 
-        public Result<LocalizationResultDto, string> Result { get; set; }
+        public Result<LocalizationProviderDto, string> Result { get; set; }
 
     }
 }

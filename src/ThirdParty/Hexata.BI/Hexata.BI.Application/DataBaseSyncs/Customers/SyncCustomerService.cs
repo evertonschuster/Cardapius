@@ -31,7 +31,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Customers
                 await bICustomerRepository.SaveAsync(erpCustomers);
             }
 
-            return SyncResultDto.DoneAndNextPage(syncDto);
+            return SyncResultDto.DonetPage(syncDto);
         }
     }
 }

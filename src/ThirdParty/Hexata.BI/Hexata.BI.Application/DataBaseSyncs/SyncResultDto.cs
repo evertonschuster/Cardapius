@@ -12,12 +12,12 @@ namespace Hexata.BI.Application.DataBaseSyncs
 
         public bool IsLastPage { get; private set; }
 
-        internal static Result<SyncResultDto, SyncStatus> DoneAndNextPage(SyncDto syncDto)
+        internal static Result<SyncResultDto, SyncStatus> DonetPage(SyncDto syncDto)
         {
             return new SyncResultDto
             {
                 Reference = syncDto.Reference,
-                Page = syncDto.Page + 1,
+                Page = syncDto.Page,
                 PageSize = syncDto.PageSize,
                 IsLastPage = false
             };

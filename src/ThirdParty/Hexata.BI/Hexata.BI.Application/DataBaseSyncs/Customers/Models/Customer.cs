@@ -10,7 +10,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Customers.Models
         [DisplayName("Nome")]
         public string? Name { get; set; }
 
-        [DisplayName("Nome Fantasia/Apelido")]
+        [DisplayName("Nome Fantasia Apelido")]
         public string? TradeName { get; set; }
 
         [DisplayName("Endereco")]

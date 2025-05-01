@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 
 
-namespace Hexata.Infrastructure.Mongo
+namespace Hexata.Infrastructure.Mongo.Respositories
 {
     internal class Repository<TDocument>
     {

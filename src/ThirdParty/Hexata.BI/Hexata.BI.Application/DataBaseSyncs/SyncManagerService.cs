@@ -33,7 +33,7 @@ namespace Hexata.BI.Application.DataBaseSyncs
                         {
                             var syncResult = result.Value!;
                             hasMorePages = !syncResult.IsLastPage;
-                            currentState = hasMorePages ? syncResult.ToSyncDto() : SyncDto.Create();
+                            currentState = hasMorePages ? syncResult.ToSyncDto().NextPage() : SyncDto.Create();
 
                             await stateRepository.SaveStateAsync(serviceName, currentState, cancellationToken);
 

@@ -38,28 +38,28 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
 #endif
 
             Parallel.ForEach(erpSales, parallelOptions, async erpSale =>
-            {
-                if (erpSale.Address == null)
-                {
-                    return;
-                }
+             {
+                 if (erpSale.Address == null)
+                 {
+                     return;
+                 }
 
-                var localization = await localizationService.GetLocalizationAsync(erpSale.Address);
-                if (localization.IsSuccess)
-                {
-                    erpSale.Localization = localization.Value?.Localization;
-                }
-                else
-                {
-                    logger.LogWarning("Failed to get localization for sale. Sale: {@Sale}, Error: {@Error}", erpSale, localization.Error);
-                }
-            });
+                 var localization = await localizationService.GetLocalizationAsync(erpSale.Address);
+                 if (localization.IsSuccess)
+                 {
+                     erpSale.Localization = localization.Value;
+                 }
+                 else
+                 {
+                     logger.LogWarning("Failed to get localization for sale. Sale: {@Sale}, Error: {@Error}", erpSale, localization.Error);
+                 }
+             });
 
             using (instrument.ExecuteDataBaseCommand("Save BI Sales"))
             {
                 await bISaleRepository.SaveAsync(erpSales);
             }
-            return SyncResultDto.DoneAndNextPage(syncDto);
+            return SyncResultDto.DonetPage(syncDto);
         }
     }
 }

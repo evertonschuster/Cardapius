@@ -1,4 +1,5 @@
 ﻿using Hexata.BI.Application.Repositories;
+using Hexata.Infrastructure.SqlLite.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Hexata.Infrastructure.SqlLite
             });
 
             builder.Services.AddScoped<IServiceStateRepository, ServiceStateRepository>();
+            builder.Services.AddScoped<IMonthlyConsumptionRepository, MonthlyConsumptionRepository>();
         }
 
         public static void ApplyMigrations(this IHost app)

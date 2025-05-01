@@ -17,5 +17,11 @@
                 PageSize = 100
             };
         }
+
+        internal SyncDto NextPage()
+        {
+            this.Page += 1;
+            return this;
+        }
     }
 }

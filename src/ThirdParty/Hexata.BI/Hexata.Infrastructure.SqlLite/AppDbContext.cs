@@ -13,12 +13,14 @@ namespace Hexata.Infrastructure.SqlLite
         }
 
         public DbSet<ServiceState> ServiceStates { get; set; }
+        public DbSet<MonthlyConsumption> MonthlyConsumptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ServiceState>(ConfigureServiceState);
+            modelBuilder.Entity<MonthlyConsumption>(ConfigureServiceState);
         }
 
 
@@ -31,6 +33,11 @@ namespace Hexata.Infrastructure.SqlLite
                     v => JsonConvert.SerializeObject(v, settigs),
                     v => JsonConvert.DeserializeObject<SyncDto>(v, settigs))
                 .HasColumnType("TEXT");
+        }
+
+        private static void ConfigureServiceState(EntityTypeBuilder<MonthlyConsumption> builder)
+        {
+            builder.HasAlternateKey(p => new { p.Id, p.Month });
         }
     }
 }

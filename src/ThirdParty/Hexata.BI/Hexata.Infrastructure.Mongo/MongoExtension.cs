@@ -1,6 +1,9 @@
 ﻿using Hexata.BI.Application.DataBaseSyncs.Customers.Models;
 using Hexata.BI.Application.DataBaseSyncs.Sales.Models;
 using Hexata.BI.Application.Repositories;
+using Hexata.Infrastructure.Mongo.Documents;
+using Hexata.Infrastructure.Mongo.Repositories;
+using Hexata.Infrastructure.Mongo.Respositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
@@ -28,6 +31,13 @@ namespace Hexata.Infrastructure.Mongo
             });
 
             BsonClassMap.RegisterClassMap<OrderItem>(cm =>
+            {
+                cm.AutoMap();
+                cm.RegisterClassMapWithDisplayName();
+                cm.UnmapMember(e => e.AuxiliarySpecies);
+            });
+
+            BsonClassMap.RegisterClassMap<OrderItemAuxiliarySpecie>(cm =>
             {
                 cm.AutoMap();
                 cm.RegisterClassMapWithDisplayName();

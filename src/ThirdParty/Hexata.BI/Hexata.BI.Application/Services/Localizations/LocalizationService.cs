@@ -1,68 +1,98 @@
 ﻿using Hexata.BI.Application.Dtos;
 using Hexata.BI.Application.Observabilities;
 using Hexata.BI.Application.Repositories;
+using Hexata.BI.Application.Services.Localizations.Dtos.Google;
+using Hexata.BI.Application.Services.Localizations.Dtos.Nominatim;
+using Newtonsoft.Json;
 
-namespace Hexata.BI.Application.Services.Localizations
+namespace Hexata.BI.Application.Services.Localizations;
+
+public class LocalizationService(
+    GoogleLocalizationService googleLocalizationService,
+    NominatimLocalizationService nominatimLocalizationService,
+    ILocalizationRepository localizationRepository,
+    Instrument instrument) : ILocalizationService
 {
-    public class LocalizationService : ILocalizationService
+    private readonly GoogleLocalizationService _googleService = googleLocalizationService;
+    private readonly NominatimLocalizationService _nominatimService = nominatimLocalizationService;
+    private readonly ILocalizationRepository _repository = localizationRepository;
+    private readonly Instrument _instrument = instrument;
+
+    public async Task<Result<LocalizationDto, string>> GetLocalizationAsync(AddressDto addressDto)
     {
-        static int total = 0;
-        private readonly ILocalizationService _googleLocalizationService;
-        private readonly ILocalizationService _nominatimLocalizationService;
-        private readonly ILocalizationRepository _localizationRepository;
-        private readonly Instrument _instrument;
-
-        public LocalizationService(
-            GoogleLocalizationService googleLocalizationService,
-            NominatimLocalizationService nominatimLocalizationService,
-            ILocalizationRepository localizationRepository,
-            Instrument instrument
-            )
+        if (addressDto == null ||
+            (string.IsNullOrWhiteSpace(addressDto.Street) && string.IsNullOrWhiteSpace(addressDto.Number)))
         {
-            _googleLocalizationService = googleLocalizationService;
-            _nominatimLocalizationService = nominatimLocalizationService;
-            _localizationRepository = localizationRepository;
-            _instrument = instrument;
+            return "Endereço inválido";
         }
 
-        public async Task<Result<LocalizationResultDto, string>> GetLocalizationAsync(AddressDto addressDto)
+        var cached = _repository.GetAddress(addressDto);
+        if (cached?.IsSuccess == true)
         {
-            if (addressDto == null)
-            {
-                return "Address is invalid";
-            }
-
-            if (string.IsNullOrWhiteSpace(addressDto.Street) && string.IsNullOrWhiteSpace(addressDto.Number))
-            {
-                return "Address is invalid";
-            }
-
-            var address = _localizationRepository.GetAddress(addressDto);
-
-            if (address != null)
-            {
-                _instrument.LoadLocalizationCacheGeocodeCount.Add(1);
-                return address;
-            }
-
-            return "Address is invalid TODO";
-            if (total >= 200)
-            {
-                throw new NotImplementedException();
-            }
-
-            total++;
-            if (!string.IsNullOrEmpty(addressDto.Number))
-            {
-                var googleAddress = await _googleLocalizationService.GetLocalizationAsync(addressDto);
-                _localizationRepository.SaveAddress(addressDto, googleAddress);
-                return googleAddress;
-            }
-
-            var nominatimAddress = await _nominatimLocalizationService.GetLocalizationAsync(addressDto);
-            _localizationRepository.SaveAddress(addressDto, nominatimAddress);
-            return nominatimAddress;
+            _instrument.LoadLocalizationCacheGeocodeCount.Add(1);
+            return ConvertToDto(cached.Value!);
         }
 
+
+        if (!string.IsNullOrWhiteSpace(addressDto.Number))
+        {
+            var resultGoogle = await _googleService.GetLocalizationAsync(addressDto);
+            _repository.SaveAddress(addressDto, resultGoogle);
+
+            if (resultGoogle.IsSuccess)
+                return ConvertToDto(resultGoogle.Value!);
+        }
+
+        var resultNominatim = await _nominatimService.GetLocalizationAsync(addressDto);
+        _repository.SaveAddress(addressDto, resultNominatim);
+
+        if (resultNominatim.IsSuccess)
+            return ConvertToDto(resultNominatim.Value!);
+
+        return "Erro ao obter a localização";
+    }
+
+    private static Result<LocalizationDto, string> ConvertToDto(LocalizationProviderDto localization)
+    {
+        switch (localization.Provider)
+        {
+            case "Google":
+                var google = JsonConvert.DeserializeObject<GeocodeResponse>(localization.Json);
+
+                if (google?.Status != "OK" || google.Results?.Count == 0)
+                {
+                    return "Erro ao interpretar resposta do Google";
+                }
+
+                var gResult = (google.Results ?? [])[0];
+                return new LocalizationDto
+                {
+                    Id = gResult.PlaceId,
+                    Latitude = gResult.Geometry.Location.Lat,
+                    Longitude = gResult.Geometry.Location.Lng,
+                    Precision = gResult.Geometry.LocationType,
+                    Provider = "Google"
+                };
+
+            case "Nominatim":
+                var nominatim = JsonConvert.DeserializeObject<LocationResponse[]>(localization.Json);
+                if (nominatim == null || nominatim.Length == 0)
+                {
+                    return "Erro ao interpretar resposta do Nominatim";
+                }
+
+                var nResult = nominatim[0];
+                return new LocalizationDto
+                {
+                    Id = nResult.PlaceId.ToString(),
+                    Latitude = nResult.Lat,
+                    Longitude = nResult.Lon,
+                    Precision = nResult.Importance.ToString(),
+                    Provider = "Nominatim"
+                };
+
+            default:
+                return "Provedor de localização inválido";
+        }
     }
 }

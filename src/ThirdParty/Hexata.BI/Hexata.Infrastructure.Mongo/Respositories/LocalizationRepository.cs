@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Hexata.Infrastructure.Mongo
+namespace Hexata.Infrastructure.Mongo.Respositories
 {
     internal class LocalizationRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Localization>(optionSettings, "Localizations"), ILocalizationRepository
     {
@@ -24,7 +24,7 @@ namespace Hexata.Infrastructure.Mongo
             Console.WriteLine($"Matched: {result.MatchedCount}, Modified: {result.ModifiedCount}");
         }
 
-        public Result<LocalizationResultDto, string>? GetAddress(AddressDto addressDto)
+        public Result<LocalizationProviderDto, string>? GetAddress(AddressDto addressDto)
         {
             var street = addressDto.Street?.RemoveAccents().RemoveCorrupted();
             var neighborhood = addressDto.Neighborhood?.RemoveAccents().RemoveCorrupted();
@@ -56,7 +56,7 @@ namespace Hexata.Infrastructure.Mongo
             return result?.Result;
         }
 
-        public void SaveAddress(AddressDto addressDto, Result<LocalizationResultDto, string> address)
+        public void SaveAddress(AddressDto addressDto, Result<LocalizationProviderDto, string> address)
         {
             var entity = new Localization(addressDto, address);
             entity.Street = entity.Street?.RemoveAccents().RemoveCorrupted();

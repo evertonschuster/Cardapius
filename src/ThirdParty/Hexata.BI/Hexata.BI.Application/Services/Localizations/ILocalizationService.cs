@@ -4,7 +4,7 @@ namespace Hexata.BI.Application.Services.Localizations
 {
     public interface ILocalizationService
     {
-        Task<Result<LocalizationResultDto, string>> GetLocalizationAsync(AddressDto addressDto);
+        Task<Result<LocalizationDto, string>> GetLocalizationAsync(AddressDto addressDto);
     }
 
     public class LocalizationResultDto
@@ -12,6 +12,13 @@ namespace Hexata.BI.Application.Services.Localizations
         public required LocalizationDto Localization { get; set; }
 
         public required string Json { get; set; }
+    }
+
+    public class LocalizationProviderDto
+    {
+        public required string Json { get; set; }
+
+        public required string Provider { get; set; }
     }
 
     public class AddressDto

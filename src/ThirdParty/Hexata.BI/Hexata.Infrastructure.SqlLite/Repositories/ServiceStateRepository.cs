@@ -4,7 +4,7 @@ using Hexata.BI.Application.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace Hexata.Infrastructure.SqlLite
+namespace Hexata.Infrastructure.SqlLite.Repositories
 {
     internal class ServiceStateRepository(AppDbContext appContext) : IServiceStateRepository
     {

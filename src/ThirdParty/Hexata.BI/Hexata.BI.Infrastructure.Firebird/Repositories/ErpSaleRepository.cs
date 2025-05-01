@@ -112,7 +112,7 @@ namespace Hexata.Infrastructure.Firebird.Repositories
             const string sqlItem = @"
                 SELECT
                     SI.CODIGO AS Id,
-                    SI.SAIDA AS EXITId,
+                    SI.SAIDA AS OrderId,
                     SI.PRODUTO AS PRODUCT,
                     SI.DESCRICAO AS DESCRIPTION,
                     SI.QTDE AS QUANTITY,
@@ -201,7 +201,7 @@ namespace Hexata.Infrastructure.Firebird.Repositories
 
             var orderIds = orders.Select(o => o.Id);
             var items = await dbConnection.QueryAsync<OrderItem>(sqlItem, new { saidaIds = orderIds });
-            var lookup = items.ToLookup(i => i.ExitId);
+            var lookup = items.ToLookup(i => i.OrderId);
             orders.ForEach(o => o.Items = lookup[o.Id].ToList());
 
             return orders;
