@@ -1,7 +1,10 @@
 ﻿using Hexata.BI.Application.DataBaseSyncs.Customers.Models;
+using Hexata.BI.Application.DataBaseSyncs.Sales;
 using Hexata.BI.Application.DataBaseSyncs.Sales.Models;
 using Hexata.BI.Application.Repositories;
+using Hexata.BI.Application.Services.Localizations;
 using Hexata.Infrastructure.Mongo.Documents;
+using Hexata.Infrastructure.Mongo.JsonConverters;
 using Hexata.Infrastructure.Mongo.Repositories;
 using Hexata.Infrastructure.Mongo.Respositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +25,8 @@ namespace Hexata.Infrastructure.Mongo
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
             BsonSerializer.RegisterSerializer(typeof(decimal), new DecimalSerializer(BsonType.Double, new RepresentationConverter(true, true)));
+            BsonSerializer.RegisterSerializer(typeof(PaymentStatus), new EnumDescriptionSerializer<PaymentStatus>());
+
 
             BsonClassMap.RegisterClassMap<Order>(cm =>
             {
@@ -44,6 +49,12 @@ namespace Hexata.Infrastructure.Mongo
             });
 
             BsonClassMap.RegisterClassMap<Customer>(cm =>
+            {
+                cm.AutoMap();
+                cm.RegisterClassMapWithDisplayName();
+            });
+
+            BsonClassMap.RegisterClassMap<AddressDto>(cm =>
             {
                 cm.AutoMap();
                 cm.RegisterClassMapWithDisplayName();

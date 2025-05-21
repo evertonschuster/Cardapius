@@ -5,7 +5,9 @@ using Hexata.BI.Application.Services.Localizations.Dtos.Google;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Hexata.BI.Application.Services.Localizations;
 
@@ -16,6 +18,7 @@ public class GoogleLocalizationService(
     IOptions<LocalizationOption> options,
     ILogger<GoogleLocalizationService> logger)
 {
+    private readonly LocalizationBoundOption Bounds = options.Value.Bounds;
     private readonly string ApiUrl = options.Value.GoogleApiUrl;
     private readonly string ApiKey = options.Value.GoogleApiKey;
     private readonly List<string> LocationType = options.Value.GoogleLocationType;
@@ -26,11 +29,12 @@ public class GoogleLocalizationService(
         var consume = await consumptionRepository.GetByMonthAsync("GoogleLocalizationService", DateTime.Now);
         if (consume != null && consume.Total >= MaxRequestMonth)
         {
-            return "Max request month reached";
+            return Result<LocalizationProviderDto, string>.WithError("Max request month reached");
         }
 
-        string formattedAddress = BuildFormattedAddress(addressDto);
-        string requestUrl = $"{ApiUrl}?address={Uri.EscapeDataString(formattedAddress)}&key={ApiKey}";
+        var formattedAddress = BuildFormattedAddress(addressDto);
+        var bounds = $"{Bounds.Min.Lat},{Bounds.Min.Lng}|{Bounds.Max.Lat},{Bounds.Max.Lng}";
+        var requestUrl = $"{ApiUrl}?address={Uri.EscapeDataString(formattedAddress)}&bounds={bounds}&key={ApiKey}";
 
         string? responseJson = null;
         try
@@ -39,11 +43,17 @@ public class GoogleLocalizationService(
             var geocode = JsonConvert.DeserializeObject<GeocodeResponse>(responseJson);
             await consumptionRepository.AddByMonthAsync("GoogleLocalizationService", DateTime.Now);
 
-            if (geocode == null || geocode.Results == null || geocode.Results.Count == 0)
+            if (geocode == null || geocode.Results == null)
             {
                 LogFailure(formattedAddress, "Null or empty response");
-                return "Error getting lat/long for address";
+                return Result<LocalizationProviderDto, string>.WithError("Error getting lat/long for address");
             }
+
+            var response = new LocalizationProviderDto
+            {
+                Provider = "Google",
+                Json = responseJson
+            };
 
             if (geocode.Status == "OK")
             {
@@ -58,16 +68,13 @@ public class GoogleLocalizationService(
 
                 if (LocationType.Contains(locationType))
                 {
-                    return new LocalizationProviderDto
-                    {
-                        Provider = "Google",
-                        Json = responseJson
-                    };
+                    return Result<LocalizationProviderDto, string>.WithSuccess(response);
                 }
             }
 
             LogFailure(formattedAddress, geocode.Status);
-            return "Error getting lat/long for address";
+
+            return Result<LocalizationProviderDto, string>.WithError("Error getting lat/long for address", response);
         }
         catch (Exception ex)
         {
@@ -83,7 +90,7 @@ public class GoogleLocalizationService(
     {
         logger.LogError(ex, "Exception occurred while requesting geocode for address {Address}", formattedAddress);
         instrument.RequestGoogleGeocodeFailCount.Add(1);
-        return responseJson ?? "Exception during Google geocode request";
+        return Result<LocalizationProviderDto, string>.WithError(responseJson ?? "Exception during Google geocode request");
     }
 
     private static string BuildFormattedAddress(AddressDto dto)
@@ -113,7 +120,7 @@ public class GoogleLocalizationService(
 
     private void LogFailure(string address, string reason)
     {
-        logger.LogError("Failed to geocode address {Address}: {Reason}", address, reason);
+        logger.LogInformation("Low precision to geocode address {Address}: {Reason}", address, reason);
         instrument.RequestGoogleGeocodeFailCount.Add(1);
     }
 }

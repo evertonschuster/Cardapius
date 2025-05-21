@@ -5,8 +5,10 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
     public class OrderItem
     {
         #region Basic Information
-        [DisplayName("Codigo")]
         public int Id { get; set; }
+
+        [DisplayName("Codigo")]
+        public int Code { get => this.Id; }
 
         [DisplayName("Codigo de saida")]
         public int OrderId { get; set; }

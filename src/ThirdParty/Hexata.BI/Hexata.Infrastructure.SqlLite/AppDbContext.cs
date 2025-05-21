@@ -37,7 +37,7 @@ namespace Hexata.Infrastructure.SqlLite
 
         private static void ConfigureServiceState(EntityTypeBuilder<MonthlyConsumption> builder)
         {
-            builder.HasAlternateKey(p => new { p.Id, p.Month });
+            builder.HasKey(p => new { p.Id, p.Month });
         }
     }
 }

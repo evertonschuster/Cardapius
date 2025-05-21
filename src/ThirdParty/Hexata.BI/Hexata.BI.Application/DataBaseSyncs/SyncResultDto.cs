@@ -14,24 +14,28 @@ namespace Hexata.BI.Application.DataBaseSyncs
 
         internal static Result<SyncResultDto, SyncStatus> DonetPage(SyncDto syncDto)
         {
-            return new SyncResultDto
+            var result = new SyncResultDto
             {
                 Reference = syncDto.Reference,
                 Page = syncDto.Page,
                 PageSize = syncDto.PageSize,
                 IsLastPage = false
             };
+
+            return Result<SyncResultDto, SyncStatus>.WithSuccess(result);
         }
 
         internal static Result<SyncResultDto, SyncStatus> DoneLastPage(SyncDto syncDto)
         {
-            return new SyncResultDto
+            var result = new SyncResultDto
             {
                 Reference = syncDto.Reference,
                 Page = syncDto.Page,
                 PageSize = syncDto.PageSize,
                 IsLastPage = true
             };
+
+            return Result<SyncResultDto, SyncStatus>.WithSuccess(result);
         }
 
         internal SyncDto ToSyncDto()

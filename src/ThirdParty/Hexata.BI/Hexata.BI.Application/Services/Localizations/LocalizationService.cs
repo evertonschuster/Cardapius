@@ -23,11 +23,11 @@ public class LocalizationService(
         if (addressDto == null ||
             (string.IsNullOrWhiteSpace(addressDto.Street) && string.IsNullOrWhiteSpace(addressDto.Number)))
         {
-            return "Endereço inválido";
+            return Result<LocalizationDto, string>.WithError("Endereço inválido");
         }
 
         var cached = _repository.GetAddress(addressDto);
-        if (cached?.IsSuccess == true)
+        if (cached?.Value is not null)
         {
             _instrument.LoadLocalizationCacheGeocodeCount.Add(1);
             return ConvertToDto(cached.Value!);
@@ -39,7 +39,7 @@ public class LocalizationService(
             var resultGoogle = await _googleService.GetLocalizationAsync(addressDto);
             _repository.SaveAddress(addressDto, resultGoogle);
 
-            if (resultGoogle.IsSuccess)
+            if (resultGoogle?.Value is not null)
                 return ConvertToDto(resultGoogle.Value!);
         }
 
@@ -49,7 +49,7 @@ public class LocalizationService(
         if (resultNominatim.IsSuccess)
             return ConvertToDto(resultNominatim.Value!);
 
-        return "Erro ao obter a localização";
+        return Result<LocalizationDto, string>.WithError("Erro ao obter a localização");
     }
 
     private static Result<LocalizationDto, string> ConvertToDto(LocalizationProviderDto localization)
@@ -61,38 +61,44 @@ public class LocalizationService(
 
                 if (google?.Status != "OK" || google.Results?.Count == 0)
                 {
-                    return "Erro ao interpretar resposta do Google";
+                    return Result<LocalizationDto, string>.WithError("Erro ao interpretar resposta do Google");
                 }
 
                 var gResult = (google.Results ?? [])[0];
-                return new LocalizationDto
+
+                if(gResult.Types == null || gResult.Types.Count == 0)
+                {
+                    return Result<LocalizationDto, string>.WithError("Erro ao interpretar resposta do Google");
+                }
+
+                return Result<LocalizationDto, string>.WithSuccess(new LocalizationDto
                 {
                     Id = gResult.PlaceId,
                     Latitude = gResult.Geometry.Location.Lat,
                     Longitude = gResult.Geometry.Location.Lng,
                     Precision = gResult.Geometry.LocationType,
                     Provider = "Google"
-                };
+                });
 
             case "Nominatim":
                 var nominatim = JsonConvert.DeserializeObject<LocationResponse[]>(localization.Json);
                 if (nominatim == null || nominatim.Length == 0)
                 {
-                    return "Erro ao interpretar resposta do Nominatim";
+                    return Result<LocalizationDto, string>.WithError("Erro ao interpretar resposta do Nominatim");
                 }
 
                 var nResult = nominatim[0];
-                return new LocalizationDto
+                return Result<LocalizationDto, string>.WithSuccess(new LocalizationDto
                 {
                     Id = nResult.PlaceId.ToString(),
                     Latitude = nResult.Lat,
                     Longitude = nResult.Lon,
                     Precision = nResult.Importance.ToString(),
                     Provider = "Nominatim"
-                };
+                });
 
             default:
-                return "Provedor de localização inválido";
+                return Result<LocalizationDto, string>.WithError("Provedor de localização inválido");
         }
     }
 }

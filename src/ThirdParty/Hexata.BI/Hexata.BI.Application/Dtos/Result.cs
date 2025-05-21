@@ -1,6 +1,6 @@
 ﻿namespace Hexata.BI.Application.Dtos
 {
-    public sealed record Result<TValue, TError>
+    public sealed class Result<TValue, TError>
     {
         public TValue? Value { get; set; }
         public TError? Error { get; set; }
@@ -11,33 +11,24 @@
 
         }
 
-        private Result(TValue value)
+        public static Result<TValue, TError> WithError(TError error, TValue? value = default)
         {
-            IsSuccess = true;
-            Value = value;
-            Error = default;
-        }
-
-        private Result(TError error)
-        {
-            IsSuccess = false;
-            Value = default;
-            Error = error;
-        }
-
-        //happy path
-        public static implicit operator Result<TValue, TError>(TValue value) => new Result<TValue, TError>(value);
-
-        //error path
-        public static implicit operator Result<TValue, TError>(TError error) => new Result<TValue, TError>(error);
-
-        public Result<TValue, TError> Match(Func<TValue, Result<TValue, TError>> success, Func<TError, Result<TValue, TError>> failure)
-        {
-            if (IsSuccess)
+            return new Result<TValue, TError>()
             {
-                return success(Value!);
-            }
-            return failure(Error!);
+                Error = error,
+                Value = value,
+                IsSuccess = false
+            };
+        }
+
+        public static Result<TValue, TError> WithSuccess(TValue value, TError? error = default)
+        {
+            return new Result<TValue, TError>()
+            {
+                Value = value,
+                Error = error,
+                IsSuccess = true
+            };
         }
     }
 }

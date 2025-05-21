@@ -28,9 +28,7 @@ namespace Hexata.Infrastructure.SqlLite.Migrations
                     b.Property<int>("Total")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Id", "Month");
+                    b.HasKey("Id", "Month");
 
                     b.ToTable("MonthlyConsumptions");
                 });

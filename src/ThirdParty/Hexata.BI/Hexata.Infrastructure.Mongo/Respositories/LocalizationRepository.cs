@@ -9,7 +9,7 @@ using MongoDB.Driver;
 
 namespace Hexata.Infrastructure.Mongo.Respositories
 {
-    internal class LocalizationRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Localization>(optionSettings, "Localizations"), ILocalizationRepository
+    internal class LocalizationRepository(IOptions<MongoDbSettings> optionSettings) : Repository<Localization>(optionSettings, "Localizations", c => c.ConnectionLocalizationString), ILocalizationRepository
     {
         public async Task CleanDataAsync()
         {
@@ -43,14 +43,17 @@ namespace Hexata.Infrastructure.Mongo.Respositories
                 Builders<Localization>.Filter.Eq(e => e.PostalCode, postal)
             );
 
+            var sort = Builders<Localization>.Sort
+                .Descending("CreatedAt");
 
             var collation = new Collation("en", strength: CollationStrength.Primary);
 
             var result = _collection
                 .Find(filter, new FindOptions()
                 {
-                    Collation = collation,
+                    Collation = collation
                 })
+                .Sort(sort)
                 .FirstOrDefault();
 
             return result?.Result;

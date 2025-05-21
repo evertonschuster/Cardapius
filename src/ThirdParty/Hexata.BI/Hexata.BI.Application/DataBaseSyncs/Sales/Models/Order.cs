@@ -6,8 +6,10 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
 {
     public class Order
     {
-        [DisplayName("Codigo")]
         public int Id { get; set; }
+
+        [DisplayName("Codigo")]
+        public int Code { get => this.Id; }
 
         [DisplayName("Codigo cliente")]
         public int? CustomerId { get; set; }
@@ -28,7 +30,10 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         public double? Discount { get; set; }
 
         [DisplayName("Valor sem desconto")]
-        public double ValueWithoutDiscount { get; set; }
+        public double? ValueWithoutDiscount { get; set; }
+
+        [DisplayName("Valor")]
+        public double? Value { get => (this.ValueWithDiscount ?? 0) + (this.ValueWithoutDiscount ?? 0); }
 
         [DisplayName("Prazo")]
         public int? Term { get; set; }
@@ -50,6 +55,9 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
 
         [DisplayName("Valor em dinheiro")]
         public double? CashValue { get; set; }
+
+        [DisplayName("Valor pago em dinheiro")]
+        public double? CashPayValue { get => (CashValue ?? 0) - (Change ?? 0); }
 
         [DisplayName("Valor pix")]
         public double? PixValue { get; set; }
@@ -77,6 +85,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
 
         [DisplayName("Valor do troco doado")]
         public double? DonatedChangeValue { get; set; }
+
 
 
 

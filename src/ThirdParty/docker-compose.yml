@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:7
+    container_name: mongodb_local
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: powerbi
+      MONGO_INITDB_ROOT_PASSWORD: powerbi
+
+  mongosqld:
+    image: devorbitus/mongo-bi
+    container_name: mongobi
+    depends_on:
+      - mongodb
+    ports:
+      - "3307:3307"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=powerbi
+      - MONGO_INITDB_ROOT_PASSWORD=powerbi'
+    command: >
+      mongosqld
+      --mongo-uri mongodb://powerbi:powerbi@mongodb:27017
+      --port 3307
+
+volumes:
+  mongodb_data:

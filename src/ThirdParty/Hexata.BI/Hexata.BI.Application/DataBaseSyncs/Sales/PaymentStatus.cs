@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hexata.BI.Application.DataBaseSyncs.Sales
 {
     public enum PaymentStatus
     {
-        [DisplayAttribute(Name = "Pendente")]
+        [Display(Name = "Pendente")]
+        [Description("Pendente")]
         Pending,
 
-        [DisplayAttribute(Name = "Pago")]
+        [Display(Name = "Pago")]
+        [Description("Pago")]
         Paid,
     }
 }

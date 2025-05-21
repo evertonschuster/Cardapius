@@ -19,6 +19,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
             IEnumerable<Order> erpSales;
             using (instrument.ExecuteDataBaseQuery("List ERP Sales"))
             {
+                logger.LogInformation("Carregandos dados do banco de dados ERP");
                 erpSales = await erpSaleRepository.ListAsync(syncDto, cancellationToken);
             }
 
@@ -37,7 +38,8 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
             parallelOptions.MaxDegreeOfParallelism = 1;
 #endif
 
-            Parallel.ForEach(erpSales, parallelOptions, async erpSale =>
+            logger.LogInformation("Processando Geo localização das vendas");
+            await Parallel.ForEachAsync(erpSales, parallelOptions, async (erpSale, a) =>
              {
                  if (erpSale.Address == null)
                  {
@@ -57,8 +59,11 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales
 
             using (instrument.ExecuteDataBaseCommand("Save BI Sales"))
             {
+                logger.LogInformation("Enviando dados para o banco de dados do BI");
                 await bISaleRepository.SaveAsync(erpSales);
             }
+
+            logger.LogInformation("Sincronização concluída com sucesso. SyncDto: {@SyncDto}", syncDto);
             return SyncResultDto.DonetPage(syncDto);
         }
     }

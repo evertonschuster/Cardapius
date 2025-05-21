@@ -5,7 +5,7 @@ namespace Hexata.BI.Application.Entities
     {
         TId Id { get; set; }
 
-        DateTime CreatedAt { get; }
+        DateTime CreatedAt { get; set; }
     }
 
     public interface IEntity : IEntity<Guid>
@@ -16,6 +16,6 @@ namespace Hexata.BI.Application.Entities
     public class Entity : IEntity
     {
         public Guid Id { get; set; }
-        public DateTime CreatedAt { get; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

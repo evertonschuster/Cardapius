@@ -4,8 +4,10 @@ namespace Hexata.BI.Application.DataBaseSyncs.Customers.Models
 {
     public class Customer
     {
-        [DisplayName("Codigo")]
         public int Id { get; set; }
+
+        [DisplayName("Codigo")]
+        public int Code { get => this.Id; }
 
         [DisplayName("Nome")]
         public string? Name { get; set; }
