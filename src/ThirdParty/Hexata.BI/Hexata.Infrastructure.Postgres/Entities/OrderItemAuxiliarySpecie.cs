@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Hexata.Infrastructure.Mongo.Documents
+namespace Hexata.Infrastructure.Postgres.Entities
 {
     internal record OrderItemAuxiliarySpecie
     {
@@ -12,16 +12,16 @@ namespace Hexata.Infrastructure.Mongo.Documents
             AuxiliarySpecie = auxiliarySpecie;
         }
 
-        [DisplayName("Codigo saida item especie auxiliar")]
+        [Column("Codigo saida item especie auxiliar")]
         public string Id { get; set; }
 
-        [DisplayName("Codigo de saida")]
+        [Column("Codigo de saida")]
         public int OrderId { get; set; }
 
-        [DisplayName("Codigo saida item")]
+        [Column("Codigo saida item")]
         public int OrderItemId { get; set; }
 
-        [DisplayName("Especie auxiliar")]
+        [Column("Especie auxiliar")]
         public string AuxiliarySpecie { get; set; }
     }
 }

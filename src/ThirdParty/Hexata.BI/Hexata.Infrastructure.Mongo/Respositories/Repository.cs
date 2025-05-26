@@ -9,10 +9,10 @@ namespace Hexata.Infrastructure.Mongo.Respositories
         protected readonly IMongoDatabase _database;
         protected readonly IMongoCollection<TDocument> _collection;
 
-        public Repository(IOptions<MongoDbSettings> optionSettings, string collectionName, Func<MongoDbSettings, string>? getConnectionString = default)
+        public Repository(IOptions<MongoDbSettings> optionSettings, string collectionName, Func<MongoDbSettings, string> getConnectionString)
         {
             var settings = optionSettings.Value;
-            var connectionString = getConnectionString is not null ? getConnectionString(settings) : settings.ConnectionBiString;
+            var connectionString = getConnectionString(settings);
 
             var mongoSettings = MongoClientSettings.FromConnectionString(connectionString);
             mongoSettings.ServerApi = new ServerApi(ServerApiVersion.V1);

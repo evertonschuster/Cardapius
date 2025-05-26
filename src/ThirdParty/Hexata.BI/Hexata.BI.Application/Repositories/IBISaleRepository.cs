@@ -4,6 +4,6 @@ namespace Hexata.BI.Application.Repositories
 {
     public interface IBISaleRepository
     {
-        Task SaveAsync(IEnumerable<Order> erpSales);
+        Task SaveAsync(IEnumerable<Order> orders);
     }
 }

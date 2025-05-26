@@ -21,7 +21,7 @@ namespace Hexata.Infrastructure.SqlLite
             builder.Services.AddScoped<IMonthlyConsumptionRepository, MonthlyConsumptionRepository>();
         }
 
-        public static void ApplyMigrations(this IHost app)
+        public static void ApplySqlLiteMigrations(this IHost app)
         {
             using var scope = app.Services.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

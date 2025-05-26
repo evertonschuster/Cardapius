@@ -4,6 +4,5 @@
     {
         public required string DatabaseName { get; set; }
         public required string ConnectionLocalizationString { get; set; }
-        public required string ConnectionBiString { get; set; }
     }
 }

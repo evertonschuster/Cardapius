@@ -66,7 +66,7 @@ public class LocalizationService(
 
                 var gResult = (google.Results ?? [])[0];
 
-                if(gResult.Types == null || gResult.Types.Count == 0)
+                if (gResult.Types == null || gResult.Types.Count == 0)
                 {
                     return Result<LocalizationDto, string>.WithError("Erro ao interpretar resposta do Google");
                 }

@@ -131,7 +131,7 @@ namespace Hexata.BI.Application.DataBaseSyncs.Sales.Models
         [DisplayName("Bairro")]
         public string? Neighborhood { get; set; }
 
-        [DisplayName("Endereço de entrega")]
+        //[DisplayName("Endereço de entrega")]
         public AddressDto? Address { get; set; }
 
         [DisplayName("Terminal")]
