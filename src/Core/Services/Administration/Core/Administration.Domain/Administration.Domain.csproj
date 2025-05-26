@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <Folder Include="Products\" />
     <Folder Include="Restaurants\Exceptions\" />
-    <Folder Include="Restaurants\Events\" />
     <Folder Include="Restaurants\Services\" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using OpenTelemetry.Logs;
 
 namespace BuildingBlock.Observability.OpenTelemetry.Extensions;
 
@@ -29,7 +28,7 @@ public static class Extensions
                     ResourceBuilder.CreateDefault()
                         .AddService(serviceName)
                 );
-                //.AddConsoleExporter();
+            //.AddConsoleExporter();
         });
 
         builder.Services
@@ -41,7 +40,7 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
                     .AddRuntimeInstrumentation();
-                    //.AddConsoleExporter();
+                //.AddConsoleExporter();
             })
             .WithTracing(tracing =>
             {
@@ -50,7 +49,7 @@ public static class Extensions
                     .AddAspNetCoreInstrumentation()
                     //.AddGrpcClientInstrumentation()
                     .AddHttpClientInstrumentation();
-                    //.AddConsoleExporter();
+                //.AddConsoleExporter();
             });
 
         builder.AddOpenTelemetryExporters();
