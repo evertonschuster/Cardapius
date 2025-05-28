@@ -35,7 +35,7 @@ namespace BuildingBlock.Domain.ValueObjects.Address
             ZIPCode = zipCode;
         }
 
-        public ValidationResult<string> IsValid()
+        public ValidationResult<string> Validate()
         {
             return AddressValidator.IsValid(this.Street, this.Number, this.Complement, this.City, this.State, this.ZIPCode);
         }

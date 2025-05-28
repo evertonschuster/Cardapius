@@ -19,7 +19,7 @@
             return new Phone(phone!);
         }
 
-        public ValidationResult<string> IsValid()
+        public ValidationResult<string> Validate()
         {
             return PhoneValidator.IsValid(Value);
         }

@@ -49,7 +49,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
         public void IsValid_ShouldReturnSuccessForValidAddress()
         {
             var address = Address.Parse("Rua Z", "321", "Casa", "Cidade Z", "SP", "98765-432");
-            var result = address.IsValid();
+            var result = address.Validate();
 
             Assert.True(result.IsValid);
         }
@@ -129,7 +129,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
         public void IsValid_EnderecoValido_DeveRetornarValidationResultValido()
         {
             var address = Address.Parse("Rua Y", "123", "Apto", "Cidade Y", "RJ", "12345-000");
-            var result = address.IsValid();
+            var result = address.Validate();
 
             Assert.True(result.IsValid);
             Assert.NotNull(result.Value);

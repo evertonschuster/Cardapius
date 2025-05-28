@@ -58,7 +58,7 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                     ["Complement"] = new OpenApiString("Building XYZ"),
                     ["City"] = new OpenApiString("Example Ville"),
                     ["State"] = new OpenApiString("EX"),
-                    ["ZIPCode"] = new OpenApiString("12345")
+                    ["ZIPCode"] = new OpenApiString("12345-000")
                 },
 
             });

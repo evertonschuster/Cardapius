@@ -7,14 +7,13 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json.Validators
     {
         public IEnumerable<ModelValidationResult> Validate(ModelValidationContext context)
         {
-            if (context.Model is IValueObject model)
+            if (context.Model is not IValueObject model)
+                yield break;
+
+            var validationResult = model.Validate();
+            if (validationResult.IsFailure)
             {
-                var isValid = model.IsValid();
-                if (isValid is false)
-                {
-                    //TODO:
-                    yield return new ModelValidationResult(context.ModelMetadata.Name, "Deu ruim aqui na model");
-                }
+                yield return new ModelValidationResult(context.ModelMetadata.Name, validationResult.GetMessageErrors());
             }
         }
     }

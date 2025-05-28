@@ -50,7 +50,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var phone = Phone.Parse(validPhone);
 
             // Act
-            var result = phone.IsValid();
+            var result = phone.Validate();
 
             // Assert
             result.IsValid.Should().BeTrue();

@@ -27,7 +27,7 @@
             return new ProductName(value!.Trim());
         }
 
-        public ValidationResult<string> IsValid()
+        public ValidationResult<string> Validate()
         {
             return ProductNameValidator.Validate(Value);
         }

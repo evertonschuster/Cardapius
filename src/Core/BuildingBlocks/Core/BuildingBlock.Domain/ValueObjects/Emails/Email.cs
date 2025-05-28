@@ -25,7 +25,7 @@
             return this.Value;
         }
 
-        public ValidationResult<string> IsValid()
+        public ValidationResult<string> Validate()
         {
             return EmailValidator.IsValid(this.Value);
         }

@@ -1,5 +1,6 @@
 ﻿using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.ValueObjects;
+using System.Collections.ObjectModel;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects
 {
@@ -77,6 +78,111 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
 
             // Act & Assert
             error.Message.Should().Be("Mensagem de erro");
+        }
+
+        [Fact]
+        public void ValidationResult_Success_Should_Be_Valid_And_Have_No_Errors()
+        {
+            // Act
+            var result = ValidationResult.Success();
+
+            // Assert
+            result.IsValid.Should().BeTrue();
+            result.IsFailure.Should().BeFalse();
+            result.Errors.Should().BeEmpty();
+            result.FirstError.Should().BeNull();
+        }
+
+        [Fact]
+        public void ValidationResult_Constructor_Should_Set_Errors_As_ReadOnlyList()
+        {
+            // Arrange
+            var error = ValidationError.FromMessage("Erro");
+            var errors = new[] { error };
+
+            // Act
+            var result = (ValidationResult)Activator.CreateInstance(
+                typeof(ValidationResult),
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
+                null,
+                new object[] { errors },
+                null
+            )!;
+
+            // Assert
+            result.Errors.Should().BeOfType<ReadOnlyCollection<ValidationError>>();
+            result.Errors.Should().ContainSingle().Which.Should().Be(error);
+        }
+
+        [Fact]
+        public void ValidationResult_FirstError_Should_Return_Null_When_No_Errors()
+        {
+            // Arrange
+            var result = ValidationResult.Success();
+
+            // Act & Assert
+            result.FirstError.Should().BeNull();
+        }
+
+        [Fact]
+        public void ValidationResult_FirstError_Should_Return_First_Error_When_Exists()
+        {
+            // Arrange
+            var error1 = ValidationError.FromMessage("Erro 1");
+            var error2 = ValidationError.FromMessage("Erro 2");
+
+            // Act
+            var result = ValidationResult.Failure(error1, error2);
+
+            // Assert
+            result.IsValid.Should().BeFalse();
+            result.IsFailure.Should().BeTrue();
+            result.Errors.Should().HaveCount(2);
+            result.FirstError.Should().Be(error1);
+        }
+
+        [Fact]
+        public void ValidationResult_Failure_With_Enumerable_Should_Be_Invalid_And_Contain_Errors()
+        {
+            // Arrange
+            var errors = new[] { ValidationError.FromMessage("Erro 1") };
+
+            // Act
+            var result = ValidationResult.Failure(errors);
+
+            // Assert
+            result.IsValid.Should().BeFalse();
+            result.Errors.Should().HaveCount(1);
+            result.FirstError.Should().Be(errors[0]);
+        }
+
+        [Fact]
+        public void GetMessageErrors_Should_Join_All_Error_Messages()
+        {
+            // Arrange
+            var error1 = ValidationError.FromMessage("Erro 1");
+            var error2 = ValidationError.FromMessage("Erro 2");
+            var result = ValidationResult.Failure(error1, error2);
+
+            // Act
+            var message = result.GetMessageErrors();
+
+            // Assert
+            message.Should().Be("Erro 1\nErro 2");
+        }
+
+        [Fact]
+        public void ThrowIfInvalid_Should_Throw_Default_Exception_When_FirstError_Is_Null()
+        {
+            // Act
+            Action act = () =>
+            {
+                var result = ValidationResult.Failure();
+                result.ThrowIfInvalid();
+            };
+
+            // Assert
+            act.Should().Throw<BusinessException>();
         }
     }
 }

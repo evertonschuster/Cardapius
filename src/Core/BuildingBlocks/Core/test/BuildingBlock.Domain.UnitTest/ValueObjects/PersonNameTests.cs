@@ -12,7 +12,7 @@ public class PersonNameTests
         var personName = PersonName.Parse(name);
 
         Assert.Equal(name, personName.Value);
-        Assert.True(personName.IsValid().IsValid);
+        Assert.True(personName.Validate().IsValid);
     }
 
     [Fact]
@@ -44,7 +44,7 @@ public class PersonNameTests
         var name = "Carlos Souza";
         var personName = PersonName.Parse(name);
 
-        var result = personName.IsValid();
+        var result = personName.Validate();
 
         Assert.True(result.IsValid);
         Assert.Equal(name, result.Value);

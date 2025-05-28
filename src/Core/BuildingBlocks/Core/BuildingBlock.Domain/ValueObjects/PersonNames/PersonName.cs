@@ -19,7 +19,7 @@
             return new PersonName(name);
         }
 
-        public ValidationResult<string> IsValid()
+        public ValidationResult<string> Validate()
         {
             return PersonNameValidator.IsValid(this.Value);
         }

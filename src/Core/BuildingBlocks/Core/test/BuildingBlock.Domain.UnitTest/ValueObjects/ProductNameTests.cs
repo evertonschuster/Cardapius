@@ -66,7 +66,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var productName = ProductName.Parse(validName);
 
             // Act
-            var result = productName.IsValid();
+            var result = productName.Validate();
 
             // Assert
             result.IsValid.Should().BeTrue();

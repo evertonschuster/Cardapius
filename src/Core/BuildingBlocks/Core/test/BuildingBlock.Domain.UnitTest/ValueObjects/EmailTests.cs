@@ -97,7 +97,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var email = Email.Parse(emailText);
 
             // Act
-            var validationResult = email.IsValid();
+            var validationResult = email.Validate();
 
             // Assert
             validationResult.IsValid.Should().BeTrue();
