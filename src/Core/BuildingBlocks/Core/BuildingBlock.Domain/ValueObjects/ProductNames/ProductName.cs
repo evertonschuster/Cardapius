@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the Name of a Product or Service as a Value Object.
     /// </summary>
-    public sealed class ProductName : IValueObject<string>
+    public readonly struct ProductName : IValueObject<string, ProductName>
     {
         public string Value { get; }
         private ProductName(string value)
@@ -19,12 +19,12 @@
         /// <exception cref="ProductNameTooLongException"></exception>
         /// <exception cref="ProductNameTooShortException"></exception>
         /// <exception cref="ProductNameEmptyException"></exception>
-        public static ProductName Create(string value)
+        public static ProductName Parse(string? value)
         {
             var result = ProductNameValidator.Validate(value);
             result.ThrowIfInvalid();
 
-            return new ProductName(value.Trim());
+            return new ProductName(value!.Trim());
         }
 
         public ValidationResult<string> IsValid()

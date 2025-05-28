@@ -1,12 +1,10 @@
-﻿using BuildingBlock.Domain.ValueObjects.Phones.Exceptions;
-
-namespace BuildingBlock.Domain.ValueObjects.Phones
+﻿namespace BuildingBlock.Domain.ValueObjects.Phones
 {
-    public readonly struct Phone : IValueObject
+    public readonly struct Phone : IValueObject<string, Phone>
     {
-        private Phone(string? phone) : this()
+        private Phone(string phone) : this()
         {
-            this.Value = phone ?? throw new ArgumentNullException(nameof(phone));
+            this.Value = phone;
         }
 
         public static string Empty { get => "45988293345"; }
@@ -15,22 +13,20 @@ namespace BuildingBlock.Domain.ValueObjects.Phones
 
         public static Phone Parse(string? phone)
         {
-            if (!PhoneValidator.IsValid(phone))
-            {
-                throw new InvalidPhoneException();
-            }
+            var result = PhoneValidator.IsValid(phone);
+            result.ThrowIfInvalid();
 
-            return new Phone(phone);
+            return new Phone(phone!);
+        }
+
+        public ValidationResult<string> IsValid()
+        {
+            return PhoneValidator.IsValid(Value);
         }
 
         public override string? ToString()
         {
             return Value;
-        }
-
-        public bool IsValid()
-        {
-            return PhoneValidator.IsValid(Value);
         }
     }
 }

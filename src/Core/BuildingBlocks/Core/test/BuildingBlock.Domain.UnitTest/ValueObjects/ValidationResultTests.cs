@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BuildingBlock.Domain.Exceptions;
+﻿using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.ValueObjects;
-using FluentAssertions;
-using Xunit;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects
 {

@@ -1,13 +1,10 @@
-﻿
-using BuildingBlock.Domain.ValueObjects.PersonNames.Exceptions;
-
-namespace BuildingBlock.Domain.ValueObjects.PersonNames
+﻿namespace BuildingBlock.Domain.ValueObjects.PersonNames
 {
-    public readonly struct PersonName : IValueObject
+    public readonly struct PersonName : IValueObject<string, PersonName>
     {
-        public PersonName(string? name) : this()
+        private PersonName(string name) : this()
         {
-            Value = name ?? throw new ArgumentNullException(nameof(name));
+            Value = name;
         }
 
         public static string Empty { get => "Fulano de Tal"; }
@@ -16,22 +13,20 @@ namespace BuildingBlock.Domain.ValueObjects.PersonNames
 
         public static PersonName Parse(string? name)
         {
-            if (!PersonNameValidator.IsValid(name))
-            {
-                throw new InvalidPersonNameException();
-            }
+            var result = PersonNameValidator.IsValid(name);
+            result.ThrowIfInvalid();
 
             return new PersonName(name);
+        }
+
+        public ValidationResult<string> IsValid()
+        {
+            return PersonNameValidator.IsValid(this.Value);
         }
 
         public override string? ToString()
         {
             return Value;
-        }
-
-        public bool IsValid()
-        {
-            return PersonNameValidator.IsValid(this.Value);
         }
     }
 }

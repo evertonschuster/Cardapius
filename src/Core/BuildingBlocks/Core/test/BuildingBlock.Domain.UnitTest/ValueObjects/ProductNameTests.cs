@@ -1,7 +1,5 @@
 ﻿using BuildingBlock.Domain.ValueObjects.ProductNames;
 using BuildingBlock.Domain.ValueObjects.ProductNames.Exceptions;
-using FluentAssertions;
-using Xunit;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects
 {
@@ -14,7 +12,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var validName = "Produto Exemplo";
 
             // Act
-            var productName = ProductName.Create(validName);
+            var productName = ProductName.Parse(validName);
 
             // Assert
             productName.Value.Should().Be(validName);
@@ -24,10 +22,11 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        public void Create_EmptyOrWhitespace_ThrowsProductNameEmptyException(string invalidName)
+        [InlineData(null)]
+        public void Create_EmptyOrWhitespace_ThrowsProductNameEmptyException(string? invalidName)
         {
             // Act
-            Action act = () => ProductName.Create(invalidName);
+            Action act = () => ProductName.Parse(invalidName);
 
             // Assert
             act.Should().Throw<ProductNameEmptyException>();
@@ -40,7 +39,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var shortName = "A"; // Supondo que o validador exija mais de 1 caractere
 
             // Act
-            Action act = () => ProductName.Create(shortName);
+            Action act = () => ProductName.Parse(shortName);
 
             // Assert
             act.Should().Throw<ProductNameTooShortException>();
@@ -53,7 +52,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             var longName = new string('A', 300); // Supondo que o validador tenha um limite inferior a 300
 
             // Act
-            Action act = () => ProductName.Create(longName);
+            Action act = () => ProductName.Parse(longName);
 
             // Assert
             act.Should().Throw<ProductNameTooLongException>();
@@ -64,7 +63,7 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
         {
             // Arrange
             var validName = "Produto Válido";
-            var productName = ProductName.Create(validName);
+            var productName = ProductName.Parse(validName);
 
             // Act
             var result = productName.IsValid();

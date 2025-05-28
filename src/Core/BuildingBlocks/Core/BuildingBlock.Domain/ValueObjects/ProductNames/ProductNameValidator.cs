@@ -7,7 +7,7 @@ namespace BuildingBlock.Domain.ValueObjects.ProductNames
         private const int MinLength = 2;
         private const int MaxLength = 100;
 
-        internal static ValidationResult<string> Validate(string value)
+        internal static ValidationResult<string> Validate(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {

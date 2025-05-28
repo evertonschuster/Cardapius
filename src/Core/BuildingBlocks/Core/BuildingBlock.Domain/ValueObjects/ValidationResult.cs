@@ -9,7 +9,7 @@ namespace BuildingBlock.Domain.ValueObjects
     {
         public bool IsValid { get => !Errors.Any(); }
 
-        public T Value { get; }
+        public T? Value { get; }
 
         public IReadOnlyList<ValidationError> Errors { get; }
 
@@ -19,7 +19,7 @@ namespace BuildingBlock.Domain.ValueObjects
             Errors = [];
         }
 
-        private ValidationResult(T value, IEnumerable<ValidationError> errors)
+        private ValidationResult(T? value, IEnumerable<ValidationError> errors)
         {
             Errors = errors.ToList().AsReadOnly();
             Value = value;
@@ -32,7 +32,7 @@ namespace BuildingBlock.Domain.ValueObjects
         }
 
         public static ValidationResult<T> Success(T value) => new(value);
-        public static ValidationResult<T> Failure(T value, params IEnumerable<ValidationError> errors) => new(value, errors);
+        public static ValidationResult<T> Failure(T? value, params IEnumerable<ValidationError> errors) => new(value, errors);
     }
 
 

@@ -74,5 +74,48 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
             act.Should()
                 .Throw<InvalidEmailException>();
         }
+
+        [Fact]
+        public void ToString_ReturnsEmailValue()
+        {
+            // Arrange
+            var emailText = "usuario@dominio.com";
+            var email = Email.Parse(emailText);
+
+            // Act
+            var result = email.ToString();
+
+            // Assert
+            result.Should().Be(emailText);
+        }
+
+        [Fact]
+        public void IsValid_WithValidEmail_ReturnsValidResult()
+        {
+            // Arrange
+            var emailText = "valido@email.com";
+            var email = Email.Parse(emailText);
+
+            // Act
+            var validationResult = email.IsValid();
+
+            // Assert
+            validationResult.IsValid.Should().BeTrue();
+            validationResult.Value.Should().Be(emailText);
+        }
+
+        [Fact]
+        public void Parse_WithNullParameter_ThrowsInvalidEmailException()
+        {
+            // Arrange
+            string? emailText = null;
+
+            // Act
+            Action act = () => Email.Parse(emailText);
+
+            // Assert
+            act.Should()
+                .Throw<EmptyEmailException>();
+        }
     }
 }

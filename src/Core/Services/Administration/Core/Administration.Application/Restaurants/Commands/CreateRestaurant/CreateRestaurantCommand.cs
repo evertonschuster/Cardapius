@@ -40,7 +40,7 @@ namespace Administration.Application.Restaurants.Commands.CreateRestaurant
                 this.AdministrativeEmail,
                 this.CommercialEmail,
                 this.Email,
-                new Address() //this.Address
+                Address.Empty
                 );
         }
     }

@@ -1,13 +1,11 @@
-﻿
-using BuildingBlock.Domain.ValueObjects.Phones.Exceptions;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace BuildingBlock.Domain.ValueObjects.Address
 {
-    public record Address : IValueObject
+    public record Address : IValueObject<string>
     {
-        public static Address Empty => new Address();
+        public static Address Empty => new Address("Rua da silva", "01", "Não tem", "Cidade", "Estado", "84589-000");
 
         [Column("Street")]
         public string Street { get; private set; }
@@ -16,7 +14,7 @@ namespace BuildingBlock.Domain.ValueObjects.Address
         public string Number { get; private set; }
 
         [Column("Complement")]
-        public string Complement { get; private set; }
+        public string? Complement { get; private set; }
 
         [Column("City")]
         public string City { get; private set; }
@@ -27,7 +25,7 @@ namespace BuildingBlock.Domain.ValueObjects.Address
         [Column("ZIPCode")]
         public string ZIPCode { get; private set; }
 
-        public Address(string street, string number, string complement, string city, string state, string zipCode)
+        private Address(string street, string number, string? complement, string city, string state, string zipCode)
         {
             Street = street;
             Number = number;
@@ -37,11 +35,7 @@ namespace BuildingBlock.Domain.ValueObjects.Address
             ZIPCode = zipCode;
         }
 
-        public Address()
-        {
-        }
-
-        public bool IsValid()
+        public ValidationResult<string> IsValid()
         {
             return AddressValidator.IsValid(this.Street, this.Number, this.Complement, this.City, this.State, this.ZIPCode);
         }
@@ -61,10 +55,8 @@ namespace BuildingBlock.Domain.ValueObjects.Address
 
         public static Address Parse(string? street, string? number, string? complement, string? city, string? state, string? zipCode)
         {
-            if (!AddressValidator.IsValid(street, number, complement, city, state, zipCode))
-            {
-                throw new InvalidPhoneException();
-            }
+            var result = AddressValidator.IsValid(street, number, complement, city, state, zipCode);
+            result.ThrowIfInvalid();
 
             return new Address(street!, number!, complement!, city!, state!, zipCode!);
         }

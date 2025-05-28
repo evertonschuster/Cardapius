@@ -1,22 +1,28 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.PersonNames
+﻿using BuildingBlock.Domain.ValueObjects.PersonNames.Exceptions;
+
+namespace BuildingBlock.Domain.ValueObjects.PersonNames
 {
     internal static class PersonNameValidator
     {
-        public static bool IsValid(string? name)
+        public static ValidationResult<string> IsValid(string? name)
         {
-            if (string.IsNullOrEmpty(name))
+            var errors = new List<ValidationError>();
+            if (string.IsNullOrEmpty(name) || name.Length <= 5)
             {
-                return false;
+                errors.Add(new ValidationError(new InvalidPersonNameException()));
             }
 
-            if (name.Length <= 5)
+            if (name?.Split(" ").Length == 1)
             {
-                return false;
+                errors.Add(new ValidationError(new InvalidPersonNameException()));
             }
 
-            return name
-                .Split(" ")
-                .Length >= 2;
+            if (errors.Count != 0)
+            {
+                return ValidationResult<string>.Failure(name, errors);
+            }
+
+            return ValidationResult<string>.Success(name!);
         }
     }
 }

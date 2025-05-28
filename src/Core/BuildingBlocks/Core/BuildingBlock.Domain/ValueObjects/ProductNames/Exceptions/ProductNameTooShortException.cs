@@ -3,11 +3,11 @@
 namespace BuildingBlock.Domain.ValueObjects.ProductNames.Exceptions
 {
     /// <summary>
-    /// Thrown when the product or service name exceeds the maximum length.
+    /// Lançada quando o nome do produto ou serviço não atinge o comprimento mínimo.
     /// </summary>
     public sealed class ProductNameTooShortException : BusinessException
     {
         public ProductNameTooShortException(int minLength)
-            : base($"Name must be at least {minLength} characters long.") { }
+            : base($"O nome deve ter pelo menos {minLength} caracteres.") { }
     }
 }
