@@ -1,37 +1,36 @@
-﻿using BuildingBlock.Domain.ValueObjects.ProductNames.Exceptions;
-
-namespace BuildingBlock.Domain.ValueObjects.ProductNames
+﻿namespace BuildingBlock.Domain.ValueObjects.ProductNames
 {
     internal static class ProductNameValidator
     {
         private const int MinLength = 2;
         private const int MaxLength = 100;
 
-        internal static ValidationResult<string> Validate(string? value)
+        private const string EmptyNameError = "O nome do produto não pode estar vazio.";
+        private static readonly string TooShortError = $"O nome do produto deve ter ao menos {MinLength} caracteres.";
+        private static readonly string TooLongError = $"O nome do produto deve ter no máximo {MaxLength} caracteres.";
+        private const string InvalidCharacterError = "O nome do produto contém caracteres inválidos.";
+
+        public static ValidationResult Validate(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
-            {
-                var error = new ValidationError(new ProductNameEmptyException());
-                return ValidationResult<string>.Failure(value, error);
-            }
+                return ValidationResult.Failure(EmptyNameError);
 
-            var errors = new List<ValidationError>();
             var trimmed = value.Trim();
+
             if (trimmed.Length < MinLength)
-            {
-                errors.Add(new ValidationError(new ProductNameTooShortException(MinLength)));
-            }
+                return ValidationResult.Failure(TooShortError);
+
             if (trimmed.Length > MaxLength)
+                return ValidationResult.Failure(TooLongError);
+
+            // Só permite letras, dígitos, espaço, hífen e sublinhado
+            if (trimmed.Any(ch =>
+                    !(char.IsLetterOrDigit(ch) || ch == ' ' || ch == '-' || ch == '_')))
             {
-                errors.Add(new ValidationError(new ProductNameTooLongException(MaxLength)));
+                return ValidationResult.Failure(InvalidCharacterError);
             }
 
-            if (errors.Count != 0)
-            {
-                return ValidationResult<string>.Failure(value, errors);
-            }
-
-            return ValidationResult<string>.Success(trimmed);
+            return ValidationResult.Success();
         }
     }
 }

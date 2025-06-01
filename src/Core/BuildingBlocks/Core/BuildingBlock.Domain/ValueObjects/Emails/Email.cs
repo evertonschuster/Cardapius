@@ -12,22 +12,15 @@
         public string Value { get; init; }
 
 
-        public static Email Parse(string? email)
+        public static Result<Email> Parse(string? email)
         {
-            var result = EmailValidator.IsValid(email);
-            result.ThrowIfInvalid();
-
-            return new Email(email!);
+            var result = EmailValidator.Validate(email);
+            return Result<Email>.FromValidation(result, () => new Email(email));
         }
 
         public override string ToString()
         {
             return this.Value;
-        }
-
-        public ValidationResult<string> Validate()
-        {
-            return EmailValidator.IsValid(this.Value);
         }
     }
 }

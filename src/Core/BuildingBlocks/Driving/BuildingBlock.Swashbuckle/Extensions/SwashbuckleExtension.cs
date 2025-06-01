@@ -21,8 +21,13 @@ namespace BuildingBlock.Api.Swashbuckle.Extensions
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwagger(e =>
+                {
+                    e.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0;
+                });
+                app.UseSwaggerUI(e =>
+                {
+                });
             }
         }
     }

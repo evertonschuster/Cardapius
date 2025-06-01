@@ -21,4 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
 </Project>

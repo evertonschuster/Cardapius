@@ -1,34 +1,37 @@
-﻿using BuildingBlock.Domain.ValueObjects.Emails.Exceptions;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace BuildingBlock.Domain.ValueObjects.Emails
 {
     internal static partial class EmailValidator
     {
-        private static readonly Regex _emailRegex = EmailValidatorRegex();
+        private static readonly Regex _emailRegex = EmailRegex();
 
-        public static ValidationResult<string> IsValid(string? email)
+        private const int MinLength = 5;
+        private const int MaxLength = 254;
+
+        private const string EmptyEmailError = "O e-mail não pode estar vazio.";
+        private const string InvalidFormatError = "O e-mail informado é inválido.";
+        private const string TooShortError = "O e-mail é muito curto.";
+        private const string TooLongError = "O e-mail é muito longo.";
+
+        public static ValidationResult Validate(string? email)
         {
-            var errors = new List<ValidationError>();
             if (string.IsNullOrWhiteSpace(email))
-            {
-                errors.Add(new ValidationError(new EmptyEmailException()));
-            }
+                return ValidationResult.Failure(EmptyEmailError);
 
-            if (email != null && !_emailRegex.IsMatch(email))
-            {
-                errors.Add(new ValidationError(new InvalidEmailException()));
-            }
+            if (email.Length < MinLength)
+                return ValidationResult.Failure(TooShortError);
 
-            if (errors.Count != 0)
-            {
-                return ValidationResult<string>.Failure(email, errors);
-            }
+            if (email.Length > MaxLength)
+                return ValidationResult.Failure(TooLongError);
 
-            return ValidationResult<string>.Success(email!);
+            if (!_emailRegex.IsMatch(email))
+                return ValidationResult.Failure(InvalidFormatError);
+
+            return ValidationResult.Success();
         }
 
-        [GeneratedRegex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$")]
-        private static partial Regex EmailValidatorRegex();
+        [GeneratedRegex("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", RegexOptions.Compiled)]
+        private static partial Regex EmailRegex();
     }
 }

@@ -11,17 +11,10 @@
 
         public string Value { get; init; }
 
-        public static Phone Parse(string? phone)
+        public static Result<Phone> Parse(string? phone)
         {
-            var result = PhoneValidator.IsValid(phone);
-            result.ThrowIfInvalid();
-
-            return new Phone(phone!);
-        }
-
-        public ValidationResult<string> Validate()
-        {
-            return PhoneValidator.IsValid(Value);
+            var result = PhoneValidator.Validate(phone);
+            return Result<Phone>.FromValidation(result, () => new Phone(phone!));
         }
 
         public override string? ToString()

@@ -1,28 +1,40 @@
-﻿using BuildingBlock.Domain.ValueObjects.PersonNames.Exceptions;
-
-namespace BuildingBlock.Domain.ValueObjects.PersonNames
+﻿namespace BuildingBlock.Domain.ValueObjects.PersonNames
 {
     internal static class PersonNameValidator
     {
-        public static ValidationResult<string> IsValid(string? name)
+        private const int MinLength = 6;
+        private const int MaxLength = 100;
+
+        private const string EmptyNameError = "O nome não pode estar vazio.";
+        private static readonly string TooShortError = $"O nome deve ter ao menos {MinLength} caracteres.";
+        private static readonly string TooLongError = $"O nome deve ter no máximo {MaxLength} caracteres.";
+        private const string MissingSurnameError = "O nome deve conter pelo menos nome e sobrenome.";
+        private const string InvalidCharacterError = "O nome contém caracteres inválidos.";
+        private const string CapitalizationError = "Cada parte do nome deve começar com letra maiúscula.";
+
+        public static ValidationResult Validate(string? name)
         {
-            var errors = new List<ValidationError>();
-            if (string.IsNullOrEmpty(name) || name.Length <= 5)
-            {
-                errors.Add(new ValidationError(new InvalidPersonNameException()));
-            }
+            if (string.IsNullOrWhiteSpace(name))
+                return ValidationResult.Failure(EmptyNameError);
 
-            if (name?.Split(" ").Length == 1)
-            {
-                errors.Add(new ValidationError(new InvalidPersonNameException()));
-            }
+            var trimmed = name.Trim();
+            if (trimmed.Length < MinLength)
+                return ValidationResult.Failure(TooShortError);
 
-            if (errors.Count != 0)
-            {
-                return ValidationResult<string>.Failure(name, errors);
-            }
+            if (trimmed.Length > MaxLength)
+                return ValidationResult.Failure(TooLongError);
 
-            return ValidationResult<string>.Success(name!);
+            var parts = trimmed.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2)
+                return ValidationResult.Failure(MissingSurnameError);
+
+            if (parts.Any(part => part.Any(ch => !char.IsLetter(ch) && ch != '-' && ch != '\'')))
+                return ValidationResult.Failure(InvalidCharacterError);
+
+            if (parts.Any(part => !char.IsUpper(part[0])))
+                return ValidationResult.Failure(CapitalizationError);
+
+            return ValidationResult.Success();
         }
     }
 }

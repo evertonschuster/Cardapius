@@ -19,18 +19,12 @@
         /// <exception cref="ProductNameTooLongException"></exception>
         /// <exception cref="ProductNameTooShortException"></exception>
         /// <exception cref="ProductNameEmptyException"></exception>
-        public static ProductName Parse(string? value)
+        public static Result<ProductName> Parse(string? value)
         {
             var result = ProductNameValidator.Validate(value);
-            result.ThrowIfInvalid();
-
-            return new ProductName(value!.Trim());
+            return Result<ProductName>.FromValidation(result, () => new ProductName(value!.Trim()));
         }
 
-        public ValidationResult<string> Validate()
-        {
-            return ProductNameValidator.Validate(Value);
-        }
 
         public override string ToString() => Value;
     }

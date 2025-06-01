@@ -11,17 +11,10 @@
 
         public string Value { get; init; }
 
-        public static PersonName Parse(string? name)
+        public static Result<PersonName> Parse(string? name)
         {
-            var result = PersonNameValidator.IsValid(name);
-            result.ThrowIfInvalid();
-
-            return new PersonName(name);
-        }
-
-        public ValidationResult<string> Validate()
-        {
-            return PersonNameValidator.IsValid(this.Value);
+            var result = PersonNameValidator.Validate(name);
+            return Result<PersonName>.FromValidation(result, () => new PersonName(name!));
         }
 
         public override string? ToString()

@@ -10,33 +10,35 @@ public record ValidationResult
     public bool IsValid => !Errors.Any();
     public bool IsFailure => !IsValid;
 
-    public IReadOnlyList<ValidationError> Errors { get; }
+    public IReadOnlyList<string> Errors { get; }
 
-    public ValidationError? FirstError => Errors.FirstOrDefault();
+    public string? FirstError => Errors.FirstOrDefault();
 
-    protected ValidationResult(IEnumerable<ValidationError> errors)
+    protected ValidationResult(IEnumerable<string> errors)
     {
         Errors = errors.ToList().AsReadOnly();
     }
 
     public string GetMessageErrors() =>
-        string.Join("\n", Errors.Select(e => e.Message));
+        string.Join("\n", Errors);
 
     public void ThrowIfInvalid()
     {
         if (IsFailure)
-            throw FirstError?.Exception ?? new BusinessException("Erro desconhecido de validação.");
+        {
+            throw new BusinessException(FirstError ?? "Erro desconhecido de validação.");
+        }
     }
 
     public static ValidationResult Success() => new([]);
-    public static ValidationResult Failure(params IEnumerable<ValidationError> errors)
+    public static ValidationResult Failure(params IEnumerable<string> errors)
     {
         if (errors == null || !errors.Any())
         {
 #if DEBUG
             throw new BusinessException("Erro desconhecido de validação.");
 #else
-            errors = [ValidationError.FromMessage("Erro desconhecido de validação.")];
+            errors = ["Erro desconhecido de validação."];
 #endif
         }
 
@@ -44,39 +46,6 @@ public record ValidationResult
     }
 }
 
-/// <summary>
-/// Representa um resultado genérico de validação contendo um valor.
-/// </summary>
-public sealed record ValidationResult<T> : ValidationResult
-{
-    public T? Value { get; }
-
-    private ValidationResult(T value) : base([])
-    {
-        Value = value;
-    }
-
-    private ValidationResult(T? value, IEnumerable<ValidationError> errors) : base(errors)
-    {
-        Value = value;
-    }
-
-    public static ValidationResult<T> Success(T value) => new(value);
-
-    public static ValidationResult<T> Failure(T? value, params IEnumerable<ValidationError> errors)
-    {
-        if (errors == null || !errors.Any())
-        {
-#if DEBUG
-            throw new BusinessException("Erro desconhecido de validação.");
-#else
-            errors = [ValidationError.FromMessage("Erro desconhecido de validação.")];
-#endif
-        }
-
-        return new(value, errors);
-    }
-}
 
 /// <summary>
 /// Representa um erro de validação.
