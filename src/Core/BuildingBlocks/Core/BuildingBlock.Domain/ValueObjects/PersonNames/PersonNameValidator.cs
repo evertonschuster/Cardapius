@@ -10,7 +10,6 @@
         private static readonly string TooLongError = $"O nome deve ter no máximo {MaxLength} caracteres.";
         private const string MissingSurnameError = "O nome deve conter pelo menos nome e sobrenome.";
         private const string InvalidCharacterError = "O nome contém caracteres inválidos.";
-        private const string CapitalizationError = "Cada parte do nome deve começar com letra maiúscula.";
 
         public static ValidationResult Validate(string? name)
         {
@@ -30,9 +29,6 @@
 
             if (parts.Any(part => part.Any(ch => !char.IsLetter(ch) && ch != '-' && ch != '\'')))
                 return ValidationResult.Failure(InvalidCharacterError);
-
-            if (parts.Any(part => !char.IsUpper(part[0])))
-                return ValidationResult.Failure(CapitalizationError);
 
             return ValidationResult.Success();
         }

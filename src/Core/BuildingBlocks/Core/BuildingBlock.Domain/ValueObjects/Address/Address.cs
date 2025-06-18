@@ -8,22 +8,32 @@ namespace BuildingBlock.Domain.ValueObjects.Address
         public static Address Empty => new Address("Rua da silva", "01", "Não tem", "Cidade", "Estado", "84589-000");
 
         [Column("Street")]
-        public string Street { get; private set; }
+        public string Street { get; init; }
 
         [Column("Number")]
-        public string Number { get; private set; }
+        public string Number { get; init; }
 
         [Column("Complement")]
-        public string? Complement { get; private set; }
+        public string? Complement { get; init; }
 
         [Column("City")]
-        public string City { get; private set; }
+        public string City { get; init; }
 
         [Column("State")]
-        public string State { get; private set; }
+        public string State { get; init; }
 
         [Column("ZIPCode")]
-        public string ZIPCode { get; private set; }
+        public string ZIPCode { get; init; }
+
+        private Address()
+        {
+            Street = string.Empty;
+            Number = string.Empty;
+            Complement = null;
+            City = string.Empty;
+            State = string.Empty;
+            ZIPCode = string.Empty;
+        }
 
         private Address(string street, string number, string? complement, string city, string state, string zipCode)
         {

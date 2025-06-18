@@ -1,5 +1,7 @@
 ﻿using BuildingBlock.Api.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json;
+using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
+
 //using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
 using BuildingBlock.Api.Version.Extensions;
@@ -32,18 +34,18 @@ public static class Extensions
         //Microsoft
         builder.Services
             .AddControllers()
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
-                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            });
-        //.AddNewtonsoftJson();
+            //.AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
+            //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            //    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            //});
+        .AddNewtonsoftJson();
 
         builder.Services.AddEndpointsApiExplorer();
 
         //BuildingBlocks
-        //builder.Services.AddApplicationDomainDataJsonConvert();
+        builder.Services.AddApplicationDomainDataJsonConvert();
         builder.Services.AddApplicationValidation();
         builder.Services.AddApplicationVersion();
         builder.Services.AddApplicationSwagger();

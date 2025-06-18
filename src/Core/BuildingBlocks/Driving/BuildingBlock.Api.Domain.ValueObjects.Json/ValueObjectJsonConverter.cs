@@ -1,54 +1,34 @@
 ﻿using BuildingBlock.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json
 {
-    public class ValueObjectJsonConverter<TValueObject, TValue, TType> : JsonConverter<TValueObject>
-     where TValueObject : IValueObject<TValue, TType>
+    public class ValueObjectJsonConverter<TValueObject, TValue, TType> : JsonConverter<TType>
+         where TValueObject : IValueObject<TValue, TType>
     {
-        private static readonly Func<TValue?, Result<TType>> _parseDelegate = CreateParseDelegate();
-
-        private static readonly JsonConverter<TValue> _valueConverter = (JsonConverter<TValue>)(
-            JsonSerializerOptions.Default.GetConverter(typeof(TValue))
-            ?? throw new InvalidOperationException($"No converter for type {typeof(TValue)}."));
-
-        private static Func<TValue?, Result<TType>> CreateParseDelegate()
+        public override TType? ReadJson(JsonReader reader, Type objectType, TType? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var method = typeof(TValueObject).GetMethod("Parse", BindingFlags.Public | BindingFlags.Static);
-            if (method == null)
-                throw new InvalidOperationException($"Método Parse não encontrado em {typeof(TValueObject)}");
-
-            var valueParam = Expression.Parameter(typeof(TValue), "s");
-            var call = Expression.Call(method, valueParam);
-            return Expression.Lambda<Func<TValue?, Result<TType>>>(call, valueParam).Compile();
-        }
-
-        public override TValueObject? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-        {
-            TValue value = _valueConverter.Read(ref reader, typeof(TValue), options)!;
-            var result = _parseDelegate(value);
-
-            if (result.IsSuccess)
+            var rawValue = reader.Value?.ToString();
+            if (rawValue is TValue aa)
             {
-                return (TValueObject)(object)result.Value!;
+                var value = TValueObject.Parse(aa);
+                if (value.IsSuccess)
+                {
+                    return value.Value;
+                }
+                else
+                {
+                    throw new JsonSerializationException(string.Join(", ", value.Errors));
+                }
             }
 
-            throw new JsonException($"Erro ao desserializar {typeof(TValueObject)}: {result.Errors}");
+            throw new NotImplementedException();
         }
 
-        public override void Write(Utf8JsonWriter writer, TValueObject value, JsonSerializerOptions options)
+        public override void WriteJson(JsonWriter writer, TType? value, JsonSerializer serializer)
         {
-            var str = value?.ToString();
-            writer.WriteStringValue(str);
+            var rawValue = value?.ToString();
+            writer.WriteValue(rawValue);
         }
     }
-
 }
