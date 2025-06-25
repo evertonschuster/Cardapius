@@ -1,5 +1,4 @@
 ﻿using BuildingBlock.Api.Application.Extensions;
-using BuildingBlock.Api.Domain.ValueObjects.Json;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 
 //using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
@@ -11,8 +10,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace BuildingBlock.Api.Extensions;
 
@@ -34,12 +31,12 @@ public static class Extensions
         //Microsoft
         builder.Services
             .AddControllers()
-            //.AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
-            //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            //    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            //});
+        //.AddJsonOptions(options =>
+        //{
+        //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
+        //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        //    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        //});
         .AddNewtonsoftJson();
 
         builder.Services.AddEndpointsApiExplorer();
