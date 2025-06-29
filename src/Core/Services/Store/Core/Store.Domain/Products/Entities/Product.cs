@@ -1,4 +1,7 @@
 ﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.ValueObjects.Prices;
+using BuildingBlock.Domain.ValueObjects.ProductNames;
+using BuildingBlock.Domain.ValueObjects.Time;
 
 namespace Store.Domain.Products.Entities
 {
@@ -6,9 +9,10 @@ namespace Store.Domain.Products.Entities
     {
         public Product(
             Guid id,
-            string name,
+            ProductName name,
             string description,
-            double price,
+            SalePrice price,
+            PreparationTime preparationTime,
             List<string> images,
             ProductSubItem flavor,
             ProductSubItem additional,
@@ -21,6 +25,7 @@ namespace Store.Domain.Products.Entities
             Name = name;
             Description = description;
             Price = price;
+            PreparationTime = preparationTime;
             Images = images;
             Flavor = flavor;
             Additional = additional;
@@ -30,11 +35,13 @@ namespace Store.Domain.Products.Entities
             Type = type;
         }
 
-        public string Name { get; private set; }
+        public ProductName Name { get; private set; }
 
         public string Description { get; private set; }
 
-        public double Price { get; private set; }
+        public SalePrice Price { get; private set; }
+
+        public PreparationTime PreparationTime { get; private set; }
 
         public List<string> Images { get; private set; }
 

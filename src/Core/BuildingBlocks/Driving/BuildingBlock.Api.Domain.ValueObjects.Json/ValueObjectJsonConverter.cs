@@ -22,6 +22,7 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
                 }
             }
 
+            //TODO: Handle null or invalid input
             throw new NotImplementedException();
         }
 
