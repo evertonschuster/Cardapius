@@ -1,6 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
-
-namespace Store.Domain.Products.Entities
+﻿namespace Administration.Domain.Types.Entities
 {
     public class Type : Entity
     {
