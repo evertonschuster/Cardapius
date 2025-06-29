@@ -45,5 +45,14 @@
             var errs = result.Errors ?? [DefaultValidationError];
             return Fail(errs);
         }
+
+        internal static Result<T> FromValidation(ValidationResult result, T value)
+        {
+            if (result.IsValid)
+                return Success(value);
+
+            var errs = result.Errors ?? [DefaultValidationError];
+            return Fail(errs);
+        }
     }
 }
