@@ -1,6 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects;
-using BuildingBlock.Domain.ValueObjects.Prices;
-using BuildingBlock.Domain.ValueObjects.ProductNames;
+﻿using BuildingBlock.Domain.ValueObjects.Products;
 
 namespace Administration.Domain.Products.ValueObjects
 {

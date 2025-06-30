@@ -48,7 +48,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
 
             public Guid Id { get; init; }
 
-            public DateTime OccurredOn { get; init; }
+            public DateTimeOffset OccurredOn { get; init; }
         }
     }
 }

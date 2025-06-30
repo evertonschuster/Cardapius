@@ -1,4 +1,7 @@
-﻿namespace Administration.Domain.Restaurants.Models
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
+
+namespace Administration.Domain.Restaurants.Models
 {
     public class Restaurant : Entity, IAggregateRoot
     {
