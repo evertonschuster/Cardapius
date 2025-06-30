@@ -51,29 +51,44 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
             var paramObj = Expression.Parameter(typeof(object), "obj");
             var paramCtx = Expression.Parameter(typeof(StreamingContext), "ctx");
 
+            // (T)obj
             var castObj = Expression.Convert(paramObj, objectType);
+            // ((IValidatable<T>)obj).Validate()
             var callValidate = Expression.Call(castObj, validateMethod);
+            // result.IsSuccess
             var isSuccess = Expression.Property(callValidate, isSuccessProp);
-            var errors = Expression.Convert(
-                Expression.Property(callValidate, errorsProp),
-                typeof(IReadOnlyList<string>));
 
+            // result.Errors  (IReadOnlyList<ResultError>)
+            var errorsExpr = Expression.Property(callValidate, errorsProp);
+            // converte para IEnumerable<ResultError>
+            var errorsEnumerable = Expression.Convert(errorsExpr, typeof(IEnumerable<ResultError>));
+
+            // Enumerable.Select<ResultError,string>(errors, err => err.ToString())
+            var selectMethod = typeof(Enumerable)
+                .GetMethods()
+                .First(m => m.Name == nameof(Enumerable.Select) && m.GetParameters().Length == 2)
+                .MakeGenericMethod(typeof(ResultError), typeof(string));
+            var errParam = Expression.Parameter(typeof(ResultError), "err");
+            var toStringCall = Expression.Call(errParam, typeof(object).GetMethod(nameof(ToString))!);
+            var selector = Expression.Lambda<Func<ResultError, string>>(toStringCall, errParam);
+            var projected = Expression.Call(selectMethod, errorsEnumerable, selector);
+
+            // string.Join(", ", projectedErrors)
             var joinMethod = typeof(string).GetMethod(
                 nameof(string.Join),
-                [typeof(string), typeof(IEnumerable<string>)]
+                new[] { typeof(string), typeof(IEnumerable<string>) }
             )!;
-            var errorMessage = Expression.Call(
-                joinMethod,
-                Expression.Constant(", "),
-                errors);
+            var errorMessage = Expression.Call(joinMethod, Expression.Constant(", "), projected);
 
-            var exceptionCtor = typeof(JsonSerializationException)
-                .GetConstructor([typeof(string)])!;
+            // throw new JsonSerializationException(errorMessage)
+            var exCtor = typeof(JsonSerializationException)
+                .GetConstructor(new[] { typeof(string) })!;
             var throwExpr = Expression.Throw(
-                Expression.New(exceptionCtor, errorMessage),
+                Expression.New(exCtor, errorMessage),
                 typeof(void)
             );
 
+            // if (!result.IsSuccess) throw ...
             var ifThen = Expression.IfThen(
                 Expression.IsFalse(isSuccess),
                 throwExpr
@@ -84,5 +99,6 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
             );
             return lambda.Compile();
         }
+
     }
 }

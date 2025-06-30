@@ -1,5 +1,6 @@
 ﻿using BuildingBlock.Domain.ValueObjects;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json
 {
@@ -8,8 +9,14 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
     {
         public override TType? ReadJson(JsonReader reader, Type objectType, TType? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            var rawValue = reader.Value?.ToString();
-            if (rawValue is TValue aa)
+            var rawString = reader.Value?.ToString();
+
+            var converter = TypeDescriptor.GetConverter(typeof(TValue));
+            if (!converter.CanConvertFrom(typeof(string)))
+                throw new JsonSerializationException($"Cannot convert from string to {typeof(TValue).Name}");
+
+            var typedValue = converter.ConvertFromInvariantString(rawString);
+            if (typedValue is TValue aa)
             {
                 var value = TValueObject.Parse(aa);
                 if (value.IsSuccess)

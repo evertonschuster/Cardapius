@@ -1,45 +1,62 @@
-﻿using Administration.Domain.Products.ValueObjects;
-using BuildingBlock.Domain.ValueObjects.Images;
-using BuildingBlock.Domain.ValueObjects.Prices;
-using BuildingBlock.Domain.ValueObjects.ProductNames;
-using BuildingBlock.Domain.ValueObjects.Time;
+﻿using Administration.Domain.Products.Dtos;
 
 namespace Administration.Application.Products
 {
     public class Product : Entity
     {
-        public ProductName Name { get; private set; }
+        public ProductName Name { get; init; }
 
-        public string Description { get; private set; }
+        public string? Description { get; init; }
 
-        public ProductionPrice Price { get; private set; }
+        public ProductionPrice Price { get; init; }
 
-        public PreparationTime PreparationTime { get; private set; }
+        public PreparationTime PreparationTime { get; init; }
 
-        public List<Image> Images { get; private set; }
+        public required List<Image> Images { get; init; }
 
         /// <summary>
         /// Sabores
         /// </summary>
-        public ProductSubItem Flavor { get; private set; }
+        public ProductSubItem? Flavor { get; init; }
 
         /// <summary>
         /// Adicional
         /// </summary>
-        public ProductSubItem Additional { get; private set; }
+        public ProductSubItem? Additional { get; init; }
 
         /// <summary>
         /// Preferencias
         /// </summary>
-        public ProductSubItem Preference { get; private set; }
+        public ProductSubItem? Preference { get; init; }
 
         /// <summary>
         /// Acompanhamentos
         /// </summary>
-        public List<Product> SideDishes { get; private set; }
+        public List<Product> SideDishes { get; init; } = [];
 
-        public ServesManyPeople ServesManyPeople { get; private set; }
+        public ServesManyPeople? ServesManyPeople { get; init; }
 
-        public Guid TypeId { get; private set; }
+        public Guid TypeId { get; init; }
+
+        public static Product Create(CreateProductDto productDto)
+        {
+            var model = new Product
+            {
+                Name = productDto.Name,
+                Description = productDto.Description,
+                Price = productDto.Price,
+                PreparationTime = productDto.PreparationTime,
+                Images = productDto.Images,
+                Flavor = productDto.Flavor,
+                Additional = productDto.Additional,
+                Preference = productDto.Preference,
+                SideDishes = productDto.SideDishes ?? [],
+                ServesManyPeople = productDto.ServesManyPeople,
+                TypeId = productDto.TypeId
+            };
+
+            model.AddDomainEvent(new ProductCreatedEvent<CreateProductDto>(model.Id, null, productDto));
+            return model;
+        }
     }
 }
