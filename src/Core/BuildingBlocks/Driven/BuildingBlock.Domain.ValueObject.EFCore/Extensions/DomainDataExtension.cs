@@ -1,7 +1,5 @@
-﻿using BuildingBlock.Domain.ValueObjects.Address;
-using BuildingBlock.Domain.ValueObjects.Emails;
-using BuildingBlock.Domain.ValueObjects.PersonNames;
-using BuildingBlock.Domain.ValueObjects.Phones;
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.PersonNames;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Phones;

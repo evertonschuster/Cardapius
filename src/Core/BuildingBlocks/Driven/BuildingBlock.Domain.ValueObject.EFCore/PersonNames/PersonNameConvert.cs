@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.PersonNames;
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.PersonNames

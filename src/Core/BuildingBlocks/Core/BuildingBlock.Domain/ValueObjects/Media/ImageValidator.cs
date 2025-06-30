@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Images
+﻿namespace BuildingBlock.Domain.ValueObjects.Media
 {
     internal static class ImageValidator
     {

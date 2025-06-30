@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.ProductNames
+﻿namespace BuildingBlock.Domain.ValueObjects.Products
 {
     internal static class ProductNameValidator
     {

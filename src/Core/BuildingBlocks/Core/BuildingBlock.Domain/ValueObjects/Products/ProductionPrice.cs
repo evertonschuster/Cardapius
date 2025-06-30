@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Prices
+﻿namespace BuildingBlock.Domain.ValueObjects.Products
 {
     /// <summary>
     /// Represents the production price of a product or service,

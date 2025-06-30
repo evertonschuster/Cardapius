@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BuildingBlock.Domain.ValueObjects.Address;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace BuildingBlock.Domain.ValueObjects.Address
+namespace BuildingBlock.Domain.ValueObjects.Location
 {
     public record Address : IValueObject
     {

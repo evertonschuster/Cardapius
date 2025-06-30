@@ -1,4 +1,6 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Emails
+﻿using BuildingBlock.Domain.ValueObjects.Emails;
+
+namespace BuildingBlock.Domain.ValueObjects.Contact
 {
     public readonly struct Email : IValueObject<string, Email>
     {
@@ -20,7 +22,7 @@
 
         public override string ToString()
         {
-            return this.Value;
+            return Value;
         }
     }
 }

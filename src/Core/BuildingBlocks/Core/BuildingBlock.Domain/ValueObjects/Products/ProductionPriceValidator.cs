@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Prices
+﻿namespace BuildingBlock.Domain.ValueObjects.Products
 {
     internal static class ProductionPriceValidator
     {

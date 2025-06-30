@@ -1,7 +1,6 @@
 ﻿using Administration.Domain.Products.ValueObjects;
-using BuildingBlock.Domain.ValueObjects.Images;
-using BuildingBlock.Domain.ValueObjects.Prices;
-using BuildingBlock.Domain.ValueObjects.ProductNames;
+using BuildingBlock.Domain.ValueObjects.Media;
+using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 
 namespace Administration.Application.Products

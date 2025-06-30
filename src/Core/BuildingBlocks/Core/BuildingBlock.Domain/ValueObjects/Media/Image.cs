@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Images
+﻿namespace BuildingBlock.Domain.ValueObjects.Media
 {
     /// <summary>
     /// Represents an image with a URI, alternative text, dimensions, thumbnail URI, and blur hash as a Value Object.

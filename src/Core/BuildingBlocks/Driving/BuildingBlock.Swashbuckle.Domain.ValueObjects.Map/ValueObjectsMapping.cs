@@ -1,7 +1,5 @@
-﻿using BuildingBlock.Domain.ValueObjects.Address;
-using BuildingBlock.Domain.ValueObjects.Emails;
-using BuildingBlock.Domain.ValueObjects.PersonNames;
-using BuildingBlock.Domain.ValueObjects.Phones;
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
