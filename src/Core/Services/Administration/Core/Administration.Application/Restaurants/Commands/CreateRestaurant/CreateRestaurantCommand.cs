@@ -1,4 +1,6 @@
 ﻿using Administration.Domain.Restaurants.Models;
+using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Application.Restaurants.Commands.CreateRestaurant
 {

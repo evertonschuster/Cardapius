@@ -1,10 +1,12 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Phones
+﻿using BuildingBlock.Domain.ValueObjects.Phones;
+
+namespace BuildingBlock.Domain.ValueObjects.Contact
 {
     public readonly struct Phone : IValueObject<string, Phone>
     {
         private Phone(string phone) : this()
         {
-            this.Value = phone;
+            Value = phone;
         }
 
         public static string Empty { get => "45988293345"; }

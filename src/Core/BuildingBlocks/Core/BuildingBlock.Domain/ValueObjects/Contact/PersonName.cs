@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.PersonNames
+﻿namespace BuildingBlock.Domain.ValueObjects.Contact
 {
     public readonly struct PersonName : IValueObject<string, PersonName>
     {

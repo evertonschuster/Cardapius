@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Prices
+﻿namespace BuildingBlock.Domain.ValueObjects.Products
 {
     /// <summary>
     /// Representa o preço de venda de um produto ou serviço e seu desconto máximo.

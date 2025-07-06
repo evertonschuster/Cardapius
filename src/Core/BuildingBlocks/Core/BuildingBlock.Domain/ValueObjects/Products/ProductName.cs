@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.ProductNames
+﻿namespace BuildingBlock.Domain.ValueObjects.Products
 {
     /// <summary>
     /// Represents the Name of a Product or Service as a Value Object.
