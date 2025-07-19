@@ -11,31 +11,31 @@
         private const string NegativeCostError = "Production cost cannot be negative.";
         private const string CostExceedsPriceError = "Production cost cannot exceed production price.";
 
-        public static ValidationResult Validate(
+        public static Result<ProductionPrice> Validate(
             decimal? value,
             decimal? maxDiscount,
             decimal? productionCost)
         {
             if (!value.HasValue)
-                return ValidationResult.Failure(EmptyPriceError);
+                return Result<ProductionPrice>.Fail(nameof(ProductionPrice.Value), EmptyPriceError);
             if (value.Value < 0)
-                return ValidationResult.Failure(NegativePriceError);
+                return Result<ProductionPrice>.Fail(nameof(ProductionPrice.Value), NegativePriceError);
 
             if (!maxDiscount.HasValue)
-                return ValidationResult.Failure(EmptyDiscountError);
+                return Result<ProductionPrice>.Fail(EmptyDiscountError);
             if (maxDiscount.Value < 0)
-                return ValidationResult.Failure(NegativeDiscountError);
+                return Result<ProductionPrice>.Fail(NegativeDiscountError);
             if (maxDiscount.Value > value.Value)
-                return ValidationResult.Failure(DiscountExceedsPriceError);
+                return Result<ProductionPrice>.Fail(DiscountExceedsPriceError);
 
             if (!productionCost.HasValue)
-                return ValidationResult.Failure(EmptyCostError);
+                return Result<ProductionPrice>.Fail(EmptyCostError);
             if (productionCost.Value < 0)
-                return ValidationResult.Failure(NegativeCostError);
+                return Result<ProductionPrice>.Fail(NegativeCostError);
             if (productionCost.Value > value.Value)
-                return ValidationResult.Failure(CostExceedsPriceError);
+                return Result<ProductionPrice>.Fail(CostExceedsPriceError);
 
-            return ValidationResult.Success();
+            return Result<ProductionPrice>.Success();
         }
     }
 }

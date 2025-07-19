@@ -1,5 +1,7 @@
 ﻿using BuildingBlock.Api.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
+using BuildingBlock.Api.Domain.ValueObjects.Json.Validators;
+
 
 //using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
@@ -30,7 +32,11 @@ public static class Extensions
 
         //Microsoft
         builder.Services
-            .AddControllers()
+            .AddControllers(options =>
+            {
+                options.ModelValidatorProviders.Add(new ValidatableModelValidatorProvider());
+                //options.Filters.Add<ValidatableActionFilter>();
+            })
         //.AddJsonOptions(options =>
         //{
         //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());

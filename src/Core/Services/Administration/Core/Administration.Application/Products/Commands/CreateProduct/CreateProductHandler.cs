@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using System.ComponentModel.DataAnnotations;
-
-namespace Administration.Application.Products.Commands.CreateProduct
+﻿namespace Administration.Application.Products.Commands.CreateProduct
 {
     internal class CreateProductHandler(
         IProductRepository productRepository,
