@@ -2,8 +2,12 @@
 {
     internal class CreateProductValidator : AbstractValidator<CreateProductCommand>
     {
-        public CreateProductValidator()
+        private readonly IProductRepository _productRepository;
+
+        public CreateProductValidator(IProductRepository productRepository)
         {
+            _productRepository = productRepository;
+
             RuleFor(x => x.Name)
                 .NotNull()
                 .WithMessage("O nome do produto é obrigatório.");
@@ -27,6 +31,21 @@
             RuleFor(x => x.TypeId)
                 .NotEmpty()
                 .WithMessage("O ID do tipo de produto é obrigatório.");
+
+            RuleForEach(x => x.SideDishes)
+                .Must(id =>
+                {
+                    return _productRepository.ExistsById(id, CancellationToken.None);
+                })
+                .WithMessage("Acompanhamentos não encontrado.");
+
+            RuleFor(x => x.TypeId)
+                .Must(id =>
+                {
+                    return true;//TODO: Implementar a verificação de existência do tipo de produto
+                })
+                .WithMessage("Tipo de produto não encontrado.");
+
         }
     }
 }

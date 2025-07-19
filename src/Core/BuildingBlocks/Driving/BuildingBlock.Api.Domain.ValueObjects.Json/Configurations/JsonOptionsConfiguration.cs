@@ -19,7 +19,6 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json.Configurations
         {
             options.UseCamelCasing(processDictionaryKeys: true);
             ValueObjectConverterRegistrar.RegisterAll(options.SerializerSettings, [typeof(IValueObject).Assembly]);
-            //options.SerializerSettings.ContractResolver = new ValidatingContractResolver();
         }
     }
 }

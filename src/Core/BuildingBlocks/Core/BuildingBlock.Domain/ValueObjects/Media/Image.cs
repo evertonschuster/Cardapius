@@ -3,26 +3,27 @@
     /// <summary>
     /// Represents an image with a URI, alternative text, dimensions, thumbnail URI, and blur hash as a Value Object.
     /// </summary>
-    public readonly struct Image : IValueObject, IValidatable<Image>
+    public class Image : IValueObject, IValidatable
     {
-        public string Uri { get; init; }
-        public string AlternativeText { get; init; }
+        public const int MaxUriLength = 256;
+        public const int MaxAlternativeTextLength = 200;
+        public const int MaxThumbnailUriLength = 256;
+        public const int MaxBlurHashLength = 1024;
+
+        public required string Uri { get; init; }
+        public required string AlternativeText { get; init; }
         public int Width { get; init; }
         public int Height { get; init; }
-        public string ThumbnailUri { get; init; }
-        public string BlurHash { get; init; }
+        public required string ThumbnailUri { get; init; }
+        public required string BlurHash { get; init; }
 
 
         /// <summary>
         /// Validates this instance (after deserialization).
         /// </summary>
-        public Result<Image> Validate()
+        public Result Validate()
         {
-            var validation = ImageValidator
-                .Validate(Uri, AlternativeText, Width, Height, ThumbnailUri, BlurHash);
-
-            return Result<Image>
-                .FromValidation(validation, this);
+            return ImageValidator.Validate(Uri, AlternativeText, Width, Height, ThumbnailUri, BlurHash);
         }
     }
 }

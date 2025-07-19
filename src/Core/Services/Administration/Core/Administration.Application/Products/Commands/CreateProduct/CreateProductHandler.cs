@@ -1,19 +1,24 @@
-﻿namespace Administration.Application.Products.Commands.CreateProduct
+﻿using BuildingBlock.Domain;
+
+namespace Administration.Application.Products.Commands.CreateProduct
 {
     internal class CreateProductHandler(
         IProductRepository productRepository,
-        IValidator<CreateProductCommand> validator
+        IUnitOfWork unitOfWork
         ) : IRequestHandler<CreateProductCommand, CreateProductResult>
     {
         public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            validator.ValidateAndThrow(request);
-
-
-            var model = request.ToModel();
+            var sideDishes = productRepository.GetWithAllPropertyByIds(request.SideDishes ?? []);
+            var model = request.ToModel(sideDishes);
             var result = productRepository.Create(model);
 
-            throw new NotImplementedException();
+            unitOfWork.Commit();
+
+            return Task.FromResult(new CreateProductResult
+            {
+                Id = result.Id,
+            });
         }
     }
 }

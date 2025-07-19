@@ -2,40 +2,40 @@
 {
     internal static class ProductionPriceValidator
     {
-        private const string EmptyPriceError = "Production price must be provided.";
-        private const string NegativePriceError = "Production price cannot be negative.";
-        private const string EmptyDiscountError = "Maximum discount must be provided.";
-        private const string NegativeDiscountError = "Maximum discount cannot be negative.";
-        private const string DiscountExceedsPriceError = "Maximum discount cannot exceed production price.";
-        private const string EmptyCostError = "Production cost must be provided.";
-        private const string NegativeCostError = "Production cost cannot be negative.";
-        private const string CostExceedsPriceError = "Production cost cannot exceed production price.";
+        private const string EmptyPriceError = "O preço de produção deve ser informado.";
+        private const string NegativePriceError = "O preço de produção não pode ser negativo.";
+        private const string EmptyDiscountError = "O desconto máximo deve ser informado.";
+        private const string NegativeDiscountError = "O desconto máximo não pode ser negativo.";
+        private const string DiscountExceedsPriceError = "O desconto máximo não pode exceder o preço de produção.";
+        private const string EmptyCostError = "O custo de produção deve ser informado.";
+        private const string NegativeCostError = "O custo de produção não pode ser negativo.";
+        private const string CostExceedsPriceError = "O custo de produção não pode exceder o preço de produção.";
 
-        public static Result<ProductionPrice> Validate(
+        public static Result Validate(
             decimal? value,
             decimal? maxDiscount,
             decimal? productionCost)
         {
             if (!value.HasValue)
-                return Result<ProductionPrice>.Fail(nameof(ProductionPrice.Value), EmptyPriceError);
+                return Result.Fail(nameof(ProductionPrice.Value), EmptyPriceError);
             if (value.Value < 0)
-                return Result<ProductionPrice>.Fail(nameof(ProductionPrice.Value), NegativePriceError);
+                return Result.Fail(nameof(ProductionPrice.Value), NegativePriceError);
 
             if (!maxDiscount.HasValue)
-                return Result<ProductionPrice>.Fail(EmptyDiscountError);
+                return Result.Fail(nameof(ProductionPrice.MaxDiscount), EmptyDiscountError);
             if (maxDiscount.Value < 0)
-                return Result<ProductionPrice>.Fail(NegativeDiscountError);
+                return Result.Fail(nameof(ProductionPrice.MaxDiscount), NegativeDiscountError);
             if (maxDiscount.Value > value.Value)
-                return Result<ProductionPrice>.Fail(DiscountExceedsPriceError);
+                return Result.Fail(nameof(ProductionPrice.MaxDiscount), DiscountExceedsPriceError);
 
             if (!productionCost.HasValue)
-                return Result<ProductionPrice>.Fail(EmptyCostError);
+                return Result.Fail(nameof(ProductionPrice.ProductionCost), EmptyCostError);
             if (productionCost.Value < 0)
-                return Result<ProductionPrice>.Fail(NegativeCostError);
+                return Result.Fail(nameof(ProductionPrice.ProductionCost), NegativeCostError);
             if (productionCost.Value > value.Value)
-                return Result<ProductionPrice>.Fail(CostExceedsPriceError);
+                return Result.Fail(nameof(ProductionPrice.ProductionCost), CostExceedsPriceError);
 
-            return Result<ProductionPrice>.Success();
+            return Result.Success();
         }
     }
 }

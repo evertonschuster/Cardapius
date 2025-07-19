@@ -1,6 +1,5 @@
 ﻿using BuildingBlock.Api.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
-using BuildingBlock.Api.Domain.ValueObjects.Json.Validators;
 
 
 //using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
@@ -32,18 +31,8 @@ public static class Extensions
 
         //Microsoft
         builder.Services
-            .AddControllers(options =>
-            {
-                options.ModelValidatorProviders.Add(new ValidatableModelValidatorProvider());
-                //options.Filters.Add<ValidatableActionFilter>();
-            })
-        //.AddJsonOptions(options =>
-        //{
-        //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
-        //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        //    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        //});
-        .AddNewtonsoftJson();
+            .AddControllers()
+            .AddNewtonsoftJson();
 
         builder.Services.AddEndpointsApiExplorer();
 

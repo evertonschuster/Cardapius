@@ -4,6 +4,8 @@ namespace Administration.Domain.Products.Repositories
 {
     public interface IProductRepository
     {
-        object Create(Product model);
+        Product Create(Product model);
+        bool ExistsById(Guid id, CancellationToken cancellation);
+        List<Product> GetWithAllPropertyByIds(List<Guid> sideDishes);
     }
 }

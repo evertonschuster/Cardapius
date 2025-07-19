@@ -7,30 +7,27 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
     public class ValueObjectJsonConverter<TValueObject, TValue, TType> : JsonConverter<TType>
          where TValueObject : IValueObject<TValue, TType>
     {
-        public override TType? ReadJson(JsonReader reader, Type objectType, TType? existingValue, bool hasExistingValue, JsonSerializer serializer)
+        private static readonly TypeConverter _converter = TypeDescriptor.GetConverter(typeof(TValue));
+        private static readonly Func<TValue?, Result<TType>> _parseFunc = TValueObject.Parse;
+
+        public override TType? ReadJson(
+            JsonReader reader,
+            Type objectType,
+            TType? existingValue,
+            bool hasExistingValue,
+            JsonSerializer serializer)
         {
             var rawString = reader.Value?.ToString();
 
-            var converter = TypeDescriptor.GetConverter(typeof(TValue));
-            if (!converter.CanConvertFrom(typeof(string)))
-                throw new JsonSerializationException($"Cannot convert from string to {typeof(TValue).Name}");
+            TValue? typedValue = rawString is null ? default : (TValue)_converter.ConvertFromInvariantString(rawString)!;
 
-            var typedValue = converter.ConvertFromInvariantString(rawString);
-            if (typedValue is TValue aa)
-            {
-                var value = TValueObject.Parse(aa);
-                if (value.IsSuccess)
-                {
-                    return value.Value;
-                }
-                else
-                {
-                    throw new JsonSerializationException(string.Join(", ", value.Errors));
-                }
-            }
+            var result = _parseFunc(typedValue);
+            if (result.IsSuccess)
+                return result.Value;
 
-            //TODO: Handle null or invalid input
-            throw new NotImplementedException();
+            throw new JsonSerializationException(
+                $"Erro ao desserializar '{rawString}' como {typeof(TValueObject).Name}: "
+                + string.Join("; ", result.Errors));
         }
 
         public override void WriteJson(JsonWriter writer, TType? value, JsonSerializer serializer)
