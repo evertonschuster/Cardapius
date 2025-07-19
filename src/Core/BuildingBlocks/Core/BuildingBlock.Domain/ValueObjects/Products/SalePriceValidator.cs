@@ -8,24 +8,24 @@
         private const string NegativeDiscountError = "O desconto máximo não pode ser negativo.";
         private const string DiscountExceedsPriceError = "O desconto máximo não pode ser maior que o preço de venda.";
 
-        public static ValidationResult Validate(decimal? value, decimal? maxDiscount)
+        public static Result Validate(decimal? value, decimal? maxDiscount)
         {
             if (!value.HasValue)
-                return ValidationResult.Failure(EmptyPriceError);
+                return Result.Fail(nameof(SalePrice.Value), EmptyPriceError);
 
             if (value.Value < 0)
-                return ValidationResult.Failure(NegativePriceError);
+                return Result.Fail(nameof(SalePrice.Value), NegativePriceError);
 
             if (!maxDiscount.HasValue)
-                return ValidationResult.Failure(EmptyDiscountError);
+                return Result.Fail(nameof(SalePrice.MaxDiscount), EmptyDiscountError);
 
             if (maxDiscount.Value < 0)
-                return ValidationResult.Failure(NegativeDiscountError);
+                return Result.Fail(nameof(SalePrice.MaxDiscount), NegativeDiscountError);
 
             if (maxDiscount.Value > value.Value)
-                return ValidationResult.Failure(DiscountExceedsPriceError);
+                return Result.Fail(nameof(SalePrice.MaxDiscount), DiscountExceedsPriceError);
 
-            return ValidationResult.Success();
+            return Result.Success();
         }
     }
 }

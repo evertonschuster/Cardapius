@@ -1,5 +1,36 @@
 ﻿namespace BuildingBlock.Domain.ValueObjects
 {
+    public readonly struct Result
+    {
+        public const string DefaultValidationError = "Erro desconhecido de validação.";
+
+        public IReadOnlyList<ResultError> Errors { get; } = [];
+        public bool IsSuccess => Errors.Count == 0;
+
+        private Result(IReadOnlyList<ResultError> errors)
+        {
+            Errors = errors ?? [];
+        }
+
+        public static Result Success() => new([]);
+
+        public static Result Fail(params ResultError[] errors)
+        {
+            return new(
+                errors != null && errors.Length > 0 ? errors as IReadOnlyList<ResultError> : []
+            );
+        }
+
+        public static Result Fail(string PropertyName, params string[] message)
+        {
+            var errors = message?
+                .Select(m => new ResultError(PropertyName, m))
+                .ToArray()
+                ?? [];
+            return new(errors);
+        }
+    }
+
     public readonly struct Result<T>
     {
         public const string DefaultValidationError = "Erro desconhecido de validação.";

@@ -8,7 +8,7 @@ namespace Administration.Application.Products.Commands.CreateProduct
 
         public string? Description { get; set; }
 
-        public ProductionPrice Price { get; set; }
+        public required ProductionPrice Price { get; set; }
 
         public PreparationTime PreparationTime { get; set; }
 
@@ -38,7 +38,7 @@ namespace Administration.Application.Products.Commands.CreateProduct
 
         public Guid TypeId { get; set; }
 
-        internal Product ToModel()
+        internal Product ToModel(List<Product> sideDishes)
         {
             var dto = new CreateProductDto()
             {
@@ -50,7 +50,7 @@ namespace Administration.Application.Products.Commands.CreateProduct
                 Flavor = Flavor,
                 Additional = Additional,
                 Preference = Preference,
-                //SideDishes = SideDishes,
+                SideDishes = sideDishes,
                 ServesManyPeople = ServesManyPeople,
                 TypeId = TypeId
             };

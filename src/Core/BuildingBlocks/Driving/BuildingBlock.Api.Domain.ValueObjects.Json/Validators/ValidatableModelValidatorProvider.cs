@@ -1,23 +1,30 @@
 ﻿using BuildingBlock.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Collections.Concurrent;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json.Validators
 {
     public class ValidatableModelValidatorProvider : IModelValidatorProvider
     {
+        private static readonly Type ValidatableType = typeof(IValidatable);
+        private static readonly ConcurrentDictionary<Type, bool> IsValidatableCache = new();
+
+        private static readonly ValidatableModelValidator ValidatorInstance = new();
+
         public void CreateValidators(ModelValidatorProviderContext context)
         {
             var modelType = context.ModelMetadata.ModelType;
-            var implementIValidatable = modelType.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValidatable<>));
+            if (modelType == null)
+                return;
 
-            if (implementIValidatable)
+            if (!IsValidatableCache.GetOrAdd(modelType, t => ValidatableType.IsAssignableFrom(t)))
+                return;
+
+            context.Results.Add(new ValidatorItem
             {
-                context.Results.Add(new ValidatorItem
-                {
-                    Validator = new ValidatableModelValidator(),
-                    IsReusable = true,
-                });
-            }
+                Validator = ValidatorInstance,
+                IsReusable = true
+            });
         }
     }
 }
