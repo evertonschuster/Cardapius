@@ -1,9 +1,9 @@
-﻿global using Administration.Domain.Products.ValueObjects;
+﻿global using Administration.Domain.Products.Repositories;
+global using Administration.Domain.Products.ValueObjects;
 global using BuildingBlock.Domain.ValueObjects.Contact;
 global using BuildingBlock.Domain.ValueObjects.Location;
 global using BuildingBlock.Domain.ValueObjects.Media;
 global using BuildingBlock.Domain.ValueObjects.Products;
 global using BuildingBlock.Domain.ValueObjects.Time;
-global using Administration.Domain.Products.Repositories;
 global using FluentValidation;
 global using MediatR;

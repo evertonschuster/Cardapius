@@ -1,6 +1,4 @@
-﻿using Administration.Domain.Products.Dtos;
-
-namespace Administration.Application.Products
+﻿namespace Administration.Application.Products
 {
     public class Product : Entity
     {

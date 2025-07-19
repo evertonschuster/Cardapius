@@ -1,6 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Products;
-
-namespace Administration.Domain.Products.ValueObjects
+﻿namespace Administration.Domain.Products.ValueObjects
 {
     public record SubItem : ValueObject
     {

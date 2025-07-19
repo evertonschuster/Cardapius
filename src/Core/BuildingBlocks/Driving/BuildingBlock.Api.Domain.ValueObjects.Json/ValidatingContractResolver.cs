@@ -16,7 +16,6 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
         protected override JsonObjectContract CreateObjectContract(Type objectType)
         {
             var contract = base.CreateObjectContract(objectType);
-
             var callback = _validationCallbacks.GetOrAdd(objectType, CreateValidationCallback);
 
             if (callback != null)
@@ -24,9 +23,7 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
                 contract.OnDeserializedCallbacks.Add((obj, ctx) =>
                 {
                     if (obj != null)
-                    {
                         callback(obj, ctx);
-                    }
                 });
             }
 
@@ -35,70 +32,61 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json
 
         private static Action<object, StreamingContext>? CreateValidationCallback(Type objectType)
         {
-            var validatableInterface = objectType
+            var validatable = objectType
                 .GetInterfaces()
                 .FirstOrDefault(i =>
                     i.IsGenericType &&
                     i.GetGenericTypeDefinition() == typeof(IValidatable<>));
-            if (validatableInterface == null)
+            if (validatable == null)
                 return null;
 
-            var validateMethod = validatableInterface.GetMethod("Validate", BindingFlags.Public | BindingFlags.Instance)!;
+            // obtém método Validate() e as props IsSuccess/Errors
+            var validateMethod = validatable.GetMethod("Validate", BindingFlags.Public | BindingFlags.Instance)!;
             var resultType = validateMethod.ReturnType;
             var isSuccessProp = resultType.GetProperty("IsSuccess", BindingFlags.Public | BindingFlags.Instance)!;
             var errorsProp = resultType.GetProperty("Errors", BindingFlags.Public | BindingFlags.Instance)!;
 
+            // parâmetros do callback
             var paramObj = Expression.Parameter(typeof(object), "obj");
             var paramCtx = Expression.Parameter(typeof(StreamingContext), "ctx");
 
-            // (T)obj
+            // chama Validate()
             var castObj = Expression.Convert(paramObj, objectType);
-            // ((IValidatable<T>)obj).Validate()
             var callValidate = Expression.Call(castObj, validateMethod);
-            // result.IsSuccess
             var isSuccess = Expression.Property(callValidate, isSuccessProp);
 
-            // result.Errors  (IReadOnlyList<ResultError>)
+            // pega Errors como IEnumerable<ResultError>
             var errorsExpr = Expression.Property(callValidate, errorsProp);
-            // converte para IEnumerable<ResultError>
             var errorsEnumerable = Expression.Convert(errorsExpr, typeof(IEnumerable<ResultError>));
 
-            // Enumerable.Select<ResultError,string>(errors, err => err.ToString())
-            var selectMethod = typeof(Enumerable)
-                .GetMethods()
-                .First(m => m.Name == nameof(Enumerable.Select) && m.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(ResultError), typeof(string));
-            var errParam = Expression.Parameter(typeof(ResultError), "err");
-            var toStringCall = Expression.Call(errParam, typeof(object).GetMethod(nameof(ToString))!);
-            var selector = Expression.Lambda<Func<ResultError, string>>(toStringCall, errParam);
-            var projected = Expression.Call(selectMethod, errorsEnumerable, selector);
+            // chama nosso helper ThrowErrors(errorsEnumerable)
+            var throwHelper = typeof(ValidatingContractResolver)
+                .GetMethod(nameof(ThrowErrors), BindingFlags.NonPublic | BindingFlags.Static)!;
+            var callThrow = Expression.Call(throwHelper, errorsEnumerable, paramCtx, paramObj);
 
-            // string.Join(", ", projectedErrors)
-            var joinMethod = typeof(string).GetMethod(
-                nameof(string.Join),
-                new[] { typeof(string), typeof(IEnumerable<string>) }
-            )!;
-            var errorMessage = Expression.Call(joinMethod, Expression.Constant(", "), projected);
-
-            // throw new JsonSerializationException(errorMessage)
-            var exCtor = typeof(JsonSerializationException)
-                .GetConstructor(new[] { typeof(string) })!;
-            var throwExpr = Expression.Throw(
-                Expression.New(exCtor, errorMessage),
-                typeof(void)
-            );
-
-            // if (!result.IsSuccess) throw ...
+            // if (!IsSuccess) ThrowErrors(...)
             var ifThen = Expression.IfThen(
                 Expression.IsFalse(isSuccess),
-                throwExpr
+                callThrow
             );
 
-            var lambda = Expression.Lambda<Action<object, StreamingContext>>(
-                ifThen, paramObj, paramCtx
-            );
+            var lambda = Expression.Lambda<Action<object, StreamingContext>>(ifThen, paramObj, paramCtx);
             return lambda.Compile();
         }
 
+        // Lança JsonSerializationException usando cada ResultError.PropertyName como path
+        private static void ThrowErrors(IEnumerable<ResultError> errors, StreamingContext paramCtx, object paramObj)
+        {
+            foreach (var err in errors)
+            {
+                throw new JsonSerializationException(
+                    err.Message,
+                    err.PropertyName ?? string.Empty, // path
+                    0,                                  // lineNumber
+                    0,                                  // linePosition
+                    null                                // innerException
+                );
+            }
+        }
     }
 }

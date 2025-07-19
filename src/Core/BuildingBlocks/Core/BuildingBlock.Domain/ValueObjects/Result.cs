@@ -19,10 +19,7 @@
         public static Result<T> Fail(params ResultError[] errors)
         {
             return new(
-                default,
-                errors != null && errors.Length > 0
-                    ? (IReadOnlyList<ResultError>)errors
-                    : []
+                default, errors != null && errors.Length > 0 ? errors as IReadOnlyList<ResultError> : []
             );
         }
 
@@ -35,6 +32,11 @@
 
             var asArray = errors?.ToArray() ?? [];
             return new(default, asArray);
+        }
+
+        public static Result<T> Fail(string PropertyName, string message)
+        {
+            return new(default, [new ResultError(PropertyName, message)]);
         }
 
         internal static Result<T> FromValidation(ValidationResult result, Func<T> valueFactory)
