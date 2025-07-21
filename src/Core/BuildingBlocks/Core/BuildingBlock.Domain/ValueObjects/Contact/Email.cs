@@ -17,7 +17,7 @@ namespace BuildingBlock.Domain.ValueObjects.Contact
         public static Result<Email> Parse(string? email)
         {
             var result = EmailValidator.Validate(email);
-            return Result<Email>.FromValidation(result, () => new Email(email));
+            return Result<Email>.FromValidation(result, () => new Email(email!));
         }
 
         public override string ToString()

@@ -1,4 +1,5 @@
-﻿using BuildingBlock.Domain.ValueObjects;
+﻿using BuildingBlock.Application.Queries;
+using BuildingBlock.Domain.ValueObjects;
 using MediatR;
 
 namespace BuildingBlock.Application.Commands

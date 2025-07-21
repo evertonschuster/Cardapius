@@ -6,9 +6,9 @@ namespace Administration.Domain.Products.Dtos
     {
         public ProductName Name { get; set; }
         public string? Description { get; set; }
-        public ProductionPrice Price { get; set; }
+        public required ProductionPrice Price { get; set; }
         public PreparationTime PreparationTime { get; set; }
-        public List<Image> Images { get; set; } = new();
+        public List<Image> Images { get; set; } = [];
         public ProductSubItem? Flavor { get; set; }
         public ProductSubItem? Additional { get; set; }
         public ProductSubItem? Preference { get; set; }

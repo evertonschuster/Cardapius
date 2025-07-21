@@ -2,6 +2,8 @@
 
 # Default severity for analyzer diagnostics with category 'Naming'
 dotnet_analyzer_diagnostic.category-Naming.severity = silent
+dotnet_analyzer_diagnostic.CS1591.severity = none
+dotnet_analyzer_diagnostic.NU1608.severity = none
 
 [*.cs]
 #### Estilos de nomenclatura ####
@@ -70,6 +72,9 @@ csharp_prefer_static_anonymous_function = true:suggestion
 csharp_style_prefer_readonly_struct = true:suggestion
 csharp_style_prefer_readonly_struct_member = true:suggestion
 csharp_space_around_binary_operators = before_and_after
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
+csharp_indent_labels = one_less_than_current
 
 [*.vb]
 #### Estilos de nomenclatura ####
@@ -129,3 +134,6 @@ dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 end_of_line = crlf
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
+indent_size = 4
