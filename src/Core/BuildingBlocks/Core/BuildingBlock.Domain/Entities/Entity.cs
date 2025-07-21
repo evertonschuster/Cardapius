@@ -14,7 +14,7 @@ namespace BuildingBlock.Domain.Entities
         {
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; init; }
 
         public override bool Equals(object? obj)
         {

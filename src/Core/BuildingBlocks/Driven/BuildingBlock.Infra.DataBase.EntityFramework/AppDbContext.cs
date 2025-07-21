@@ -8,6 +8,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public new DbSet<TEntity> Set<TEntity>()

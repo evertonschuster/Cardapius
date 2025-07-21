@@ -1,23 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dce683d0-8ec4-4a92-bba8-f096ea7f3513</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..\..\..\..\..</DockerfileContext>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj" />
-    <ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Swashbuckle\BuildingBlock.Api.Swashbuckle.csproj" />
-    <ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
-    <ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>dce683d0-8ec4-4a92-bba8-f096ea7f3513</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..\..\..\..\..</DockerfileContext>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Application\BuildingBlock.Api.Application.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Domain.ValueObjects.Json\BuildingBlock.Api.Domain.ValueObjects.Json.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api.Version\BuildingBlock.Api.Version.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj" />
+		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driving\BuildingBlock.Swashbuckle\BuildingBlock.Api.Swashbuckle.csproj" />
+		<ProjectReference Include="..\..\..\Core\Administration.Application\Administration.Application.csproj" />
+		<ProjectReference Include="..\..\Driven\Administration.Infra.DataBase.EntityFramework\Administration.Infra.DataBase.EntityFramework.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Extensions\" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
+	</ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ namespace Administration.Infra.DataBase.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("Administration");
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AdministrationDbContext).Assembly);
         }
     }

@@ -1,5 +1,8 @@
 ﻿global using Administration.Domain.Products.Repositories;
 global using Administration.Domain.Products.ValueObjects;
+global using BuildingBlock.Application.Commands;
+global using BuildingBlock.Domain;
+global using BuildingBlock.Domain.ValueObjects;
 global using BuildingBlock.Domain.ValueObjects.Contact;
 global using BuildingBlock.Domain.ValueObjects.Location;
 global using BuildingBlock.Domain.ValueObjects.Media;

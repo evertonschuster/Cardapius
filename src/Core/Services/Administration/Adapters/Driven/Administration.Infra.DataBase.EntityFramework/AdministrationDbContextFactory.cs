@@ -9,7 +9,7 @@ namespace Administration.Infra.DataBase.EntityFramework
         {
             Console.WriteLine($"Creating AdministrationDbContext... {string.Join(" ", args)}");
             var optionsBuilder = new DbContextOptionsBuilder<AdministrationDbContext>();
-            optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Administration;");
+            optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Cardapius;");
 
             return new AdministrationDbContext(optionsBuilder.Options);
         }

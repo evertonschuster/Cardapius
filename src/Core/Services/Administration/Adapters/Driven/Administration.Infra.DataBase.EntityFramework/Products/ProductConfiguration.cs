@@ -17,32 +17,41 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
             builder.OwnsOne(p => p.Flavor, f =>
             {
+                f.ToTable("ProductFlavors");
+                f.WithOwner().HasForeignKey("ProductId");
+
                 f.OwnsMany(x => x.Items, items =>
                 {
-                    items.WithOwner().HasForeignKey("ProductFlavorId");
                     items.Property<Guid>("Id").ValueGeneratedOnAdd();
                     items.HasKey("Id");
                     items.Property(e => e.Description).HasMaxLength(256);
 
+                    items.WithOwner().HasForeignKey("ProductFlavorId");
                     items.ToTable("ProductFlavorItems");
                 });
             });
 
             builder.OwnsOne(p => p.Additional, f =>
             {
+                f.ToTable("ProductAdditionals");
+                f.WithOwner().HasForeignKey("ProductId");
+
                 f.OwnsMany(x => x.Items, items =>
                 {
-                    items.WithOwner().HasForeignKey("ProductAdditionalId");
                     items.Property<Guid>("Id").ValueGeneratedOnAdd();
                     items.HasKey("Id");
                     items.Property(e => e.Description).HasMaxLength(256);
 
+                    items.WithOwner().HasForeignKey("ProductAdditionalId");
                     items.ToTable("ProductAdditionalItems");
                 });
             });
 
             builder.OwnsOne(p => p.Preference, f =>
             {
+                f.ToTable("ProductPreferences");
+                f.WithOwner().HasForeignKey("ProductId");
+
                 f.OwnsMany(x => x.Items, items =>
                 {
                     items.WithOwner().HasForeignKey("ProductPreferenceId");
@@ -55,12 +64,14 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
             });
 
             builder.OwnsOne(e => e.ServesManyPeople);
+            builder.Navigation(p => p.ServesManyPeople).IsRequired();
+
 
             builder
                .HasMany(p => p.SideDishes)
                .WithMany()
                .UsingEntity<Dictionary<string, object>>(
-                   "ProductSideDishes",   
+                   "ProductSideDishes",
                    right => right
                        .HasOne<Product>()
                        .WithMany()
