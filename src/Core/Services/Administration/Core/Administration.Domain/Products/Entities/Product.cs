@@ -40,6 +40,7 @@
         {
             var model = new Product
             {
+                Id = Guid.NewGuid(),
                 Name = productDto.Name,
                 Description = productDto.Description,
                 Price = productDto.Price,

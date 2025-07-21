@@ -6,6 +6,7 @@ namespace Administration.Domain.Products.Repositories
     {
         Product Create(Product model);
         bool ExistsById(Guid id, CancellationToken cancellation);
-        List<Product> GetWithAllPropertyByIds(List<Guid> sideDishes);
+        Product? GetWithAllPropertyByIds(Guid productId);
+        List<Product> ListWithAllPropertyByIds(List<Guid> productIds);
     }
 }

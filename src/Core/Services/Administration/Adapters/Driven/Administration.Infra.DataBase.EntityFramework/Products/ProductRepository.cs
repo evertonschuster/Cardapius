@@ -8,6 +8,7 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
     {
         public Product Create(Product model)
         {
+            dbContext.AttachRange(model.SideDishes);
             dbContext.Add(model);
 
             return model;
@@ -15,14 +16,26 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
         public bool ExistsById(Guid id, CancellationToken cancellation)
         {
-            return false;
+            return dbContext.Products
+                .Any(x => x.Id == id);
+
         }
 
-        public List<Product> GetWithAllPropertyByIds(List<Guid> sideDishes)
+        public Product? GetWithAllPropertyByIds(Guid productId)
         {
             return dbContext.Products
-                .Where(x => sideDishes.Contains(x.Id))
+                .Where(x => x.Id == productId)
                 .Include(x => x.SideDishes)
+                .AsSplitQuery()
+                .FirstOrDefault();
+        }
+
+        public List<Product> ListWithAllPropertyByIds(List<Guid> productIds)
+        {
+            return dbContext.Products
+                .Where(x => productIds.Contains(x.Id))
+                .Include(x => x.SideDishes)
+                .AsSplitQuery()
                 .ToList();
         }
     }

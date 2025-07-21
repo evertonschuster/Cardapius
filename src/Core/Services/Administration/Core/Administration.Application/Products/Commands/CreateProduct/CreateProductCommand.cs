@@ -2,7 +2,7 @@
 
 namespace Administration.Application.Products.Commands.CreateProduct
 {
-    public class CreateProductCommand : IRequest<CreateProductResult>
+    public class CreateProductCommand : ICommandRequest<CreateProductResult>
     {
         public ProductName Name { get; set; }
 
