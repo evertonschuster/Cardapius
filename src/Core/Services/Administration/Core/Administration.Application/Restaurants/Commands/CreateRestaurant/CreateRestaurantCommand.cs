@@ -19,7 +19,7 @@ namespace Administration.Application.Restaurants.Commands.CreateRestaurant
         public Email CommercialEmail { get; set; }
         public Email Email { get; set; }
 
-        public Address Address { get; set; }
+        public  required Address Address { get; set; }
 
 
         //TODO: Cuisine Type: The style of cuisine offered by the restaurant, such as Italian, Mexican, Chinese, etc.

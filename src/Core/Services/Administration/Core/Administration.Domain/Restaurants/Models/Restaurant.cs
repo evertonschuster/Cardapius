@@ -5,10 +5,6 @@ namespace Administration.Domain.Restaurants.Models
 {
     public class Restaurant : Entity, IAggregateRoot
     {
-        protected Restaurant()
-        {
-            this.Name = string.Empty;
-        }
 
         public Restaurant(
             Guid id,

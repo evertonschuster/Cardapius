@@ -1,4 +1,6 @@
-﻿namespace Administration.Application.Products.Queries.DetailsById
+﻿using BuildingBlock.Application.Queries;
+
+namespace Administration.Application.Products.Queries.DetailsById
 {
     public class DetailsByIdQuery : IQueryRequest<DetailsByIdResult>
     {
