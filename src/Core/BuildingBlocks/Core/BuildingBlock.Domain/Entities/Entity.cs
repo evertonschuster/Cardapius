@@ -1,9 +1,13 @@
 ﻿
+using BuildingBlock.Domain.Events;
+using BuildingBlock.Domain.Exceptions;
+using BuildingBlock.Domain.Rules;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace BuildingBlock.Domain.Entities
 {
-    public abstract partial class Entity : IEquatable<Entity>
+    public abstract class Entity : IEqualityComparer<Entity>, IAggregateRoot
     {
         protected Entity(Guid id)
         {
@@ -15,6 +19,8 @@ namespace BuildingBlock.Domain.Entities
         }
 
         public Guid Id { get; init; }
+
+        private List<IDomainEvent>? _domainEvents;
 
         public override bool Equals(object? obj)
         {
@@ -34,19 +40,49 @@ namespace BuildingBlock.Domain.Entities
             return this.Equals(other as object);
         }
 
+        public bool Equals(Entity? x, Entity? y)
+        {
+            return x == y;
+        }
+
+
+        public void CheckRule(IBusinessRule rule)
+        {
+            if (rule.IsBroken())
+            {
+                throw new BusinessRuleValidationException(rule);
+            }
+        }
+
+
+
+        public void AddDomainEvent(IDomainEvent eventItem)
+        {
+            _domainEvents = _domainEvents ?? [];
+            _domainEvents.Add(eventItem);
+        }
+
+        public void RemoveDomainEvent(IDomainEvent eventItem)
+        {
+            _domainEvents?.Remove(eventItem);
+        }
+
+        public void ClearDomainEvents()
+        {
+            _domainEvents?.Clear();
+        }
+
+
+        public IReadOnlyCollection<IDomainEvent> GetDomainEvents()
+        {
+            return _domainEvents ?? [];
+        }
+
+        public int GetHashCode([DisallowNull] Entity obj)
+        {
+            return RuntimeHelpers.GetHashCode(obj);
+        }
+
         public override int GetHashCode() => RuntimeHelpers.GetHashCode(this);
-
-        public static bool operator ==(Entity? left, Entity? right)
-        {
-            if (Object.Equals(left, null))
-                return (Object.Equals(right, null));
-            else
-                return left.Equals(right);
-        }
-
-        public static bool operator !=(Entity? left, Entity? right)
-        {
-            return !(left == right);
-        }
     }
 }

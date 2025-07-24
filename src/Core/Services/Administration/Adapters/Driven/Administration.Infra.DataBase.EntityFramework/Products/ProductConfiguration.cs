@@ -1,4 +1,4 @@
-﻿using Administration.Application.Products;
+﻿using Administration.Domain.Products.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

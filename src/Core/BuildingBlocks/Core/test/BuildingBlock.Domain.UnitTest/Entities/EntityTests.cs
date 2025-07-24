@@ -9,7 +9,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsEntityWithEqualsIdSuccess()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake(id);
 
@@ -26,7 +26,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsEntityWithNullSuccess()
         {
             //Arrange
-            var entity1 = new EntityFake(Guid.NewGuid());
+            var entity1 = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -41,7 +41,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsOperatorWithEqualsIdSuccess()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake(id);
 
@@ -58,7 +58,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsOperatorWithNullSuccess()
         {
             //Arrange
-            EntityFake? entity1 = new(Guid.NewGuid());
+            EntityFake? entity1 = new(Guid.CreateVersion7());
             EntityFake? entity2 = null;
 
 
@@ -76,7 +76,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareNotEqualsOperatorWithEqualsIdSuccess()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake(id);
 
@@ -93,7 +93,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareNotEqualsOperatorWithNullSuccess()
         {
             //Arrange
-            EntityFake? entity1 = new(Guid.NewGuid());
+            EntityFake? entity1 = new(Guid.CreateVersion7());
             EntityFake? entity2 = null;
 
 
@@ -111,8 +111,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsEntityWithDifferentIdSuccess()
         {
             //Arrange
-            var entity1 = new EntityFake(Guid.NewGuid());
-            var entity2 = new EntityFake(Guid.NewGuid());
+            var entity1 = new EntityFake(Guid.CreateVersion7());
+            var entity2 = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -127,8 +127,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsOperatorWithDifferentIdSuccess()
         {
             //Arrange
-            var entity1 = new EntityFake(Guid.NewGuid());
-            var entity2 = new EntityFake(Guid.NewGuid());
+            var entity1 = new EntityFake(Guid.CreateVersion7());
+            var entity2 = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -143,8 +143,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareNotEqualsOperatorWithDifferentIdSuccess()
         {
             //Arrange
-            var entity1 = new EntityFake(Guid.NewGuid());
-            var entity2 = new EntityFake(Guid.NewGuid());
+            var entity1 = new EntityFake(Guid.CreateVersion7());
+            var entity2 = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -160,7 +160,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareEqualsReferenceEntityWithEqualsSuccess()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
 
 
@@ -176,7 +176,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CompareWithAnotherEntityTypeWithEqualsIdSuccess()
         {
             //Arrange
-            var id = Guid.NewGuid();
+            var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake2(id);
 

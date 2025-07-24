@@ -1,4 +1,4 @@
-﻿namespace Administration.Application.Products
+﻿namespace Administration.Domain.Products.Entities
 {
     public class Product : Entity
     {
@@ -40,7 +40,7 @@
         {
             var model = new Product
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.CreateVersion7(),
                 Name = productDto.Name,
                 Description = productDto.Description,
                 Price = productDto.Price,

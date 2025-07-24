@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\Core\BuildingBlock.Application\BuildingBlock.Application.csproj" />
 		<ProjectReference Include="..\..\Core\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
 		<ProjectReference Include="..\BuildingBlock.Domain.ValueObject.EFCore\BuildingBlock.Infra.Domain.ValueObjects.EFCore.csproj" />
 		<ProjectReference Include="..\BuildingBlock.Infra.DataBase\BuildingBlock.Infra.DataBase.csproj" />
@@ -14,12 +15,12 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="9.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7" >
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7" >
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

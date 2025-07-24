@@ -1,4 +1,4 @@
-﻿using Administration.Application.Products;
+﻿using Administration.Domain.Products.Entities;
 
 namespace Administration.Domain.Products.Repositories
 {
