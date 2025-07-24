@@ -1,4 +1,4 @@
-﻿using Administration.Application.Products;
+﻿using Administration.Domain.Products.Entities;
 using Administration.Domain.Products.Repositories;
 using Microsoft.EntityFrameworkCore;
 

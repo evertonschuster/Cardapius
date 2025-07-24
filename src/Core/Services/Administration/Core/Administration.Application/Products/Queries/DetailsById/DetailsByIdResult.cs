@@ -1,5 +1,7 @@
 ﻿
 
+using Administration.Domain.Products.Entities;
+
 namespace Administration.Application.Products.Queries.DetailsById
 {
     public class DetailsByIdResult

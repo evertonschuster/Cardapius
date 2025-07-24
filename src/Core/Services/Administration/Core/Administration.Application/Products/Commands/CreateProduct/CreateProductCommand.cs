@@ -1,4 +1,5 @@
 ﻿using Administration.Domain.Products.Dtos;
+using Administration.Domain.Products.Entities;
 
 namespace Administration.Application.Products.Commands.CreateProduct
 {
