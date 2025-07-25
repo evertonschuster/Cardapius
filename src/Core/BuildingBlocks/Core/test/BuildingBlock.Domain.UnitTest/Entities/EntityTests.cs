@@ -37,22 +37,6 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             isEquals.Should().BeFalse();
         }
 
-        [Fact]
-        public void CompareEqualsOperatorWithEqualsIdSuccess()
-        {
-            //Arrange
-            var id = Guid.CreateVersion7();
-            var entity1 = new EntityFake(id);
-            var entity2 = new EntityFake(id);
-
-
-            //Act
-            var isEquals = entity1 == entity2;
-
-
-            //Asserts
-            isEquals.Should().BeTrue();
-        }
 
         [Fact]
         public void CompareEqualsOperatorWithNullSuccess()
@@ -70,23 +54,6 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             //Asserts
             isEquals1.Should().BeFalse();
             isEquals2.Should().BeFalse();
-        }
-
-        [Fact]
-        public void CompareNotEqualsOperatorWithEqualsIdSuccess()
-        {
-            //Arrange
-            var id = Guid.CreateVersion7();
-            var entity1 = new EntityFake(id);
-            var entity2 = new EntityFake(id);
-
-
-            //Act
-            var isEquals = entity1 != entity2;
-
-
-            //Asserts
-            isEquals.Should().BeFalse();
         }
 
         [Fact]

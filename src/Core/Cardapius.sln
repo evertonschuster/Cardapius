@@ -46,7 +46,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api.Domain.Va
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Api", "BuildingBlocks\Driving\BuildingBlock.Api\BuildingBlock.Api.csproj", "{DA0F81D0-91AC-4238-8F41-49F3389FD476}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0484F8B7-A921-4DC5-90DA-53432D531232}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0484F8B7-A921-4DC5-90DA-53432D531232}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildingBlock.Domain.UnitTest", "BuildingBlocks\Core\test\BuildingBlock.Domain.UnitTest\BuildingBlock.Domain.UnitTest.csproj", "{7612A299-0434-4369-9796-4794FBF59F17}"
 EndProject
@@ -84,6 +84,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cardapius.AppHost", "Cardapius.AppHost\Cardapius.AppHost.csproj", "{CF9EB7BC-B35E-4374-A6C7-AD49136CCADE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlock.Observability.OpenTelemetry", "BuildingBlocks\Driven\BuildingBlock.Observability.OpenTelemetry\BuildingBlock.Observability.OpenTelemetry.csproj", "{6AB1E6A4-43BB-477F-8046-A566160336B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Administration.Domain.UnitTest", "Services\Administration\tests\Administration.Domain.UnitTest\Administration.Domain.UnitTest.csproj", "{C3348E2F-4834-49A9-8A2E-FDF378BE1E83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Administration.Application.UnitTest", "Services\Administration\tests\Administration.Application.UnitTest\Administration.Application.UnitTest.csproj", "{173212D8-8413-45D0-AF0C-4DC48E1A923B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,6 +197,14 @@ Global
 		{6AB1E6A4-43BB-477F-8046-A566160336B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB1E6A4-43BB-477F-8046-A566160336B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB1E6A4-43BB-477F-8046-A566160336B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3348E2F-4834-49A9-8A2E-FDF378BE1E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3348E2F-4834-49A9-8A2E-FDF378BE1E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3348E2F-4834-49A9-8A2E-FDF378BE1E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3348E2F-4834-49A9-8A2E-FDF378BE1E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{173212D8-8413-45D0-AF0C-4DC48E1A923B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{173212D8-8413-45D0-AF0C-4DC48E1A923B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{173212D8-8413-45D0-AF0C-4DC48E1A923B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{173212D8-8413-45D0-AF0C-4DC48E1A923B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,6 +245,9 @@ Global
 		{3F357E54-0EA8-49B4-8DAB-CD036A9F11EE} = {6CFF2E60-D35B-41E7-B295-409D5A07A7AC}
 		{7FCBB043-66AE-4B7E-BBFC-6570022FBEA2} = {218944F3-F484-4BA3-9705-375A246801C3}
 		{6AB1E6A4-43BB-477F-8046-A566160336B0} = {218944F3-F484-4BA3-9705-375A246801C3}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {C49A4FC2-BC67-4163-B00A-B3C092D87182}
+		{C3348E2F-4834-49A9-8A2E-FDF378BE1E83} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{173212D8-8413-45D0-AF0C-4DC48E1A923B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAE2897-37FA-4B81-85DC-C10775CABF1B}

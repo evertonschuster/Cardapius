@@ -39,7 +39,7 @@ namespace Administration.Application.Products.Commands.CreateProduct
 
         public Guid TypeId { get; set; }
 
-        internal Product ToModel(List<Product> sideDishes)
+        public Product ToModel(List<Product> sideDishes)
         {
             var dto = new CreateProductDto()
             {
