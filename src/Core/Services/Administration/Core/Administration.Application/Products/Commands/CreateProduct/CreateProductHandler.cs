@@ -1,6 +1,6 @@
 ﻿namespace Administration.Application.Products.Commands.CreateProduct
 {
-    internal class CreateProductHandler(
+    public class CreateProductHandler(
         IProductRepository productRepository,
         IUnitOfWork unitOfWork
         ) : ICommandHandler<CreateProductCommand, CreateProductResult>

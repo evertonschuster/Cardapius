@@ -37,6 +37,9 @@ namespace BuildingBlock.Domain.Entities
 
         public bool Equals(Entity? other)
         {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
             return this.Equals(other as object);
         }
 
@@ -44,7 +47,6 @@ namespace BuildingBlock.Domain.Entities
         {
             return x == y;
         }
-
 
         public void CheckRule(IBusinessRule rule)
         {
@@ -58,7 +60,7 @@ namespace BuildingBlock.Domain.Entities
 
         public void AddDomainEvent(IDomainEvent eventItem)
         {
-            _domainEvents = _domainEvents ?? [];
+            _domainEvents ??= [];
             _domainEvents.Add(eventItem);
         }
 
