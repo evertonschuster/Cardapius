@@ -17,4 +17,7 @@
 		<ProjectReference Include="..\..\..\..\..\BuildingBlocks\Driven\BuildingBlock.Infra.DataBase.EntityFramework\BuildingBlock.Infra.DataBase.EntityFramework.csproj" />
 		<ProjectReference Include="..\..\..\Core\Administration.Domain\Administration.Domain.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	</ItemGroup>
 </Project>

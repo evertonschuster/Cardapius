@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace BuildingBlock.Domain.Entities
 {
-    public abstract class Entity : IEqualityComparer<Entity>, IAggregateRoot
+    public abstract class Entity : IEqualityComparer<Entity>, IAggregateRoot, ISoftDelete
     {
         protected Entity(Guid id)
         {
@@ -19,6 +19,8 @@ namespace BuildingBlock.Domain.Entities
         }
 
         public Guid Id { get; init; }
+        public DateTimeOffset? DeletedAt { get; set; }
+        public Guid? DeletedBy { get; set; }
 
         private List<IDomainEvent>? _domainEvents;
 

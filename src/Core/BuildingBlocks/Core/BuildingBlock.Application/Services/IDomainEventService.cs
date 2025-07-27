@@ -6,6 +6,7 @@ namespace BuildingBlock.Application.Services
     public interface IDomainEventService
     {
         void EmitEvents(IEnumerable<OutboxMessageEntity> events);
-        List<OutboxMessageEntity> GetDamainOutboxEvents(IEnumerable<IAggregateRoot> models);
+        List<OutboxMessageEntity> GetDomainOutboxEvents(IEnumerable<IAggregateRoot> models);
+
     }
 }
