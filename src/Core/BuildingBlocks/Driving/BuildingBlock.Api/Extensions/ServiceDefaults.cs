@@ -2,6 +2,7 @@
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
 using BuildingBlock.Api.Version.Extensions;
+using BuildingBlock.Infra.DataBase.EntityFramework.Extensions;
 using BuildingBlock.Infra.DataBase.Extensions;
 using BuildingBlock.Observability.OpenTelemetry.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,8 @@ public static class Extensions
         builder.Services.AddApplicationVersion();
         builder.Services.AddApplicationSwagger();
         builder.Services.AddDomainEvent();
+        builder.Services.AddUserContext();
+        builder.Services.AddDbContextServices();
 
         builder.Services.ConfigureHttpClientDefaults(http =>
         {

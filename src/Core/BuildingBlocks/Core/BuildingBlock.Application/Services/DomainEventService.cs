@@ -17,7 +17,7 @@ namespace BuildingBlock.Application.Services
             }
         }
 
-        public List<OutboxMessageEntity> GetDamainOutboxEvents(IEnumerable<IAggregateRoot> models)
+        public List<OutboxMessageEntity> GetDomainOutboxEvents(IEnumerable<IAggregateRoot> models)
         {
             return models
             .SelectMany(entity =>

@@ -1,21 +1,19 @@
 ﻿using BuildingBlock.Application.Entities;
-using BuildingBlock.Application.Services;
 using BuildingBlock.Domain;
 using BuildingBlock.Infra.DataBase.EntityFramework.Entities;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
 using Microsoft.EntityFrameworkCore;
-
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {
     public class AppDbContext : DbContext, IDbContext, IUnitOfWork
     {
-        private readonly IDomainEventService? _domainEventService;
+        private readonly DbContextContainer? _dbContextContainer;
         public DbSet<OutboxMessageEntity> OutboxMessageEntities { get; set; }
 
 
-        public AppDbContext(IDomainEventService? domainEventService, DbContextOptions options) : base(options)
+        public AppDbContext(DbContextContainer? dbContextContainer, DbContextOptions options) : base(options)
         {
-            _domainEventService = domainEventService;
+            _dbContextContainer = dbContextContainer;
 
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
@@ -86,6 +84,20 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             modelBuilder.ApplyConfiguration(new OutboxMessageEntityConfiguration());
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (_dbContextContainer is not null)
+            {
+                optionsBuilder.AddInterceptors(
+                    _dbContextContainer.AuditingInterceptor,
+                    _dbContextContainer.SoftDeleteInterceptor,
+                    _dbContextContainer.EmitDomainEventInterceptor
+                );
+            }
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             base.ConfigureConventions(configurationBuilder);
@@ -93,43 +105,5 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             configurationBuilder
                 .AddApplicationDomainDataEFCoreConvert();
         }
-
-        #region Domain Events
-        public override int SaveChanges()
-        {
-            var models = GetAggregateRoots();
-            var events = _domainEventService?.GetDamainOutboxEvents(models) ?? [];
-            this.AddRange(events);
-
-            var changes = base.SaveChanges();
-
-            _domainEventService?.EmitEvents(events);
-            base.SaveChanges();
-
-            return changes;
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            var models = GetAggregateRoots();
-            var events = _domainEventService?.GetDamainOutboxEvents(models) ?? [];
-            this.AddRange(events);
-
-            var changes = await base.SaveChangesAsync(cancellationToken);
-
-            _domainEventService?.EmitEvents(events);
-            await base.SaveChangesAsync(CancellationToken.None);
-
-            return changes;
-        }
-
-        private List<IAggregateRoot> GetAggregateRoots()
-        {
-            return ChangeTracker
-              .Entries<IAggregateRoot>()
-              .Select(x => x.Entity)
-              .ToList();
-        }
-        #endregion
     }
 }

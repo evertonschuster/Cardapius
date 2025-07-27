@@ -17,8 +17,8 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
             builder.OwnsOne(p => p.Flavor, f =>
             {
-                f.ToTable("ProductFlavors");
                 f.WithOwner().HasForeignKey("ProductId");
+                f.ToTable("ProductFlavors");
 
                 f.OwnsMany(x => x.Items, items =>
                 {
@@ -33,8 +33,8 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
             builder.OwnsOne(p => p.Additional, f =>
             {
-                f.ToTable("ProductAdditionals");
                 f.WithOwner().HasForeignKey("ProductId");
+                f.ToTable("ProductAdditionals");
 
                 f.OwnsMany(x => x.Items, items =>
                 {
@@ -49,8 +49,8 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
             builder.OwnsOne(p => p.Preference, f =>
             {
-                f.ToTable("ProductPreferences");
                 f.WithOwner().HasForeignKey("ProductId");
+                f.ToTable("ProductPreferences");
 
                 f.OwnsMany(x => x.Items, items =>
                 {
