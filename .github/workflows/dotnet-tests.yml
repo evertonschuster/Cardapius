@@ -1,12 +1,11 @@
 name: .NET Tests
 
 on:
-  push:
+  pull_request:
     paths:
       - '**/*.cs'
       - '**/*.csproj'
       - '.github/workflows/**'
-  pull_request:
   workflow_dispatch:
 
 jobs:
