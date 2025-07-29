@@ -24,7 +24,7 @@ jobs:
         run: dotnet tool install --global dotnet-sonarscanner
 
       - name: Start Sonar analysis
-        run: dotnet-sonarscanner begin /k:"seu-usuario_ou-org_nome-do-repo" /o:"seu-usuario_ou-org" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+        run: dotnet-sonarscanner begin /k:"evertonschuster_Cardapius" /o:"evertonschuster_Cardapius" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
       - name: Restore and build
         run: dotnet build --no-incremental
