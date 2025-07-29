@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -8,7 +8,9 @@ namespace Administration.Infra.DataBase.EntityFramework.Migrations
     /// <inheritdoc />
     public partial class Product : Migration
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Applies schema changes to introduce the "Administration" schema, move the "Restaurants" table into it, alter the "Complement" column to be nullable, and create new tables for products, product options, images, side dishes, and outbox messages with appropriate relationships and indexes.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -289,7 +291,9 @@ namespace Administration.Infra.DataBase.EntityFramework.Migrations
                 column: "SideDishId");
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Reverts the schema changes applied in the migration by dropping all product-related tables in the "Administration" schema, moving the "Restaurants" table back to its original schema, and restoring the "Complement" column to be non-nullable with a default value.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

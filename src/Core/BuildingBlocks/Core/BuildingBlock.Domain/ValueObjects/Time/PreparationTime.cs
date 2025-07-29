@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Time
+namespace BuildingBlock.Domain.ValueObjects.Time
 {
     /// <summary>
     /// Represents the preparation time.
@@ -8,6 +8,10 @@
         public TimeSpan Value { get; }
         public static string Empty { get => "02:30:15"; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PreparationTime"/> struct with the specified duration.
+        /// </summary>
+        /// <param name="value">The preparation duration as a <see cref="TimeSpan"/>.</param>
         private PreparationTime(TimeSpan value)
         {
             Value = value;

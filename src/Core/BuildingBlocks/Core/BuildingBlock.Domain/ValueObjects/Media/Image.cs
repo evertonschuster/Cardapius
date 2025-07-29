@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Media
+namespace BuildingBlock.Domain.ValueObjects.Media
 {
     /// <summary>
     /// Represents an image with a URI, alternative text, dimensions, thumbnail URI, and blur hash as a Value Object.
@@ -20,7 +20,10 @@
 
         /// <summary>
         /// Validates this instance (after deserialization).
+        /// <summary>
+        /// Validates the image properties and returns the result of the validation.
         /// </summary>
+        /// <returns>A <see cref="Result"/> indicating whether the image properties are valid.</returns>
         public Result Validate()
         {
             return ImageValidator.Validate(Uri, AlternativeText, Width, Height, ThumbnailUri, BlurHash);

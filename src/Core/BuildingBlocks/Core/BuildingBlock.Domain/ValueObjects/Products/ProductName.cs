@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Products
+namespace BuildingBlock.Domain.ValueObjects.Products
 {
     /// <summary>
     /// Represents the Name of a Product or Service as a Value Object.
@@ -8,6 +8,10 @@
         public string Value { get; }
         public static string Empty { get => "Pizza de picanha"; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProductName"/> struct with the specified product name value.
+        /// </summary>
+        /// <param name="value">The product name to assign to the value object.</param>
         private ProductName(string value)
         {
             Value = value;
