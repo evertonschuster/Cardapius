@@ -10,7 +10,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CheckRuleWithValidRuleSuccess()
         {
             //Arrange
-            var entity = new EntityFake(Guid.NewGuid());
+            var entity = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -26,7 +26,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void CheckRuleWithInvalidRuleSuccess()
         {
             //Arrange
-            var entity = new EntityFake(Guid.NewGuid());
+            var entity = new EntityFake(Guid.CreateVersion7());
 
 
             //Act

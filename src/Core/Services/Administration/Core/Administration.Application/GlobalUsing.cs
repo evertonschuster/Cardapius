@@ -1,6 +1,12 @@
-﻿global using BuildingBlock.Domain.ValueObjects.Address;
-global using BuildingBlock.Domain.ValueObjects.Emails;
-global using BuildingBlock.Domain.ValueObjects.PersonNames;
-global using BuildingBlock.Domain.ValueObjects.Phones;
+﻿global using Administration.Domain.Products.Repositories;
+global using Administration.Domain.Products.ValueObjects;
+global using BuildingBlock.Application.Commands;
+global using BuildingBlock.Domain;
+global using BuildingBlock.Domain.ValueObjects;
+global using BuildingBlock.Domain.ValueObjects.Contact;
+global using BuildingBlock.Domain.ValueObjects.Location;
+global using BuildingBlock.Domain.ValueObjects.Media;
+global using BuildingBlock.Domain.ValueObjects.Products;
+global using BuildingBlock.Domain.ValueObjects.Time;
 global using FluentValidation;
 global using MediatR;

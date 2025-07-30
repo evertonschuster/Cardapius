@@ -1,7 +1,7 @@
 ﻿namespace BuildingBlock.Domain.ValueObjects
 {
-    public interface IValidatable<TType>
+    public interface IValidatable
     {
-        Result<TType> Validate();
+        Result Validate();
     }
 }

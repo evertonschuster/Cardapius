@@ -8,7 +8,7 @@ namespace Administration.Infra.DataBase.EntityFramework.Restaurants.Configuratio
     {
         public void Configure(EntityTypeBuilder<Restaurant> builder)
         {
-
+            builder.OwnsOne(e => e.Address);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json.Extensions
         public static void AddApplicationDomainDataJsonConvert(this IServiceCollection services)
         {
             services.ConfigureOptions<JsonOptionsConfiguration>();
+            services.ConfigureOptions<MvcOptionsConfiguration>();
         }
     }
 }

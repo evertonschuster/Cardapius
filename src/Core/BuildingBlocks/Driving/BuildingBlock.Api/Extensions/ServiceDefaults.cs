@@ -1,9 +1,9 @@
 ﻿using BuildingBlock.Api.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
-
-//using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
 using BuildingBlock.Api.Version.Extensions;
+using BuildingBlock.Infra.DataBase.EntityFramework.Extensions;
+using BuildingBlock.Infra.DataBase.Extensions;
 using BuildingBlock.Observability.OpenTelemetry.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -31,13 +31,7 @@ public static class Extensions
         //Microsoft
         builder.Services
             .AddControllers()
-        //.AddJsonOptions(options =>
-        //{
-        //    options.JsonSerializerOptions.Converters.Add(new ValueObjectConverterFactory());
-        //    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        //    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        //});
-        .AddNewtonsoftJson();
+            .AddNewtonsoftJson();
 
         builder.Services.AddEndpointsApiExplorer();
 
@@ -46,21 +40,15 @@ public static class Extensions
         builder.Services.AddApplicationValidation();
         builder.Services.AddApplicationVersion();
         builder.Services.AddApplicationSwagger();
+        builder.Services.AddDomainEvent();
+        builder.Services.AddUserContext();
+        builder.Services.AddDbContextServices();
 
         builder.Services.ConfigureHttpClientDefaults(http =>
         {
-            // Turn on resilience by default
             http.AddStandardResilienceHandler();
-
-            // Turn on service discovery by default
             http.AddServiceDiscovery();
         });
-
-        // Uncomment the following to restrict the allowed schemes for service discovery.
-        // builder.Services.Configure<ServiceDiscoveryOptions>(options =>
-        // {
-        //     options.AllowedSchemes = ["https"];
-        // });
 
         return builder;
     }

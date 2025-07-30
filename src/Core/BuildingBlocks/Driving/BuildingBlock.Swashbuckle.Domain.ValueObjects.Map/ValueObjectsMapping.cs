@@ -1,7 +1,8 @@
-﻿using BuildingBlock.Domain.ValueObjects.Address;
-using BuildingBlock.Domain.ValueObjects.Emails;
-using BuildingBlock.Domain.ValueObjects.PersonNames;
-using BuildingBlock.Domain.ValueObjects.Phones;
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
+using BuildingBlock.Domain.ValueObjects.Media;
+using BuildingBlock.Domain.ValueObjects.Products;
+using BuildingBlock.Domain.ValueObjects.Time;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -21,6 +22,14 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                 Example = new OpenApiString(Email.Empty),
             });
 
+            options.MapType<ProductName>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "Produto",
+                Description = "Represent a valid product name.",
+                Example = new OpenApiString(ProductName.Empty),
+            });
+
             options.MapType<PersonName>(() => new OpenApiSchema
             {
                 Type = "string",
@@ -36,6 +45,40 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                 Description = "Represent a valid phone number.",
                 Example = new OpenApiString(Phone.Empty),
             });
+
+            options.MapType<PreparationTime>(() => new OpenApiSchema
+            {
+                Type = "numeric",
+                Title = "Tempo de preparação",
+                Description = "Represent a valid tempo de preparação.",
+                Example = new OpenApiString(PreparationTime.Empty),
+            });
+
+            options.MapType<Image>(() => new OpenApiSchema
+            {
+                Type = "object",
+                Title = "Image",
+                Description = "Representa uma imagem.",
+                Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    { "Uri", new OpenApiSchema { Type = "string", Format = "uri" } },
+                    { "AlternativeText", new OpenApiSchema { Type = "string" } },
+                    { "Width", new OpenApiSchema { Type = "integer", Format = "int32" } },
+                    { "Height", new OpenApiSchema { Type = "integer", Format = "int32" } },
+                    { "ThumbnailUri", new OpenApiSchema { Type = "string", Format = "uri" } },
+                    { "BlurHash", new OpenApiSchema { Type = "string" } }
+                },
+                Example = new OpenApiObject
+                {
+                    ["Uri"] = new OpenApiString("https://example.com/images/photo.jpg"),
+                    ["AlternativeText"] = new OpenApiString("Uma bela paisagem ao entardecer"),
+                    ["Width"] = new OpenApiInteger(1920),
+                    ["Height"] = new OpenApiInteger(1080),
+                    ["ThumbnailUri"] = new OpenApiString("https://example.com/images/photo-thumb.jpg"),
+                    ["BlurHash"] = new OpenApiString("LKO2?U%2Tw=w]~RBVZRi};RPxuwH")
+                }
+            });
+
 
             options.MapType<Address>(() => new OpenApiSchema
             {

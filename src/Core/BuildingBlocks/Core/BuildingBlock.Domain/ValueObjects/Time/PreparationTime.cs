@@ -6,6 +6,7 @@
     public readonly struct PreparationTime : IValueObject<TimeSpan?, PreparationTime>
     {
         public TimeSpan Value { get; }
+        public static string Empty { get => "02:30:15"; }
 
         private PreparationTime(TimeSpan value)
         {

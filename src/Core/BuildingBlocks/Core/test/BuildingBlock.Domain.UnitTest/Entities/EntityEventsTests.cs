@@ -9,7 +9,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         public void AddNewEventSuccess()
         {
             //Arrange
-            var entity = new EntityFake(Guid.NewGuid());
+            var entity = new EntityFake(Guid.CreateVersion7());
 
 
             //Act
@@ -20,7 +20,7 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             act.Should()
                 .NotThrow();
 
-            entity.DomainEvents
+            entity.GetDomainEvents()
                 .Should()
                 .HaveCount(1);
         }
@@ -42,13 +42,13 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         {
             public MakeDomainEvent()
             {
-                this.Id = Guid.NewGuid();
+                this.Id = Guid.CreateVersion7();
                 this.OccurredOn = DateTime.Now;
             }
 
             public Guid Id { get; init; }
 
-            public DateTime OccurredOn { get; init; }
+            public DateTimeOffset OccurredOn { get; init; }
         }
     }
 }

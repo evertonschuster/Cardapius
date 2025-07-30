@@ -7,20 +7,24 @@ namespace BuildingBlock.Domain.ValueObjects;
 /// </summary>
 public record ValidationResult
 {
-    public bool IsValid => !Errors.Any();
+    public bool IsValid => Errors == null || Errors?.Count == 0;
     public bool IsFailure => !IsValid;
 
-    public IReadOnlyList<string> Errors { get; }
+    public IReadOnlyList<ResultError>? Errors { get; }
 
-    public string? FirstError => Errors.FirstOrDefault();
+    public string? FirstError => Errors?.FirstOrDefault().Message;
 
-    protected ValidationResult(IEnumerable<string> errors)
+    public string? GetAllMessages()
+    {
+        if (Errors == null || Errors.Count == 0)
+            return null;
+        return string.Join(", ", Errors.Select(e => e.Message));
+    }
+
+    protected ValidationResult(IEnumerable<ResultError> errors)
     {
         Errors = errors.ToList().AsReadOnly();
     }
-
-    public string GetMessageErrors() =>
-        string.Join("\n", Errors);
 
     public void ThrowIfInvalid()
     {
@@ -31,6 +35,23 @@ public record ValidationResult
     }
 
     public static ValidationResult Success() => new([]);
+
+    public static ValidationResult Failure(string field, params IEnumerable<string> errors)
+    {
+
+        if (errors == null || !errors.Any())
+        {
+#if DEBUG
+            throw new BusinessException("Erro desconhecido de validação.");
+#else
+            errors = ["Erro desconhecido de validação."];
+#endif
+        }
+
+        var fieldErrors = errors.Select(error => new ResultError(field, error));
+        return new(fieldErrors);
+    }
+
     public static ValidationResult Failure(params IEnumerable<string> errors)
     {
         if (errors == null || !errors.Any())
@@ -42,7 +63,8 @@ public record ValidationResult
 #endif
         }
 
-        return new(errors);
+        var fieldErrors = errors.Select(error => new ResultError(null, error));
+        return new(fieldErrors);
     }
 }
 

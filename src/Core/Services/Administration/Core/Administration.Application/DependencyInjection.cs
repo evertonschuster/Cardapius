@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Administration.Application.Products.Commands.CreateProduct;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Administration.Application
@@ -9,6 +10,7 @@ namespace Administration.Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
+            services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
 
             return services;
         }

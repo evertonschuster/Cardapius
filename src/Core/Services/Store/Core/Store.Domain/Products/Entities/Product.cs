@@ -1,6 +1,5 @@
 ﻿using BuildingBlock.Domain.Entities;
-using BuildingBlock.Domain.ValueObjects.Prices;
-using BuildingBlock.Domain.ValueObjects.ProductNames;
+using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 
 namespace Store.Domain.Products.Entities

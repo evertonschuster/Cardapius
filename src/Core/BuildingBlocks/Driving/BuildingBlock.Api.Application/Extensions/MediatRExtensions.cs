@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace BuildingBlock.Api.Application.Extensions
@@ -8,7 +7,7 @@ namespace BuildingBlock.Api.Application.Extensions
     {
         public static void AddApplicationMediatr(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(x => x.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
     }
 }
