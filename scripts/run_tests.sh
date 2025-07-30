@@ -33,9 +33,10 @@ echo "📊 Instalando ReportGenerator..."
 dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.26 || true
 export PATH="$PATH:$HOME/.dotnet/tools"
 
-# Descobre todos os arquivos cobertura.cobertura.xml
+# Descobre todos os arquivos coverage.cobertura.xml e monta lista separada por ponto e vírgula
 echo "🔍 Procurando arquivos de cobertura..."
-coverage_files=$(find "$REPO_ROOT" -type f -name 'coverage.cobertura.xml')
+coverage_files=$(find "$REPO_ROOT" -type f -name 'coverage.cobertura.xml' -print0 | tr '\0' ';')
+coverage_files=${coverage_files%;} # remove ponto e vírgula final, se existir
 echo "Arquivos de cobertura encontrados: $coverage_files"
 
 if [[ -z "$coverage_files" ]]; then
@@ -45,7 +46,7 @@ fi
 
 echo "📊 Gerando relatório de cobertura em formato OpenCover..."
 reportgenerator \
-  -reports:$coverage_files \
+  -reports:"$coverage_files" \
   -targetdir:"$COVERAGE_OUTPUT" \
   -reporttypes:"OpenCover;MarkdownSummaryGithub" \
   -filefilters:"+*.cs" \
