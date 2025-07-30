@@ -40,6 +40,8 @@ jobs:
         with:
           projectBaseDir: src/Core
           args: >-
+            -Dsonar.projectKey=$SONAR_PROJECT_KEY
+            -Dsonar.organization=$SONAR_ORGANIZATION
             -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
