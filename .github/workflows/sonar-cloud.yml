@@ -12,7 +12,6 @@ on:
       - '**/*.cs'
       - '**/*.csproj'
       - '.github/workflows/sonar-cloud.yml'
-
 jobs:
   test-and-analyze:
     runs-on: ubuntu-latest
@@ -22,12 +21,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -40,8 +39,8 @@ jobs:
         with:
           projectBaseDir: src/Core
           args: >-
-            -Dsonar.projectKey=$SONAR_PROJECT_KEY
-            -Dsonar.organization=$SONAR_ORGANIZATION
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.cs.opencover.reportsPaths=TestResults/coverage.opencover.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
