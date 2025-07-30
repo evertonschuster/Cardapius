@@ -1,4 +1,4 @@
-name: SonarCloud Coverage
+name: SonarCloud Coverage 1
 
 on:
   workflow_dispatch:
