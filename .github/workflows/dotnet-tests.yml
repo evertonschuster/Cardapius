@@ -1,11 +1,25 @@
 name: .NET Tests
 
 on:
-  pull_request:
+  push:
+    branches:
+      - develop
+      - master
     paths:
       - '**/*.cs'
       - '**/*.csproj'
       - '.github/workflows/**'
+
+  pull_request:
+    branches:
+      - develop
+      - master
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - '.github/workflows/**'
+
+
   workflow_dispatch:
 
 jobs:
