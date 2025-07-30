@@ -47,8 +47,13 @@ echo "📊 Gerando relatório de cobertura em formato OpenCover..."
 reportgenerator \
   -reports:$coverage_files \
   -targetdir:"$COVERAGE_OUTPUT" \
-  -reporttypes:OpenCover \
+  -reporttypes:"OpenCover;MarkdownSummaryGithub" \
   -filefilters:"+*.cs" \
   -verbosity:Error
+
+# Adiciona o sumário de cobertura no Job Summary do GitHub Actions, quando disponível
+if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "$COVERAGE_OUTPUT/SummaryGithub.md" ]]; then
+  cat "$COVERAGE_OUTPUT/SummaryGithub.md" >> "$GITHUB_STEP_SUMMARY"
+fi
 
 echo "✅ Relatório de cobertura gerado em: $COVERAGE_OUTPUT/opencover.xml"

@@ -38,5 +38,11 @@ jobs:
       - name: Build and Test with Coverage
         run: bash scripts/run_tests.sh
 
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage-report
+
       - name: End SonarCloud analysis
         run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
