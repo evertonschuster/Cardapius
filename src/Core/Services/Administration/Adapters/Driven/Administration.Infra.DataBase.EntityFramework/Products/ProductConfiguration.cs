@@ -1,4 +1,4 @@
-﻿using Administration.Domain.Products.Entities;
+using Administration.Domain.Products.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -6,6 +6,10 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 {
     internal class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
+        /// <summary>
+        /// Configures the Entity Framework Core mappings and relationships for the <see cref="Product"/> entity, including owned entities, collections, and many-to-many associations.
+        /// </summary>
+        /// <param name="builder">The builder used to configure the <see cref="Product"/> entity type.</param>
         public void Configure(EntityTypeBuilder<Product> builder)
         {
 

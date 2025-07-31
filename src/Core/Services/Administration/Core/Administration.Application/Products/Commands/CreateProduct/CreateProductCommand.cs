@@ -1,4 +1,4 @@
-﻿using Administration.Domain.Products.Dtos;
+using Administration.Domain.Products.Dtos;
 using Administration.Domain.Products.Entities;
 
 namespace Administration.Application.Products.Commands.CreateProduct
@@ -39,6 +39,11 @@ namespace Administration.Application.Products.Commands.CreateProduct
 
         public Guid TypeId { get; set; }
 
+        /// <summary>
+        /// Converts the command data and provided side dishes into a new Product domain entity.
+        /// </summary>
+        /// <param name="sideDishes">A list of Product entities representing the side dishes to associate with the product.</param>
+        /// <returns>A Product domain entity constructed from the command's properties and the specified side dishes.</returns>
         public Product ToModel(List<Product> sideDishes)
         {
             var dto = new CreateProductDto()

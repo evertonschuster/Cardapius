@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Api.Application.Extensions;
+using BuildingBlock.Api.Application.Extensions;
 using BuildingBlock.Api.Domain.ValueObjects.Json.Extensions;
 using BuildingBlock.Api.Swashbuckle.Extensions;
 using BuildingBlock.Api.Version.Extensions;
@@ -18,6 +18,12 @@ namespace BuildingBlock.Api.Extensions;
 // To learn more about using this project, see https://aka.ms/dotnet/aspire/service-defaults
 public static class Extensions
 {
+    /// <summary>
+    /// Configures an ASP.NET Core application builder with standard infrastructure services, including observability, health checks, problem details, service discovery, controllers with JSON support, API documentation, validation, versioning, domain events, user context, database context, and resilient HTTP client defaults.
+    /// </summary>
+    /// <typeparam name="TBuilder">The type of the application builder implementing <see cref="IHostApplicationBuilder"/>.</typeparam>
+    /// <param name="builder">The application builder to configure.</param>
+    /// <returns>The configured application builder instance.</returns>
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
         builder.AddObservability();

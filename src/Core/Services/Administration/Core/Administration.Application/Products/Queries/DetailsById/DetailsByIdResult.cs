@@ -1,11 +1,14 @@
-﻿
-
 using Administration.Domain.Products.Entities;
 
 namespace Administration.Application.Products.Queries.DetailsById
 {
     public class DetailsByIdResult
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DetailsByIdResult"/> class by mapping properties from the specified <see cref="Product"/>.
+        /// </summary>
+        /// <param name="product">The product entity to map from. Must not be null.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="product"/> is null.</exception>
         public DetailsByIdResult(Product? product)
         {
             if (product is null)

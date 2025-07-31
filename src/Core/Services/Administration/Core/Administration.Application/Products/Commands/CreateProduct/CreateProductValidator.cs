@@ -1,9 +1,13 @@
-﻿namespace Administration.Application.Products.Commands.CreateProduct
+namespace Administration.Application.Products.Commands.CreateProduct
 {
     internal class CreateProductValidator : AbstractValidator<CreateProductCommand>
     {
         private readonly IProductRepository _productRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateProductValidator"/> class, defining validation rules for <see cref="CreateProductCommand"/> properties.
+        /// </summary>
+        /// <param name="productRepository">Repository used to verify the existence of related product entities during validation.</param>
         public CreateProductValidator(IProductRepository productRepository)
         {
             _productRepository = productRepository;

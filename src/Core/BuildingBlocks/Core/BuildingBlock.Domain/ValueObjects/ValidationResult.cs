@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Exceptions;
+using BuildingBlock.Domain.Exceptions;
 
 namespace BuildingBlock.Domain.ValueObjects;
 
@@ -14,6 +14,10 @@ public record ValidationResult
 
     public string? FirstError => Errors?.FirstOrDefault().Message;
 
+    /// <summary>
+    /// Returns a single string containing all error messages, separated by commas, or null if there are no errors.
+    /// </summary>
+    /// <returns>A concatenated string of all error messages, or null if no errors exist.</returns>
     public string? GetAllMessages()
     {
         if (Errors == null || Errors.Count == 0)
@@ -21,11 +25,18 @@ public record ValidationResult
         return string.Join(", ", Errors.Select(e => e.Message));
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ValidationResult"/> class with the specified collection of validation errors.
+    /// </summary>
+    /// <param name="errors">A collection of <see cref="ResultError"/> objects representing validation errors.</param>
     protected ValidationResult(IEnumerable<ResultError> errors)
     {
         Errors = errors.ToList().AsReadOnly();
     }
 
+    /// <summary>
+    /// Throws a <see cref="BusinessException"/> with the first error message if the validation result is a failure.
+    /// </summary>
     public void ThrowIfInvalid()
     {
         if (IsFailure)
@@ -34,8 +45,18 @@ public record ValidationResult
         }
     }
 
-    public static ValidationResult Success() => new([]);
+    /// <summary>
+/// Creates a successful validation result with no errors.
+/// </summary>
+/// <returns>A <see cref="ValidationResult"/> indicating success.</returns>
+public static ValidationResult Success() => new([]);
 
+    /// <summary>
+    /// Creates a failed <see cref="ValidationResult"/> with errors associated to a specific field.
+    /// </summary>
+    /// <param name="field">The name of the field related to the validation errors.</param>
+    /// <param name="errors">A collection of error messages for the specified field.</param>
+    /// <returns>A <see cref="ValidationResult"/> representing failure with the provided field errors.</returns>
     public static ValidationResult Failure(string field, params IEnumerable<string> errors)
     {
 
@@ -52,6 +73,11 @@ public record ValidationResult
         return new(fieldErrors);
     }
 
+    /// <summary>
+    /// Creates a failed <see cref="ValidationResult"/> with the specified error messages not associated with any field.
+    /// </summary>
+    /// <param name="errors">A collection of error messages describing the validation failures.</param>
+    /// <returns>A <see cref="ValidationResult"/> containing the provided errors.</returns>
     public static ValidationResult Failure(params IEnumerable<string> errors)
     {
         if (errors == null || !errors.Any())

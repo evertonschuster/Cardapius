@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
@@ -14,6 +14,12 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
 {
     public static class DomainDataExtension
     {
+        /// <summary>
+        /// Registers domain value objects as owned entity types and configures property constraints for the EF Core model.
+        /// </summary>
+        /// <remarks>
+        /// This method adds <c>Address</c>, <c>Image</c>, <c>SalePrice</c>, and <c>ProductionPrice</c> as owned types in the EF Core model. For the <c>Image</c> type, it sets maximum length constraints on the <c>Uri</c>, <c>AlternativeText</c>, <c>ThumbnailUri</c>, and <c>BlurHash</c> properties based on predefined limits.
+        /// </remarks>
         public static void AddApplicationDomainDataEFCoreConvert(this ModelBuilder modelBuilder)
         {
             modelBuilder.Owned<Address>();
@@ -31,6 +37,12 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
             }
         }
 
+        /// <summary>
+        /// Configures property conversions and maximum length constraints for domain value objects in the EF Core model.
+        /// </summary>
+        /// <remarks>
+        /// Applies value converters and sets maximum lengths for properties of types <c>Email</c>, <c>Phone</c>, <c>PersonName</c>, and <c>ProductName</c>. Also configures conversion for <c>PreparationTime</c> properties.
+        /// </remarks>
         public static void AddApplicationDomainDataEFCoreConvert(this ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder

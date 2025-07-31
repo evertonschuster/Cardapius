@@ -1,4 +1,4 @@
-﻿using Administration.Domain.Products.Repositories;
+using Administration.Domain.Products.Repositories;
 using Administration.Domain.Restaurants.Repositories;
 using Administration.Infra.DataBase.EntityFramework.Products;
 using Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories;
@@ -12,6 +12,11 @@ namespace Administration.Infra.DataBase.EntityFramework.Extensions
 {
     public static class DependencyInjectionExtension
     {
+        /// <summary>
+        /// Registers Entity Framework Core database context and related repositories for the Administration domain into the dependency injection container.
+        /// </summary>
+        /// <param name="configuration">The application configuration containing the database connection string.</param>
+        /// <returns>The updated <see cref="IServiceCollection"/> with database and repository services registered.</returns>
         public static IServiceCollection AddInfraDataBaseEntityFramework(this IServiceCollection services, IConfiguration configuration)
         {
             var conectionString = configuration.GetConnectionString("AdministrationDb");

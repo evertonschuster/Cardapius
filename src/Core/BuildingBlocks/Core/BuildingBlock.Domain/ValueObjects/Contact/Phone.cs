@@ -1,9 +1,13 @@
-﻿using BuildingBlock.Domain.ValueObjects.Phones;
+using BuildingBlock.Domain.ValueObjects.Phones;
 
 namespace BuildingBlock.Domain.ValueObjects.Contact
 {
     public readonly struct Phone : IValueObject<string, Phone>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Phone"/> struct with the specified phone number.
+        /// </summary>
+        /// <param name="phone">The phone number to assign to the value object.</param>
         private Phone(string phone) : this()
         {
             Value = phone;

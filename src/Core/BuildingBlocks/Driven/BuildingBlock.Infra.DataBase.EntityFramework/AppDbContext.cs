@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Application.Entities;
+using BuildingBlock.Application.Entities;
 using BuildingBlock.Domain;
 using BuildingBlock.Infra.DataBase.EntityFramework.Entities;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
@@ -11,6 +11,11 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         public DbSet<OutboxMessageEntity> OutboxMessageEntities { get; set; }
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppDbContext"/> class with optional dependency injection support and disables automatic query tracking.
+        /// </summary>
+        /// <param name="dbContextContainer">An optional container for injecting EF Core interceptors.</param>
+        /// <param name="options">The options to be used by the DbContext.</param>
         public AppDbContext(DbContextContainer? dbContextContainer, DbContextOptions options) : base(options)
         {
             _dbContextContainer = dbContextContainer;
@@ -19,6 +24,11 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         }
 
         #region CRUD Operations
+        /// <summary>
+        /// Returns a <see cref="DbSet{TEntity}"/> for the specified entity type.
+        /// </summary>
+        /// <typeparam name="TEntity">The entity type, which must inherit from <see cref="Entity"/>.</typeparam>
+        /// <returns>A <see cref="DbSet{TEntity}"/> instance for querying and saving entities of the specified type.</returns>
         public new DbSet<TEntity> Set<TEntity>()
             where TEntity : Entity
         {
@@ -43,6 +53,11 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                 .AddRangeAsync(entities);
         }
 
+        /// <summary>
+        /// Asynchronously removes the specified entity from the context.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity to remove.</typeparam>
+        /// <param name="entity">The entity instance to be removed.</param>
         public Task RemoveAsync<TEntity>(TEntity entity)
             where TEntity : Entity
         {
@@ -54,6 +69,10 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
 
 
         #region Unit of Work
+        /// <summary>
+        /// Saves all changes made in the context to the database synchronously.
+        /// </summary>
+        /// <returns>The number of state entries written to the database.</returns>
         public int Commit()
         {
             return this.SaveChanges();
@@ -69,6 +88,9 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             this.Database.RollbackTransaction();
         }
 
+        /// <summary>
+        /// Asynchronously rolls back the current database transaction, discarding any uncommitted changes.
+        /// </summary>
         public Task RollbackAsync()
         {
             return this.Database.RollbackTransactionAsync();
@@ -76,6 +98,10 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
 
         #endregion
 
+        /// <summary>
+        /// Configures the EF Core model for the application, including domain-specific value conversions and the outbox message entity configuration.
+        /// </summary>
+        /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -84,6 +110,10 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             modelBuilder.ApplyConfiguration(new OutboxMessageEntityConfiguration());
         }
 
+        /// <summary>
+        /// Configures the database context by adding interceptors for auditing, soft deletion, and domain event emission if available.
+        /// </summary>
+        /// <param name="optionsBuilder">The builder used to configure the context options.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_dbContextContainer is not null)
@@ -98,6 +128,10 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             base.OnConfiguring(optionsBuilder);
         }
 
+        /// <summary>
+        /// Configures model conventions by adding application domain-specific EF Core value conversions.
+        /// </summary>
+        /// <param name="configurationBuilder">The builder used to configure model conventions.</param>
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             base.ConfigureConventions(configurationBuilder);

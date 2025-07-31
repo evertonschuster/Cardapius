@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects;
+using BuildingBlock.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -15,6 +15,10 @@ namespace BuildingBlock.Api.Domain.ValueObjects.Json.Configurations
 
         public IEnumerable<JsonConverter> JsonConverters { get; set; }
 
+        /// <summary>
+        /// Configures JSON serialization options for MVC to use camel case naming and registers value object converters.
+        /// </summary>
+        /// <param name="options">The MVC Newtonsoft JSON options to configure.</param>
         public void Configure(MvcNewtonsoftJsonOptions options)
         {
             options.UseCamelCasing(processDictionaryKeys: true);
