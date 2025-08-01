@@ -29,7 +29,7 @@ namespace Administration.Application.Restaurants.Commands.CreateRestaurant
         //TODO: Payment Information: Accepted payment methods at the restaurant, such as cash, credit card, debit card, or mobile payment.
 
 
-        internal Restaurant ToModel()
+        public Restaurant ToModel()
         {
             return Restaurant.Create(
                 this.Name,
