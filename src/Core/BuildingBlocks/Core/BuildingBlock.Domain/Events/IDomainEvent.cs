@@ -4,6 +4,12 @@
     {
         Guid Id { get; }
 
-        DateTime OccurredOn { get; }
+        DateTimeOffset OccurredOn { get; }
+    }
+
+    public interface IDomainEvent<out T> : IDomainEvent
+    {
+        T? Before { get; }
+        T After { get; }
     }
 }

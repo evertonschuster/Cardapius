@@ -1,0 +1,19 @@
+﻿using Administration.Domain.Products.Entities;
+
+namespace Administration.Domain.Products.Dtos
+{
+    public class CreateProductDto
+    {
+        public ProductName Name { get; set; }
+        public string? Description { get; set; }
+        public required ProductionPrice Price { get; set; }
+        public PreparationTime PreparationTime { get; set; }
+        public List<Image> Images { get; set; } = [];
+        public ProductSubItem? Flavor { get; set; }
+        public ProductSubItem? Additional { get; set; }
+        public ProductSubItem? Preference { get; set; }
+        public List<Product>? SideDishes { get; set; }
+        public ServesManyPeople? ServesManyPeople { get; set; }
+        public Guid TypeId { get; set; }
+    }
+}

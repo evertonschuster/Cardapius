@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Emails;
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails

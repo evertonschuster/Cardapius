@@ -4,12 +4,12 @@ namespace Store.Domain.Products.Entities
 {
     public record SubItem : ValueObject
     {
-        public string Name { get; private set; }
+        public string Name { get; init; } = string.Empty;
 
-        public string? Description { get; private set; }
+        public string? Description { get; init; }
 
-        public List<string> Images { get; private set; }
+        public List<string> Images { get; init; } = [];
 
-        public double? Price { get; private set; }
+        public double? Price { get; init; }
     }
 }

@@ -1,10 +1,12 @@
-﻿namespace Administration.Domain.Restaurants.Models
+﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
+
+namespace Administration.Domain.Restaurants.Models
 {
     public class Restaurant : Entity, IAggregateRoot
     {
         protected Restaurant()
         {
-            this.Name = string.Empty;
         }
 
         public Restaurant(
@@ -61,7 +63,7 @@
         public static Restaurant Create(string name, PersonName primaryContact, Phone administrativePhone, Phone commercialPhone, Phone phone, Email administrativeEmail, Email commercialEmail, Email email, Address address)
         {
             return new Restaurant(
-                Guid.NewGuid(),
+                Guid.CreateVersion7(),
                 name,
                 primaryContact,
                 administrativePhone,
