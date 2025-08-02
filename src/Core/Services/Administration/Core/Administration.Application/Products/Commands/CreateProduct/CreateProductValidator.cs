@@ -1,16 +1,12 @@
 ﻿namespace Administration.Application.Products.Commands.CreateProduct
 {
-    internal class CreateProductValidator : AbstractValidator<CreateProductCommand>
+    public class CreateProductValidator : AbstractValidator<CreateProductCommand>
     {
         private readonly IProductRepository _productRepository;
 
         public CreateProductValidator(IProductRepository productRepository)
         {
             _productRepository = productRepository;
-
-            RuleFor(x => x.Name)
-                .NotNull()
-                .WithMessage("O nome do produto é obrigatório.");
 
             RuleFor(x => x.Description)
                 .MaximumLength(500)
@@ -19,10 +15,6 @@
             RuleFor(x => x.Price)
                 .NotNull()
                 .WithMessage("O preço é obrigatório.");
-
-            RuleFor(x => x.PreparationTime)
-                .NotNull()
-                .WithMessage("O tempo de preparo é obrigatório.");
 
             RuleFor(x => x.Images)
                 .NotEmpty()
