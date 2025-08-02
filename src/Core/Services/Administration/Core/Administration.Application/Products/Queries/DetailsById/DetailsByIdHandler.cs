@@ -1,6 +1,6 @@
 ﻿namespace Administration.Application.Products.Queries.DetailsById
 {
-    internal class DetailsByIdHandler(IProductRepository productRepository) : IQueryHandler<DetailsByIdQuery, DetailsByIdResult>
+    public class DetailsByIdHandler(IProductRepository productRepository) : IQueryHandler<DetailsByIdQuery, DetailsByIdResult>
     {
         public Task<Result<DetailsByIdResult>> Handle(DetailsByIdQuery request, CancellationToken cancellationToken)
         {
