@@ -16,7 +16,7 @@ namespace Administration.Infra.DataBase.EntityFramework
             var optionsBuilder = new DbContextOptionsBuilder<AdministrationDbContext>();
             optionsBuilder.UseNpgsql("User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=Cardapius;");
 
-            return new AdministrationDbContext(null, optionsBuilder.Options);
+            return new AdministrationDbContext(null!, optionsBuilder.Options);
         }
     }
 }

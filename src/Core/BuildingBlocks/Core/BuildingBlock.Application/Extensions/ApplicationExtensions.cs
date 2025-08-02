@@ -1,9 +1,11 @@
 using BuildingBlock.Application;
 using BuildingBlock.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BuildingBlock.Infra.DataBase.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ApplicationExtensions
     {
         /// <summary>

@@ -1,0 +1,47 @@
+name: .NET CI Sonar
+
+on:
+  push:
+    branches: [ develop, master ]
+  pull_request:
+    branches: [ develop, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build, Test and Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install dotnet-sonarscanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Add .NET tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Start SonarCloud analysis
+        run: |
+          dotnet-sonarscanner begin \
+            /k:"evertonschuster_Cardapius" \
+            /o:"evertonschuster-1" \
+            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.opencover.reportsPaths="coverage-report/*.xml" \
+            /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/*Api*/**/*.cs,**/.github/**" \
+            /d:sonar.projectBaseDir="$(pwd)"
+
+      - name: Build solution
+        run: dotnet build src/Core/Cardapius.sln --configuration Release
+
+      - name: Run tests with coverage
+        run: bash scripts/run_tests.sh
+
+      - name: End SonarCloud analysis
+        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

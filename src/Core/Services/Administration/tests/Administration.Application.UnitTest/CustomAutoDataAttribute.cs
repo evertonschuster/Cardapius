@@ -1,5 +1,6 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 
@@ -47,6 +48,9 @@ namespace Administration.Application.UnitTest
         private static void RegisterCustomTypes(IFixture fixture)
         {
             fixture.Register(() => ProductName.Parse(fixture.Create<string>()).Value);
+            fixture.Register(() => PersonName.Parse(PersonName.Empty).Value);
+            fixture.Register(() => Phone.Parse(Phone.Empty).Value);
+            fixture.Register(() => Email.Parse(Email.Empty).Value);
             fixture.Register(() => PreparationTime.Parse(fixture.Create<TimeSpan>()).Value);
         }
     }

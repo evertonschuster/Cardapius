@@ -36,7 +36,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework.Extensions
         public static EntityTypeBuilder AddSoftDelete(this EntityTypeBuilder entityBuilder)
         {
             entityBuilder.Metadata.AddSoftDelete();
-            
+
             return entityBuilder;
         }
 

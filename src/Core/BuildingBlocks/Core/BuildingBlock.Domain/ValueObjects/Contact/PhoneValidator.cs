@@ -23,23 +23,23 @@ namespace BuildingBlock.Domain.ValueObjects.Phones
         public static ValidationResult Validate(string? phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
-                return ValidationResult.Failure(EmptyPhoneError);
+                return ValidationResult.Failure(errors: EmptyPhoneError);
 
             var digits = _phoneRegex.Replace(phone, "");
 
             if (digits.Length < MinLength)
-                return ValidationResult.Failure(TooShortError);
+                return ValidationResult.Failure(errors: TooShortError);
 
             if (digits.Length > MaxLength)
-                return ValidationResult.Failure(TooLongError);
+                return ValidationResult.Failure(errors: TooLongError);
 
-            if (digits.Any(ch => !char.IsDigit(ch)))
-                return ValidationResult.Failure(InvalidCharacterError);
+            if (phone.Length != digits.Length)
+                return ValidationResult.Failure(errors: InvalidCharacterError);
 
             // Se houver DDD (10 ou 11 dígitos), valida o código de área
             if (digits.Length > 9 && digits[0] == '0')
             {
-                return ValidationResult.Failure(InvalidAreaCodeError);
+                return ValidationResult.Failure(errors: InvalidAreaCodeError);
             }
 
             // Agora distinguimos móvel x fixo conforme a quantidade de dígitos
@@ -48,25 +48,25 @@ namespace BuildingBlock.Domain.ValueObjects.Phones
                 // 8 dígitos: fixo local
                 case 8:
                     if (digits[0] == '9')
-                        return ValidationResult.Failure(InvalidLandlineError);
+                        return ValidationResult.Failure(errors: InvalidLandlineError);
                     break;
 
                 // 9 dígitos: móvel local
                 case 9:
                     if (digits[0] != '9')
-                        return ValidationResult.Failure(InvalidMobileError);
+                        return ValidationResult.Failure(errors: InvalidMobileError);
                     break;
 
                 // 10 dígitos: fixo com DDD (terceiro dígito ≠ 9)
                 case 10:
                     if (digits[2] == '9')
-                        return ValidationResult.Failure(InvalidLandlineError);
+                        return ValidationResult.Failure(errors: InvalidLandlineError);
                     break;
 
                 // 11 dígitos: móvel com DDD (terceiro dígito = 9)
                 case 11:
                     if (digits[2] != '9')
-                        return ValidationResult.Failure(InvalidMobileError);
+                        return ValidationResult.Failure(errors: InvalidMobileError);
                     break;
             }
 

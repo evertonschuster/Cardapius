@@ -12,10 +12,6 @@ namespace Administration.Application.Products.Commands.CreateProduct
         {
             _productRepository = productRepository;
 
-            RuleFor(x => x.Name)
-                .NotNull()
-                .WithMessage("O nome do produto é obrigatório.");
-
             RuleFor(x => x.Description)
                 .MaximumLength(500)
                 .WithMessage("A descrição não pode exceder 500 caracteres.");
@@ -23,10 +19,6 @@ namespace Administration.Application.Products.Commands.CreateProduct
             RuleFor(x => x.Price)
                 .NotNull()
                 .WithMessage("O preço é obrigatório.");
-
-            RuleFor(x => x.PreparationTime)
-                .NotNull()
-                .WithMessage("O tempo de preparo é obrigatório.");
 
             RuleFor(x => x.Images)
                 .NotEmpty()
