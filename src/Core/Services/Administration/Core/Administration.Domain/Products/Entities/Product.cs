@@ -1,4 +1,4 @@
-﻿namespace Administration.Domain.Products.Entities
+namespace Administration.Domain.Products.Entities
 {
     public class Product : Entity
     {
@@ -36,6 +36,11 @@
 
         public Guid TypeId { get; init; }
 
+        /// <summary>
+        /// Creates a new <see cref="Product"/> instance from the provided <see cref="CreateProductDto"/>.
+        /// </summary>
+        /// <param name="productDto">The data transfer object containing product details.</param>
+        /// <returns>A newly created <see cref="Product"/> populated with values from the DTO.</returns>
         public static Product Create(CreateProductDto productDto)
         {
             var model = new Product

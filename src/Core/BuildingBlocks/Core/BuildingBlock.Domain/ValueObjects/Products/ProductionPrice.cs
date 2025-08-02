@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Products
+namespace BuildingBlock.Domain.ValueObjects.Products
 {
     /// <summary>
     /// Represents the production price of a product or service,
@@ -13,7 +13,10 @@
 
         /// <summary>
         /// Validates this instance after deserialization.
+        /// <summary>
+        /// Validates the production price, maximum discount, and production cost values of this instance.
         /// </summary>
+        /// <returns>A <see cref="Result"/> indicating whether the production price data is valid.</returns>
         public Result Validate()
         {
             return ProductionPriceValidator.Validate(Value, MaxDiscount, ProductionCost);

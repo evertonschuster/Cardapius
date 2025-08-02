@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Media
+namespace BuildingBlock.Domain.ValueObjects.Media
 {
     internal static class ImageValidator
     {
@@ -23,6 +23,16 @@
         private const string InvalidBlurHashError = "O blur hash não é válido.";
         private static readonly string BlurHashTooLongError = $"O blur hash deve ter no máximo {Image.MaxBlurHashLength} caracteres.";
 
+        /// <summary>
+        /// Validates image properties including URI, alternative text, dimensions, thumbnail URI, and blur hash, returning a result indicating success or a specific validation failure.
+        /// </summary>
+        /// <param name="uri">The main image URI to validate.</param>
+        /// <param name="alternativeText">The alternative text describing the image.</param>
+        /// <param name="width">The width of the image in pixels.</param>
+        /// <param name="height">The height of the image in pixels.</param>
+        /// <param name="thumbnailUri">The URI of the image thumbnail.</param>
+        /// <param name="blurHash">The blur hash string representing a blurred preview of the image.</param>
+        /// <returns>A <see cref="Result"/> indicating validation success or failure with an appropriate error message.</returns>
         public static Result Validate(
             string? uri,
             string? alternativeText,
