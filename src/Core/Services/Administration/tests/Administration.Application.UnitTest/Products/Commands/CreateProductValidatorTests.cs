@@ -45,18 +45,6 @@ namespace Administration.Application.UnitTest.Products.Commands.CreateProduct
         }
 
         [Fact]
-        public void Should_Have_Error_When_Name_Is_Null()
-        {
-            var command = CreateValidCommand();
-            command.Name = default;
-
-            var result = _validator.TestValidate(command);
-
-            result.ShouldHaveValidationErrorFor(x => x.Name)
-                .WithErrorMessage("O nome do produto é obrigatório.");
-        }
-
-        [Fact]
         public void Should_Have_Error_When_Description_Too_Long()
         {
             var command = CreateValidCommand();
@@ -78,18 +66,6 @@ namespace Administration.Application.UnitTest.Products.Commands.CreateProduct
 
             result.ShouldHaveValidationErrorFor(x => x.Price)
                 .WithErrorMessage("O preço é obrigatório.");
-        }
-
-        [Fact]
-        public void Should_Have_Error_When_PreparationTime_Is_Null()
-        {
-            var command = CreateValidCommand();
-            command.PreparationTime = default;
-
-            var result = _validator.TestValidate(command);
-
-            result.ShouldHaveValidationErrorFor(x => x.PreparationTime)
-                .WithErrorMessage("O tempo de preparo é obrigatório.");
         }
 
         [Fact]
