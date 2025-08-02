@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Products
+namespace BuildingBlock.Domain.ValueObjects.Products
 {
     internal static class ProductionPriceValidator
     {
@@ -11,6 +11,15 @@
         private const string NegativeCostError = "O custo de produção não pode ser negativo.";
         private const string CostExceedsPriceError = "O custo de produção não pode exceder o preço de produção.";
 
+        /// <summary>
+        /// Validates production price, maximum discount, and production cost values, ensuring they are provided, non-negative, and logically consistent.
+        /// </summary>
+        /// <param name="value">The production price to validate.</param>
+        /// <param name="maxDiscount">The maximum allowable discount to validate.</param>
+        /// <param name="productionCost">The production cost to validate.</param>
+        /// <returns>
+        /// A failure <c>Result</c> with the relevant property name and error message if any validation fails; otherwise, a success <c>Result</c>.
+        /// </returns>
         public static Result Validate(
             decimal? value,
             decimal? maxDiscount,

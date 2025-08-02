@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
@@ -12,6 +12,10 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
 {
     public static class ValueObjectsMapping
     {
+        /// <summary>
+        /// Configures Swagger schema mappings for domain value objects to enhance API documentation.
+        /// </summary>
+        /// <returns>The <see cref="SwaggerGenOptions"/> instance with added domain value object mappings.</returns>
         public static SwaggerGenOptions AddDomainMapping(this SwaggerGenOptions options)
         {
             options.MapType<Email>(() => new OpenApiSchema

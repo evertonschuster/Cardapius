@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Application.Entities
+namespace BuildingBlock.Application.Entities
 {
     public class OutboxMessageEntity
     {
@@ -17,6 +17,9 @@
         public DateTimeOffset? SynReceivedAt { get; init; }
         public string? SynReceivedFrom { get; init; }
 
+        /// <summary>
+        /// Marks the message as processed by setting the <c>ProcessedAt</c> timestamp to the current UTC time.
+        /// </summary>
         internal void Processed()
         {
             ProcessedAt = DateTimeOffset.UtcNow;

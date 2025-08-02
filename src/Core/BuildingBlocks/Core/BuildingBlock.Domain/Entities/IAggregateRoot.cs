@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Events;
+using BuildingBlock.Domain.Events;
 using BuildingBlock.Domain.Rules;
 
 namespace BuildingBlock.Domain.Entities
@@ -7,14 +7,33 @@ namespace BuildingBlock.Domain.Entities
     {
         Guid Id { get; }
 
-        void CheckRule(IBusinessRule rule);
+        /// <summary>
+/// Enforces a specified business rule on the aggregate root.
+/// </summary>
+/// <param name="rule">The business rule to be checked or enforced.</param>
+void CheckRule(IBusinessRule rule);
 
-        IReadOnlyCollection<IDomainEvent> GetDomainEvents();
+        /// <summary>
+/// Retrieves the collection of domain events associated with the aggregate root.
+/// </summary>
+/// <returns>A read-only collection of domain events.</returns>
+IReadOnlyCollection<IDomainEvent> GetDomainEvents();
 
-        void AddDomainEvent(IDomainEvent eventItem);
+        /// <summary>
+/// Adds a domain event to the aggregate root's collection of domain events.
+/// </summary>
+/// <param name="eventItem">The domain event to add.</param>
+void AddDomainEvent(IDomainEvent eventItem);
 
-        void RemoveDomainEvent(IDomainEvent eventItem);
+        /// <summary>
+/// Removes a specific domain event from the aggregate root's collection of domain events.
+/// </summary>
+/// <param name="eventItem">The domain event to remove.</param>
+void RemoveDomainEvent(IDomainEvent eventItem);
 
-        void ClearDomainEvents();
+        /// <summary>
+/// Removes all domain events associated with the aggregate root.
+/// </summary>
+void ClearDomainEvents();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,9 @@ namespace Administration.Infra.DataBase.EntityFramework.Migrations
     /// <inheritdoc />
     public partial class AddSoftDelete : Migration
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds nullable "DeletedAt" and "DeletedBy" columns to multiple tables in the "Administration" schema to enable soft delete functionality.
+        /// </summary>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTimeOffset>(
@@ -165,7 +168,9 @@ namespace Administration.Infra.DataBase.EntityFramework.Migrations
                 nullable: true);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Reverts the soft delete schema changes by removing the "DeletedAt" and "DeletedBy" columns from all affected tables in the "Administration" schema.
+        /// </summary>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
