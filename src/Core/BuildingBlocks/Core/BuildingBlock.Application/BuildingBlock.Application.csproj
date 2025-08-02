@@ -14,4 +14,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\BuildingBlock.Domain\BuildingBlock.Domain.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo  Include="BuildingBlock.Application.UnitTest" />
+	</ItemGroup>
 </Project>

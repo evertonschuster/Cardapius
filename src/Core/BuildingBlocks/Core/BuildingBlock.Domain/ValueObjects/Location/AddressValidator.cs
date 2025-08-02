@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace BuildingBlock.Domain.ValueObjects.Address
+namespace BuildingBlock.Domain.ValueObjects.Location
 {
     internal static partial class AddressValidator
     {
@@ -32,37 +32,37 @@ namespace BuildingBlock.Domain.ValueObjects.Address
         public static ValidationResult Validate(string? street, string? number, string? complement, string? city, string? state, string? zipCode)
         {
             if (string.IsNullOrWhiteSpace(street))
-                return ValidationResult.Failure(EmptyStreetError);
+                return ValidationResult.Failure(nameof(Address.Street), EmptyStreetError);
 
             if (street.Length > MaxStreetLength)
-                return ValidationResult.Failure(StreetTooLongError);
+                return ValidationResult.Failure(nameof(Address.Street), StreetTooLongError);
 
             if (string.IsNullOrWhiteSpace(number))
-                return ValidationResult.Failure(EmptyNumberError);
+                return ValidationResult.Failure(nameof(Address.Number), EmptyNumberError);
 
             if (number.Length > MaxNumberLength)
-                return ValidationResult.Failure(NumberTooLongError);
+                return ValidationResult.Failure(nameof(Address.Number), NumberTooLongError);
 
             if (!string.IsNullOrWhiteSpace(complement) && complement.Length > MaxComplementLength)
-                return ValidationResult.Failure(ComplementTooLongError);
+                return ValidationResult.Failure(nameof(Address.Complement), ComplementTooLongError);
 
             if (string.IsNullOrWhiteSpace(city))
-                return ValidationResult.Failure(EmptyCityError);
+                return ValidationResult.Failure(nameof(Address.City), EmptyCityError);
 
             if (city.Length > MaxCityLength)
-                return ValidationResult.Failure(CityTooLongError);
+                return ValidationResult.Failure(nameof(Address.City), CityTooLongError);
 
             if (string.IsNullOrWhiteSpace(state))
-                return ValidationResult.Failure(EmptyStateError);
+                return ValidationResult.Failure(nameof(Address.State), EmptyStateError);
 
             if (state.Length != StateCodeLength)
-                return ValidationResult.Failure(StateInvalidError);
+                return ValidationResult.Failure(nameof(Address.State), StateInvalidError);
 
             if (string.IsNullOrWhiteSpace(zipCode))
-                return ValidationResult.Failure(EmptyZipError);
+                return ValidationResult.Failure(nameof(Address.ZIPCode), EmptyZipError);
 
             if (!_zipRegex.IsMatch(zipCode))
-                return ValidationResult.Failure(ZipInvalidError);
+                return ValidationResult.Failure(nameof(Address.ZIPCode), ZipInvalidError);
 
             return ValidationResult.Success();
         }

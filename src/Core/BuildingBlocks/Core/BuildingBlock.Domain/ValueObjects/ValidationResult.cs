@@ -7,12 +7,21 @@ namespace BuildingBlock.Domain.ValueObjects;
 /// </summary>
 public record ValidationResult
 {
-    public bool IsValid => Errors == null || Errors?.Count == 0;
+    public bool IsValid => Errors == null || Errors.Count == 0;
     public bool IsFailure => !IsValid;
 
     public IReadOnlyList<ResultError>? Errors { get; }
 
-    public string? FirstError => Errors?.FirstOrDefault().Message;
+    public string? FirstError
+    {
+        get
+        {
+            if (Errors?.Any() == true)
+                return Errors[0].Message;
+
+            return null;
+        }
+    }
 
     public string? GetAllMessages()
     {

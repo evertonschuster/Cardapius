@@ -1,5 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Linq.Expressions;
@@ -28,7 +27,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework.Extensions
         public static EntityTypeBuilder AddSoftDelete(this EntityTypeBuilder entityBuilder)
         {
             entityBuilder.Metadata.AddSoftDelete();
-            
+
             return entityBuilder;
         }
 
