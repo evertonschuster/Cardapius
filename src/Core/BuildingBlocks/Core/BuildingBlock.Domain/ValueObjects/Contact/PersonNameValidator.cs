@@ -14,21 +14,21 @@
         public static ValidationResult Validate(string? name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return ValidationResult.Failure(EmptyNameError);
+                return ValidationResult.Failure(errors: EmptyNameError);
 
             var trimmed = name.Trim();
             if (trimmed.Length < MinLength)
-                return ValidationResult.Failure(TooShortError);
+                return ValidationResult.Failure(errors: TooShortError);
 
             if (trimmed.Length > MaxLength)
-                return ValidationResult.Failure(TooLongError);
+                return ValidationResult.Failure(errors: TooLongError);
 
             var parts = trimmed.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2)
-                return ValidationResult.Failure(MissingSurnameError);
+                return ValidationResult.Failure(errors: MissingSurnameError);
 
             if (parts.Any(part => part.Any(ch => !char.IsLetter(ch) && ch != '-' && ch != '\'')))
-                return ValidationResult.Failure(InvalidCharacterError);
+                return ValidationResult.Failure(errors: InvalidCharacterError);
 
             return ValidationResult.Success();
         }

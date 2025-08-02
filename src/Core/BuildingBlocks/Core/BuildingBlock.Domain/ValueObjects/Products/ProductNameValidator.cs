@@ -13,21 +13,21 @@
         public static ValidationResult Validate(string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
-                return ValidationResult.Failure(EmptyNameError);
+                return ValidationResult.Failure(errors: EmptyNameError);
 
             var trimmed = value.Trim();
 
             if (trimmed.Length < MinLength)
-                return ValidationResult.Failure(TooShortError);
+                return ValidationResult.Failure(errors: TooShortError);
 
             if (trimmed.Length > MaxLength)
-                return ValidationResult.Failure(TooLongError);
+                return ValidationResult.Failure(errors: TooLongError);
 
             // Só permite letras, dígitos, espaço, hífen e sublinhado
             if (trimmed.Any(ch =>
                     !(char.IsLetterOrDigit(ch) || ch == ' ' || ch == '-' || ch == '_')))
             {
-                return ValidationResult.Failure(InvalidCharacterError);
+                return ValidationResult.Failure(errors: InvalidCharacterError);
             }
 
             return ValidationResult.Success();

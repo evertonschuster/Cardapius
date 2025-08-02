@@ -8,10 +8,10 @@
         public static ValidationResult Validate(TimeSpan? value)
         {
             if (!value.HasValue)
-                return ValidationResult.Failure(EmptyError);
+                return ValidationResult.Failure(errors: EmptyError);
 
             if (value.Value < TimeSpan.Zero)
-                return ValidationResult.Failure(NegativeError);
+                return ValidationResult.Failure(errors: NegativeError);
 
             return ValidationResult.Success();
         }

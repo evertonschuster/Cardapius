@@ -17,16 +17,16 @@ namespace BuildingBlock.Domain.ValueObjects.Emails
         public static ValidationResult Validate(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
-                return ValidationResult.Failure(EmptyEmailError);
+                return ValidationResult.Failure(errors: EmptyEmailError);
 
             if (email.Length < MinLength)
-                return ValidationResult.Failure(TooShortError);
+                return ValidationResult.Failure(errors: TooShortError);
 
             if (email.Length > MaxLength)
-                return ValidationResult.Failure(TooLongError);
+                return ValidationResult.Failure(errors: TooLongError);
 
             if (!_emailRegex.IsMatch(email))
-                return ValidationResult.Failure(InvalidFormatError);
+                return ValidationResult.Failure(errors: InvalidFormatError);
 
             return ValidationResult.Success();
         }

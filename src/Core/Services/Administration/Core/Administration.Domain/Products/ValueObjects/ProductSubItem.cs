@@ -2,7 +2,7 @@
 {
     public record ProductSubItem : ValueObject
     {
-        public bool HasItem => Items?.Any() ?? false;
+        public bool HasItem => Items?.Count > 0;
 
         public int? Min { get; init; }
 
