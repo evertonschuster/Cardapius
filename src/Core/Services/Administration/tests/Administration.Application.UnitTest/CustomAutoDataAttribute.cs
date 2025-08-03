@@ -3,6 +3,7 @@ using AutoFixture.Xunit2;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
+using Administration.Domain.Suppliers.ValueObjects;
 
 namespace Administration.Application.UnitTest
 {
@@ -52,6 +53,8 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => Phone.Parse(Phone.Empty).Value);
             fixture.Register(() => Email.Parse(Email.Empty).Value);
             fixture.Register(() => PreparationTime.Parse(fixture.Create<TimeSpan>()).Value);
+            fixture.Register(() => new BankInformation("Banco", "0001", "123", AccountType.Checking, "pix"));
+            fixture.Register(() => new Documentations(null, null, null, null));
         }
     }
 }

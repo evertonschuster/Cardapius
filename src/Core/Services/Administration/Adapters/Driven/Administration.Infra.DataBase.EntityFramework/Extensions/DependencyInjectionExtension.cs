@@ -1,7 +1,9 @@
 using Administration.Domain.Products.Repositories;
 using Administration.Domain.Restaurants.Repositories;
+using Administration.Domain.Suppliers.Repositories;
 using Administration.Infra.DataBase.EntityFramework.Products;
 using Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories;
+using Administration.Infra.DataBase.EntityFramework.Suppliers.Repositories;
 using BuildingBlock.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -38,6 +40,7 @@ namespace Administration.Infra.DataBase.EntityFramework.Extensions
 
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
 
             return services;
         }
