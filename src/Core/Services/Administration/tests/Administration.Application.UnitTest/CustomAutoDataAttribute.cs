@@ -1,10 +1,10 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
-using Administration.Domain.Suppliers.ValueObjects;
-using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Application.UnitTest
 {
@@ -55,8 +55,13 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => Email.Parse(Email.Empty).Value);
             fixture.Register(() => PreparationTime.Parse(fixture.Create<TimeSpan>()).Value);
             fixture.Register(() => Address.Parse("Rua A", "1", null, "Cidade", "ST", "00000-000").Value!);
-            fixture.Register(() => new BankInformation("Banco", "0001", "123", AccountType.Checking, "pix"));
-            fixture.Register(() => new Documentations(null, null, null, null));
+            fixture.Register(() => LegalName.Parse(LegalName.Empty).Value);
+            fixture.Register(() => TradeName.Parse(TradeName.Empty).Value);
+            fixture.Register(() => Document.Parse(Document.Empty).Value);
+            fixture.Register(() => StateRegistration.Parse(StateRegistration.Empty).Value);
+            fixture.Register(() => MunicipalRegistration.Parse(MunicipalRegistration.Empty).Value);
+            fixture.Register(() => BankInformation.Parse("Banco", "0001", "123", AccountType.Checking, "pix").Value);
+            fixture.Register(() => Documentations.Parse(null, null, null, null).Value);
         }
     }
 }

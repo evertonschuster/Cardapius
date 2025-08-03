@@ -1,7 +1,7 @@
-using Administration.Domain.Suppliers.ValueObjects;
 using Administration.Domain.Suppliers;
 using Administration.Domain.Suppliers.DomainEvents;
 using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 
@@ -13,11 +13,11 @@ public class Supplier : Entity, IAggregateRoot
 
     public Supplier(
         Guid id,
-        string legalName,
-        string tradeName,
-        string document,
-        string stateRegistration,
-        string municipalRegistration,
+        LegalName legalName,
+        TradeName tradeName,
+        Document document,
+        StateRegistration stateRegistration,
+        MunicipalRegistration municipalRegistration,
         PersonType personType,
         DateTime registrationDate,
         SupplierStatus status,
@@ -65,11 +65,11 @@ public class Supplier : Entity, IAggregateRoot
         RelationshipHistory = relationshipHistory;
     }
 
-    public string LegalName { get; private set; }
-    public string TradeName { get; private set; }
-    public string Document { get; private set; }
-    public string StateRegistration { get; private set; }
-    public string MunicipalRegistration { get; private set; }
+    public LegalName LegalName { get; private set; }
+    public TradeName TradeName { get; private set; }
+    public Document Document { get; private set; }
+    public StateRegistration StateRegistration { get; private set; }
+    public MunicipalRegistration MunicipalRegistration { get; private set; }
     public PersonType PersonType { get; private set; }
     public DateTime RegistrationDate { get; private set; }
     public SupplierStatus Status { get; private set; }
@@ -94,11 +94,11 @@ public class Supplier : Entity, IAggregateRoot
     public string? RelationshipHistory { get; private set; }
 
     public static Supplier Create(
-        string legalName,
-        string tradeName,
-        string document,
-        string stateRegistration,
-        string municipalRegistration,
+        LegalName legalName,
+        TradeName tradeName,
+        Document document,
+        StateRegistration stateRegistration,
+        MunicipalRegistration municipalRegistration,
         PersonType personType,
         DateTime registrationDate,
         SupplierStatus status,
@@ -151,11 +151,11 @@ public class Supplier : Entity, IAggregateRoot
     }
 
     public void Update(
-        string legalName,
-        string tradeName,
-        string document,
-        string stateRegistration,
-        string municipalRegistration,
+        LegalName legalName,
+        TradeName tradeName,
+        Document document,
+        StateRegistration stateRegistration,
+        MunicipalRegistration municipalRegistration,
         PersonType personType,
         DateTime registrationDate,
         SupplierStatus status,
