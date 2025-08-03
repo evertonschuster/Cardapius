@@ -4,7 +4,7 @@ using BuildingBlock.Domain.ValueObjects.Business;
 
 namespace Administration.Application.Suppliers.Commands.CreateSupplier;
 
-public class CreateSupplierCommand : IRequest<CreateSupplierResult>
+public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
 {
     // Informações Gerais
     public LegalName LegalName { get; set; }

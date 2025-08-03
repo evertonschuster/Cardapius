@@ -3,7 +3,7 @@ using BuildingBlock.Domain.ValueObjects.Business;
 
 namespace Administration.Application.Suppliers.Commands.UpdateSupplier;
 
-public class UpdateSupplierCommand : IRequest<UpdateSupplierResult>
+public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
 {
     public Guid Id { get; set; }
 
