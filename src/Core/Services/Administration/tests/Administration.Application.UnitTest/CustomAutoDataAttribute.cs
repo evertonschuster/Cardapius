@@ -4,6 +4,7 @@ using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 using Administration.Domain.Suppliers.ValueObjects;
+using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Application.UnitTest
 {
@@ -53,6 +54,7 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => Phone.Parse(Phone.Empty).Value);
             fixture.Register(() => Email.Parse(Email.Empty).Value);
             fixture.Register(() => PreparationTime.Parse(fixture.Create<TimeSpan>()).Value);
+            fixture.Register(() => Address.Parse("Rua A", "1", null, "Cidade", "ST", "00000-000").Value!);
             fixture.Register(() => new BankInformation("Banco", "0001", "123", AccountType.Checking, "pix"));
             fixture.Register(() => new Documentations(null, null, null, null));
         }

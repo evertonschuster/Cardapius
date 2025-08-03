@@ -1,5 +1,6 @@
 using Administration.Domain.Suppliers.ValueObjects;
 using Administration.Domain.Suppliers;
+using Administration.Domain.Suppliers.DomainEvents;
 using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
@@ -147,5 +148,61 @@ public class Supplier : Entity, IAggregateRoot
 
         model.AddDomainEvent(new SupplierCreatedEvent<Supplier>(model.Id, null, model));
         return model;
+    }
+
+    public void Update(
+        string legalName,
+        string tradeName,
+        string document,
+        string stateRegistration,
+        string municipalRegistration,
+        PersonType personType,
+        DateTime registrationDate,
+        SupplierStatus status,
+        PersonName representativeName,
+        Phone landlinePhone,
+        Phone mobilePhone,
+        Email primaryEmail,
+        Email secondaryEmail,
+        string? website,
+        Address address,
+        BankInformation bankInformation,
+        string category,
+        string paymentTerms,
+        string deliveryTime,
+        string shippingMethod,
+        string offeredProductsServices,
+        Documentations? documentations,
+        string? additionalNotes,
+        string? relationshipHistory)
+    {
+        var before = (Supplier)MemberwiseClone();
+
+        LegalName = legalName;
+        TradeName = tradeName;
+        Document = document;
+        StateRegistration = stateRegistration;
+        MunicipalRegistration = municipalRegistration;
+        PersonType = personType;
+        RegistrationDate = registrationDate;
+        Status = status;
+        RepresentativeName = representativeName;
+        LandlinePhone = landlinePhone;
+        MobilePhone = mobilePhone;
+        PrimaryEmail = primaryEmail;
+        SecondaryEmail = secondaryEmail;
+        Website = website;
+        Address = address;
+        BankInformation = bankInformation;
+        Category = category;
+        PaymentTerms = paymentTerms;
+        DeliveryTime = deliveryTime;
+        ShippingMethod = shippingMethod;
+        OfferedProductsServices = offeredProductsServices;
+        Documentations = documentations;
+        AdditionalNotes = additionalNotes;
+        RelationshipHistory = relationshipHistory;
+
+        AddDomainEvent(new SupplierUpdatedEvent<Supplier>(Id, before, this));
     }
 }

@@ -89,4 +89,65 @@ public class SupplierTests
         supplier.AdditionalNotes.Should().Be(notes);
         supplier.RelationshipHistory.Should().Be(history);
     }
+
+    [Fact]
+    public void Update_ShouldChangeProperties()
+    {
+        var supplier = Supplier.Create(
+            "Fornecedor Ltda",
+            "Fornecedor",
+            "123456789",
+            "123",
+            "456",
+            PersonType.Legal,
+            DateTime.UtcNow,
+            SupplierStatus.Active,
+            PersonName.Parse("Joao da Silva").Value!,
+            Phone.Parse("11999990000").Value!,
+            Phone.Parse("11988880000").Value!,
+            Email.Parse("contato@teste.com").Value!,
+            Email.Parse("contato2@teste.com").Value!,
+            "https://teste.com",
+            Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!,
+            new BankInformation("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com"),
+            "Serviços",
+            "30 dias",
+            "7 dias",
+            "Correios",
+            "Consultoria",
+            null,
+            null,
+            null);
+
+        supplier.Update(
+            "Novo Nome",
+            "Novo Fantasia",
+            "987654321",
+            "321",
+            "654",
+            PersonType.Physical,
+            supplier.RegistrationDate,
+            SupplierStatus.Inactive,
+            PersonName.Parse("Maria").Value!,
+            Phone.Parse("1122223333").Value!,
+            Phone.Parse("11999998888").Value!,
+            Email.Parse("novo@teste.com").Value!,
+            Email.Parse("novo2@teste.com").Value!,
+            "https://novo.com",
+            Address.Parse("Rua B", "20", null, "Outra", "RJ", "02000-000").Value!,
+            new BankInformation("Banco2", "0002", "54321-0", AccountType.Savings, "key"),
+            "Produtos",
+            "60 dias",
+            "10 dias",
+            "Transportadora",
+            "Serviços",
+            null,
+            "Notas",
+            "Historico");
+
+        supplier.LegalName.Should().Be("Novo Nome");
+        supplier.TradeName.Should().Be("Novo Fantasia");
+        supplier.Document.Should().Be("987654321");
+        supplier.Status.Should().Be(SupplierStatus.Inactive);
+    }
 }
