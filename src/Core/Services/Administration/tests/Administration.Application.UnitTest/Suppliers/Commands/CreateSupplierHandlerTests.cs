@@ -1,5 +1,4 @@
 using Administration.Application.Suppliers.Commands.CreateSupplier;
-using Xunit;
 
 namespace Administration.Application.UnitTest.Suppliers.Commands;
 

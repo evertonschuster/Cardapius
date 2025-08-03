@@ -1,15 +1,15 @@
-using Administration.Domain.Suppliers;
 using Administration.Domain.Suppliers.DomainEvents;
-using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Domain.Suppliers.Entities;
 
-public class Supplier : Entity, IAggregateRoot
+public class Supplier : Entity
 {
-    protected Supplier() { }
+    protected Supplier()
+    {
+    }
 
     public Supplier(
         Guid id,

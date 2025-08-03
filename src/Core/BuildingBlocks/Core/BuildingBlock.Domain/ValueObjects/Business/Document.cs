@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
 public readonly struct Document : IValueObject<string, Document>

@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace Administration.Application.Suppliers.Commands.UpdateSupplier;
 
 internal class UpdateSupplierValidator : AbstractValidator<UpdateSupplierCommand>

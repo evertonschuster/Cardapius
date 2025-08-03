@@ -4,7 +4,6 @@ using Administration.Application.Suppliers.Queries.ListSuppliers;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Administration.Api.Controllers;
 
