@@ -1,5 +1,4 @@
 using BuildingBlock.Domain.Events;
-using System;
 
 namespace Administration.Domain.Suppliers.DomainEvents;
 

@@ -1,7 +1,4 @@
 using Administration.Application.Suppliers.Commands.UpdateSupplier;
-using System;
-using System.Threading;
-using Xunit;
 
 namespace Administration.Application.UnitTest.Suppliers.Commands;
 

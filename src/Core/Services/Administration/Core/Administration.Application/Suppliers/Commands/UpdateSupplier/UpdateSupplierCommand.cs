@@ -1,10 +1,5 @@
 using Administration.Domain.Suppliers;
-using Administration.Domain.Suppliers.Entities;
 using BuildingBlock.Domain.ValueObjects.Business;
-using BuildingBlock.Domain.ValueObjects.Contact;
-using BuildingBlock.Domain.ValueObjects.Location;
-using MediatR;
-using System;
 
 namespace Administration.Application.Suppliers.Commands.UpdateSupplier;
 

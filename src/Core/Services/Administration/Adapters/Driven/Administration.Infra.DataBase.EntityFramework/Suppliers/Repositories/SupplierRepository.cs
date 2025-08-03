@@ -1,8 +1,6 @@
 using Administration.Domain.Suppliers.Entities;
 using Administration.Domain.Suppliers.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 
 namespace Administration.Infra.DataBase.EntityFramework.Suppliers.Repositories;
 

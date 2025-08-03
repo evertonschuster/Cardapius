@@ -1,8 +1,6 @@
-using Administration.Domain.Suppliers.Entities;
 using Administration.Domain.Suppliers;
+using Administration.Domain.Suppliers.Entities;
 using BuildingBlock.Domain.ValueObjects.Business;
-using BuildingBlock.Domain.ValueObjects.Contact;
-using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Application.Suppliers.Commands.CreateSupplier;
 

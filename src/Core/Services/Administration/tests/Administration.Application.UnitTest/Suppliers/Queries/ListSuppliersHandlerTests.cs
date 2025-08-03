@@ -1,7 +1,4 @@
 using Administration.Application.Suppliers.Queries.ListSuppliers;
-using System.Collections.Generic;
-using System.Threading;
-using Xunit;
 
 namespace Administration.Application.UnitTest.Suppliers.Queries;
 

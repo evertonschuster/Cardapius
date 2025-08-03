@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
 internal static class DocumentValidator
