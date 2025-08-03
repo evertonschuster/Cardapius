@@ -1,19 +1,19 @@
 using Administration.Domain.Suppliers.Entities;
-using Administration.Domain.Suppliers.ValueObjects;
+using Administration.Domain.Suppliers;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
-using Administration.Domain.Suppliers;
 
 namespace Administration.Application.Suppliers.Commands.CreateSupplier;
 
 public class CreateSupplierCommand : IRequest<CreateSupplierResult>
 {
     // Informações Gerais
-    public string LegalName { get; set; } = string.Empty;
-    public string TradeName { get; set; } = string.Empty;
-    public string Document { get; set; } = string.Empty;
-    public string StateRegistration { get; set; } = string.Empty;
-    public string MunicipalRegistration { get; set; } = string.Empty;
+    public LegalName LegalName { get; set; }
+    public TradeName TradeName { get; set; }
+    public Document Document { get; set; }
+    public StateRegistration StateRegistration { get; set; }
+    public MunicipalRegistration MunicipalRegistration { get; set; }
     public PersonType PersonType { get; set; }
     public DateTime RegistrationDate { get; set; }
     public SupplierStatus Status { get; set; }

@@ -1,6 +1,6 @@
 using Administration.Domain.Suppliers.Entities;
-using Administration.Domain.Suppliers.ValueObjects;
 using Administration.Domain.Suppliers;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using FluentAssertions;
@@ -13,11 +13,11 @@ public class SupplierTests
     [Fact]
     public void Create_ShouldSetPropertiesCorrectly()
     {
-        var legalName = "Fornecedor Ltda";
-        var tradeName = "Fornecedor";
-        var document = "123456789";
-        var stateReg = "123";
-        var municipalReg = "456";
+        var legalName = LegalName.Parse("Fornecedor Ltda").Value;
+        var tradeName = TradeName.Parse("Fornecedor").Value;
+        var document = Document.Parse("12345678901").Value;
+        var stateReg = StateRegistration.Parse("123").Value;
+        var municipalReg = MunicipalRegistration.Parse("456").Value;
         var personType = PersonType.Legal;
         var registrationDate = DateTime.UtcNow;
         var status = SupplierStatus.Active;
@@ -28,13 +28,13 @@ public class SupplierTests
         var secondaryEmail = Email.Parse("contato2@teste.com").Value!;
         var website = "https://teste.com";
         var address = Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!;
-        var bankInfo = new BankInformation("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com");
+        var bankInfo = BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com").Value;
         var category = "Serviços";
         var paymentTerms = "30 dias";
         var deliveryTime = "7 dias";
         var shippingMethod = "Correios";
         var offered = "Consultoria";
-        var docs = new Documentations(null, null, null, null);
+        var docs = Documentations.Parse(null, null, null, null).Value;
         var notes = "Observações";
         var history = "Histórico";
 
@@ -94,11 +94,11 @@ public class SupplierTests
     public void Update_ShouldChangeProperties()
     {
         var supplier = Supplier.Create(
-            "Fornecedor Ltda",
-            "Fornecedor",
-            "123456789",
-            "123",
-            "456",
+            LegalName.Parse("Fornecedor Ltda").Value,
+            TradeName.Parse("Fornecedor").Value,
+            Document.Parse("12345678901").Value,
+            StateRegistration.Parse("123").Value,
+            MunicipalRegistration.Parse("456").Value,
             PersonType.Legal,
             DateTime.UtcNow,
             SupplierStatus.Active,
@@ -109,7 +109,7 @@ public class SupplierTests
             Email.Parse("contato2@teste.com").Value!,
             "https://teste.com",
             Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!,
-            new BankInformation("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com"),
+            BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com").Value,
             "Serviços",
             "30 dias",
             "7 dias",
@@ -120,11 +120,11 @@ public class SupplierTests
             null);
 
         supplier.Update(
-            "Novo Nome",
-            "Novo Fantasia",
-            "987654321",
-            "321",
-            "654",
+            LegalName.Parse("Novo Nome").Value,
+            TradeName.Parse("Novo Fantasia").Value,
+            Document.Parse("98765432100").Value,
+            StateRegistration.Parse("321").Value,
+            MunicipalRegistration.Parse("654").Value,
             PersonType.Physical,
             supplier.RegistrationDate,
             SupplierStatus.Inactive,
@@ -135,7 +135,7 @@ public class SupplierTests
             Email.Parse("novo2@teste.com").Value!,
             "https://novo.com",
             Address.Parse("Rua B", "20", null, "Outra", "RJ", "02000-000").Value!,
-            new BankInformation("Banco2", "0002", "54321-0", AccountType.Savings, "key"),
+            BankInformation.Parse("Banco2", "0002", "54321-0", AccountType.Savings, "key").Value,
             "Produtos",
             "60 dias",
             "10 dias",
@@ -145,9 +145,9 @@ public class SupplierTests
             "Notas",
             "Historico");
 
-        supplier.LegalName.Should().Be("Novo Nome");
-        supplier.TradeName.Should().Be("Novo Fantasia");
-        supplier.Document.Should().Be("987654321");
+        supplier.LegalName.Should().Be(LegalName.Parse("Novo Nome").Value);
+        supplier.TradeName.Should().Be(TradeName.Parse("Novo Fantasia").Value);
+        supplier.Document.Should().Be(Document.Parse("98765432100").Value);
         supplier.Status.Should().Be(SupplierStatus.Inactive);
     }
 }

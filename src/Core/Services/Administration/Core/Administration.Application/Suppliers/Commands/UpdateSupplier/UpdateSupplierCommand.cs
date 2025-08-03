@@ -1,6 +1,6 @@
 using Administration.Domain.Suppliers;
 using Administration.Domain.Suppliers.Entities;
-using Administration.Domain.Suppliers.ValueObjects;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using MediatR;
@@ -12,11 +12,11 @@ public class UpdateSupplierCommand : IRequest<UpdateSupplierResult>
 {
     public Guid Id { get; set; }
 
-    public string LegalName { get; set; } = string.Empty;
-    public string TradeName { get; set; } = string.Empty;
-    public string Document { get; set; } = string.Empty;
-    public string StateRegistration { get; set; } = string.Empty;
-    public string MunicipalRegistration { get; set; } = string.Empty;
+    public LegalName LegalName { get; set; }
+    public TradeName TradeName { get; set; }
+    public Document Document { get; set; }
+    public StateRegistration StateRegistration { get; set; }
+    public MunicipalRegistration MunicipalRegistration { get; set; }
     public PersonType PersonType { get; set; }
     public DateTime RegistrationDate { get; set; }
     public SupplierStatus Status { get; set; }

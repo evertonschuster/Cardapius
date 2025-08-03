@@ -1,10 +1,11 @@
 using Administration.Domain.Suppliers.Entities;
 using Administration.Domain.Suppliers;
+using BuildingBlock.Domain.ValueObjects.Business;
 using System;
 
 namespace Administration.Application.Suppliers.Queries.ListSuppliers;
 
-public record ListSuppliersResult(Guid Id, string LegalName, string TradeName, SupplierStatus Status)
+public record ListSuppliersResult(Guid Id, LegalName LegalName, TradeName TradeName, SupplierStatus Status)
 {
     public static ListSuppliersResult FromModel(Supplier supplier)
     {
