@@ -8,6 +8,14 @@ internal class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
 {
     public void Configure(EntityTypeBuilder<Supplier> builder)
     {
+        builder.HasIndex(s => s.Document);
+        builder.HasIndex(s => s.Status);
+        builder.HasIndex(s => s.LegalName);
+        
+        builder.Property(s => s.Document).IsRequired().HasMaxLength(20);
+        builder.Property(s => s.LegalName).IsRequired().HasMaxLength(200);
+        builder.Property(s => s.TradeName).HasMaxLength(200);
+
         builder.OwnsOne(e => e.Address);
         builder.OwnsOne(e => e.BankInformation);
         builder.OwnsOne(e => e.Documentations);

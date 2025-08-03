@@ -4,7 +4,7 @@ namespace Administration.Domain.Suppliers.Repositories;
 
 public interface ISupplierRepository
 {
-    Task SaveAsync(Supplier model);
+    Task SaveAsync(Supplier model, CancellationToken cancellationToken);
 
     Task<Supplier?> GetByIdAsync(Guid id);
 

@@ -16,7 +16,11 @@ public class SupplierController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> PostAsync([FromBody] CreateSupplierCommand command)
     {
         var result = await mediator.Send(command);
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+        return BadRequest(result.Errors);
     }
 
     [HttpPut("{id}")]
@@ -24,13 +28,21 @@ public class SupplierController(IMediator mediator) : ControllerBase
     {
         command.Id = id;
         var result = await mediator.Send(command);
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+        return BadRequest(result.Errors);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
         var result = await mediator.Send(new ListSuppliersQuery());
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+        return BadRequest(result.Errors);
     }
 }
