@@ -10,7 +10,7 @@ public class CreateSupplierHandler(ISupplierRepository supplierRepository, IUnit
     public async Task<Result<CreateSupplierResult>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
     {
         var model = request.ToModel();
-        await _supplierRepository.SaveAsync(model, cancellationToken);
+        await _supplierRepository.SaveAsync(model);
         await _unitOfWork.CommitAsync(cancellationToken);
         return Result<CreateSupplierResult>.Success(new CreateSupplierResult());
     }

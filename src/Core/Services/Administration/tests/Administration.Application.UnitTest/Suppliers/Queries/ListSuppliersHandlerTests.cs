@@ -8,7 +8,7 @@ public class ListSuppliersHandlerTests
     public async Task Handle_ShouldReturnSuppliers(List<Supplier> suppliers)
     {
         var repository = Substitute.For<ISupplierRepository>();
-        repository.ListAsync().Returns(suppliers);
+        repository.ListAsync(CancellationToken.None).Returns(suppliers);
 
         var handler = new ListSuppliersHandler(repository);
 

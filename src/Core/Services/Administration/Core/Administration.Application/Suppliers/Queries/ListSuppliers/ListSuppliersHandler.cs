@@ -6,7 +6,7 @@ internal class ListSuppliersHandler(ISupplierRepository repository) : IQueryHand
 {
     public async Task<Result<List<ListSuppliersResult>>> Handle(ListSuppliersQuery request, CancellationToken cancellationToken)
     {
-        var suppliers = await repository.ListAsync();
+        var suppliers = await repository.ListAsync(cancellationToken);
         var result = suppliers.Select(ListSuppliersResult.FromModel).ToList();
         return Result<List<ListSuppliersResult>>.Success(result);
     }
