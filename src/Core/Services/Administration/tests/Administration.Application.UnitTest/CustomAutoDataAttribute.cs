@@ -57,11 +57,11 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => Address.Parse("Rua A", "1", null, "Cidade", "ST", "00000-000").Value!);
             fixture.Register(() => LegalName.Parse(LegalName.Empty).Value);
             fixture.Register(() => TradeName.Parse(TradeName.Empty).Value);
-            fixture.Register(() => Document.Parse(Document.Empty).Value);
+            fixture.Register(() => CpfCnpj.Parse(CpfCnpj.Empty).Value);
             fixture.Register(() => StateRegistration.Parse(StateRegistration.Empty).Value);
             fixture.Register(() => MunicipalRegistration.Parse(MunicipalRegistration.Empty).Value);
-            fixture.Register(() => BankInformation.Parse("Banco", "0001", "123", AccountType.Checking, "pix").Value);
-            fixture.Register(() => Documentations.Parse(null, null, null, null).Value);
+            fixture.Register(() => BankInformation.Parse("Banco", "0001", "123", AccountType.Checking, new[]{"pix"}).Value);
+            fixture.Register(() => SupportingDocuments.Parse(null, null, null, null).Value);
         }
     }
 }

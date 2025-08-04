@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
 public readonly record struct BankInformation(
@@ -5,20 +8,20 @@ public readonly record struct BankInformation(
     string Agency,
     string AccountNumber,
     AccountType AccountType,
-    string PixKey) : IValueObject
+    IReadOnlyList<string> PixKeys) : IValueObject
 {
-    public static BankInformation Empty => new("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com");
+    public static BankInformation Empty => new("Banco", "0001", "12345-6", AccountType.Checking, new[] { "pix@teste.com" });
 
     public static Result<BankInformation> Parse(
         string? bank,
         string? agency,
         string? accountNumber,
         AccountType accountType,
-        string? pixKey)
+        IEnumerable<string>? pixKeys)
     {
-        var result = BankInformationValidator.Validate(bank, agency, accountNumber, pixKey);
+        var result = BankInformationValidator.Validate(bank, agency, accountNumber, pixKeys);
         return Result<BankInformation>.FromValidation(result,
-            () => new BankInformation(bank!, agency!, accountNumber!, accountType, pixKey!));
+            () => new BankInformation(bank!, agency!, accountNumber!, accountType, pixKeys!.ToList()));
     }
 }
 

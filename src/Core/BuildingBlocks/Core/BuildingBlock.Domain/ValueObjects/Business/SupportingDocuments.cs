@@ -1,21 +1,21 @@
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
-public readonly record struct Documentations(
+public readonly record struct SupportingDocuments(
     string? OperatingLicense,
     string? NegativeCertificates,
     string? AddressProof,
     string? SocialContract) : IValueObject
 {
-    public static Documentations Empty => new(null, null, null, null);
+    public static SupportingDocuments Empty => new(null, null, null, null);
 
-    public static Result<Documentations> Parse(
+    public static Result<SupportingDocuments> Parse(
         string? operatingLicense,
         string? negativeCertificates,
         string? addressProof,
         string? socialContract)
     {
         var result = ValidationResult.Success();
-        return Result<Documentations>.FromValidation(result,
-            () => new Documentations(operatingLicense, negativeCertificates, addressProof, socialContract));
+        return Result<SupportingDocuments>.FromValidation(result,
+            () => new SupportingDocuments(operatingLicense, negativeCertificates, addressProof, socialContract));
     }
 }

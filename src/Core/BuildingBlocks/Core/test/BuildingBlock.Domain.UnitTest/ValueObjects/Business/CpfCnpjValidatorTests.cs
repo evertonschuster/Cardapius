@@ -2,12 +2,12 @@ using BuildingBlock.Domain.ValueObjects.Business;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Business;
 
-public class DocumentValidatorTests
+public class CpfCnpjValidatorTests
 {
     [Fact]
     public void Validate_Should_Fail_When_Empty()
     {
-        var result = DocumentValidator.Validate("");
+        var result = CpfCnpjValidator.Validate("");
         result.IsValid.Should().BeFalse();
     }
 
@@ -16,7 +16,7 @@ public class DocumentValidatorTests
     [InlineData("12345678000199")] // CNPJ
     public void Validate_Should_Succeed_When_Length_Is_Valid(string doc)
     {
-        var result = DocumentValidator.Validate(doc);
+        var result = CpfCnpjValidator.Validate(doc);
         result.IsValid.Should().BeTrue();
     }
 }
