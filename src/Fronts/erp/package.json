@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start:dev": "cross-env APP_ENV=dev npm run start",
-    "start:hlg": "cross-env APP_ENV=hlg npm run start",
-    "start:prod": "cross-env APP_ENV=prod npm run start",
-    "start": "echo Starting in $APP_ENV mode",
-    "build:dev": "cross-env APP_ENV=dev npm run build",
-    "build:hlg": "cross-env APP_ENV=hlg npm run build",
-    "build:prod": "cross-env APP_ENV=prod npm run build",
-    "build": "echo Building in $APP_ENV mode",
+    "start:dev": "cross-env VITE_APP_ENV=dev npm run start",
+    "start:hlg": "cross-env VITE_APP_ENV=hlg npm run start",
+    "start:prod": "cross-env VITE_APP_ENV=prod npm run start",
+    "start": "vite",
+    "build:dev": "cross-env VITE_APP_ENV=dev npm run build",
+    "build:hlg": "cross-env VITE_APP_ENV=hlg npm run build",
+    "build:prod": "cross-env VITE_APP_ENV=prod npm run build",
+    "build": "vite build",
     "test": "jest --coverage"
   },
   "dependencies": {
@@ -31,6 +31,8 @@
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "vite": "^5.1.0",
+    "@vitejs/plugin-react": "^4.2.0"
   }
 }
