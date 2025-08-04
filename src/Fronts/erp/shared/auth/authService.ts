@@ -4,11 +4,14 @@ interface LoginResponse {
   roles: string[];
 }
 
+import { API_BASE_URL } from '@shared/config';
+
 const mockRoles = ['admin', 'pdv'];
 
 export const authService = {
   async login(username: string, _password: string): Promise<LoginResponse> {
-    // TODO: replace with real API call
+    const url = `${API_BASE_URL}/auth/login`;
+    // TODO: replace with real API call using the URL above
     return {
       accessToken: `access-${username}-${Date.now()}`,
       refreshToken: `refresh-${username}-${Date.now()}`,
