@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Login } from '../components/Login';
+import { Login } from './Login';
 
 describe('Login component', () => {
   test('renders required fields', () => {
