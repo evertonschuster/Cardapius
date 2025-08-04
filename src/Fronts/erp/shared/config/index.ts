@@ -4,7 +4,7 @@ import prod from './env/prod';
 
 type AppEnv = 'dev' | 'hlg' | 'prod';
 
-const env = (process.env.APP_ENV as AppEnv) || 'dev';
+const env = (import.meta.env.VITE_APP_ENV as AppEnv) || 'dev';
 
 const configs = { dev, hlg, prod } as const;
 

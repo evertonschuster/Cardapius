@@ -1,1 +1,1 @@
-export const getEnv = () => process.env.APP_ENV || 'dev';
+export const getEnv = () => import.meta.env.VITE_APP_ENV || 'dev';
