@@ -4,10 +4,10 @@
     {
         int Commit();
 
-        Task<int> CommitAsync(CancellationToken? cancellationToken = null);
+        Task<int> CommitAsync(CancellationToken cancellationToken = default);
 
         void Rollback();
 
-        Task RollbackAsync(CancellationToken? cancellationToken = null);
+        Task RollbackAsync(CancellationToken cancellationToken = default);
     }
 }

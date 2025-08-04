@@ -3,25 +3,26 @@ using System.Linq;
 
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
-public readonly record struct BankInformation(
-    string Bank,
-    string Agency,
-    string AccountNumber,
-    AccountType AccountType,
-    IReadOnlyList<string> PixKeys) : IValueObject
+public class BankInformation : IValueObject, IValidatable
 {
-    public static BankInformation Empty => new("Banco", "0001", "12345-6", AccountType.Checking, new[] { "pix@teste.com" });
-
-    public static Result<BankInformation> Parse(
-        string? bank,
-        string? agency,
-        string? accountNumber,
-        AccountType accountType,
-        IEnumerable<string>? pixKeys)
+    public static BankInformation Empty => new()
     {
-        var result = BankInformationValidator.Validate(bank, agency, accountNumber, pixKeys);
-        return Result<BankInformation>.FromValidation(result,
-            () => new BankInformation(bank!, agency!, accountNumber!, accountType, pixKeys!.ToList()));
+        Bank = "Banco",
+        Agency = "0001",
+        AccountNumber = "12345-6",
+        AccountType = AccountType.Checking,
+        PixKeys = ["pix@teste.com"]
+    };
+
+    public required string Bank { get; set; }
+    public required string Agency { get; set; }
+    public required string AccountNumber { get; set; }
+    public AccountType AccountType { get; set; }
+    public List<string> PixKeys { get; set; } = [];
+
+    public Result Validate()
+    {
+        return BankInformationValidator.Validate(Bank, Agency, AccountNumber, PixKeys);
     }
 }
 

@@ -78,9 +78,9 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             return this.SaveChanges();
         }
 
-        public Task<int> CommitAsync()
+        public Task<int> CommitAsync(CancellationToken cancellationToken = default)
         {
-            return this.SaveChangesAsync();
+            return this.SaveChangesAsync(cancellationToken);
         }
 
         public void Rollback()
@@ -91,9 +91,9 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// <summary>
         /// Asynchronously rolls back the current database transaction, discarding any uncommitted changes.
         /// </summary>
-        public Task RollbackAsync()
+        public Task RollbackAsync(CancellationToken cancellationToken = default)
         {
-            return this.Database.RollbackTransactionAsync();
+            return this.Database.RollbackTransactionAsync(cancellationToken);
         }
 
         #endregion

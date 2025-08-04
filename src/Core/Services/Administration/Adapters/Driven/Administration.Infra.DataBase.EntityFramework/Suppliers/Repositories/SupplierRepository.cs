@@ -6,8 +6,8 @@ namespace Administration.Infra.DataBase.EntityFramework.Suppliers.Repositories;
 
 public class SupplierRepository(IDbContext context) : Repository<Supplier>(context), ISupplierRepository
 {
-    public Task<List<Supplier>> ListAsync()
+    public Task<List<Supplier>> ListAsync(CancellationToken cancellationToken)
     {
-        return _IDbContext.Set<Supplier>().AsNoTracking().ToListAsync();
+        return _IDbContext.Set<Supplier>().AsNoTracking().ToListAsync(cancellationToken: cancellationToken);
     }
 }
