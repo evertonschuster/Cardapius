@@ -9,7 +9,7 @@ public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
 
     public LegalName LegalName { get; set; }
     public TradeName TradeName { get; set; }
-    public Document Document { get; set; }
+    public CpfCnpj CpfCnpj { get; set; }
     public StateRegistration StateRegistration { get; set; }
     public MunicipalRegistration MunicipalRegistration { get; set; }
     public PersonType PersonType { get; set; }
@@ -32,8 +32,33 @@ public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
     public string ShippingMethod { get; set; } = string.Empty;
     public string OfferedProductsServices { get; set; } = string.Empty;
 
-    public Documentations? Documentations { get; set; }
+    public SupportingDocuments? SupportingDocuments { get; set; }
     public string? AdditionalNotes { get; set; }
     public string? RelationshipHistory { get; set; }
+    internal SupplierDto ToDto() => new(
+        LegalName,
+        TradeName,
+        CpfCnpj,
+        StateRegistration,
+        MunicipalRegistration,
+        PersonType,
+        RegistrationDate,
+        Status,
+        RepresentativeName,
+        LandlinePhone,
+        MobilePhone,
+        PrimaryEmail,
+        SecondaryEmail,
+        Website,
+        Address,
+        BankInformation,
+        Category,
+        PaymentTerms,
+        DeliveryTime,
+        ShippingMethod,
+        OfferedProductsServices,
+        SupportingDocuments,
+        AdditionalNotes,
+        RelationshipHistory);
 }
 

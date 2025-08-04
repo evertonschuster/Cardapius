@@ -14,7 +14,7 @@ public class SupplierTests
     {
         var legalName = LegalName.Parse("Fornecedor Ltda").Value;
         var tradeName = TradeName.Parse("Fornecedor").Value;
-        var document = Document.Parse("12345678901").Value;
+        var document = CpfCnpj.Parse("12345678901").Value;
         var stateReg = StateRegistration.Parse("123").Value;
         var municipalReg = MunicipalRegistration.Parse("456").Value;
         var personType = PersonType.Legal;
@@ -27,17 +27,17 @@ public class SupplierTests
         var secondaryEmail = Email.Parse("contato2@teste.com").Value!;
         var website = "https://teste.com";
         var address = Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!;
-        var bankInfo = BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com").Value;
+        var bankInfo = BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value;
         var category = "Serviços";
         var paymentTerms = "30 dias";
         var deliveryTime = "7 dias";
         var shippingMethod = "Correios";
         var offered = "Consultoria";
-        var docs = Documentations.Parse(null, null, null, null).Value;
+        var docs = SupportingDocuments.Parse(null, null, null, null).Value;
         var notes = "Observações";
         var history = "Histórico";
 
-        var supplier = Supplier.Create(
+        var dto = new SupplierDto(
             legalName,
             tradeName,
             document,
@@ -62,11 +62,12 @@ public class SupplierTests
             docs,
             notes,
             history);
+        var supplier = Supplier.Create(dto);
 
         supplier.Id.Should().NotBe(Guid.Empty);
         supplier.LegalName.Should().Be(legalName);
         supplier.TradeName.Should().Be(tradeName);
-        supplier.Document.Should().Be(document);
+        supplier.CpfCnpj.Should().Be(document);
         supplier.StateRegistration.Should().Be(stateReg);
         supplier.MunicipalRegistration.Should().Be(municipalReg);
         supplier.PersonType.Should().Be(personType);
@@ -84,7 +85,7 @@ public class SupplierTests
         supplier.DeliveryTime.Should().Be(deliveryTime);
         supplier.ShippingMethod.Should().Be(shippingMethod);
         supplier.OfferedProductsServices.Should().Be(offered);
-        supplier.Documentations.Should().Be(docs);
+        supplier.SupportingDocuments.Should().Be(docs);
         supplier.AdditionalNotes.Should().Be(notes);
         supplier.RelationshipHistory.Should().Be(history);
     }
@@ -92,10 +93,10 @@ public class SupplierTests
     [Fact]
     public void Update_ShouldChangeProperties()
     {
-        var supplier = Supplier.Create(
+        var supplier = Supplier.Create(new SupplierDto(
             LegalName.Parse("Fornecedor Ltda").Value,
             TradeName.Parse("Fornecedor").Value,
-            Document.Parse("12345678901").Value,
+            CpfCnpj.Parse("12345678901").Value,
             StateRegistration.Parse("123").Value,
             MunicipalRegistration.Parse("456").Value,
             PersonType.Legal,
@@ -108,7 +109,7 @@ public class SupplierTests
             Email.Parse("contato2@teste.com").Value!,
             "https://teste.com",
             Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!,
-            BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, "pix@teste.com").Value,
+            BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value,
             "Serviços",
             "30 dias",
             "7 dias",
@@ -116,12 +117,12 @@ public class SupplierTests
             "Consultoria",
             null,
             null,
-            null);
+            null));
 
-        supplier.Update(
+        supplier.Update(new SupplierDto(
             LegalName.Parse("Novo Nome").Value,
             TradeName.Parse("Novo Fantasia").Value,
-            Document.Parse("98765432100").Value,
+            CpfCnpj.Parse("98765432100").Value,
             StateRegistration.Parse("321").Value,
             MunicipalRegistration.Parse("654").Value,
             PersonType.Physical,
@@ -134,7 +135,7 @@ public class SupplierTests
             Email.Parse("novo2@teste.com").Value!,
             "https://novo.com",
             Address.Parse("Rua B", "20", null, "Outra", "RJ", "02000-000").Value!,
-            BankInformation.Parse("Banco2", "0002", "54321-0", AccountType.Savings, "key").Value,
+            BankInformation.Parse("Banco2", "0002", "54321-0", AccountType.Savings, new[]{"key"}).Value,
             "Produtos",
             "60 dias",
             "10 dias",
@@ -142,11 +143,11 @@ public class SupplierTests
             "Serviços",
             null,
             "Notas",
-            "Historico");
+            "Historico"));
 
         supplier.LegalName.Should().Be(LegalName.Parse("Novo Nome").Value);
         supplier.TradeName.Should().Be(TradeName.Parse("Novo Fantasia").Value);
-        supplier.Document.Should().Be(Document.Parse("98765432100").Value);
+        supplier.CpfCnpj.Should().Be(CpfCnpj.Parse("98765432100").Value);
         supplier.Status.Should().Be(SupplierStatus.Inactive);
     }
 }
