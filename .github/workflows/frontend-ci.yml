@@ -3,11 +3,11 @@ name: Frontend CI
 on:
   push:
     paths:
-      - 'src/Fronts/**'
+      - 'src/Fronts/erp/**'
       - '.github/workflows/frontend-ci.yml'
   pull_request:
     paths:
-      - 'src/Fronts/**'
+      - 'src/Fronts/erp/**'
 
 jobs:
   test:
@@ -18,8 +18,8 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        working-directory: src/Fronts
+        working-directory: src/Fronts/erp
         run: npm install
       - name: Run tests
-        working-directory: src/Fronts
+        working-directory: src/Fronts/erp
         run: npm test
