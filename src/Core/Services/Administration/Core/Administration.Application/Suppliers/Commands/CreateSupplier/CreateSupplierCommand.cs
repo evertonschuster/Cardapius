@@ -9,7 +9,7 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
     // Informações Gerais
     public LegalName LegalName { get; set; }
     public TradeName TradeName { get; set; }
-    public Document Document { get; set; }
+    public CpfCnpj CpfCnpj { get; set; }
     public StateRegistration StateRegistration { get; set; }
     public MunicipalRegistration MunicipalRegistration { get; set; }
     public PersonType PersonType { get; set; }
@@ -38,38 +38,37 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
     public string OfferedProductsServices { get; set; } = string.Empty;
 
     // Documentações
-    public Documentations? Documentations { get; set; }
+    public SupportingDocuments? SupportingDocuments { get; set; }
 
     // Observações
     public string? AdditionalNotes { get; set; }
     public string? RelationshipHistory { get; set; }
 
-    internal Supplier ToModel()
-    {
-        return Supplier.Create(
-            LegalName,
-            TradeName,
-            Document,
-            StateRegistration,
-            MunicipalRegistration,
-            PersonType,
-            RegistrationDate,
-            Status,
-            RepresentativeName,
-            LandlinePhone,
-            MobilePhone,
-            PrimaryEmail,
-            SecondaryEmail,
-            Website,
-            Address,
-            BankInformation,
-            Category,
-            PaymentTerms,
-            DeliveryTime,
-            ShippingMethod,
-            OfferedProductsServices,
-            Documentations,
-            AdditionalNotes,
-            RelationshipHistory);
-    }
+    internal SupplierDto ToDto() => new(
+        LegalName,
+        TradeName,
+        CpfCnpj,
+        StateRegistration,
+        MunicipalRegistration,
+        PersonType,
+        RegistrationDate,
+        Status,
+        RepresentativeName,
+        LandlinePhone,
+        MobilePhone,
+        PrimaryEmail,
+        SecondaryEmail,
+        Website,
+        Address,
+        BankInformation,
+        Category,
+        PaymentTerms,
+        DeliveryTime,
+        ShippingMethod,
+        OfferedProductsServices,
+        SupportingDocuments,
+        AdditionalNotes,
+        RelationshipHistory);
+
+    internal Supplier ToModel() => Supplier.Create(ToDto());
 }

@@ -15,31 +15,7 @@ public class UpdateSupplierHandler(ISupplierRepository repository, IUnitOfWork u
             return new UpdateSupplierResult();
         }
 
-        supplier.Update(
-            request.LegalName,
-            request.TradeName,
-            request.Document,
-            request.StateRegistration,
-            request.MunicipalRegistration,
-            request.PersonType,
-            request.RegistrationDate,
-            request.Status,
-            request.RepresentativeName,
-            request.LandlinePhone,
-            request.MobilePhone,
-            request.PrimaryEmail,
-            request.SecondaryEmail,
-            request.Website,
-            request.Address,
-            request.BankInformation,
-            request.Category,
-            request.PaymentTerms,
-            request.DeliveryTime,
-            request.ShippingMethod,
-            request.OfferedProductsServices,
-            request.Documentations,
-            request.AdditionalNotes,
-            request.RelationshipHistory);
+        supplier.Update(request.ToDto());
 
         await _repository.SaveAsync(supplier);
         await _unitOfWork.CommitAsync();
