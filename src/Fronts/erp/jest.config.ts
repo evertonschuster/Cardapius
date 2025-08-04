@@ -7,7 +7,8 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
-    '^@shared/(.*)$': '<rootDir>/shared/$1'
+    '^@shared/(.*)$': '<rootDir>/shared/$1',
+    '\\.module\\.css$': '<rootDir>/__mocks__/styleMock.ts'
   },
   coverageThreshold: {
     global: {
