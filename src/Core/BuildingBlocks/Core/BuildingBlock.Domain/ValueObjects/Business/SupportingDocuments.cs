@@ -1,12 +1,20 @@
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
-public readonly record struct SupportingDocuments(
-    string? OperatingLicense,
-    string? NegativeCertificates,
-    string? AddressProof,
-    string? SocialContract) : IValueObject
+public class SupportingDocuments : IValueObject, IValidatable
 {
-    public static SupportingDocuments Empty => new(null, null, null, null);
+    public static SupportingDocuments Empty => new()
+    {
+        OperatingLicense = null,
+        NegativeCertificates = null,
+        AddressProof = null,
+        SocialContract = null
+    };
+
+    public string? OperatingLicense { get; set; }
+    public string? NegativeCertificates { get; set; }
+    public string? AddressProof { get; set; }
+    public string? SocialContract { get; set; }
+
 
     public static Result<SupportingDocuments> Parse(
         string? operatingLicense,
@@ -14,8 +22,17 @@ public readonly record struct SupportingDocuments(
         string? addressProof,
         string? socialContract)
     {
-        var result = ValidationResult.Success();
-        return Result<SupportingDocuments>.FromValidation(result,
-            () => new SupportingDocuments(operatingLicense, negativeCertificates, addressProof, socialContract));
+        return Result<SupportingDocuments>.Success(new SupportingDocuments()
+        {
+            OperatingLicense = operatingLicense,
+            NegativeCertificates = negativeCertificates,
+            AddressProof = addressProof,
+            SocialContract = socialContract
+        });
+    }
+
+    public Result Validate()
+    {
+        return Result.Success();
     }
 }

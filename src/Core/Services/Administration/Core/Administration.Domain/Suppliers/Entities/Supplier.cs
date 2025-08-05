@@ -1,5 +1,4 @@
 using Administration.Domain.Suppliers.DomainEvents;
-using Administration.Domain.Suppliers;
 using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
@@ -10,6 +9,7 @@ public class Supplier : Entity
 {
     protected Supplier()
     {
+        
     }
 
     public Supplier(
@@ -69,26 +69,26 @@ public class Supplier : Entity
     public LegalName LegalName { get; private set; }
     public TradeName TradeName { get; private set; }
     public CpfCnpj CpfCnpj { get; private set; }
-    public StateRegistration StateRegistration { get; private set; }
-    public MunicipalRegistration MunicipalRegistration { get; private set; }
+    public StateRegistration? StateRegistration { get; private set; }
+    public MunicipalRegistration? MunicipalRegistration { get; private set; }
     public PersonType PersonType { get; private set; }
     public DateTime RegistrationDate { get; private set; }
     public SupplierStatus Status { get; private set; }
 
     public PersonName RepresentativeName { get; private set; }
-    public Phone LandlinePhone { get; private set; }
-    public Phone MobilePhone { get; private set; }
+    public Phone? LandlinePhone { get; private set; }
+    public Phone? MobilePhone { get; private set; }
     public Email PrimaryEmail { get; private set; }
-    public Email SecondaryEmail { get; private set; }
+    public Email? SecondaryEmail { get; private set; }
     public string? Website { get; private set; }
-    public Address Address { get; private set; }
-    public BankInformation BankInformation { get; private set; }
+    public Address? Address { get; private set; }
+    public BankInformation? BankInformation { get; private set; }
 
-    public string Category { get; private set; }
-    public string PaymentTerms { get; private set; }
-    public string DeliveryTime { get; private set; }
-    public string ShippingMethod { get; private set; }
-    public string OfferedProductsServices { get; private set; }
+    public string? Category { get; private set; }
+    public string? PaymentTerms { get; private set; }
+    public string? DeliveryTime { get; private set; }
+    public string? ShippingMethod { get; private set; }
+    public string? OfferedProductsServices { get; private set; }
 
     public SupportingDocuments? SupportingDocuments { get; private set; }
     public string? AdditionalNotes { get; private set; }
