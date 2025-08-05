@@ -27,7 +27,7 @@ public class SupplierTests
         var secondaryEmail = Email.Parse("contato2@teste.com").Value!;
         var website = "https://teste.com";
         var address = Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!;
-        var bankInfo = BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value;
+        var bankInfo = BankInformation.Create("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value!;
         var category = "Serviços";
         var paymentTerms = "30 dias";
         var deliveryTime = "7 dias";
@@ -109,7 +109,7 @@ public class SupplierTests
             Email.Parse("contato2@teste.com").Value!,
             "https://teste.com",
             Address.Parse("Rua A", "10", null, "Cidade", "SP", "01000-000").Value!,
-            BankInformation.Parse("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value,
+            BankInformation.Create("Banco", "0001", "12345-6", AccountType.Checking, new[] {"pix@teste.com"}).Value!,
             "Serviços",
             "30 dias",
             "7 dias",
@@ -135,7 +135,7 @@ public class SupplierTests
             Email.Parse("novo2@teste.com").Value!,
             "https://novo.com",
             Address.Parse("Rua B", "20", null, "Outra", "RJ", "02000-000").Value!,
-            BankInformation.Parse("Banco2", "0002", "54321-0", AccountType.Savings, new[]{"key"}).Value,
+            BankInformation.Create("Banco2", "0002", "54321-0", AccountType.Savings, new[]{"key"}).Value!,
             "Produtos",
             "60 dias",
             "10 dias",

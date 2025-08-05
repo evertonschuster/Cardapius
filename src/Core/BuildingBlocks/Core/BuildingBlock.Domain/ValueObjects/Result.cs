@@ -1,3 +1,5 @@
+using BuildingBlock.Domain.ValueObjects.Business;
+
 namespace BuildingBlock.Domain.ValueObjects
 {
     public readonly struct Result
@@ -139,6 +141,14 @@ namespace BuildingBlock.Domain.ValueObjects
         {
             if (result.IsValid)
                 return Success(value);
+
+            return Fail(result.Errors ?? []);
+        }
+
+        internal static Result<T> FromResult(Result result, Func<T> valueFactory)
+        {
+            if (result.IsSuccess)
+                return Success(valueFactory());
 
             return Fail(result.Errors ?? []);
         }
