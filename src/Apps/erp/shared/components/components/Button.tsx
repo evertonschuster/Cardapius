@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import MuiButton, { ButtonProps } from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 interface ShortcutButtonProps extends ButtonProps {
   shortcut?: string[];
@@ -13,9 +14,11 @@ export const Button: React.FC<ShortcutButtonProps> = ({
   const ref = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (!shortcut) return;
+    if (!shortcut || shortcut.length === 0) return;
     const handler = (e: KeyboardEvent) => {
-      const keys = shortcut.map((k) => k.toLowerCase());
+      const keys = shortcut
+        .filter((k): k is string => Boolean(k))
+        .map((k) => k.toLowerCase());
       const ctrl = keys.includes('ctrl');
       const alt = keys.includes('alt');
       const shift = keys.includes('shift');
@@ -41,12 +44,15 @@ export const Button: React.FC<ShortcutButtonProps> = ({
 
   return (
     <MuiButton ref={ref} {...props}>
-      {shortcutLabel ? (
-        <>
-          {children} ({shortcutLabel})
-        </>
-      ) : (
-        children
+      {children}
+      {shortcutLabel && (
+        <Typography
+          variant="caption"
+          component="span"
+          sx={{ ml: 1, opacity: 0.75 }}
+        >
+          ({shortcutLabel})
+        </Typography>
       )}
     </MuiButton>
   );
