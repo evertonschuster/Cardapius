@@ -8,10 +8,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import './Login.less';
 import { useLogin } from '../application/useLogin';
-import { RHFTextField } from './components/RHFTextField';
-import { RHFCheckbox } from './components/RHFCheckbox';
+import { TextField } from '../../components/components/TextField';
+import { Checkbox } from '../../components/components/Checkbox';
+
+
+import './Login.less';
 
 export const Login: React.FC = () => {
   const {
@@ -21,7 +23,6 @@ export const Login: React.FC = () => {
     toggleShowPassword,
     handleRecover,
     showPassword,
-    session,
     clientLogoUrl
   } = useLogin();
 
@@ -29,7 +30,7 @@ export const Login: React.FC = () => {
     <Box className="login-container">
       <Box component="form" onSubmit={handleSubmit(onSubmit)} className="login-card">
         {clientLogoUrl && <img src={clientLogoUrl} alt="Logo do cliente" className="logo" />}
-        <RHFTextField
+        <TextField
           name="username"
           control={control}
           label="Usuário"
@@ -37,7 +38,7 @@ export const Login: React.FC = () => {
           margin="normal"
           rules={{ required: 'Usuário é obrigatório' }}
         />
-        <RHFTextField
+        <TextField
           name="password"
           control={control}
           label="Senha"
@@ -59,8 +60,8 @@ export const Login: React.FC = () => {
             )
           }}
         />
-        <RHFCheckbox name="remember" control={control} label="Salvar senha" />
-        <Button type="submit" variant="contained" fullWidth aria-label="Entrar no sistema">
+        <Checkbox name="remember" control={control} label="Salvar senha" />
+        <Button type="submit" variant="contained" fullWidth aria-label="Entrar no sistema" >
           Entrar
         </Button>
         <Box mt={2}>
@@ -68,25 +69,18 @@ export const Login: React.FC = () => {
             Esqueci minha senha
           </Link>
         </Box>
-        <Typography className="shortcuts" variant="caption">
-          Atalhos: Ctrl+Enter para entrar, Alt+R para recuperar senha, Alt+V para mostrar/ocultar senha
-        </Typography>
+        
         <Typography className="footer" variant="body2">
           Desenvolvido por{' '}
-          <Link href="https://cardapius.com" target="_blank" rel="noopener noreferrer">
+          <Link href="https://cardapius.com.br" target="_blank" rel="noopener noreferrer">
             Cardapius
           </Link>
         </Typography>
         <Typography className="support" variant="body2">
-          suporte@cardapius.com
+          suporte@cardapius.com.br
           <br />
-          (11) 0000-0000
+          (45) 99934-2864
         </Typography>
-        {session.token && (
-          <Typography data-testid="session-info" variant="body2" mt={2}>
-            Bem-vindo, {session.username}
-          </Typography>
-        )}
       </Box>
     </Box>
   );

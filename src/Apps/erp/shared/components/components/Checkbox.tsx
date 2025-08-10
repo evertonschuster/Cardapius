@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, Control, FieldValues } from 'react-hook-form';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import CheckboxMUI, { CheckboxProps } from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 interface RHFCheckboxProps<T extends FieldValues> {
@@ -10,7 +10,7 @@ interface RHFCheckboxProps<T extends FieldValues> {
   checkboxProps?: CheckboxProps;
 }
 
-export const RHFCheckbox = <T extends FieldValues>({
+export const Checkbox = <T extends FieldValues>({
   name,
   control,
   label,
@@ -21,7 +21,7 @@ export const RHFCheckbox = <T extends FieldValues>({
     control={control}
     render={({ field }) => (
       <FormControlLabel
-        control={<Checkbox {...field} checked={field.value} {...checkboxProps} />}
+        control={<CheckboxMUI {...field} checked={field.value} {...checkboxProps} />}
         label={label}
       />
     )}

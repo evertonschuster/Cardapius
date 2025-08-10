@@ -28,7 +28,7 @@ const sessionReducer = (state: SessionState, action: SessionAction): SessionStat
 };
 
 export const useLogin = () => {
-  const [session, dispatch] = useReducer(sessionReducer, {
+  const [, dispatch] = useReducer(sessionReducer, {
     username: '',
     roles: [],
     token: ''
@@ -106,7 +106,6 @@ export const useLogin = () => {
     toggleShowPassword,
     handleRecover,
     showPassword,
-    session,
     clientLogoUrl
   };
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, Control, FieldValues, RegisterOptions } from 'react-hook-form';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextFieldMUI, { TextFieldProps } from '@mui/material/TextField';
 
 interface RHFTextFieldProps<T extends FieldValues>
   extends Omit<TextFieldProps, 'name' | 'defaultValue'> {
@@ -9,7 +9,7 @@ interface RHFTextFieldProps<T extends FieldValues>
   rules?: RegisterOptions;
 }
 
-export const RHFTextField = <T extends FieldValues>({
+export const TextField = <T extends FieldValues>({
   name,
   control,
   rules,
@@ -20,7 +20,7 @@ export const RHFTextField = <T extends FieldValues>({
     control={control}
     rules={rules}
     render={({ field, fieldState: { error } }) => (
-      <TextField {...field} {...props} error={!!error} helperText={error?.message} />
+      <TextFieldMUI {...field} {...props} error={!!error} helperText={error?.message} />
     )}
   />
 );
