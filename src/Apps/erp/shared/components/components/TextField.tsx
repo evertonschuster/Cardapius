@@ -16,9 +16,9 @@ export const TextField = <T extends FieldValues>({
   ...props
 }: RHFTextFieldProps<T>) => (
   <Controller
-    name={name}
+    name={name as any}
     control={control}
-    rules={rules}
+    rules={rules as any}
     render={({ field, fieldState: { error } }) => (
       <TextFieldMUI {...field} {...props} error={!!error} helperText={error?.message} />
     )}

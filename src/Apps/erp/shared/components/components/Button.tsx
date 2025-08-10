@@ -40,7 +40,7 @@ export const Button: React.FC<ShortcutButtonProps> = ({
     return () => window.removeEventListener('keydown', handler);
   }, [shortcut]);
 
-  const shortcutLabel = shortcut?.join('+');
+  const shortcutLabel = (shortcut ?? []).slice(1).join('+');
 
   return (
     <MuiButton ref={ref} {...props}>
@@ -49,7 +49,11 @@ export const Button: React.FC<ShortcutButtonProps> = ({
         <Typography
           variant="caption"
           component="span"
-          sx={{ ml: 1, opacity: 0.75 }}
+          sx={{
+            ml: 0.5,
+            opacity: 0.75,
+            fontSize: '0.45rem',
+          }}
         >
           ({shortcutLabel})
         </Typography>

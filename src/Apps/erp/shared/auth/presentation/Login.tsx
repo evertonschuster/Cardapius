@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+const apiUrl = import.meta.env;
 
 import { useLogin } from '../application/useLogin';
 import { TextField } from '../../components/components/TextField';
@@ -25,6 +26,8 @@ export const Login: React.FC = () => {
     showPassword,
     clientLogoUrl
   } = useLogin();
+
+  console.log(apiUrl)
 
   return (
     <Box className="login-container">
