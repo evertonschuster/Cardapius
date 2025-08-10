@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useReducer, useState, MouseEvent } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { authService } from '../infrastructure/authService';
 import { sessionReducer, initialSessionState } from './session';
-import { loginValidationSchema } from './validation';
 
 interface LoginForm {
   username: string;
@@ -14,21 +11,6 @@ interface LoginForm {
 export const useLogin = () => {
   const [, dispatch] = useReducer(sessionReducer, initialSessionState);
   const [showPassword, setShowPassword] = useState(false);
-
-  const { control, handleSubmit, setValue, watch } = useForm<LoginForm>({
-    defaultValues: { username: '', password: '', remember: false },
-    resolver: yupResolver(loginValidationSchema)
-  });
-
-  useEffect(() => {
-    const saved = localStorage.getItem('login_username');
-    if (saved) {
-      setValue('username', saved);
-      setValue('remember', true);
-    }
-  }, [setValue]);
-
-  watch('remember');
 
   const toggleShowPassword = useCallback(() => {
     setShowPassword((prev) => !prev);
@@ -78,8 +60,6 @@ export const useLogin = () => {
   const clientLogoUrl = '/logo.png';
 
   return {
-    control,
-    handleSubmit,
     onSubmit,
     toggleShowPassword,
     handleRecover,

@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { Button } from '../../components/components/Button';
+import { Button } from '../../components/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -10,16 +10,17 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 const apiUrl = import.meta.env;
 
 import { useLogin } from '../application/useLogin';
-import { TextField } from '../../components/components/TextField';
-import { Checkbox } from '../../components/components/Checkbox';
+import { TextField } from '../../components/TextField';
+import { Checkbox } from '../../components/Checkbox';
 
 
 import './Login.less';
+import { useForm } from 'react-hook-form';
+import { Form } from './components/Form';
+import { FormProvider } from '@shared/components/FormProvider';
 
 export const Login: React.FC = () => {
   const {
-    control,
-    handleSubmit,
     onSubmit,
     toggleShowPassword,
     handleRecover,
@@ -28,54 +29,18 @@ export const Login: React.FC = () => {
   } = useLogin();
 
   console.log(apiUrl)
+  const { control, handleSubmit, setValue, watch } = useForm<any>({
+    defaultValues: { username: '', password: '', remember: false },
+  });
 
   return (
     <Box className="login-container">
       <Box component="form" onSubmit={handleSubmit(onSubmit)} className="login-card">
         {clientLogoUrl && <img src={clientLogoUrl} alt="Logo do cliente" className="logo" />}
-        <TextField
-          name="username"
-          control={control}
-          label="Usuário"
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="password"
-          control={control}
-          label="Senha"
-          type={showPassword ? 'text' : 'password'}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={toggleShowPassword}
-                  aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            )
-          }}
-        />
-        <Checkbox name="remember" control={control} label="Salvar senha" />
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          aria-label="Entrar no sistema"
-          shortcut={['Ctrl', 'Enter']}
-        >
-          Entrar
-        </Button>
-        <Box mt={2}>
-          <Link href="#" onClick={handleRecover}>
-            Esqueci minha senha
-          </Link>
-        </Box>
+
+        <FormProvider >
+          <Form />
+        </FormProvider>
         
         <Typography className="footer" variant="body2">
           Desenvolvido por{' '}
