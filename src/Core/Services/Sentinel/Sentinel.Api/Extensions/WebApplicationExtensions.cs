@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 using Sentinel.Api.Data;
 using Sentinel.Api.Middleware;
+using Serilog;
 
 namespace Sentinel.Api.Extensions;
 

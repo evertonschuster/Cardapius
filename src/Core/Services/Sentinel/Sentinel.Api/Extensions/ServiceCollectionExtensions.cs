@@ -1,5 +1,7 @@
 using System.IO;
 using System.Threading.RateLimiting;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -45,9 +47,9 @@ public static class ServiceCollectionExtensions
                    .AddDevelopmentSigningCertificate()
                    .UseAspNetCore()
                        .EnableAuthorizationEndpointPassthrough()
-                       .EnableTokenEndpointPassthrough()
-                       .EnableIntrospectionEndpointPassthrough()
-                       .EnableRevocationEndpointPassthrough();
+                       .EnableTokenEndpointPassthrough();
+                       //.EnableIntrospectionEndpointPassthrough()
+                       //.EnableRevocationEndpointPassthrough();
             })
             .AddValidation(opt =>
             {
