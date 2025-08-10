@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useReducer, useState, MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { authService } from '../infrastructure/authService';
-
-interface SessionState {
-  username: string;
-  roles: string[];
-  token: string;
-}
+import { sessionReducer, initialSessionState } from './session';
+import { loginValidationSchema } from './validation';
 
 interface LoginForm {
   username: string;
@@ -14,29 +11,13 @@ interface LoginForm {
   remember: boolean;
 }
 
-type SessionAction = { type: 'SET'; payload: SessionState } | { type: 'CLEAR' };
-
-const sessionReducer = (state: SessionState, action: SessionAction): SessionState => {
-  switch (action.type) {
-    case 'SET':
-      return action.payload;
-    case 'CLEAR':
-      return { username: '', roles: [], token: '' };
-    default:
-      return state;
-  }
-};
-
 export const useLogin = () => {
-  const [, dispatch] = useReducer(sessionReducer, {
-    username: '',
-    roles: [],
-    token: ''
-  });
+  const [, dispatch] = useReducer(sessionReducer, initialSessionState);
   const [showPassword, setShowPassword] = useState(false);
 
   const { control, handleSubmit, setValue, watch } = useForm<LoginForm>({
-    defaultValues: { username: '', password: '', remember: false }
+    defaultValues: { username: '', password: '', remember: false },
+    resolver: yupResolver(loginValidationSchema)
   });
 
   useEffect(() => {
@@ -83,9 +64,6 @@ export const useLogin = () => {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 'Enter') {
-        handleSubmit(onSubmit)();
-      }
       if (e.altKey && e.key.toLowerCase() === 'r') {
         handleRecover();
       }
@@ -95,7 +73,7 @@ export const useLogin = () => {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [handleSubmit, onSubmit, handleRecover, toggleShowPassword]);
+  }, [handleRecover, toggleShowPassword]);
 
   const clientLogoUrl = '/logo.png';
 
@@ -109,5 +87,3 @@ export const useLogin = () => {
     clientLogoUrl
   };
 };
-
-export type { SessionState };

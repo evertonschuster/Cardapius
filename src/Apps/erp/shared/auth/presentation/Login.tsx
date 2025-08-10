@@ -1,12 +1,13 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { Button } from '../../components/components/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+const apiUrl = import.meta.env;
 
 import { useLogin } from '../application/useLogin';
 import { TextField } from '../../components/components/TextField';
@@ -26,6 +27,8 @@ export const Login: React.FC = () => {
     clientLogoUrl
   } = useLogin();
 
+  console.log(apiUrl)
+
   return (
     <Box className="login-container">
       <Box component="form" onSubmit={handleSubmit(onSubmit)} className="login-card">
@@ -36,7 +39,6 @@ export const Login: React.FC = () => {
           label="Usuário"
           fullWidth
           margin="normal"
-          rules={{ required: 'Usuário é obrigatório' }}
         />
         <TextField
           name="password"
@@ -45,7 +47,6 @@ export const Login: React.FC = () => {
           type={showPassword ? 'text' : 'password'}
           fullWidth
           margin="normal"
-          rules={{ required: 'Senha é obrigatória' }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -61,7 +62,13 @@ export const Login: React.FC = () => {
           }}
         />
         <Checkbox name="remember" control={control} label="Salvar senha" />
-        <Button type="submit" variant="contained" fullWidth aria-label="Entrar no sistema" >
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          aria-label="Entrar no sistema"
+          shortcut={['Ctrl', 'Enter']}
+        >
           Entrar
         </Button>
         <Box mt={2}>

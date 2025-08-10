@@ -17,7 +17,7 @@ export const Checkbox = <T extends FieldValues>({
   checkboxProps
 }: RHFCheckboxProps<T>) => (
   <Controller
-    name={name}
+    name={name as any}
     control={control}
     render={({ field }) => (
       <FormControlLabel
