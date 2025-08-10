@@ -1,4 +1,4 @@
 export * from './AuthContext';
 export * from './PrivateRoute';
-export * from './Login';
-export * from './authService';
+export * from './presentation/Login';
+export * from './infrastructure/authService';

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { authService } from './authService';
+import { authService } from './infrastructure/authService';
 
 interface AuthContextData {
   accessToken: string | null;
