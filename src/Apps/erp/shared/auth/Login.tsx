@@ -14,13 +14,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import './Login.less';
 import { useLogin } from './useLogin';
 
-interface LoginProps {
-  onLogin: (credentials: { username: string; password: string }) => void;
-  onRecoverPassword: () => void;
-  clientLogoUrl: string;
-}
-
-export const Login: React.FC<LoginProps> = ({ onLogin, onRecoverPassword, clientLogoUrl }) => {
+export const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -29,8 +23,9 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onRecoverPassword, client
     toggleShowPassword,
     handleRecover,
     showPassword,
-    session
-  } = useLogin({ onLogin, onRecoverPassword });
+    session,
+    clientLogoUrl
+  } = useLogin();
 
   return (
     <Box className="login-container">
@@ -77,7 +72,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onRecoverPassword, client
           Entrar
         </Button>
         <Box mt={2}>
-          <Link href="#" onClick={(e) => handleRecover(e)}>
+          <Link href="#" onClick={handleRecover}>
             Esqueci minha senha
           </Link>
         </Box>

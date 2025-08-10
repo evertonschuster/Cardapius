@@ -1,10 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-interface UseLoginParams {
-  onLogin: (credentials: { username: string; password: string }) => void;
-  onRecoverPassword: () => void;
-}
+import { authService } from './authService';
 
 interface SessionState {
   username: string;
@@ -31,7 +27,7 @@ const sessionReducer = (state: SessionState, action: SessionAction): SessionStat
   }
 };
 
-export const useLogin = ({ onLogin, onRecoverPassword }: UseLoginParams) => {
+export const useLogin = () => {
   const [session, dispatch] = useReducer(sessionReducer, {
     username: '',
     roles: [],
@@ -64,31 +60,31 @@ export const useLogin = ({ onLogin, onRecoverPassword }: UseLoginParams) => {
   }, []);
 
   const onSubmit = useCallback(
-    (data: LoginForm) => {
+    async (data: LoginForm) => {
       if (data.remember) {
         localStorage.setItem('login_username', data.username);
       } else {
         localStorage.removeItem('login_username');
       }
-      onLogin({ username: data.username, password: data.password });
+      const res = await authService.login(data.username, data.password);
       dispatch({
         type: 'SET',
         payload: {
           username: data.username,
-          roles: ['user'],
-          token: 'mock-token'
+          roles: res.roles,
+          token: res.accessToken
         }
       });
     },
-    [onLogin]
+    []
   );
 
   const handleRecover = useCallback(
     (e?: React.MouseEvent<HTMLAnchorElement>) => {
       if (e) e.preventDefault();
-      onRecoverPassword();
+      // TODO: implement password recovery flow
     },
-    [onRecoverPassword]
+    []
   );
 
   useEffect(() => {
@@ -107,6 +103,8 @@ export const useLogin = ({ onLogin, onRecoverPassword }: UseLoginParams) => {
     return () => window.removeEventListener('keydown', handler);
   }, [handleSubmit, onSubmit, handleRecover, toggleShowPassword]);
 
+  const clientLogoUrl = '/logo.png';
+
   return {
     register,
     handleSubmit,
@@ -115,7 +113,8 @@ export const useLogin = ({ onLogin, onRecoverPassword }: UseLoginParams) => {
     toggleShowPassword,
     handleRecover,
     showPassword,
-    session
+    session,
+    clientLogoUrl
   };
 };
 
