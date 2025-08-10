@@ -1,0 +1,47 @@
+{
+  "name": "erp-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start:dev": "cross-env VITE_APP_ENV=dev npm run start",
+    "start:hlg": "cross-env VITE_APP_ENV=hlg npm run start",
+    "start:prod": "cross-env VITE_APP_ENV=prod npm run start",
+    "start": "vite",
+    "build:dev": "cross-env VITE_APP_ENV=dev npm run build",
+    "build:hlg": "cross-env VITE_APP_ENV=hlg npm run build",
+    "build:prod": "cross-env VITE_APP_ENV=prod npm run build",
+    "build": "vite build",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-hook-form": "^7.62.0",
+    "react-router-dom": "^7.8.0",
+    "sql.js": "^1.13.0",
+    "@hookform/resolvers": "^3.9.0",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.2.1",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "cross-env": "^10.0.0",
+    "jest": "^30.0.5",
+    "less": "^4.4.0",
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.1",
+    "vite-tsconfig-paths": "^5.1.4"
+  }
+}
