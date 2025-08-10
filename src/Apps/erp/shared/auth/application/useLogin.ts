@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useReducer, useState, MouseEvent } from 'react';
 import { useForm } from 'react-hook-form';
-import { authService } from './authService';
+import { authService } from '../infrastructure/authService';
 
 interface SessionState {
   username: string;
@@ -35,13 +35,7 @@ export const useLogin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors }
-  } = useForm<LoginForm>({
+  const { control, handleSubmit, setValue, watch } = useForm<LoginForm>({
     defaultValues: { username: '', password: '', remember: false }
   });
 
@@ -80,7 +74,7 @@ export const useLogin = () => {
   );
 
   const handleRecover = useCallback(
-    (e?: React.MouseEvent<HTMLAnchorElement>) => {
+    (e?: MouseEvent<HTMLAnchorElement>) => {
       if (e) e.preventDefault();
       // TODO: implement password recovery flow
     },
@@ -106,9 +100,8 @@ export const useLogin = () => {
   const clientLogoUrl = '/logo.png';
 
   return {
-    register,
+    control,
     handleSubmit,
-    errors,
     onSubmit,
     toggleShowPassword,
     handleRecover,

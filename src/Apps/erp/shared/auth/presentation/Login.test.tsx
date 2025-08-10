@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Login } from './Login';
-import { authService } from './authService';
+import { authService } from '../infrastructure/authService';
 
-jest.mock('./authService', () => ({
+jest.mock('../infrastructure/authService', () => ({
   authService: {
     login: jest.fn().mockResolvedValue({
       accessToken: 'token',

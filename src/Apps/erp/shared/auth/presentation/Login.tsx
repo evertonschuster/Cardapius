@@ -1,9 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -12,13 +9,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import './Login.less';
-import { useLogin } from './useLogin';
+import { useLogin } from '../application/useLogin';
+import { RHFTextField } from './components/RHFTextField';
+import { RHFCheckbox } from './components/RHFCheckbox';
 
 export const Login: React.FC = () => {
   const {
-    register,
+    control,
     handleSubmit,
-    errors,
     onSubmit,
     toggleShowPassword,
     handleRecover,
@@ -31,23 +29,22 @@ export const Login: React.FC = () => {
     <Box className="login-container">
       <Box component="form" onSubmit={handleSubmit(onSubmit)} className="login-card">
         {clientLogoUrl && <img src={clientLogoUrl} alt="Logo do cliente" className="logo" />}
-        <TextField
+        <RHFTextField
+          name="username"
+          control={control}
           label="Usuário"
           fullWidth
           margin="normal"
-          {...register('username', { required: true })}
+          rules={{ required: 'Usuário é obrigatório' }}
         />
-        {errors.username && (
-          <Typography color="error" variant="body2">
-            Usuário é obrigatório
-          </Typography>
-        )}
-        <TextField
+        <RHFTextField
+          name="password"
+          control={control}
           label="Senha"
           type={showPassword ? 'text' : 'password'}
           fullWidth
           margin="normal"
-          {...register('password', { required: true })}
+          rules={{ required: 'Senha é obrigatória' }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -62,12 +59,7 @@ export const Login: React.FC = () => {
             )
           }}
         />
-        {errors.password && (
-          <Typography color="error" variant="body2">
-            Senha é obrigatória
-          </Typography>
-        )}
-        <FormControlLabel control={<Checkbox {...register('remember')} />} label="Salvar senha" />
+        <RHFCheckbox name="remember" control={control} label="Salvar senha" />
         <Button type="submit" variant="contained" fullWidth aria-label="Entrar no sistema">
           Entrar
         </Button>
