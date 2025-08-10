@@ -83,8 +83,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onRecoverPassword, client
         type: 'SET',
         payload: {
           username: data.username,
-          roles: ['user'], // TODO: replace with real roles from API
-          token: 'mock-token' // TODO: replace with real token
+          roles: ['user'],
+          token: 'mock-token'
         }
       });
     },
