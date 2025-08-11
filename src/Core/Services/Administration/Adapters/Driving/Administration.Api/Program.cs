@@ -11,13 +11,13 @@ var configuration = builder.Configuration;
 builder.AddServiceDefaults();
 
 // Authentication against Sentinel
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = configuration["Sentinel:Authority"];
-        options.Audience = configuration["Sentinel:Audience"];
-        options.RequireHttpsMetadata = false;
-    });
+//builder.Services.AddAuthentication("Bearer")
+//    .AddJwtBearer("Bearer", options =>
+//    {
+//        options.Authority = configuration["Sentinel:Authority"];
+//        options.Audience = configuration["Sentinel:Audience"];
+//        options.RequireHttpsMetadata = false;
+//    });
 
 builder.Services.AddAuthorization(options =>
 {

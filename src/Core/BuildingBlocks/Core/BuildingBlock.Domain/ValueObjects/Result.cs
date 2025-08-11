@@ -17,10 +17,10 @@ namespace BuildingBlock.Domain.ValueObjects
         }
 
         /// <summary>
-/// Creates a successful <see cref="Result"/> instance with no errors.
-/// </summary>
-/// <returns>A <see cref="Result"/> indicating success.</returns>
-public static Result Success() => new([]);
+        /// Creates a successful <see cref="Result"/> instance with no errors.
+        /// </summary>
+        /// <returns>A <see cref="Result"/> indicating success.</returns>
+        public static Result Success() => new([]);
 
         /// <summary>
         /// Creates a failed <see cref="Result"/> containing the specified errors.
@@ -70,11 +70,11 @@ public static Result Success() => new([]);
         }
 
         /// <summary>
-/// Creates a successful <see cref="Result{T}"/> containing the specified value and no errors.
-/// </summary>
-/// <param name="value">The value to include in the successful result.</param>
-/// <returns>A <see cref="Result{T}"/> representing success with the provided value.</returns>
-public static Result<T> Success(T value) => new(value, []);
+        /// Creates a successful <see cref="Result{T}"/> containing the specified value and no errors.
+        /// </summary>
+        /// <param name="value">The value to include in the successful result.</param>
+        /// <returns>A <see cref="Result{T}"/> representing success with the provided value.</returns>
+        public static Result<T> Success(T value) => new(value, []);
 
         /// <summary>
         /// Creates a failed <see cref="Result{T}"/> containing the specified errors.

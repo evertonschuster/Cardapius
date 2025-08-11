@@ -4,8 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sentinel.Api.Data;
 
-public class SentinelDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+public class SentinelDbContext(DbContextOptions<SentinelDbContext> options) : IdentityDbContext<IdentityUser, IdentityRole, string>(options)
 {
-    public SentinelDbContext(DbContextOptions<SentinelDbContext> options) : base(options) { }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("Sentine");
+    }
 }
 

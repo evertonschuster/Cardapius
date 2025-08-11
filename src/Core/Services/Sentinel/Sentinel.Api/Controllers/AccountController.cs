@@ -19,6 +19,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("register")]
+    [Authorize(Roles = "SENTINEL.REGISTER_PASSWORD")]
     public async Task<IActionResult> Register(RegisterDto dto)
     {
         var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
@@ -38,6 +39,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [Authorize(Roles = "SENTINEL.FORGOT_PASSWORD")]
     public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
@@ -48,6 +50,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [Authorize(Roles = "SENTINEL.RESET_PASSWORD")]
     public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
@@ -61,6 +64,7 @@ public class AccountController : ControllerBase
 
     [Authorize]
     [HttpPost("change-password")]
+    [Authorize(Roles = "SENTINEL.CHANGE_PASSWORD")]
     public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
     {
         var user = await _userManager.GetUserAsync(User);
