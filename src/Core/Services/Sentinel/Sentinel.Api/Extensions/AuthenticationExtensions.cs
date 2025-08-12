@@ -26,13 +26,11 @@ namespace Sentinel.Api.Extensions
                        .AllowPasswordFlow()
                        .AllowRefreshTokenFlow()
                        .AllowClientCredentialsFlow()
-                       .AllowPasswordFlow()
                        .AcceptAnonymousClients()
                        .RequireProofKeyForCodeExchange()
                        .AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate()
                        .UseAspNetCore()
-                           .EnableAuthorizationEndpointPassthrough()
                            .EnableTokenEndpointPassthrough();
                     //.EnableIntrospectionEndpointPassthrough()
                     //.EnableRevocationEndpointPassthrough();
