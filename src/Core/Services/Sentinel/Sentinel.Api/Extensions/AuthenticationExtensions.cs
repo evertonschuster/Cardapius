@@ -23,9 +23,11 @@ namespace Sentinel.Api.Extensions
                        .SetIntrospectionEndpointUris("/connect/introspect")
                        .SetRevocationEndpointUris("/connect/revocation")
                        .AllowAuthorizationCodeFlow()
+                       .AllowPasswordFlow()
                        .AllowRefreshTokenFlow()
                        .AllowClientCredentialsFlow()
                        .AllowPasswordFlow()
+                       .AcceptAnonymousClients()
                        .RequireProofKeyForCodeExchange()
                        .AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate()
@@ -34,6 +36,14 @@ namespace Sentinel.Api.Extensions
                            .EnableTokenEndpointPassthrough();
                     //.EnableIntrospectionEndpointPassthrough()
                     //.EnableRevocationEndpointPassthrough();
+
+                    opt.RegisterScopes(
+                       OpenIddictConstants.Scopes.Email,
+                       OpenIddictConstants.Scopes.Profile,
+                       OpenIddictConstants.Scopes.OpenId,
+                       OpenIddictConstants.Scopes.OfflineAccess,
+                       "api" // Your custom API scope
+                   );
                 })
                 .AddValidation(opt =>
                 {
@@ -50,8 +60,8 @@ namespace Sentinel.Api.Extensions
             services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(AppContext.BaseDirectory, "keys")));
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiScope", policy =>
-                    policy.RequireClaim(OpenIddictConstants.Claims.Scope, "api"));
+                //options.AddPolicy("ApiScope", policy =>
+                //    policy.RequireClaim(OpenIddictConstants.Claims.Scope, "api"));
             });
 
             return services;

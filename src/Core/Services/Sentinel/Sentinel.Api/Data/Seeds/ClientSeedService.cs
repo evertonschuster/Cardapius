@@ -14,12 +14,20 @@ namespace Sentinel.Api.Data.Seeds
                     ClientId = "console",
                     ClientSecret = "secret",
                     Permissions =
-                {
-                    OpenIddictConstants.Permissions.Endpoints.Token,
-                    OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
-                    OpenIddictConstants.Permissions.GrantTypes.Password,
-                    OpenIddictConstants.Permissions.Prefixes.Scope + "api"
-                }
+                    {
+                        OpenIddictConstants.Permissions.Endpoints.Authorization,
+                        OpenIddictConstants.Permissions.Endpoints.Token,
+                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
+                        OpenIddictConstants.Permissions.GrantTypes.Password,
+                        OpenIddictConstants.Permissions.Scopes.Email,
+                        OpenIddictConstants.Permissions.Scopes.Profile,
+                        OpenIddictConstants.Scopes.OpenId,
+                        OpenIddictConstants.Scopes.OfflineAccess,
+                        OpenIddictConstants.Permissions.Prefixes.Scope + "api"
+                    },
+                    RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
                 });
             }
 
@@ -30,13 +38,13 @@ namespace Sentinel.Api.Data.Seeds
                     ClientId = "swagger",
                     RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
                     Permissions =
-                {
-                    OpenIddictConstants.Permissions.Endpoints.Authorization,
-                    OpenIddictConstants.Permissions.Endpoints.Token,
-                    OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                    OpenIddictConstants.Permissions.ResponseTypes.Code,
-                    OpenIddictConstants.Permissions.Prefixes.Scope + "api"
-                },
+                    {
+                        OpenIddictConstants.Permissions.Endpoints.Authorization,
+                        OpenIddictConstants.Permissions.Endpoints.Token,
+                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        OpenIddictConstants.Permissions.Prefixes.Scope + "api"
+                    },
                     Requirements = { OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange }
                 });
             }
