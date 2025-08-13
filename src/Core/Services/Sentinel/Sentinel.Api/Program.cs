@@ -6,6 +6,9 @@ using Sentinel.Api.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.AddAppLogging(builder.Configuration);
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 builder.Services.AddDatabase(builder.Configuration);
 builder.Services.AddIdentity();
 builder.Services.AddAppAuthentication(builder.Configuration);

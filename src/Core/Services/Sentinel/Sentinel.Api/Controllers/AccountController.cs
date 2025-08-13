@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Sentinel.Api.Models;
+using Sentinel.Api.ViewModels;
 
 namespace Sentinel.Api.Controllers;
 
@@ -38,7 +39,12 @@ public class AccountController : Controller
                    "<input type='email' name='Email'/>" +
                    "<input type='password' name='Password'/>" +
                    "<button type='submit'>Login</button></form>";
-        return Content(form, "text/html");
+
+        var model = new LoginModel()
+        {
+            ReturnUrl = returnUrl,
+        };
+        return View(model);
     }
 
     [HttpPost("login")]
