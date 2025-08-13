@@ -7,7 +7,7 @@ namespace Sentinel.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AccountController : ControllerBase
+public class AccountController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,17 +29,32 @@ public class AccountController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("login")]
+    [AllowAnonymous]
+    public IActionResult Login([FromQuery] string? returnUrl = null)
+    {
+        var form = "<form method='post'>" +
+                   (string.IsNullOrEmpty(returnUrl) ? string.Empty : $"<input type='hidden' name='returnUrl' value='{returnUrl}' />") +
+                   "<input type='email' name='Email'/>" +
+                   "<input type='password' name='Password'/>" +
+                   "<button type='submit'>Login</button></form>";
+        return Content(form, "text/html");
+    }
+
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto dto)
+    [AllowAnonymous]
+    public async Task<IActionResult> Login([FromForm] LoginDto dto, [FromForm] string? returnUrl)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
             return Unauthorized();
         if (!user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
             return Unauthorized();
-        var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, true);
+        var result = await _signInManager.PasswordSignInAsync(user, dto.Password, true, true);
         if (!result.Succeeded)
             return Unauthorized();
+        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            return Redirect(returnUrl);
         return Ok();
     }
 
