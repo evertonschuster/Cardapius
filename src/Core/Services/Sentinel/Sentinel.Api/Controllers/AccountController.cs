@@ -7,12 +7,12 @@ namespace Sentinel.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AccountController : ControllerBase
+public class AccountController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -22,19 +22,39 @@ public class AccountController : ControllerBase
     [Authorize(Roles = "SENTINEL.REGISTER_PASSWORD")]
     public async Task<IActionResult> Register(RegisterDto dto)
     {
-        var user = new IdentityUser { UserName = dto.Email, Email = dto.Email };
+        var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, IsActive = true };
         var result = await _userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded)
             return BadRequest(result.Errors);
         return Ok();
     }
 
-    [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDto dto)
+    [HttpGet("login")]
+    [AllowAnonymous]
+    public IActionResult Login([FromQuery] string? returnUrl = null)
     {
-        var result = await _signInManager.PasswordSignInAsync(dto.Email, dto.Password, false, lockoutOnFailure: true);
+        var form = "<form method='post'>" +
+                   (string.IsNullOrEmpty(returnUrl) ? string.Empty : $"<input type='hidden' name='returnUrl' value='{returnUrl}' />") +
+                   "<input type='email' name='Email'/>" +
+                   "<input type='password' name='Password'/>" +
+                   "<button type='submit'>Login</button></form>";
+        return Content(form, "text/html");
+    }
+
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Login([FromForm] LoginDto dto, [FromForm] string? returnUrl)
+    {
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        if (user == null)
+            return Unauthorized();
+        if (!user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
+            return Unauthorized();
+        var result = await _signInManager.PasswordSignInAsync(user, dto.Password, true, true);
         if (!result.Succeeded)
             return Unauthorized();
+        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            return Redirect(returnUrl);
         return Ok();
     }
 

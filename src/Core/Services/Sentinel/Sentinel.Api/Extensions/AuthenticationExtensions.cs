@@ -26,7 +26,6 @@ namespace Sentinel.Api.Extensions
                        .AllowPasswordFlow()
                        .AllowRefreshTokenFlow()
                        .AllowClientCredentialsFlow()
-                       .AllowPasswordFlow()
                        .AcceptAnonymousClients()
                        .RequireProofKeyForCodeExchange()
                        .AddDevelopmentEncryptionCertificate()

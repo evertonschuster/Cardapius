@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Sentinel.Api.Models;
 using Sentinel.Api.Services;
 
 namespace Sentinel.Api.Data.Seeds
 {
     public class UserSeedService(
-        UserManager<IdentityUser> manager,
+        UserManager<ApplicationUser> manager,
         RoleManager<IdentityRole> roleManager,
         PasswordGeneratorService passwordGenerator,
         IHostEnvironment host,
@@ -26,12 +27,14 @@ namespace Sentinel.Api.Data.Seeds
             {
                 try
                 {
-                    admin = new IdentityUser
+                    admin = new ApplicationUser
                     {
                         UserName = adminEmail,
                         Email = adminEmail,
                         EmailConfirmed = true,
                         LockoutEnd = DateTime.UtcNow,
+                        IsActive = true,
+                        AccessGrantedUntil = DateTime.UtcNow.AddYears(1)
                     };
 
                     if (!host.IsProduction())
