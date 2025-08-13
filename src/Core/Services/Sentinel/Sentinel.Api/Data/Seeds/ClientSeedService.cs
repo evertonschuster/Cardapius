@@ -43,6 +43,9 @@ namespace Sentinel.Api.Data.Seeds
                         OpenIddictConstants.Permissions.Endpoints.Token,
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                         OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        OpenIddictConstants.Permissions.Scopes.Profile,
+                        OpenIddictConstants.Permissions.Scopes.Email,
+                        OpenIddictConstants.Permissions.Scopes.OpenId,
                         OpenIddictConstants.Permissions.Prefixes.Scope + "api"
                     },
                     Requirements = { OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange }

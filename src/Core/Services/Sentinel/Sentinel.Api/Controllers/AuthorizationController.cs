@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Sentinel.Api.Models;
@@ -17,48 +19,34 @@ public class AuthorizationController : Controller
         _userManager = userManager;
     }
 
-    [HttpPost("~/connect/token")]
-    [IgnoreAntiforgeryToken]
-    public async Task<IActionResult> Exchange()
+    [HttpGet("~/connect/authorize")]
+    public async Task<IActionResult> Authorize()
     {
         var request = HttpContext.GetOpenIddictServerRequest() ??
                       throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
-        if (request.GrantType == OpenIddictConstants.GrantTypes.Password)
+        if (!User.Identity?.IsAuthenticated ?? true)
         {
-            var user = await _userManager.FindByNameAsync(request.Username);
-            if (user is null)
+            return Challenge(new AuthenticationProperties
             {
-                return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            }
-
-            if (!user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
-            {
-                return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            }
-
-            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password!, true);
-            if (!result.Succeeded)
-            {
-                return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            }
-
-            var principal = await _signInManager.CreateUserPrincipalAsync(user);
-            principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
-            principal.SetScopes(request.GetScopes());
-            foreach (var claim in principal.Claims)
-            {
-                claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken);
-            }
-
-            return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                RedirectUri = Request.PathBase + Request.Path + QueryString.Create(Request.Query.ToList())
+            });
         }
-        else if (request.GrantType == OpenIddictConstants.GrantTypes.AuthorizationCode ||
-                 request.GrantType == OpenIddictConstants.GrantTypes.RefreshToken)
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user is null || !user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
         {
+            await _signInManager.SignOutAsync();
             return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
-        throw new InvalidOperationException("The specified grant type is not supported.");
+        var principal = await _signInManager.CreateUserPrincipalAsync(user);
+        principal.SetScopes(request.GetScopes());
+        foreach (var claim in principal.Claims)
+        {
+            claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken);
+        }
+
+        return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 }

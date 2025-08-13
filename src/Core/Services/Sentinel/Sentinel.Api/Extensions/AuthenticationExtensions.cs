@@ -31,6 +31,7 @@ namespace Sentinel.Api.Extensions
                        .AddDevelopmentEncryptionCertificate()
                        .AddDevelopmentSigningCertificate()
                        .UseAspNetCore()
+                           .EnableAuthorizationEndpointPassthrough()
                            .EnableTokenEndpointPassthrough();
                     //.EnableIntrospectionEndpointPassthrough()
                     //.EnableRevocationEndpointPassthrough();
