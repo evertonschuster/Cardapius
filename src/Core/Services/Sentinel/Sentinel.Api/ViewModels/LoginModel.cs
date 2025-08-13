@@ -1,9 +1,16 @@
-﻿namespace Sentinel.Api.ViewModels
+using System.ComponentModel.DataAnnotations;
+
+namespace Sentinel.Api.ViewModels;
+
+public class LoginModel
 {
-    public class LoginModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string? ReturnUrl { get; internal set; }
-    }
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
+    [Required]
+    public string Password { get; set; } = string.Empty;
+
+    public string? ReturnUrl { get; set; }
 }
+

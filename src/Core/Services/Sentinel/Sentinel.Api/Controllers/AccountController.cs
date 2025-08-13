@@ -6,7 +6,6 @@ using Sentinel.Api.ViewModels;
 
 namespace Sentinel.Api.Controllers;
 
-[ApiController]
 [Route("[controller]")]
 public class AccountController : Controller
 {
@@ -21,7 +20,7 @@ public class AccountController : Controller
 
     [HttpPost("register")]
     [Authorize(Roles = "SENTINEL.REGISTER_PASSWORD")]
-    public async Task<IActionResult> Register(RegisterDto dto)
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto)
     {
         var user = new ApplicationUser { UserName = dto.Email, Email = dto.Email, IsActive = true };
         var result = await _userManager.CreateAsync(user, dto.Password);
@@ -34,13 +33,7 @@ public class AccountController : Controller
     [AllowAnonymous]
     public IActionResult Login([FromQuery] string? returnUrl = null)
     {
-        var form = "<form method='post'>" +
-                   (string.IsNullOrEmpty(returnUrl) ? string.Empty : $"<input type='hidden' name='returnUrl' value='{returnUrl}' />") +
-                   "<input type='email' name='Email'/>" +
-                   "<input type='password' name='Password'/>" +
-                   "<button type='submit'>Login</button></form>";
-
-        var model = new LoginModel()
+        var model = new LoginModel
         {
             ReturnUrl = returnUrl,
         };
@@ -49,24 +42,46 @@ public class AccountController : Controller
 
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromForm] LoginDto dto, [FromForm] string? returnUrl)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginModel model)
     {
-        var user = await _userManager.FindByEmailAsync(dto.Email);
-        if (user == null)
-            return Unauthorized();
-        if (!user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
-            return Unauthorized();
-        var result = await _signInManager.PasswordSignInAsync(user, dto.Password, true, true);
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null || !user.IsActive || (user.AccessGrantedUntil.HasValue && user.AccessGrantedUntil < DateTime.UtcNow))
+        {
+            ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos.");
+            return View(model);
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(user, model.Password, true, true);
         if (!result.Succeeded)
-            return Unauthorized();
+        {
+            ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos.");
+            return View(model);
+        }
+
+        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            return Redirect(model.ReturnUrl);
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout(string? returnUrl = null)
+    {
+        await _signInManager.SignOutAsync();
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return Redirect(returnUrl);
-        return Ok();
+        return RedirectToAction(nameof(Login));
     }
 
     [HttpPost("forgot-password")]
     [Authorize(Roles = "SENTINEL.FORGOT_PASSWORD")]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
@@ -77,7 +92,7 @@ public class AccountController : Controller
 
     [HttpPost("reset-password")]
     [Authorize(Roles = "SENTINEL.RESET_PASSWORD")]
-    public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
@@ -91,7 +106,7 @@ public class AccountController : Controller
     [Authorize]
     [HttpPost("change-password")]
     [Authorize(Roles = "SENTINEL.CHANGE_PASSWORD")]
-    public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
