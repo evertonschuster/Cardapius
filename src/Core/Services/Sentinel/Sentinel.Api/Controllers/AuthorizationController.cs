@@ -5,6 +5,7 @@ using System.Linq;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Sentinel.Api.Models;
+using Microsoft.AspNetCore;
 
 namespace Sentinel.Api.Controllers;
 
@@ -41,6 +42,7 @@ public class AuthorizationController : Controller
         }
 
         var principal = await _signInManager.CreateUserPrincipalAsync(user);
+        principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
         principal.SetScopes(request.GetScopes());
         foreach (var claim in principal.Claims)
         {
