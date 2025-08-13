@@ -53,6 +53,11 @@ public class AuthorizationController : Controller
 
             return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
+        else if (request.GrantType == OpenIddictConstants.GrantTypes.AuthorizationCode ||
+                 request.GrantType == OpenIddictConstants.GrantTypes.RefreshToken)
+        {
+            return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        }
 
         throw new InvalidOperationException("The specified grant type is not supported.");
     }
