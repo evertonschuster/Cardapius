@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Services\Administration\Adapters\Driving\Administration.Api\Administration.Api.csproj" />
+    <ProjectReference Include="..\Services\Sentinel\Sentinel.Api\Sentinel.Api.csproj" />
     <ProjectReference Include="..\Services\Store\Adapters\Driving\Store.Api\Store.Api.csproj" />
   </ItemGroup>
 

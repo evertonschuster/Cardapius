@@ -1,0 +1,53 @@
+@model Sentinel.Api.ViewModels.LoginModel
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="stylesheet" href="~/css/account/login.css" />
+</head>
+<body>
+    <main class="login-container">
+        <form asp-action="Login" method="post" novalidate class="login-card">
+            <input asp-for="ReturnUrl" type="hidden" />
+            <input asp-for="PasswordVisible" type="hidden" value="@Model.PasswordVisible" />
+            @Html.AntiForgeryToken()
+            <div class="logo">
+                <img src="~/images/logo.png" alt="Logo do cliente" />
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" type="email" inputmode="email" autocomplete="username" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group password-wrapper">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" autocomplete="current-password" />
+                <button type="button" id="togglePassword" aria-label="Mostrar senha">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="submit-btn">ENTRAR</button>
+
+            <a class="forgot-link" asp-action="ForgotPassword" asp-controller="Account">
+                Esqueci minha senha
+            </a>
+
+            <div class="footer">
+                <p>Desenvolvido por <a href="https://cardapius.com.br" target="_blank" rel="noopener">Cardapius</a></p>
+                <p>suporte@cardapius.com.br<br />(45) 99934-2864</p>
+            </div>
+        </form>
+    </main>
+
+    <script src="~/js/account/login.js"></script>
+</body>
+</html>
