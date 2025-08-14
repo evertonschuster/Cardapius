@@ -12,5 +12,7 @@ public class LoginModel
     public string Password { get; set; } = string.Empty;
 
     public string? ReturnUrl { get; set; }
+
+    public bool PasswordVisible { get; set; }
 }
 

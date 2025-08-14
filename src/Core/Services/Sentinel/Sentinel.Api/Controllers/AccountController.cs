@@ -70,7 +70,7 @@ public class AccountController : Controller
 
     [Authorize]
     [HttpPost("logout")]
-    [ValidateAntiForgeryToken]
+    [HttpGet("logout")]
     public async Task<IActionResult> Logout(string? returnUrl = null)
     {
         await _signInManager.SignOutAsync();
@@ -79,15 +79,10 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Login));
     }
 
-    [HttpPost("forgot-password")]
-    [Authorize(Roles = "SENTINEL.FORGOT_PASSWORD")]
-    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+    [HttpGet("forgot-password")]
+    public async Task<IActionResult> ForgotPassword()
     {
-        var user = await _userManager.FindByEmailAsync(dto.Email);
-        if (user == null)
-            return Ok();
-        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-        return Ok(new { Token = token });
+        return View();
     }
 
     [HttpPost("reset-password")]

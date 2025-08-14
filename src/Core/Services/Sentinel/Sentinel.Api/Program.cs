@@ -32,7 +32,7 @@ app.UseAppRateLimiter();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseStaticFiles();
 
 app.UseAppSwagger();
 app.MapControllers();
