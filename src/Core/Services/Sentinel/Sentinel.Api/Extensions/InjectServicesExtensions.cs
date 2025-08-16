@@ -12,6 +12,7 @@ namespace Sentinel.Api.Extensions
             services.AddScoped<ISeedService, UserSeedService>();
             services.AddSingleton<PasswordGeneratorService>();
 
+            services.AddHostedService<Worker>();
             return services;
         }
     }

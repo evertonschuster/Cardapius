@@ -1,21 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
+using Sentinel.Api.Data;
+using Sentinel.Api.Data.Seeds;
 
-namespace Sentinel.Api.Data.Seeds
+namespace Sentinel.Api
 {
-    public static class SeedService
+    public class Worker(
+        IServiceScopeFactory scopeFactory,
+        ILogger<Worker> logger
+        ) : BackgroundService
     {
-        public static async Task SeedAsync(this WebApplication app)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<SentinelDbContext>();
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<SentinelDbContext>>();
             logger.LogInformation("Starting database migration and seeding...");
+            using var scope = scopeFactory.CreateScope();
+            var sentinelDbContext = scope.ServiceProvider.GetRequiredService<SentinelDbContext>();
 
-
-            await context.Database.MigrateAsync();
+            await sentinelDbContext.Database.MigrateAsync();
             logger.LogInformation("Database migration completed.");
 
-            var seeders = scope.ServiceProvider.GetRequiredService<IEnumerable<ISeedService>>() ?? [];
+
+            var seeders = scope.ServiceProvider.GetServices<ISeedService>().ToList();
             foreach (var seeder in seeders)
             {
                 try

@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Sentinel.Api.Models;
 using Sentinel.Api.Services;
 

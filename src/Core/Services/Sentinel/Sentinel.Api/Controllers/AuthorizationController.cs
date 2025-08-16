@@ -1,11 +1,10 @@
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Sentinel.Api.Models;
-using Microsoft.AspNetCore;
 
 namespace Sentinel.Api.Controllers;
 

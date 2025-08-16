@@ -66,6 +66,6 @@ namespace Sentinel.Api.Extensions
             return services;
         }
 
-        
+
     }
 }

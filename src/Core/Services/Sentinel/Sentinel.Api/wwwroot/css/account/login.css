@@ -3,7 +3,6 @@
     --radius: 12px;
 }
 
-/* Layout base -------------------------------------------------------------- */
 * {
     box-sizing: border-box;
 }
@@ -20,17 +19,14 @@ body {
 }
 
 .login-container {
-    /* corrige altura em mobile: 100vh vs barra do navegador */
     min-height: 100vh;
     min-height: 100dvh;
     display: grid;
     place-items: center;
-    /* safe-area para iOS notch */
     padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 
 .login-card {
-    /* largura fluída: nunca menor que 280px, nem maior que 420px */
     width: clamp(280px, 92vw, 420px);
     padding: clamp(20px, 4vw, 32px);
     border-radius: var(--radius);
@@ -41,7 +37,6 @@ body {
     background: #fff;
 }
 
-/* Cabeçalho / logo --------------------------------------------------------- */
 .logo {
     display: flex;
     align-items: center;
@@ -53,7 +48,6 @@ body {
         max-width: 100%;
     }
 
-/* Form --------------------------------------------------------------------- */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -95,7 +89,6 @@ label.control-label {
     overflow-wrap: anywhere;
 }
 
-/* Campo senha com ícone ---------------------------------------------------- */
 .password-wrapper {
     position: relative;
 }
@@ -117,7 +110,6 @@ label.control-label {
         line-height: 0;
     }
 
-/* Botão submit ------------------------------------------------------------- */
 .submit-btn {
     background: var(--primary-blue);
     color: #fff;
@@ -148,7 +140,6 @@ label.control-label {
         font-size: 12px;
     }
 
-/* Links -------------------------------------------------------------------- */
 .forgot-link {
     display: block;
     text-align: center;
@@ -178,8 +169,6 @@ label.control-label {
             outline: 2px solid var(--primary-blue);
         }
 
-/* Breakpoints finos -------------------------------------------------------- */
-/* Telas muito estreitas (<=360px): reduz levemente tipografia/espacamentos */
 @media (max-width: 360px) {
     label {
         font-size: 13px;
@@ -195,14 +184,12 @@ label.control-label {
     /* economiza espaço */
 }
 
-/* Telas médias (>=768px): dá um pouco mais de respiro se quiser */
 @media (min-width: 768px) {
     .login-card {
         width: clamp(360px, 46vw, 460px);
     }
 }
 
-/* Acessibilidade: reduz animações/transições se o usuário prefere menos movimento */
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;

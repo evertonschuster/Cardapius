@@ -1,5 +1,4 @@
 using FluentValidation.AspNetCore;
-using Sentinel.Api.Data.Seeds;
 using Sentinel.Api.Extensions;
 using Sentinel.Api.Middleware;
 
@@ -38,5 +37,4 @@ app.UseAppSwagger();
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-await app.SeedAsync();
 await app.RunAsync();

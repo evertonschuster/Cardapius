@@ -30,27 +30,6 @@ namespace Sentinel.Api.Data.Seeds
                     RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
                 });
             }
-
-            if (await manager.FindByClientIdAsync("swagger") is null)
-            {
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
-                {
-                    ClientId = "swagger",
-                    RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
-                    Permissions =
-                    {
-                        OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        OpenIddictConstants.Permissions.Endpoints.Token,
-                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.ResponseTypes.Code,
-                        OpenIddictConstants.Permissions.Scopes.Profile,
-                        OpenIddictConstants.Permissions.Scopes.Email,
-                        OpenIddictConstants.Scopes.OpenId,
-                        OpenIddictConstants.Permissions.Prefixes.Scope + "api"
-                    },
-                    Requirements = { OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange }
-                });
-            }
         }
     }
 }
