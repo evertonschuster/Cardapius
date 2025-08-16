@@ -19,11 +19,11 @@ public class AuthorizationController : Controller
         _userManager = userManager;
     }
 
+    [IgnoreAntiforgeryToken]
     [HttpGet("~/connect/authorize")]
     public async Task<IActionResult> Authorize()
     {
-        var request = HttpContext.GetOpenIddictServerRequest() ??
-                      throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
+        var request = HttpContext.GetOpenIddictServerRequest() ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
         if (!User.Identity?.IsAuthenticated ?? true)
         {

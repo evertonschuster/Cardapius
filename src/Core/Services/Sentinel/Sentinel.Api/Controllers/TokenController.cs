@@ -19,6 +19,7 @@ public class TokenController : Controller
         _userManager = userManager;
     }
 
+    [IgnoreAntiforgeryToken]
     [HttpPost("~/connect/token")]
     public async Task<IActionResult> Exchange()
     {
@@ -78,8 +79,6 @@ public class TokenController : Controller
                 claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken,
                                       OpenIddictConstants.Destinations.IdentityToken);
 
-            // Importante: não recrie o principal aqui – reutilize o que veio do OpenIddict
-            // para preservar autorização, scopes e presenters.
             return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
         }
 
