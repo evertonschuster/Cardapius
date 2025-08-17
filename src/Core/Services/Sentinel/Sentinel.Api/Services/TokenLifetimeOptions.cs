@@ -1,15 +1,17 @@
 using System;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
-using Sentinel.Api.Data;
 using Sentinel.Api.Models;
+using Sentinel.Api.Extensions;
 
 namespace Sentinel.Api.Services;
 
 public class TokenLifetimeOptions
 {
-    private readonly SentinelDbContext _context;
+    private readonly IOpenIddictApplicationManager _manager;
+
     private static readonly string[] DefaultAllowedScopes =
     {
         OpenIddictConstants.Scopes.Email,
@@ -22,66 +24,61 @@ public class TokenLifetimeOptions
     private static readonly TokenLifetime DefaultTokenLifetime =
         new(TimeSpan.FromHours(1), TimeSpan.FromDays(1));
 
-    public TokenLifetimeOptions(SentinelDbContext context)
+    public TokenLifetimeOptions(IOpenIddictApplicationManager manager)
     {
-        _context = context;
+        _manager = manager;
     }
 
     public async Task<string[]> GetAllowedScopesAsync(string clientId)
     {
-        var option = await _context.TokenLifetimeOptions.FirstOrDefaultAsync(o => o.ClientId == clientId);
-        if (option != null && !string.IsNullOrWhiteSpace(option.AllowedScopes))
+        var application = await _manager.FindByClientIdAsync(clientId);
+        if (application is null)
+            return DefaultAllowedScopes;
+
+        var permissions = (await _manager.GetPermissionsAsync(application)).ToList();
+        var prefix = OpenIddictConstants.Permissions.Prefixes.Scope;
+        var allowedScopes = permissions
+            .Where(p => p.StartsWith(prefix, StringComparison.Ordinal))
+            .Select(p => p[prefix.Length..])
+            .ToArray();
+
+        if (allowedScopes.Length == 0)
         {
-            try
-            {
-                return JsonSerializer.Deserialize<string[]>(option.AllowedScopes) ?? DefaultAllowedScopes;
-            }
-            catch
-            {
-                // ignore parsing errors
-            }
+            var newPermissions = permissions
+                .Where(p => !p.StartsWith(prefix, StringComparison.Ordinal))
+                .Concat(DefaultAllowedScopes.Select(s => prefix + s))
+                .ToList();
+            await _manager.SetPermissionsAsync(application, newPermissions);
+            return DefaultAllowedScopes;
         }
 
-        if (option == null)
-        {
-            option = new TokenLifetimeOption
-            {
-                ClientId = clientId,
-                AllowedScopes = JsonSerializer.Serialize(DefaultAllowedScopes),
-                AccessTokenLifetimeMinutes = (int)DefaultTokenLifetime.AccessToken.TotalMinutes,
-                RefreshTokenLifetimeMinutes = (int)DefaultTokenLifetime.RefreshToken.TotalMinutes
-            };
-            _context.TokenLifetimeOptions.Add(option);
-            await _context.SaveChangesAsync();
-        }
-        else if (string.IsNullOrWhiteSpace(option.AllowedScopes))
-        {
-            option.AllowedScopes = JsonSerializer.Serialize(DefaultAllowedScopes);
-            await _context.SaveChangesAsync();
-        }
-
-        return DefaultAllowedScopes;
+        return allowedScopes;
     }
 
     public async Task<TokenLifetime> GetTokenLifetimesAsync(string clientId)
     {
-        var option = await _context.TokenLifetimeOptions.FirstOrDefaultAsync(o => o.ClientId == clientId);
-        if (option == null)
-        {
-            option = new TokenLifetimeOption
-            {
-                ClientId = clientId,
-                AllowedScopes = JsonSerializer.Serialize(DefaultAllowedScopes),
-                AccessTokenLifetimeMinutes = (int)DefaultTokenLifetime.AccessToken.TotalMinutes,
-                RefreshTokenLifetimeMinutes = (int)DefaultTokenLifetime.RefreshToken.TotalMinutes
-            };
-            _context.TokenLifetimeOptions.Add(option);
-            await _context.SaveChangesAsync();
+        var application = await _manager.FindByClientIdAsync(clientId);
+        if (application is null)
             return DefaultTokenLifetime;
-        }
 
-        return new TokenLifetime(
-            TimeSpan.FromMinutes(option.AccessTokenLifetimeMinutes),
-            TimeSpan.FromMinutes(option.RefreshTokenLifetimeMinutes));
+        var properties = await _manager.GetPropertiesAsync(application);
+        var access = GetInt(properties, OpenIddictApplicationDescriptorExtensions.AccessTokenLifetimeProperty);
+        var refresh = GetInt(properties, OpenIddictApplicationDescriptorExtensions.RefreshTokenLifetimeProperty);
+
+        if (access.HasValue && refresh.HasValue)
+            return new TokenLifetime(TimeSpan.FromMinutes(access.Value), TimeSpan.FromMinutes(refresh.Value));
+
+        var dict = properties.ToDictionary(p => p.Key, p => p.Value);
+        dict[OpenIddictApplicationDescriptorExtensions.AccessTokenLifetimeProperty] = JsonSerializer.SerializeToElement((int)DefaultTokenLifetime.AccessToken.TotalMinutes);
+        dict[OpenIddictApplicationDescriptorExtensions.RefreshTokenLifetimeProperty] = JsonSerializer.SerializeToElement((int)DefaultTokenLifetime.RefreshToken.TotalMinutes);
+        await _manager.SetPropertiesAsync(application, dict);
+        return DefaultTokenLifetime;
+    }
+
+    private static int? GetInt(ImmutableDictionary<string, JsonElement> properties, string key)
+    {
+        if (properties.TryGetValue(key, out var element) && element.ValueKind == JsonValueKind.Number)
+            return element.GetInt32();
+        return null;
     }
 }
