@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,17 +7,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Sentinel.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateProject : Migration
+    public partial class CreatedProject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Sentine");
+                name: "Sentinel");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -31,7 +32,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -59,7 +60,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -86,7 +87,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "OpenIddictScopes",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -106,7 +107,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -121,7 +122,7 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -129,7 +130,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -144,7 +145,7 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -152,7 +153,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "text", nullable: false),
@@ -166,7 +167,7 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -174,7 +175,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -186,14 +187,14 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -201,7 +202,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "text", nullable: false),
@@ -215,7 +216,7 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -223,7 +224,7 @@ namespace Sentinel.Api.Migrations
 
             migrationBuilder.CreateTable(
                 name: "OpenIddictAuthorizations",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -242,14 +243,14 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_OpenIddictAuthorizations_OpenIddictApplications_Application~",
                         column: x => x.ApplicationId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "OpenIddictApplications",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "OpenIddictTokens",
-                schema: "Sentine",
+                schema: "Sentinel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
@@ -272,96 +273,96 @@ namespace Sentinel.Api.Migrations
                     table.ForeignKey(
                         name: "FK_OpenIddictTokens_OpenIddictApplications_ApplicationId",
                         column: x => x.ApplicationId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "OpenIddictApplications",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_OpenIddictTokens_OpenIddictAuthorizations_AuthorizationId",
                         column: x => x.AuthorizationId,
-                        principalSchema: "Sentine",
+                        principalSchema: "Sentinel",
                         principalTable: "OpenIddictAuthorizations",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictApplications",
                 column: "ClientId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictAuthorizations_ApplicationId_Status_Subject_Type",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictAuthorizations",
                 columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictScopes_Name",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictScopes",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictTokens",
                 columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_AuthorizationId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictTokens",
                 column: "AuthorizationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_ReferenceId",
-                schema: "Sentine",
+                schema: "Sentinel",
                 table: "OpenIddictTokens",
                 column: "ReferenceId",
                 unique: true);
@@ -372,47 +373,47 @@ namespace Sentinel.Api.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictTokens",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictAuthorizations",
-                schema: "Sentine");
+                schema: "Sentinel");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications",
-                schema: "Sentine");
+                schema: "Sentinel");
         }
     }
 }

@@ -1,7 +1,5 @@
 using OpenIddict.Abstractions;
-using Microsoft.Extensions.Configuration;
-using Sentinel.Api.Extensions;
-using Sentinel.Api.Models;
+using System.Globalization;
 
 namespace Sentinel.Api.Data.Seeds
 {
@@ -15,9 +13,6 @@ namespace Sentinel.Api.Data.Seeds
             OpenIddictConstants.Scopes.OfflineAccess,
             "api"
         };
-
-        private static readonly TokenLifetime DefaultTokenLifetime =
-            new(TimeSpan.FromHours(1), TimeSpan.FromDays(1));
 
         public async Task SeedAsync()
         {
@@ -48,7 +43,11 @@ namespace Sentinel.Api.Data.Seeds
                     RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
                 };
 
-                descriptor.SetTokenLifetimes(DefaultTokenLifetime);
+
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
 
                 foreach (var scope in allowedScopes)
                 {

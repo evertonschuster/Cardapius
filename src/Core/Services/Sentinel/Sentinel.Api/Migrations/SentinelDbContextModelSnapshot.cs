@@ -17,7 +17,7 @@ namespace Sentinel.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Sentine")
+                .HasDefaultSchema("Sentinel")
                 .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -46,7 +46,7 @@ namespace Sentinel.Api.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", "Sentine");
+                    b.ToTable("AspNetRoles", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -71,7 +71,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", "Sentine");
+                    b.ToTable("AspNetRoleClaims", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -96,7 +96,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", "Sentine");
+                    b.ToTable("AspNetUserClaims", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -118,7 +118,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", "Sentine");
+                    b.ToTable("AspNetUserLogins", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -133,7 +133,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", "Sentine");
+                    b.ToTable("AspNetUserRoles", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -152,7 +152,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", "Sentine");
+                    b.ToTable("AspNetUserTokens", "Sentinel");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreApplication", b =>
@@ -217,7 +217,7 @@ namespace Sentinel.Api.Migrations
                     b.HasIndex("ClientId")
                         .IsUnique();
 
-                    b.ToTable("OpenIddictApplications", "Sentine");
+                    b.ToTable("OpenIddictApplications", "Sentinel");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreAuthorization", b =>
@@ -259,7 +259,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
-                    b.ToTable("OpenIddictAuthorizations", "Sentine");
+                    b.ToTable("OpenIddictAuthorizations", "Sentinel");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreScope", b =>
@@ -300,7 +300,7 @@ namespace Sentinel.Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("OpenIddictScopes", "Sentine");
+                    b.ToTable("OpenIddictScopes", "Sentinel");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreToken", b =>
@@ -360,7 +360,7 @@ namespace Sentinel.Api.Migrations
 
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
-                    b.ToTable("OpenIddictTokens", "Sentine");
+                    b.ToTable("OpenIddictTokens", "Sentinel");
                 });
 
             modelBuilder.Entity("Sentinel.Api.Models.ApplicationUser", b =>
@@ -430,7 +430,7 @@ namespace Sentinel.Api.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", "Sentine");
+                    b.ToTable("AspNetUsers", "Sentinel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

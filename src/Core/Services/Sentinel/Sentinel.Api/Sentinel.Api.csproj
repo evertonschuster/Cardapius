@@ -5,7 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="Resources\SharedResource.pt-BR.resx" />
+    <Compile Remove="Pages\**" />
+    <Compile Remove="Resources\**" />
+    <Content Remove="Pages\**" />
+    <Content Remove="Resources\**" />
+    <EmbeddedResource Remove="Pages\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Pages\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
@@ -22,14 +29,5 @@
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-    <Folder Include="Pages\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SharedResource.pt-BR.resx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 </Project>

@@ -18,29 +18,29 @@ public class TokenController(IUserTokenService tokenService) : Controller
         switch (request.GrantType)
         {
             case OpenIddictConstants.GrantTypes.Password:
-            {
-                var user = await tokenService.ValidateUserAsync(request.Username!, request.Password!);
-                if (user is null)
-                    return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                {
+                    var user = await tokenService.ValidateUserAsync(request.Username!, request.Password!);
+                    if (user is null)
+                        return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
-                var principal = await tokenService.CreatePrincipalAsync(user, request.GetScopes(), request.ClientId);
-                return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            }
+                    var principal = await tokenService.CreatePrincipalAsync(user, request.GetScopes(), request.ClientId);
+                    return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                }
             case OpenIddictConstants.GrantTypes.AuthorizationCode:
             case OpenIddictConstants.GrantTypes.RefreshToken:
-            {
-                var authenticateResult = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-                var principal = authenticateResult?.Principal;
-                if (principal is null)
-                    return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                {
+                    var authenticateResult = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                    var principal = authenticateResult?.Principal;
+                    if (principal is null)
+                        return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
-                var user = await tokenService.ValidateUserAsync(principal);
-                if (user is null)
-                    return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                    var user = await tokenService.ValidateUserAsync(principal);
+                    if (user is null)
+                        return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
-                var newPrincipal = await tokenService.CreatePrincipalAsync(user, principal.GetScopes(), request.ClientId);
-                return SignIn(newPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-            }
+                    var newPrincipal = await tokenService.CreatePrincipalAsync(user, principal.GetScopes(), request.ClientId);
+                    return SignIn(newPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                }
         }
 
         throw new InvalidOperationException("The specified grant type is not supported.");
