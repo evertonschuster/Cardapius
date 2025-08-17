@@ -29,8 +29,20 @@ namespace Sentinel.Api.Extensions
                        .AcceptAnonymousClients()
                        .RequireProofKeyForCodeExchange()
                        .AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate()
-                       .UseAspNetCore()
+                       .AddDevelopmentSigningCertificate();
+
+                    var lifetimes = configuration.GetSection("OpenIddict:TokenLifetimes");
+                    var access = lifetimes.GetValue<int?>("AccessToken");
+                    if (access.HasValue)
+                        opt.SetAccessTokenLifetime(TimeSpan.FromMinutes(access.Value));
+                    var refresh = lifetimes.GetValue<int?>("RefreshToken");
+                    if (refresh.HasValue)
+                        opt.SetRefreshTokenLifetime(TimeSpan.FromMinutes(refresh.Value));
+                    var code = lifetimes.GetValue<int?>("AuthorizationCode");
+                    if (code.HasValue)
+                        opt.SetAuthorizationCodeLifetime(TimeSpan.FromMinutes(code.Value));
+
+                    opt.UseAspNetCore()
                            .EnableAuthorizationEndpointPassthrough()
                            .EnableTokenEndpointPassthrough();
                     //.EnableIntrospectionEndpointPassthrough()
