@@ -18,29 +18,27 @@ namespace Sentinel.Api.Extensions
                 })
                 .AddServer(opt =>
                 {
+                    var enablePasswordFlow = configuration.GetValue("Authentication:EnablePasswordFlow", false);
+                    var useDevCertificates = configuration.GetValue("Authentication:UseDevelopmentCertificates", false);
+
                     opt.SetAuthorizationEndpointUris("/connect/authorize")
                        .SetTokenEndpointUris("/connect/token")
                        .SetIntrospectionEndpointUris("/connect/introspect")
                        .SetRevocationEndpointUris("/connect/revocation")
                        .AllowAuthorizationCodeFlow()
-                       .AllowPasswordFlow()
                        .AllowRefreshTokenFlow()
-                       .AllowClientCredentialsFlow()
                        .AcceptAnonymousClients()
-                       .RequireProofKeyForCodeExchange()
-                       .AddDevelopmentEncryptionCertificate()
-                       .AddDevelopmentSigningCertificate();
+                       .RequireProofKeyForCodeExchange();
 
-                    var lifetimes = configuration.GetSection("OpenIddict:TokenLifetimes");
-                    var access = lifetimes.GetValue<int?>("AccessToken");
-                    if (access.HasValue)
-                        opt.SetAccessTokenLifetime(TimeSpan.FromMinutes(access.Value));
-                    var refresh = lifetimes.GetValue<int?>("RefreshToken");
-                    if (refresh.HasValue)
-                        opt.SetRefreshTokenLifetime(TimeSpan.FromMinutes(refresh.Value));
-                    var code = lifetimes.GetValue<int?>("AuthorizationCode");
-                    if (code.HasValue)
-                        opt.SetAuthorizationCodeLifetime(TimeSpan.FromMinutes(code.Value));
+                    if (enablePasswordFlow)
+                    {
+                        opt.AllowPasswordFlow();
+                    }
+                    if (useDevCertificates)
+                    {
+                        opt.AddDevelopmentEncryptionCertificate()
+                           .AddDevelopmentSigningCertificate();
+                    }
 
                     opt.UseAspNetCore()
                            .EnableAuthorizationEndpointPassthrough()
@@ -68,11 +66,24 @@ namespace Sentinel.Api.Extensions
                     opt.UseAspNetCore();
                 });
 
-            services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(AppContext.BaseDirectory, "keys")));
+            
+            var keyRingPath = configuration["DataProtection:KeyRingPath"] ?? Path.Combine(AppContext.BaseDirectory, "keys");
+            Directory.CreateDirectory(keyRingPath);
+            services
+                    .AddDataProtection()
+                    .PersistKeysToFileSystem(new DirectoryInfo(keyRingPath));
+
             services.AddAuthorization(options =>
             {
-                //options.AddPolicy("ApiScope", policy =>
-                //    policy.RequireClaim(OpenIddictConstants.Claims.Scope, "api"));
+                options.AddPolicy("ApiScope", policy =>
+                {
+                    policy.AddAuthenticationSchemes(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+                    policy.RequireAuthenticatedUser();
+                    policy.RequireAssertion(ctx =>
+                        ctx.User.Claims.Any(c => c.Type == OpenIddictConstants.Claims.Scope &&
+                                                 c.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                                        .Contains("api")));
+                });
             });
 
             return services;

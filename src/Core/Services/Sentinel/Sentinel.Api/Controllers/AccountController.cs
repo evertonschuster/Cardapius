@@ -70,7 +70,7 @@ public class AccountController : Controller
 
     [Authorize]
     [HttpPost("logout")]
-    [HttpGet("logout")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout(string? returnUrl = null)
     {
         await _signInManager.SignOutAsync();
@@ -79,8 +79,9 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Login));
     }
 
+    [AllowAnonymous]
     [HttpGet("forgot-password")]
-    public async Task<IActionResult> ForgotPassword()
+    public IActionResult ForgotPassword()
     {
         return View();
     }
@@ -91,10 +92,12 @@ public class AccountController : Controller
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null)
-            return BadRequest();
+            return Ok();
+
         var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
         if (!result.Succeeded)
-            return BadRequest(result.Errors);
+            return BadRequest(new ProblemDetails { Title = "Erro ao resetar a senha" });
+
         return Ok();
     }
 

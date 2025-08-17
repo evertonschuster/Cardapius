@@ -10,7 +10,7 @@ public class SentinelDbContext(DbContextOptions<SentinelDbContext> options) : Id
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultSchema("Sentine");
+        modelBuilder.HasDefaultSchema("Sentinel");
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.RateLimiting;
+﻿using Polly;
+using System.Threading.RateLimiting;
 
 namespace Sentinel.Api.Extensions
 {
@@ -8,11 +9,38 @@ namespace Sentinel.Api.Extensions
         {
             services.AddRateLimiter(options =>
             {
+                options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+                options.OnRejected = (context, token) =>
+                {
+                    context.HttpContext.Response.Headers["Retry-After"] = "60";
+                    return ValueTask.CompletedTask;
+                };
+
                 options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
                 {
                     if (context.Request.Path.StartsWithSegments("/connect/token"))
                     {
                         return RateLimitPartition.GetFixedWindowLimiter("token", _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 10,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 2
+                        });
+                    }
+                    if (context.Request.Path.StartsWithSegments("/connect/introspect"))
+                    {
+                        return RateLimitPartition.GetFixedWindowLimiter("introspect", _ => new FixedWindowRateLimiterOptions
+                        {
+                            PermitLimit = 10,
+                            Window = TimeSpan.FromMinutes(1),
+                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                            QueueLimit = 2
+                        });
+                    }
+                    if (context.Request.Path.StartsWithSegments("/connect/revocation"))
+                    {
+                        return RateLimitPartition.GetFixedWindowLimiter("revocation", _ => new FixedWindowRateLimiterOptions
                         {
                             PermitLimit = 10,
                             Window = TimeSpan.FromMinutes(1),

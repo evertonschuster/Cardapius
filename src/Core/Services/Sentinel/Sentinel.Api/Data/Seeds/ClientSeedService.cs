@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Sentinel.Api.Data.Seeds
 {
-    public class ClientSeedService(IOpenIddictApplicationManager manager, IConfiguration configuration) : ISeedService
+    public class ClientSeedService(IOpenIddictApplicationManager manager) : ISeedService
     {
         private static readonly string[] DefaultAllowedScopes =
         {
@@ -16,21 +16,12 @@ namespace Sentinel.Api.Data.Seeds
 
         public async Task SeedAsync()
         {
-            var consoleSection = configuration.GetSection("Clients:Console");
-            var clientSecret = consoleSection["Secret"];
-            if (string.IsNullOrWhiteSpace(clientSecret))
-            {
-                throw new InvalidOperationException("Client secret for 'console' is not configured.");
-            }
-
-            var allowedScopes = consoleSection.GetSection("AllowedScopes").Get<string[]>() ?? DefaultAllowedScopes;
-
             if (await manager.FindByClientIdAsync("console") is null)
             {
                 var descriptor = new OpenIddictApplicationDescriptor
                 {
                     ClientId = "console",
-                    ClientSecret = clientSecret,
+                    ClientSecret = "secret",
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
@@ -38,18 +29,17 @@ namespace Sentinel.Api.Data.Seeds
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                         OpenIddictConstants.Permissions.ResponseTypes.Code,
                         OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
-                        OpenIddictConstants.Permissions.GrantTypes.Password
                     },
                     RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
                 };
 
 
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(10).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
 
-                foreach (var scope in allowedScopes)
+                foreach (var scope in DefaultAllowedScopes)
                 {
                     descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + scope);
                 }

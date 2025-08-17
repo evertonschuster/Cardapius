@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
-using Sentinel.Api.Extensions;
 using Sentinel.Api.Models;
 using System.Security.Claims;
 
@@ -17,7 +17,7 @@ public interface IUserTokenService
 public class UserTokenService(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager,
-    IOpenIddictApplicationManager applicationManager
+    IOptions<IdentityOptions> options
     ) : IUserTokenService
 {
     public async Task<ApplicationUser?> ValidateUserAsync(string username, string password)
@@ -44,8 +44,8 @@ public class UserTokenService(
 
         principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
         principal.SetScopes(requestedScopes);
-
-        foreach (var claim in principal.Claims)
+        
+        foreach (var claim in principal.Claims.Where(c => c.Type != options.Value.ClaimsIdentity.SecurityStampClaimType))
         {
             claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken);
         }

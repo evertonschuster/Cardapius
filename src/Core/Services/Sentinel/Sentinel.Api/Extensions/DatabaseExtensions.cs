@@ -9,7 +9,11 @@ namespace Sentinel.Api.Extensions
         {
             services.AddDbContext<SentinelDbContext>(options =>
             {
-                options.UseNpgsql(configuration.GetConnectionString("Default"));
+                var cs = configuration.GetConnectionString("Default");
+                if (string.IsNullOrWhiteSpace(cs))
+                    throw new InvalidOperationException("Missing connection string 'Default'.");
+
+                options.UseNpgsql(cs, npgsql => npgsql.EnableRetryOnFailure());
                 options.UseOpenIddict();
             });
 
