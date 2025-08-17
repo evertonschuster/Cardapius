@@ -30,11 +30,7 @@ public class UserTokenService(
 
     public async Task<ApplicationUser?> ValidateUserAsync(ClaimsPrincipal principal)
     {
-        var userId = principal.GetClaim(OpenIddictConstants.Claims.Subject);
-        if (string.IsNullOrEmpty(userId))
-            return null;
-
-        var user = await userManager.FindByIdAsync(userId);
+        var user = await userManager.GetUserAsync(principal);
         return await IsValidAsync(user) ? user : null;
     }
 
@@ -49,10 +45,9 @@ public class UserTokenService(
         var scopes = requestedScopes.Intersect(allowedScopes);
         principal.SetScopes(scopes);
 
-        foreach (var claim in principal.Claims.Where(c => c.Type != ClaimTypes.SecurityStamp))
+        foreach (var claim in principal.Claims)
         {
-            claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken,
-                                  OpenIddictConstants.Destinations.IdentityToken);
+            claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken, OpenIddictConstants.Destinations.IdentityToken);
         }
 
         var lifetimes = clientConfig.GetTokenLifetimes(clientId);
