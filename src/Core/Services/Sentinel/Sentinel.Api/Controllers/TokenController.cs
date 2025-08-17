@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using Sentinel.Api.Models;
+using Sentinel.Api.Services;
 using System.Security.Claims;
 using System.Linq;
-using Microsoft.Extensions.Configuration;
 
 namespace Sentinel.Api.Controllers;
 
@@ -15,35 +15,16 @@ public class TokenController : Controller
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IConfiguration _configuration;
-    private static readonly string[] DefaultAllowedScopes =
-    {
-        OpenIddictConstants.Scopes.Email,
-        OpenIddictConstants.Scopes.Profile,
-        OpenIddictConstants.Scopes.OpenId,
-        OpenIddictConstants.Scopes.OfflineAccess,
-        "api"
-    };
+    private readonly TokenLifetimeOptions _tokenLifetimeOptions;
 
     public TokenController(
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
-        IConfiguration configuration)
+        TokenLifetimeOptions tokenLifetimeOptions)
     {
         _signInManager = signInManager;
         _userManager = userManager;
-        _configuration = configuration;
-    }
-
-    private string[] GetAllowedScopes(string? clientId)
-    {
-        if (string.IsNullOrEmpty(clientId))
-        {
-            return DefaultAllowedScopes;
-        }
-
-        var scopes = _configuration.GetSection($"Clients:{clientId}:AllowedScopes").Get<string[]>() ?? [];
-        return scopes.Length > 0 ? scopes : DefaultAllowedScopes;
+        _tokenLifetimeOptions = tokenLifetimeOptions;
     }
 
     [IgnoreAntiforgeryToken]
@@ -74,7 +55,9 @@ public class TokenController : Controller
 
             var principal = await _signInManager.CreateUserPrincipalAsync(user);
             principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
-            var scopes = request.GetScopes().Intersect(GetAllowedScopes(request.ClientId));
+            var allowedScopes = await _tokenLifetimeOptions.GetAllowedScopesAsync(request.ClientId ?? string.Empty);
+            _ = await _tokenLifetimeOptions.GetTokenLifetimesAsync(request.ClientId ?? string.Empty);
+            var scopes = request.GetScopes().Intersect(allowedScopes);
             principal.SetScopes(scopes);
             foreach (var claim in principal.Claims.Where(c => c.Type != ClaimTypes.SecurityStamp))
             {
@@ -103,7 +86,9 @@ public class TokenController : Controller
                 return Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
 
-            principal.SetScopes(principal.GetScopes().Intersect(GetAllowedScopes(request.ClientId)));
+            var allowed = await _tokenLifetimeOptions.GetAllowedScopesAsync(request.ClientId ?? string.Empty);
+            _ = await _tokenLifetimeOptions.GetTokenLifetimesAsync(request.ClientId ?? string.Empty);
+            principal.SetScopes(principal.GetScopes().Intersect(allowed));
             foreach (var claim in principal.Claims.Where(c => c.Type != ClaimTypes.SecurityStamp))
                 claim.SetDestinations(OpenIddictConstants.Destinations.AccessToken,
                                       OpenIddictConstants.Destinations.IdentityToken);
