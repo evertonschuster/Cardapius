@@ -19,7 +19,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Adapters\Driving\Sentinel.Api\Sentinel.Api.csproj" />
+    <ProjectReference Include="..\Sentinel.Api\Sentinel.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Xunit" />

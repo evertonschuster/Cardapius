@@ -1,0 +1,23 @@
+@model int?
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <title>Erro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="stylesheet" href="~/css/error/index.css" />
+</head>
+<body>
+    <main class="error-container">
+        <div class="error-card">
+            <h1>Ocorreu um erro</h1>
+            @if (Model.HasValue)
+            {
+                <p>Código: @Model</p>
+            }
+            <p>Tente novamente mais tarde.</p>
+        </div>
+    </main>
+</body>
+</html>
