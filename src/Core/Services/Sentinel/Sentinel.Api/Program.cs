@@ -26,6 +26,8 @@ var app = builder.Build();
 
 app.UseAppLogging();
 app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseExceptionHandler("/error");
+app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseCorrelationId();
 app.UseAppRateLimiter();
 app.UseRouting();
