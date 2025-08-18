@@ -24,16 +24,18 @@ const INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000;
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [userManager] = useState(
+  const userManager = useMemo(
     () =>
       new UserManager({
         client_id: process.env.REACT_APP_OIDC_CLIENT_ID || '',
         authority: process.env.REACT_APP_OIDC_AUTHORITY || '',
         redirect_uri: window.location.origin + '/callback',
         silent_redirect_uri: window.location.origin + '/silent-renew',
+        post_logout_redirect_uri: window.location.origin + '/login',
         scope: process.env.REACT_APP_OIDC_SCOPE || 'openid profile',
         response_type: 'code',
       }),
+    [],
   );
 
   const [user, setUser] = useState<User | null>(null);
@@ -90,6 +92,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   const signin = () => userManager.signinRedirect();
   const signout = () => {
     localStorage.setItem('logout', Date.now().toString());
+    setUser(null);
     return userManager.signoutRedirect();
   };
   const refresh = () => userManager.signinSilent();
