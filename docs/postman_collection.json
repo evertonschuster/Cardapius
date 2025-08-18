@@ -1,0 +1,37 @@
+{
+  "info": {
+    "name": "Sentinel",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Token (client credentials)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {"key": "Content-Type", "value": "application/x-www-form-urlencoded"}
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {"key": "grant_type", "value": "client_credentials"},
+            {"key": "client_id", "value": "console"},
+            {"key": "client_secret", "value": "secret"},
+            {"key": "scope", "value": "api"}
+          ]
+        },
+        "url": {"raw": "http://localhost:5000/connect/token"}
+      }
+    },
+    {
+      "name": "Todos",
+      "request": {
+        "method": "GET",
+        "header": [
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "url": {"raw": "http://localhost:5000/api/todos"}
+      }
+    }
+  ]
+}
