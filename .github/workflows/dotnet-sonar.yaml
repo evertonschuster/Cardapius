@@ -34,7 +34,7 @@ jobs:
             /o:"evertonschuster-1" \
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.cs.opencover.reportsPaths="coverage-report/*.xml" \
-            /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/Migrations/**,**/Models/**,**/ViewModels/**,**/.github/**" \
+            /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/Migrations/**,**/*Api*/**/*.cs,**/.github/**" \
             /d:sonar.projectBaseDir="$(pwd)"
 
       - name: Build solution

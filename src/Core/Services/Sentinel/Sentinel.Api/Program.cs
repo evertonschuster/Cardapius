@@ -13,7 +13,7 @@ builder.Services.AddIdentity();
 builder.Services.AddAppAuthentication(builder.Configuration);
 
 builder.Services.AddServices();
-builder.Services.AddAppRateLimiter();
+builder.Services.AddAppRateLimiter(builder.Configuration);
 
 builder.Services.AddCors();
 builder.Services.AddControllers();

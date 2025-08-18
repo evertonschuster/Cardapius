@@ -21,12 +21,12 @@ public class PasswordGeneratorServiceTests
         var service = new PasswordGeneratorService(options);
         var password = service.Generate();
 
-        password.Length.Should().BeGreaterOrEqualTo(10);
+        password.Length.Should().BeGreaterThanOrEqualTo(10);
         password.Any(char.IsUpper).Should().BeTrue();
         password.Any(char.IsLower).Should().BeTrue();
         password.Any(char.IsDigit).Should().BeTrue();
         password.Any(ch => "!@#$%^&*()-_=+[]{};:,.<>?".Contains(ch)).Should().BeTrue();
-        password.Distinct().Count().Should().BeGreaterOrEqualTo(4);
+        password.Distinct().Count().Should().BeGreaterThanOrEqualTo(4);
     }
 
     [Fact]

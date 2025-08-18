@@ -1,12 +1,17 @@
-﻿using Polly;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Polly;
+using System.Net;
 using System.Threading.RateLimiting;
 
 namespace Sentinel.Api.Extensions
 {
     public static class RateLimiterExtensions
     {
-        public static IServiceCollection AddAppRateLimiter(this IServiceCollection services)
+        public static IServiceCollection AddAppRateLimiter(this IServiceCollection services, IConfiguration configuration)
         {
+            var whitelist = configuration.GetSection("RateLimiting:IpWhitelist").Get<string[]>() ?? [];
+
             services.AddRateLimiter(options =>
             {
                 options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -16,40 +21,23 @@ namespace Sentinel.Api.Extensions
                     return ValueTask.CompletedTask;
                 };
 
-                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+                options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
                 {
-                    if (context.Request.Path.StartsWithSegments("/connect/token"))
-                    {
-                        return RateLimitPartition.GetFixedWindowLimiter("token", _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 10,
-                            Window = TimeSpan.FromMinutes(1),
-                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                            QueueLimit = 2
-                        });
-                    }
-                    if (context.Request.Path.StartsWithSegments("/connect/introspect"))
-                    {
-                        return RateLimitPartition.GetFixedWindowLimiter("introspect", _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 10,
-                            Window = TimeSpan.FromMinutes(1),
-                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                            QueueLimit = 2
-                        });
-                    }
-                    if (context.Request.Path.StartsWithSegments("/connect/revocation"))
-                    {
-                        return RateLimitPartition.GetFixedWindowLimiter("revocation", _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 10,
-                            Window = TimeSpan.FromMinutes(1),
-                            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-                            QueueLimit = 2
-                        });
-                    }
+                    var ip = GetClientIp(httpContext);
 
-                    return RateLimitPartition.GetNoLimiter("none");
+                    if (ip != null && whitelist.Contains(ip.ToString()))
+                        return RateLimitPartition.GetNoLimiter($"wl:{ip}");
+
+                    var key = $"ip:{ip}";
+                    return RateLimitPartition.GetTokenBucketLimiter(key, _ => new TokenBucketRateLimiterOptions
+                    {
+                        TokenLimit = 240,
+                        TokensPerPeriod = 120,
+                        ReplenishmentPeriod = TimeSpan.FromMinutes(1),
+                        QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                        QueueLimit = 50,
+                        AutoReplenishment = true
+                    });
                 });
             });
 
@@ -60,6 +48,18 @@ namespace Sentinel.Api.Extensions
         {
             app.UseRateLimiter();
             return app;
+        }
+
+        static IPAddress? GetClientIp(HttpContext ctx)
+        {
+            var xff = ctx.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(xff))
+            {
+                var first = xff.Split(',')[0].Trim();
+                if (IPAddress.TryParse(first, out var ipFromHeader))
+                    return ipFromHeader;
+            }
+            return ctx.Connection.RemoteIpAddress;
         }
     }
 }
