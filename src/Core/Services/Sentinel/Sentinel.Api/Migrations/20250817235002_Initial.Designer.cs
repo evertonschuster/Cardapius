@@ -12,8 +12,8 @@ using Sentinel.Api.Data;
 namespace Sentinel.Api.Migrations
 {
     [DbContext(typeof(SentinelDbContext))]
-    [Migration("20250817172538_CreatedProject")]
-    partial class CreatedProject
+    [Migration("20250817235002_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -13,7 +13,11 @@ namespace Sentinel.Api.Extensions
                 if (string.IsNullOrWhiteSpace(cs))
                     throw new InvalidOperationException("Missing connection string 'Default'.");
 
-                options.UseNpgsql(cs, npgsql => npgsql.EnableRetryOnFailure());
+                options.UseNpgsql(cs, npgsql =>
+                {
+                    npgsql.EnableRetryOnFailure();
+                    npgsql.MigrationsHistoryTable("__EFMigrationsHistory", "Sentinel");
+                });
                 options.UseOpenIddict();
             });
 

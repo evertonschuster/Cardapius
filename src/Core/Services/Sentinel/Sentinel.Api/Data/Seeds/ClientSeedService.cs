@@ -34,10 +34,10 @@ namespace Sentinel.Api.Data.Seeds
                 };
 
 
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(100).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(120).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(5).ToString("c", CultureInfo.InvariantCulture);
 
                 foreach (var scope in DefaultAllowedScopes)
                 {

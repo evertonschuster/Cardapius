@@ -2,6 +2,7 @@
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using Sentinel.Api.Data;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Sentinel.Api.Extensions
 {
@@ -39,19 +40,32 @@ namespace Sentinel.Api.Extensions
                         opt.AddDevelopmentEncryptionCertificate()
                            .AddDevelopmentSigningCertificate();
                     }
+                    else
+                    {
+                        var encPath = configuration["Authentication:Certificates:Encryption:Path"];
+                        var encPass = configuration["Authentication:Certificates:Encryption:Password"];
+                        var signPath = configuration["Authentication:Certificates:Signing:Path"];
+                        var signPass = configuration["OpenAuthenticationIddict:Certificates:Signing:Password"];
+
+                        var flags = X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.EphemeralKeySet;
+
+                        var encCert = X509CertificateLoader.LoadPkcs12FromFile(encPath, encPass, flags);
+                        var signCert = X509CertificateLoader.LoadPkcs12FromFile(signPath, signPass, flags);
+
+                        opt.AddEncryptionCertificate(encCert)
+                           .AddSigningCertificate(signCert);
+                    }
 
                     opt.UseAspNetCore()
                            .EnableAuthorizationEndpointPassthrough()
                            .EnableTokenEndpointPassthrough();
-                    //.EnableIntrospectionEndpointPassthrough()
-                    //.EnableRevocationEndpointPassthrough();
-
+                    
                     opt.RegisterScopes(
                        OpenIddictConstants.Scopes.Email,
                        OpenIddictConstants.Scopes.Profile,
                        OpenIddictConstants.Scopes.OpenId,
                        OpenIddictConstants.Scopes.OfflineAccess,
-                       "api" // Your custom API scope
+                       "api"
                    );
                 })
                 .AddValidation(opt =>
@@ -66,12 +80,14 @@ namespace Sentinel.Api.Extensions
                     opt.UseAspNetCore();
                 });
 
-            
+
             var keyRingPath = configuration["DataProtection:KeyRingPath"] ?? Path.Combine(AppContext.BaseDirectory, "keys");
             Directory.CreateDirectory(keyRingPath);
             services
                     .AddDataProtection()
-                    .PersistKeysToFileSystem(new DirectoryInfo(keyRingPath));
+                    .SetApplicationName("Sentinel")
+                    .PersistKeysToFileSystem(new DirectoryInfo(keyRingPath))
+                    .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
             services.AddAuthorization(options =>
             {
