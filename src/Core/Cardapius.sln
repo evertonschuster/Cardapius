@@ -97,6 +97,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sentinel", "Sentinel", "{1E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api", "Services\Sentinel\Sentinel.Api\Sentinel.Api.csproj", "{3A4DEAFF-1AD0-8DAF-B870-D81AD5982AF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{35534129-C33B-47FF-98C1-7CBB577744C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sentinel.Api.UnitTests", "Services\Sentinel\tests\Sentinel.Api.UnitTests\Sentinel.Api.UnitTests.csproj", "{373D3560-7144-FD33-3BC0-00417BC283CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -219,6 +223,10 @@ Global
 		{3A4DEAFF-1AD0-8DAF-B870-D81AD5982AF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A4DEAFF-1AD0-8DAF-B870-D81AD5982AF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A4DEAFF-1AD0-8DAF-B870-D81AD5982AF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{373D3560-7144-FD33-3BC0-00417BC283CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{373D3560-7144-FD33-3BC0-00417BC283CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{373D3560-7144-FD33-3BC0-00417BC283CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{373D3560-7144-FD33-3BC0-00417BC283CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,6 +273,8 @@ Global
 		{5E95618D-16E5-427B-B1B9-A0BD151F03FF} = {0484F8B7-A921-4DC5-90DA-53432D531232}
 		{1EFD4C71-DD3C-4F75-9448-777FD1D0B3B0} = {5F2D3A9E-F98F-4BB2-94F6-A03141D3F1A3}
 		{3A4DEAFF-1AD0-8DAF-B870-D81AD5982AF6} = {1EFD4C71-DD3C-4F75-9448-777FD1D0B3B0}
+		{35534129-C33B-47FF-98C1-7CBB577744C9} = {1EFD4C71-DD3C-4F75-9448-777FD1D0B3B0}
+		{373D3560-7144-FD33-3BC0-00417BC283CA} = {35534129-C33B-47FF-98C1-7CBB577744C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAAE2897-37FA-4B81-85DC-C10775CABF1B}
