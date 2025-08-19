@@ -14,23 +14,35 @@ const routes: RouteObject[] = [
     children: [
       {
         path: 'admin',
-        element: <PrivateRoute roles={['admin']} />,
-        children: [{ index: true, element: <AdminDashboard /> }]
+        element: (
+          <PrivateRoute roles={['admin']}>
+            <AdminDashboard />
+          </PrivateRoute>
+        )
       },
       {
         path: 'pdv',
-        element: <PrivateRoute roles={['pdv']} />,
-        children: [{ index: true, element: <PdvSales /> }]
+        element: (
+          <PrivateRoute roles={['pdv']}>
+            <PdvSales />
+          </PrivateRoute>
+        )
       },
       {
         path: 'smart-kitchen',
-        element: <PrivateRoute roles={['smart-kitchen']} />,
-        children: [{ index: true, element: <KitchenOrders /> }]
+        element: (
+          <PrivateRoute roles={['smart-kitchen']}>
+            <KitchenOrders />
+          </PrivateRoute>
+        )
       },
       {
         path: 'estoque',
-        element: <PrivateRoute roles={['estoque']} />,
-        children: [{ index: true, element: <InventoryOverview /> }]
+        element: (
+          <PrivateRoute roles={['estoque']}>
+            <InventoryOverview />
+          </PrivateRoute>
+        )
       }
     ]
   }
