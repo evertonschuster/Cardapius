@@ -24,6 +24,7 @@ const INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000;
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  console.log(import.meta.env);
   const userManager = useMemo(
     () =>
       new UserManager({
