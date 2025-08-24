@@ -5,9 +5,14 @@ import { PdvSales } from '@modules/pdv';
 import { KitchenOrders } from '@modules/smart-kitchen';
 import { InventoryOverview } from '@modules/estoque';
 import { PrivateRoute, Login } from '@shared/auth';
+import { Callback } from '@shared/auth/pages/Callback';
+import { Logout } from '@shared/auth/pages/Logout';
+import { Home } from '@modules/home/pages/Home';
 
 const routes: RouteObject[] = [
   { path: '/login', element: <Login /> },
+  { path: '/callback', element: <Callback /> },
+  { path: '/logout', element: <Logout /> },
   {
     path: '/',
     element: <PrivateRoute />,
@@ -15,9 +20,7 @@ const routes: RouteObject[] = [
       {
         path: 'admin',
         element: (
-          <PrivateRoute roles={['admin']}>
             <AdminDashboard />
-          </PrivateRoute>
         )
       },
       {
@@ -41,6 +44,14 @@ const routes: RouteObject[] = [
         element: (
           <PrivateRoute roles={['estoque']}>
             <InventoryOverview />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '',
+        element: (
+          <PrivateRoute>
+            <Home />
           </PrivateRoute>
         )
       }

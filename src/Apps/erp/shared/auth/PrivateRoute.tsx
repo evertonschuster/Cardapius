@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 
 interface PrivateRouteProps {
@@ -8,20 +8,20 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) => {
-  const { user, signin, hasRole } = useAuth();
+  const { user, isLoading, signin, hasRole } = useAuth();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isLoading) {
       signin();
     }
   }, [user, signin]);
 
   if (!user) {
-    return null;
+    return <div>Aguardando autenticação...</div>;
   }
 
   if (roles && !roles.every(hasRole)) {
-    return <Navigate to="/login" replace />;
+    return <div>Acesso negado</div>;
   }
 
   return <>{children ?? <Outlet />}</>;

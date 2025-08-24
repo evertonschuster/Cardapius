@@ -26,8 +26,10 @@ namespace Sentinel.Api.Extensions
                        .SetTokenEndpointUris("/connect/token")
                        .SetIntrospectionEndpointUris("/connect/introspect")
                        .SetRevocationEndpointUris("/connect/revocation")
+                       .SetEndSessionEndpointUris("/connect/logout")
                        .AllowAuthorizationCodeFlow()
                        .AllowRefreshTokenFlow()
+                       .EnableEndSessionRequestCaching()
                        .AcceptAnonymousClients()
                        .RequireProofKeyForCodeExchange();
 
@@ -58,7 +60,9 @@ namespace Sentinel.Api.Extensions
 
                     opt.UseAspNetCore()
                            .EnableAuthorizationEndpointPassthrough()
-                           .EnableTokenEndpointPassthrough();
+                           .EnableTokenEndpointPassthrough()
+                           .EnableEndSessionEndpointPassthrough()
+                           .EnableErrorPassthrough();
                     
                     opt.RegisterScopes(
                        OpenIddictConstants.Scopes.Email,

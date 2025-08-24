@@ -20,17 +20,30 @@ namespace Sentinel.Api.Data.Seeds
             {
                 var descriptor = new OpenIddictApplicationDescriptor
                 {
-                    ClientId = "console",
+                    ClientId = "SPA",
                     ClientSecret = "secret",
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
                         OpenIddictConstants.Permissions.Endpoints.Token,
+                        OpenIddictConstants.Permissions.Endpoints.Revocation,
+                        OpenIddictConstants.Permissions.Endpoints.EndSession,
+                        
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.ResponseTypes.Code,
                         OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
+
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        
+                        OpenIddictConstants.Claims.Private.PostLogoutRedirectUri
                     },
-                    RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
+                    RedirectUris = {
+                        new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
+                        new Uri("http://localhost:3000/callback")
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        new Uri("http://localhost:3000/login")
+                    }
                 };
 
 
