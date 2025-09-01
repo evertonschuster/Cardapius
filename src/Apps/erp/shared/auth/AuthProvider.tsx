@@ -75,10 +75,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     };
   }, []);
 
-  const getUrlAtual = () =>
-    `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`;
+  const getUrlAtual = useCallback(
+    () => `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`,
+    [location],
+  );
 
-  const signin = async () => {
+  const signin = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
@@ -87,13 +89,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       await userManager.signinRedirect({ state: { returnTo } });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [buildAuthErrorDetails, getUrlAtual, userManager]);
 
-  const signinCallback = async () => {
+  const signinCallback = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
@@ -104,7 +105,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
 
       if (returnTo.indexOf('/login') === 0 || returnTo.indexOf('/callback') === 0 || returnTo.indexOf('/logout') === 0) {
-        await navigate("/", { replace: true });
+        await navigate('/', { replace: true });
         return;
       }
 
@@ -112,44 +113,44 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       await navigate(returnTo, { replace: true });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [buildAuthErrorDetails, navigate, userManager]);
 
-  const signout = async () => {
+  const signout = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
       setUser(null);
-      sessionStorage.setItem('returnTo', "/")
+      sessionStorage.setItem('returnTo', '/');
       await userManager.signoutRedirect({ state: { returnTo: '/' } });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [buildAuthErrorDetails, userManager]);
 
-  const refresh = async () => {
+  const refresh = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
       await userManager.signinSilent();
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
-  };
+  }, [buildAuthErrorDetails, userManager]);
 
-  const hasRole = (role: string) => {
-    const roles = (user?.profile as any)?.roles as string[] | undefined;
-    return roles?.includes(role) ?? false;
-  };
+  const hasRole = useCallback(
+    (role: string) => {
+      const roles = (user?.profile as any)?.roles as string[] | undefined;
+      return roles?.includes(role) ?? false;
+    },
+    [user],
+  );
 
   useEffect(() => {
     userManager.getUser().then((user) => {
@@ -208,7 +209,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const value = useMemo<AuthContextValue>(
     () => ({ user, isLoading, signin, signinCallback, signout, refresh, hasRole, error }),
-    [user, isLoading, error],
+    [user, isLoading, signin, signinCallback, signout, refresh, hasRole, error],
   );
 
   return (

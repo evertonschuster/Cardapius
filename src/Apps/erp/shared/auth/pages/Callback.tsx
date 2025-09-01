@@ -7,11 +7,10 @@ export const Callback = () => {
     const { signinCallback, signin, error, isLoading, user } = useAuth();
 
     useEffect(() => {
-        if (isLoading || user) {
-            return;
+        if (!isLoading && !user) {
+            signinCallback();
         }
-        signinCallback();
-    }, []);
+    }, [isLoading, signinCallback, user]);
 
     if (error) {
         return <ProcessErrorDetails details={error} onRetry={signin} />;
