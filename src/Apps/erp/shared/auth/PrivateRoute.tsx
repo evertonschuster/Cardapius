@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
+import { LoadProgressPage } from './components/LoadProgressPage';
+import { ProcessErrorDetails } from './components/ProcessErrorDetails';
 
 interface PrivateRouteProps {
   roles?: string[];
@@ -8,16 +10,22 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) => {
-  const { user, isLoading, signin, hasRole } = useAuth();
+  const { user, signin, hasRole, isLoading, error } = useAuth();
 
   useEffect(() => {
-    if (!user && !isLoading) {
-      signin();
+    if (isLoading || user || error) {
+      return;
     }
-  }, [user, signin]);
 
-  if (!user) {
-    return <div>Aguardando autenticação...</div>;
+    signin();
+  }, []);
+
+  if (error) {
+    return <ProcessErrorDetails details={error} onRetry={signin} />
+  }
+
+  if (!user || isLoading) {
+    return <LoadProgressPage title='Aguardando autenticação...' />
   }
 
   if (roles && !roles.every(hasRole)) {

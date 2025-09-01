@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
 import { useAuth } from '../AuthProvider';
+import { ProcessErrorDetails } from '../components/ProcessErrorDetails';
+import { LoadProgressPage } from '../components/LoadProgressPage';
 
 export const Login = () => {
-  const { signin } = useAuth();
+  const { signin, error } = useAuth();
 
   useEffect(() => {
     console.log('Calling signin...');
     signin();
   }, []);
 
-  return null;
+   if (error) {
+          return <ProcessErrorDetails details={error} onRetry={signin} />;
+      }
+      return <LoadProgressPage title='Carregando informações...' />
 };

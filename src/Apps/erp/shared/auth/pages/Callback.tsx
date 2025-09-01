@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useAuth } from '../AuthProvider';
+import { LoadProgressPage } from '../components/LoadProgressPage';
+import { ProcessErrorDetails } from '../components/ProcessErrorDetails';
 
 export const Callback = () => {
-    const { signinCallback } = useAuth();
-
-    const signin = useCallback(async () => {
-        console.log('Calling signinCallback...');
-        await signinCallback();
-    }, []);
+    const { signinCallback, signin, error, isLoading, user } = useAuth();
 
     useEffect(() => {
-        signin();
+        if (isLoading || user) {
+            return;
+        }
+        signinCallback();
     }, []);
 
-    return <div>Loading...</div>
+    if (error) {
+        return <ProcessErrorDetails details={error} onRetry={signin} />;
+    }
+    return <LoadProgressPage title='Carregando informações...' />
 }

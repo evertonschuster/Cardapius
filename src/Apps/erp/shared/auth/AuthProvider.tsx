@@ -1,5 +1,6 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -7,17 +8,10 @@ import React, {
 } from 'react';
 import { UserManager, User, WebStorageStateStore } from 'oidc-client-ts';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { set } from 'react-hook-form';
+import { OidcService } from './services/oidcService';
+import { AuthErrorDetails } from './types/AuthErrorDetails';
+import { AuthContextValue } from './types/AuthContextValue';
 
-interface AuthContextValue {
-  user: User | null;
-  isLoading: boolean;
-  signin: () => Promise<void>;
-  signinCallback: () => Promise<void>;
-  signout: () => Promise<void>;
-  refresh: () => Promise<void>;
-  hasRole: (role: string) => boolean;
-}
 
 export const AuthContext = createContext<AuthContextValue | undefined>(
   undefined,
@@ -40,6 +34,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
         scope: import.meta.env.VITE_OIDC_SCOPE || 'openid profile',
         response_type: 'code',
         revokeTokensOnSignout: true,
+        automaticSilentRenew: true,
         userStore: new WebStorageStateStore({ store: window.localStorage, prefix: 'oidc' })
       }),
     [],
@@ -47,8 +42,114 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<AuthErrorDetails | null>(null);
+
+
+  const buildAuthErrorDetails = useCallback(async (err: unknown): Promise<AuthErrorDetails> => {
+    const anyErr = err as any;
+
+    const url = OidcService.getOidcParamsFromUrl();
+    const code = anyErr?.error ?? url.error ?? (anyErr?.name === "TypeError" ? "network_error" : null);
+    const description = anyErr?.error_description ?? url.error_description ?? anyErr?.message ?? null;
+    const errorUri = anyErr?.error_uri ?? url.error_uri ?? null;
+    const state = anyErr?.state ?? null;
+    const traceId = state?.traceId ?? sessionStorage.getItem("oidc:lastTraceId") ?? null;
+    const requestId = state?.requestId ?? null;
+
+    return {
+      title:
+        code === "login_required"
+          ? "Sua sessão expirou"
+          : "Não foi possível processar sua solicitação",
+      description,
+      code,
+      errorUri,
+      traceId,
+      requestId,
+      timestamp: new Date().toISOString(),
+      authority: userManager.settings.authority,
+      clientId: userManager.settings.client_id ?? null,
+      redirectUri: userManager.settings.redirect_uri ?? null,
+    };
+  }, []);
+
+  const getUrlAtual = () =>
+    `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`;
+
+  const signin = async () => {
+    try {
+      setError(null);
+      setIsLoading(true);
+      const returnTo = getUrlAtual();
+      sessionStorage.setItem('returnTo', returnTo); // fallback
+      await userManager.signinRedirect({ state: { returnTo } });
+    } catch (err: any) {
+      setError(await buildAuthErrorDetails(err));
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signinCallback = async () => {
+    try {
+      setError(null);
+      setIsLoading(true);
+      const loggedUser = await userManager.signinRedirectCallback();
+      setUser(loggedUser);
+
+      const state = (loggedUser?.state as any) || {};
+      const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
+
+      if (returnTo.indexOf('/login') === 0 || returnTo.indexOf('/callback') === 0 || returnTo.indexOf('/logout') === 0) {
+        await navigate("/", { replace: true });
+        return;
+      }
+
+      sessionStorage.removeItem('returnTo');
+      await navigate(returnTo, { replace: true });
+    } catch (err: any) {
+      setError(await buildAuthErrorDetails(err));
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+  const signout = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      setUser(null);
+      sessionStorage.setItem('returnTo', "/")
+      await userManager.signoutRedirect({ state: { returnTo: '/' } });
+    } catch (err: any) {
+      setError(await buildAuthErrorDetails(err));
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+  const refresh = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      await userManager.signinSilent();
+    } catch (err: any) {
+      setError(await buildAuthErrorDetails(err));
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
+
+  const hasRole = (role: string) => {
+    const roles = (user?.profile as any)?.roles as string[] | undefined;
+    return roles?.includes(role) ?? false;
+  };
 
   useEffect(() => {
     userManager.getUser().then((user) => {
@@ -63,16 +164,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       setUser(null);
       setIsLoading(false);
     });
-    userManager.events.addAccessTokenExpiring(() => {
-      userManager.signinSilent();
-    });
-    userManager.events.addAccessTokenExpired(() => {
-      alert('Sessão expirada');
-      userManager.signinRedirect();
+    userManager.events.addAccessTokenExpiring(refresh);
+    userManager.events.addSilentRenewError(() => {
+      setIsLoading(false);
     });
 
     return () => {
-      userManager.events.removeUserLoaded(setUser);
+      userManager.events.removeUserLoaded(() => setUser(null));
       userManager.events.removeUserUnloaded(() => setUser(null));
     };
   }, [userManager]);
@@ -108,48 +206,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     return () => window.removeEventListener('storage', handler);
   }, [userManager]);
 
-  const getUrlAtual = () =>
-    `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`;
-
-
-  const signin = () => {
-    const returnTo = getUrlAtual();
-    sessionStorage.setItem('returnTo', returnTo); // fallback
-    return userManager.signinRedirect({ state: { returnTo } });
-  };
-
-  const signinCallback = async () => {
-    const loggedUser = await userManager.signinRedirectCallback();
-    setUser(loggedUser);
-    setIsLoading(false);
-
-    const state = (loggedUser?.state as any) || {};
-    const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
-    console.log('Navigating to:', returnTo, state?.returnTo, sessionStorage.getItem('returnTo') );
-
-    if (returnTo.indexOf('/login') === 0) {
-      await navigate("/", { replace: true });
-      return;
-    }
-
-    sessionStorage.removeItem('returnTo');
-    await navigate(returnTo, { replace: true });
-  };
-
-  const signout = () => {
-    setUser(null);
-    sessionStorage.setItem('returnTo', "/")
-    return userManager.signoutRedirect({state: { returnTo: '/' } });
-  };
-  const refresh = async () => { await userManager.signinSilent() };
-  const hasRole = (role: string) => {
-    const roles = (user?.profile as any)?.roles as string[] | undefined;
-    return roles?.includes(role) ?? false;
-  };
-
   const value = useMemo<AuthContextValue>(
-    () => ({ user, isLoading, signin, signinCallback, signout, refresh, hasRole }),
-    [user, isLoading],
+    () => ({ user, isLoading, signin, signinCallback, signout, refresh, hasRole, error }),
+    [user, isLoading, error],
   );
 
   return (
