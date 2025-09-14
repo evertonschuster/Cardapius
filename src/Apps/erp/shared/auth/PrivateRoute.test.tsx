@@ -20,14 +20,28 @@ describe('PrivateRoute', () => {
 
   it('calls signin and shows loader when unauthenticated', () => {
     const signin = jest.fn();
-    mockUseAuth.mockReturnValue({ user: null, signin, hasRole: () => false, isLoading: false, error: null });
+    mockUseAuth.mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      signin,
+      hasRole: () => false,
+      isLoading: false,
+      error: null,
+    });
     render(<PrivateRoute />);
     expect(signin).toHaveBeenCalled();
     expect(screen.getByText('Aguardando autenticação...')).toBeInTheDocument();
   });
 
   it('renders children when authenticated', () => {
-    mockUseAuth.mockReturnValue({ user: {}, signin: jest.fn(), hasRole: () => true, isLoading: false, error: null });
+    mockUseAuth.mockReturnValue({
+      user: {},
+      isAuthenticated: true,
+      signin: jest.fn(),
+      hasRole: () => true,
+      isLoading: false,
+      error: null,
+    });
     render(
       <PrivateRoute>
         <div>secret</div>
@@ -39,6 +53,7 @@ describe('PrivateRoute', () => {
   it('denies access when missing role', () => {
     mockUseAuth.mockReturnValue({
       user: { profile: { roles: ['user'] } },
+      isAuthenticated: true,
       signin: jest.fn(),
       hasRole: (r: string) => r === 'user',
       isLoading: false,
@@ -51,6 +66,7 @@ describe('PrivateRoute', () => {
   it('renders error component when error is present', () => {
     mockUseAuth.mockReturnValue({
       user: null,
+      isAuthenticated: false,
       signin: jest.fn(),
       hasRole: () => false,
       isLoading: false,

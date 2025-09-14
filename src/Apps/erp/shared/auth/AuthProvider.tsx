@@ -7,54 +7,33 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { UserManager, User, WebStorageStateStore } from 'oidc-client-ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { OidcService } from './services/oidcService';
 import { AuthErrorDetails } from './types/AuthErrorDetails';
 import { AuthContextValue } from './types/AuthContextValue';
+import { AuthClient, createAuthClient } from './services/authClient';
+import { AuthUser } from './types/AuthUser';
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000;
 
-export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface AuthProviderProps {
+  client?: AuthClient;
+}
+
+export const AuthProvider: React.FC<React.PropsWithChildren<AuthProviderProps>> = ({
+  children,
+  client,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- UserManager (silent renew automático + sessionStorage) ---
-  const userManager = useMemo(
-    () =>
-      new UserManager({
-        client_id: import.meta.env.VITE_OIDC_CLIENT_ID || '',
-        authority: import.meta.env.VITE_OIDC_AUTHORITY || '',
-        redirect_uri: `${window.location.origin}/callback`,
-        silent_redirect_uri: `${window.location.origin}/silent-renew`,
-        post_logout_redirect_uri: `${window.location.origin}/login`,
-
-        scope: import.meta.env.VITE_OIDC_SCOPE || 'openid profile',
-        response_type: 'code',
-
-        // segurança/desempenho
-        loadUserInfo: false,
-        filterProtocolClaims: true,
-        revokeTokensOnSignout: true,
-
-        // silent renew nativo da lib
-        automaticSilentRenew: true,
-        accessTokenExpiringNotificationTimeInSeconds: 60, // tente renovar 60s antes do expirar
-        silentRequestTimeoutInSeconds: 20,
-
-        // menos persistente que localStorage
-        userStore: new WebStorageStateStore({
-          store: window.sessionStorage,
-          prefix: 'oidc',
-        }),
-      }),
-    []
-  );
+  // --- Auth client wrapper (silent renew automático + sessionStorage) ---
+  const authClient = useMemo(() => client ?? createAuthClient(), [client]);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<AuthErrorDetails | null>(null);
 
   // trava simples para evitar concorrência no refresh manual
@@ -86,12 +65,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
         traceId,
         requestId,
         timestamp: new Date().toISOString(),
-        authority: userManager.settings.authority,
-        clientId: userManager.settings.client_id ?? null,
-        redirectUri: userManager.settings.redirect_uri ?? null,
+        authority: authClient.settings.authority,
+        clientId: authClient.settings.client_id ?? null,
+        redirectUri: authClient.settings.redirect_uri ?? null,
       };
     },
-    [userManager]
+    [authClient]
   );
 
   const getUrlAtual = useCallback(
@@ -105,19 +84,19 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       setIsLoading(true);
       const returnTo = getUrlAtual();
       sessionStorage.setItem('returnTo', returnTo); // fallback pós-login
-      await userManager.signinRedirect({ state: { returnTo } });
+      await authClient.signinRedirect({ state: { returnTo } });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
       setIsLoading(false);
     }
-  }, [buildAuthErrorDetails, getUrlAtual, userManager]);
+  }, [buildAuthErrorDetails, getUrlAtual, authClient]);
 
   const signinCallback = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
-      const loggedUser = await userManager.signinRedirectCallback();
+      const loggedUser = await authClient.signinRedirectCallback();
       setUser(loggedUser);
 
       const state = (loggedUser?.state as any) || {};
@@ -141,7 +120,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     } finally {
       setIsLoading(false);
     }
-  }, [buildAuthErrorDetails, navigate, userManager]);
+  }, [buildAuthErrorDetails, navigate, authClient]);
 
   const signout = useCallback(async () => {
     try {
@@ -149,13 +128,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       setError(null);
       setUser(null);
       sessionStorage.setItem('returnTo', '/');
-      await userManager.signoutRedirect({ state: { returnTo: '/' } });
+      await authClient.signoutRedirect({ state: { returnTo: '/' } });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
       setIsLoading(false);
     }
-  }, [buildAuthErrorDetails, userManager]);
+  }, [buildAuthErrorDetails, authClient]);
 
   // refresh manual (mantido para fallback/log), com trava
   const refresh = useCallback(async () => {
@@ -163,14 +142,14 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     isRefreshingRef.current = true;
     try {
       setError(null);
-      await userManager.signinSilent();
+      await authClient.signinSilent();
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
       isRefreshingRef.current = false;
       setIsLoading(false);
     }
-  }, [buildAuthErrorDetails, userManager]);
+  }, [buildAuthErrorDetails, authClient]);
 
   const hasRole = useCallback(
     (role: string) => {
@@ -180,11 +159,11 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     [user]
   );
 
-  // --- Eventos do UserManager (com mesmas referências e cleanup correto) ---
+  // --- Eventos do cliente de autenticação (com mesmas referências e cleanup correto) ---
   useEffect(() => {
     let mounted = true;
 
-    const onUserLoaded = (u: User) => {
+    const onUserLoaded = (u: AuthUser) => {
       if (!mounted) return;
       setUser(u);
       setIsLoading(false);
@@ -205,25 +184,25 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       // refresh();
     };
 
-    userManager.getUser().then((u) => {
+    authClient.getUser().then((u) => {
       if (!mounted) return;
       setUser(u);
       setIsLoading(false);
     });
 
-    userManager.events.addUserLoaded(onUserLoaded);
-    userManager.events.addUserUnloaded(onUserUnloaded);
-    userManager.events.addSilentRenewError(onSilentRenewError);
-    userManager.events.addAccessTokenExpiring(onAccessTokenExpiring);
+    authClient.events.addUserLoaded(onUserLoaded);
+    authClient.events.addUserUnloaded(onUserUnloaded);
+    authClient.events.addSilentRenewError(onSilentRenewError);
+    authClient.events.addAccessTokenExpiring(onAccessTokenExpiring);
 
     return () => {
       mounted = false;
-      userManager.events.removeUserLoaded(onUserLoaded);
-      userManager.events.removeUserUnloaded(onUserUnloaded);
-      userManager.events.removeSilentRenewError(onSilentRenewError);
-      userManager.events.removeAccessTokenExpiring(onAccessTokenExpiring);
+      authClient.events.removeUserLoaded(onUserLoaded);
+      authClient.events.removeUserUnloaded(onUserUnloaded);
+      authClient.events.removeSilentRenewError(onSilentRenewError);
+      authClient.events.removeAccessTokenExpiring(onAccessTokenExpiring);
     };
-  }, [userManager, refresh]);
+  }, [authClient, refresh]);
 
   // --- Inatividade: desloga após X ms sem interação ---
   useEffect(() => {
@@ -233,7 +212,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         alert('Sessão expirada por inatividade');
-        userManager.signoutRedirect();
+        authClient.signoutRedirect();
       }, INACTIVITY_TIMEOUT_MS);
     };
 
@@ -246,21 +225,31 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       document.removeEventListener('keydown', reset);
       clearTimeout(timeout);
     };
-  }, [userManager]);
+  }, [authClient]);
 
   // --- Single logout multi-abas (storage event) ---
   useEffect(() => {
     const handler = (e: StorageEvent) => {
       if (e.key === 'logout') {
-        userManager.signoutRedirect();
+        authClient.signoutRedirect();
       }
     };
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
-  }, [userManager]);
+  }, [authClient]);
 
   const value = useMemo<AuthContextValue>(
-    () => ({ user, isLoading, signin, signinCallback, signout, refresh, hasRole, error }),
+    () => ({
+      user,
+      isLoading,
+      isAuthenticated: !!user,
+      signin,
+      signinCallback,
+      signout,
+      refresh,
+      hasRole,
+      error,
+    }),
     [user, isLoading, signin, signinCallback, signout, refresh, hasRole, error]
   );
 
