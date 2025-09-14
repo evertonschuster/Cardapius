@@ -10,15 +10,13 @@ interface PrivateRouteProps {
 }
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) => {
-  const { user, signin, hasRole, isLoading, error, isAuthenticated } = useAuth();
-
-  console.log('PrivateRoute', { user, isLoading, error });
+  const { signin, hasRole, isLoading, error, isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (!isLoading && !user && !error) {
+    if (!isLoading && !isAuthenticated && !error) {
       signin();
     }
-  }, [error, isLoading, signin, user]);
+  }, [error, isLoading, isAuthenticated, signin]);
 
   if (error) {
     return <ProcessErrorDetails details={error} onRetry={signin} />

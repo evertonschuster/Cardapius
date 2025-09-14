@@ -5,6 +5,9 @@ using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using OpenTelemetry.Instrumentation.EntityFrameworkCore;
+using OpenTelemetry.Instrumentation.SqlClient;
+using OpenTelemetry.Instrumentation.Process;
 
 namespace BuildingBlock.Observability.OpenTelemetry.Extensions;
 
@@ -16,7 +19,7 @@ public static class Extensions
 
         if (string.IsNullOrWhiteSpace(serviceName))
         {
-            throw new InvalidOperationException("O nome do serviço (ServiceName) não foi configurado.");
+            throw new InvalidOperationException("O nome do servio (ServiceName) no foi configurado.");
         }
 
         builder.Logging.AddOpenTelemetry(logging =>
@@ -39,7 +42,8 @@ public static class Extensions
                 metrics
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
+                    .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation();
                 //.AddConsoleExporter();
             })
             .WithTracing(tracing =>
@@ -48,12 +52,13 @@ public static class Extensions
                     .AddSource(serviceName)
                     .AddAspNetCoreInstrumentation()
                     //.AddGrpcClientInstrumentation()
-                    .AddHttpClientInstrumentation();
+                    .AddHttpClientInstrumentation()
+                    .AddSqlClientInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation();
                 //.AddConsoleExporter();
             });
 
         builder.AddOpenTelemetryExporters();
-
 
         return builder;
     }

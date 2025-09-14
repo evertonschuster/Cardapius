@@ -1,8 +1,8 @@
-import { User } from "oidc-client-ts";
 import { AuthErrorDetails } from "./AuthErrorDetails";
+import { AuthUser } from "./AuthUser";
 
 export interface AuthContextValue {
-  user: User | null;
+  user: AuthUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   signin: () => Promise<void>;
