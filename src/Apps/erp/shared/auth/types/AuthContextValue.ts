@@ -4,6 +4,7 @@ import { AuthErrorDetails } from "./AuthErrorDetails";
 export interface AuthContextValue {
   user: User | null;
   isLoading: boolean;
+  isAuthenticated: boolean;
   signin: () => Promise<void>;
   signinCallback: () => Promise<void>;
   signout: () => Promise<void>;

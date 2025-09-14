@@ -4,6 +4,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { UserManager, User, WebStorageStateStore } from 'oidc-client-ts';
@@ -12,72 +13,90 @@ import { OidcService } from './services/oidcService';
 import { AuthErrorDetails } from './types/AuthErrorDetails';
 import { AuthContextValue } from './types/AuthContextValue';
 
-
-export const AuthContext = createContext<AuthContextValue | undefined>(
-  undefined,
-);
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const INACTIVITY_TIMEOUT_MS = 10 * 60 * 1000;
 
-export const AuthProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // --- UserManager (silent renew automático + sessionStorage) ---
   const userManager = useMemo(
     () =>
       new UserManager({
         client_id: import.meta.env.VITE_OIDC_CLIENT_ID || '',
-        client_secret: import.meta.env.VITE_OIDC_CLIENT_SECRET || '',
         authority: import.meta.env.VITE_OIDC_AUTHORITY || '',
-        redirect_uri: window.location.origin + '/callback',
-        silent_redirect_uri: window.location.origin + '/silent-renew',
-        post_logout_redirect_uri: window.location.origin + '/login',
+        redirect_uri: `${window.location.origin}/callback`,
+        silent_redirect_uri: `${window.location.origin}/silent-renew`,
+        post_logout_redirect_uri: `${window.location.origin}/login`,
+
         scope: import.meta.env.VITE_OIDC_SCOPE || 'openid profile',
         response_type: 'code',
+
+        // segurança/desempenho
+        loadUserInfo: false,
+        filterProtocolClaims: true,
         revokeTokensOnSignout: true,
+
+        // silent renew nativo da lib
         automaticSilentRenew: true,
-        userStore: new WebStorageStateStore({ store: window.localStorage, prefix: 'oidc' })
+        accessTokenExpiringNotificationTimeInSeconds: 60, // tente renovar 60s antes do expirar
+        silentRequestTimeoutInSeconds: 20,
+
+        // menos persistente que localStorage
+        userStore: new WebStorageStateStore({
+          store: window.sessionStorage,
+          prefix: 'oidc',
+        }),
       }),
-    [],
+    []
   );
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<AuthErrorDetails | null>(null);
 
+  // trava simples para evitar concorrência no refresh manual
+  const isRefreshingRef = useRef(false);
 
-  const buildAuthErrorDetails = useCallback(async (err: unknown): Promise<AuthErrorDetails> => {
-    const anyErr = err as any;
+  const buildAuthErrorDetails = useCallback(
+    async (err: unknown): Promise<AuthErrorDetails> => {
+      const anyErr = err as any;
+      const url = OidcService.getOidcParamsFromUrl();
 
-    const url = OidcService.getOidcParamsFromUrl();
-    const code = anyErr?.error ?? url.error ?? (anyErr?.name === "TypeError" ? "network_error" : null);
-    const description = anyErr?.error_description ?? url.error_description ?? anyErr?.message ?? null;
-    const errorUri = anyErr?.error_uri ?? url.error_uri ?? null;
-    const state = anyErr?.state ?? null;
-    const traceId = state?.traceId ?? sessionStorage.getItem("oidc:lastTraceId") ?? null;
-    const requestId = state?.requestId ?? null;
+      const code =
+        anyErr?.error ??
+        url.error ??
+        (anyErr?.name === 'TypeError' ? 'network_error' : null);
 
-    return {
-      title:
-        code === "login_required"
-          ? "Sua sessão expirou"
-          : "Não foi possível processar sua solicitação",
-      description,
-      code,
-      errorUri,
-      traceId,
-      requestId,
-      timestamp: new Date().toISOString(),
-      authority: userManager.settings.authority,
-      clientId: userManager.settings.client_id ?? null,
-      redirectUri: userManager.settings.redirect_uri ?? null,
-    };
-  }, []);
+      const description =
+        anyErr?.error_description ?? url.error_description ?? anyErr?.message ?? null;
+
+      const errorUri = anyErr?.error_uri ?? url.error_uri ?? null;
+      const state = anyErr?.state ?? null;
+      const traceId = state?.traceId ?? sessionStorage.getItem('oidc:lastTraceId') ?? null;
+      const requestId = state?.requestId ?? null;
+
+      return {
+        title: code === 'login_required' ? 'Sua sessão expirou' : 'Não foi possível processar sua solicitação',
+        description,
+        code,
+        errorUri,
+        traceId,
+        requestId,
+        timestamp: new Date().toISOString(),
+        authority: userManager.settings.authority,
+        clientId: userManager.settings.client_id ?? null,
+        redirectUri: userManager.settings.redirect_uri ?? null,
+      };
+    },
+    [userManager]
+  );
 
   const getUrlAtual = useCallback(
     () => `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`,
-    [location],
+    [location]
   );
 
   const signin = useCallback(async () => {
@@ -85,7 +104,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       setError(null);
       setIsLoading(true);
       const returnTo = getUrlAtual();
-      sessionStorage.setItem('returnTo', returnTo); // fallback
+      sessionStorage.setItem('returnTo', returnTo); // fallback pós-login
       await userManager.signinRedirect({ state: { returnTo } });
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
@@ -102,15 +121,21 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       setUser(loggedUser);
 
       const state = (loggedUser?.state as any) || {};
-      const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
-
-      if (returnTo.indexOf('/login') === 0 || returnTo.indexOf('/callback') === 0 || returnTo.indexOf('/logout') === 0) {
-        await navigate('/', { replace: true });
-        return;
-      }
+      const returnTo: string =
+        state?.returnTo || sessionStorage.getItem('returnTo') || '/';
 
       sessionStorage.removeItem('returnTo');
-      await navigate(returnTo, { replace: true });
+
+      // evita loop em rotas de auth
+      if (
+        returnTo.startsWith('/login') ||
+        returnTo.startsWith('/callback') ||
+        returnTo.startsWith('/logout')
+      ) {
+        navigate('/', { replace: true });
+      } else {
+        navigate(returnTo, { replace: true });
+      }
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
@@ -132,14 +157,17 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, [buildAuthErrorDetails, userManager]);
 
+  // refresh manual (mantido para fallback/log), com trava
   const refresh = useCallback(async () => {
+    if (isRefreshingRef.current) return;
+    isRefreshingRef.current = true;
     try {
-      setIsLoading(true);
       setError(null);
       await userManager.signinSilent();
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
+      isRefreshingRef.current = false;
       setIsLoading(false);
     }
   }, [buildAuthErrorDetails, userManager]);
@@ -149,35 +177,58 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
       const roles = (user?.profile as any)?.roles as string[] | undefined;
       return roles?.includes(role) ?? false;
     },
-    [user],
+    [user]
   );
 
+  // --- Eventos do UserManager (com mesmas referências e cleanup correto) ---
   useEffect(() => {
-    userManager.getUser().then((user) => {
-      setUser(user);
+    let mounted = true;
+
+    const onUserLoaded = (u: User) => {
+      if (!mounted) return;
+      setUser(u);
       setIsLoading(false);
-    });
-    userManager.events.addUserLoaded((user) => {
-      setUser(user);
-      setIsLoading(false);
-    });
-    userManager.events.addUserUnloaded(() => {
+    };
+    const onUserUnloaded = () => {
+      if (!mounted) return;
       setUser(null);
       setIsLoading(false);
-    });
-    userManager.events.addAccessTokenExpiring(refresh);
-    userManager.events.addSilentRenewError(() => {
+    };
+    const onSilentRenewError = () => {
+      if (!mounted) return;
+      setIsLoading(false);
+    };
+    // opcional: log/telemetria
+    const onAccessTokenExpiring = () => {
+      // NÃO chamar signinSilent aqui (automaticSilentRenew já faz)
+      // Se quiser forçar um fallback:
+      // refresh();
+    };
+
+    userManager.getUser().then((u) => {
+      if (!mounted) return;
+      setUser(u);
       setIsLoading(false);
     });
 
-    return () => {
-      userManager.events.removeUserLoaded(() => setUser(null));
-      userManager.events.removeUserUnloaded(() => setUser(null));
-    };
-  }, [userManager]);
+    userManager.events.addUserLoaded(onUserLoaded);
+    userManager.events.addUserUnloaded(onUserUnloaded);
+    userManager.events.addSilentRenewError(onSilentRenewError);
+    userManager.events.addAccessTokenExpiring(onAccessTokenExpiring);
 
+    return () => {
+      mounted = false;
+      userManager.events.removeUserLoaded(onUserLoaded);
+      userManager.events.removeUserUnloaded(onUserUnloaded);
+      userManager.events.removeSilentRenewError(onSilentRenewError);
+      userManager.events.removeAccessTokenExpiring(onAccessTokenExpiring);
+    };
+  }, [userManager, refresh]);
+
+  // --- Inatividade: desloga após X ms sem interação ---
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
+
     const reset = () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
@@ -197,6 +248,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
     };
   }, [userManager]);
 
+  // --- Single logout multi-abas (storage event) ---
   useEffect(() => {
     const handler = (e: StorageEvent) => {
       if (e.key === 'logout') {
@@ -209,12 +261,10 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({
 
   const value = useMemo<AuthContextValue>(
     () => ({ user, isLoading, signin, signinCallback, signout, refresh, hasRole, error }),
-    [user, isLoading, signin, signinCallback, signout, refresh, hasRole, error],
+    [user, isLoading, signin, signinCallback, signout, refresh, hasRole, error]
   );
 
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
@@ -222,4 +272,3 @@ export const useAuth = () => {
   if (!ctx) throw new Error('useAuth must be used within AuthProvider');
   return ctx;
 };
-

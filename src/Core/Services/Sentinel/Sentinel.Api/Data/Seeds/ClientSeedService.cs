@@ -1,5 +1,6 @@
 using OpenIddict.Abstractions;
 using System.Globalization;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Sentinel.Api.Data.Seeds
 {
@@ -21,36 +22,47 @@ namespace Sentinel.Api.Data.Seeds
                 var descriptor = new OpenIddictApplicationDescriptor
                 {
                     ClientId = "SPA",
-                    ClientSecret = "secret",
+                    //ClientSecret = "secret",
+                    ClientType = ClientTypes.Public,
                     Permissions =
                     {
-                        OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        OpenIddictConstants.Permissions.Endpoints.Token,
-                        OpenIddictConstants.Permissions.Endpoints.Revocation,
-                        OpenIddictConstants.Permissions.Endpoints.EndSession,
+                        Permissions.Endpoints.Authorization,
+                        Permissions.Endpoints.Token,
+                        Permissions.Endpoints.Revocation,
+                        Permissions.Endpoints.EndSession,
                         
-                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
+                        Permissions.GrantTypes.AuthorizationCode,
+                        Permissions.GrantTypes.RefreshToken,
+                        Permissions.GrantTypes.ClientCredentials,
 
-                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        Permissions.ResponseTypes.Code,
                         
-                        OpenIddictConstants.Claims.Private.PostLogoutRedirectUri
+                        Claims.Private.PostLogoutRedirectUri,
+
+                        Permissions.Scopes.Profile,
+
+                        Scopes.OfflineAccess
                     },
                     RedirectUris = {
                         new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
-                        new Uri("http://localhost:3000/callback")
+                        new Uri("http://localhost:3000/callback"),
+                        new Uri("http://localhost:3000/silent-renew")
                     },
                     PostLogoutRedirectUris =
                     {
                         new Uri("http://localhost:3000/login")
+                    },
+                    Requirements =
+                    {
+                        Requirements.Features.ProofKeyForCodeExchange
                     }
                 };
 
 
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(120).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(5).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(2).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(2).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(4).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(2).ToString("c", CultureInfo.InvariantCulture);
 
                 foreach (var scope in DefaultAllowedScopes)
                 {

@@ -10,7 +10,9 @@ namespace Sentinel.Api.Extensions
     {
         public static IServiceCollection AddAppAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+            services
+                .AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)
+                .AddCookie("Cookies");
 
             services.AddOpenIddict()
                 .AddCore(opt =>
@@ -62,7 +64,8 @@ namespace Sentinel.Api.Extensions
                            .EnableAuthorizationEndpointPassthrough()
                            .EnableTokenEndpointPassthrough()
                            .EnableEndSessionEndpointPassthrough()
-                           .EnableErrorPassthrough();
+                           .EnableErrorPassthrough()
+                           .DisableTransportSecurityRequirement();
                     
                     opt.RegisterScopes(
                        OpenIddictConstants.Scopes.Email,
