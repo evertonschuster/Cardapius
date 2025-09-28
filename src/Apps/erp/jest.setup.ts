@@ -5,17 +5,17 @@ import {
   TextDecoder as NodeTextDecoder,
 } from 'util';
 
-type NodeEncoders = {
-  TextEncoder: typeof NodeTextEncoder;
-  TextDecoder: typeof NodeTextDecoder;
+type GlobalEncoders = typeof globalThis & {
+  TextEncoder?: typeof NodeTextEncoder;
+  TextDecoder?: typeof NodeTextDecoder;
 };
 
-const globalWithEncoders = globalThis as typeof globalThis & Partial<NodeEncoders>;
+const globalEncoders = globalThis as GlobalEncoders;
 
-if (typeof globalWithEncoders.TextEncoder === 'undefined') {
-  globalWithEncoders.TextEncoder = NodeTextEncoder as NodeEncoders['TextEncoder'];
+if (typeof globalEncoders.TextEncoder === 'undefined') {
+  globalEncoders.TextEncoder = NodeTextEncoder;
 }
 
-if (typeof globalWithEncoders.TextDecoder === 'undefined') {
-  globalWithEncoders.TextDecoder = NodeTextDecoder as NodeEncoders['TextDecoder'];
+if (typeof globalEncoders.TextDecoder === 'undefined') {
+  globalEncoders.TextDecoder = NodeTextDecoder;
 }
