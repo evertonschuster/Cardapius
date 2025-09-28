@@ -1,5 +1,6 @@
 using OpenIddict.Abstractions;
 using System.Globalization;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Sentinel.Api.Data.Seeds
 {
@@ -7,41 +8,65 @@ namespace Sentinel.Api.Data.Seeds
     {
         private static readonly string[] DefaultAllowedScopes =
         {
-            OpenIddictConstants.Scopes.Email,
-            OpenIddictConstants.Scopes.Profile,
-            OpenIddictConstants.Scopes.OpenId,
-            OpenIddictConstants.Scopes.OfflineAccess,
+            Scopes.Email,
+            Scopes.Profile,
+            Scopes.OpenId,
+            Scopes.OfflineAccess,
             "api"
         };
 
         public async Task SeedAsync()
         {
-            if (await manager.FindByClientIdAsync("console") is null)
+            if (await manager.FindByClientIdAsync("SPA") is null)
             {
                 var descriptor = new OpenIddictApplicationDescriptor
                 {
-                    ClientId = "console",
-                    ClientSecret = "secret",
+                    ClientId = "SPA",
+                    ClientType = ClientTypes.Public,
                     Permissions =
                     {
-                        OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        OpenIddictConstants.Permissions.Endpoints.Token,
-                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.ResponseTypes.Code,
-                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
+                        Permissions.Endpoints.Authorization,
+                        Permissions.Endpoints.Token,
+                        Permissions.Endpoints.Revocation,
+                        Permissions.Endpoints.EndSession,
+                        
+                        Permissions.GrantTypes.AuthorizationCode,
+                        Permissions.GrantTypes.RefreshToken,
+                        Permissions.GrantTypes.ClientCredentials,
+
+                        Permissions.ResponseTypes.Code,
+                        
+                        Claims.Private.PostLogoutRedirectUri,
+
+                        Permissions.Scopes.Profile,
+
+                        Scopes.OfflineAccess
                     },
-                    RedirectUris = { new Uri("https://localhost:5001/swagger/oauth2-redirect.html") },
+                    RedirectUris = {
+                        new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
+                        new Uri("http://localhost:3000/callback"),
+                        new Uri("http://localhost:3000/silent-renew")
+                    },
+                    PostLogoutRedirectUris =
+                    {
+                        new Uri("http://localhost:3000/login")
+                    },
+                    Requirements =
+                    {
+                        Requirements.Features.ProofKeyForCodeExchange
+                    }
                 };
 
 
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(120).ToString("c", CultureInfo.InvariantCulture);
-                descriptor.Settings[OpenIddictConstants.Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(5).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.AccessToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.IdentityToken] = TimeSpan.FromMinutes(20).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.RefreshToken] = TimeSpan.FromMinutes(120).ToString("c", CultureInfo.InvariantCulture);
+                descriptor.Settings[Settings.TokenLifetimes.AuthorizationCode] = TimeSpan.FromMinutes(5).ToString("c", CultureInfo.InvariantCulture);
+
 
                 foreach (var scope in DefaultAllowedScopes)
                 {
-                    descriptor.Permissions.Add(OpenIddictConstants.Permissions.Prefixes.Scope + scope);
+                    descriptor.Permissions.Add(Permissions.Prefixes.Scope + scope);
                 }
 
                 await manager.CreateAsync(descriptor);
