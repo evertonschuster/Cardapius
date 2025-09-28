@@ -1,16 +1,21 @@
 import '@testing-library/jest-dom';
 
-import { TextEncoder, TextDecoder } from 'util';
+import {
+  TextEncoder as NodeTextEncoder,
+  TextDecoder as NodeTextDecoder,
+} from 'util';
 
-const globalWithEncoders = globalThis as typeof globalThis & {
-  TextEncoder?: typeof TextEncoder;
-  TextDecoder?: typeof TextDecoder;
+type NodeEncoders = {
+  TextEncoder: typeof NodeTextEncoder;
+  TextDecoder: typeof NodeTextDecoder;
 };
 
+const globalWithEncoders = globalThis as typeof globalThis & Partial<NodeEncoders>;
+
 if (typeof globalWithEncoders.TextEncoder === 'undefined') {
-  globalWithEncoders.TextEncoder = TextEncoder;
+  globalWithEncoders.TextEncoder = NodeTextEncoder as NodeEncoders['TextEncoder'];
 }
 
 if (typeof globalWithEncoders.TextDecoder === 'undefined') {
-  globalWithEncoders.TextDecoder = TextDecoder;
+  globalWithEncoders.TextDecoder = NodeTextDecoder as NodeEncoders['TextDecoder'];
 }
