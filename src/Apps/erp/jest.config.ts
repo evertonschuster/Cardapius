@@ -10,6 +10,11 @@ const config: Config = {
     '^@shared/(.*)$': '<rootDir>/shared/$1',
     '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts'
   },
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.json',
+    },
+  },
   coverageThreshold: {
     global: {
       branches: 80,

@@ -40,7 +40,15 @@ export const Button: React.FC<ShortcutButtonProps> = ({
     return () => window.removeEventListener('keydown', handler);
   }, [shortcut]);
 
-  const shortcutLabel = (shortcut ?? []).slice(1).join('+');
+  const shortcutLabel = (shortcut ?? [])
+    .filter((k): k is string => Boolean(k))
+    .map((key) => {
+      if (key.length === 1) {
+        return key.toUpperCase();
+      }
+      return key.charAt(0).toUpperCase() + key.slice(1).toLowerCase();
+    })
+    .join('+');
 
   return (
     <MuiButton ref={ref} {...props}>
