@@ -5,12 +5,12 @@ import {
   TextDecoder as NodeTextDecoder,
 } from 'util';
 
-type GlobalEncoders = typeof globalThis & {
+type GlobalEncoders = {
   TextEncoder?: typeof NodeTextEncoder;
   TextDecoder?: typeof NodeTextDecoder;
 };
 
-const globalEncoders = globalThis as GlobalEncoders;
+const globalEncoders = globalThis as unknown as GlobalEncoders;
 
 if (typeof globalEncoders.TextEncoder === 'undefined') {
   globalEncoders.TextEncoder = NodeTextEncoder;
