@@ -61,6 +61,9 @@ jest.mock('oidc-client-ts', () => {
 describe('createAuthClient', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    delete process.env.VITE_OIDC_CLIENT_ID;
+    delete process.env.VITE_OIDC_AUTHORITY;
+    delete process.env.VITE_OIDC_SCOPE;
   });
 
   it('configures the OIDC client with sane defaults', () => {

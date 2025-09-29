@@ -189,8 +189,10 @@ describe('AuthProvider', () => {
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(client.events.addUserLoaded).toHaveBeenCalledTimes(1);
-    const onUserLoaded = client.events.addUserLoaded.mock.calls[0][0];
-    const onUserUnloaded = client.events.addUserUnloaded.mock.calls[0][0];
+    const addUserLoaded = client.events.addUserLoaded as jest.Mock;
+    const addUserUnloaded = client.events.addUserUnloaded as jest.Mock;
+    const onUserLoaded = addUserLoaded.mock.calls[0][0] as (user: any) => void;
+    const onUserUnloaded = addUserUnloaded.mock.calls[0][0] as () => void;
 
     const user = { expired: false } as any;
     act(() => {

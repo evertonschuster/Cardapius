@@ -1,30 +1,31 @@
 import { getEnv } from './index';
 
-const ensureImportMetaEnv = () => {
-  if (!(import.meta as any).env) {
-    (import.meta as any).env = {};
-  }
-};
-
 describe('getEnv', () => {
-  let originalEnv: any;
+  const originalEnv = { ...process.env };
 
   beforeEach(() => {
-    ensureImportMetaEnv();
-    originalEnv = (import.meta as any).env;
+    for (const key of Object.keys(process.env)) {
+      delete process.env[key];
+    }
+
+    Object.assign(process.env, originalEnv);
+    delete process.env.VITE_APP_ENV;
   });
 
-  afterEach(() => {
-    (import.meta as any).env = originalEnv;
+  afterAll(() => {
+    for (const key of Object.keys(process.env)) {
+      delete process.env[key];
+    }
+
+    Object.assign(process.env, originalEnv);
   });
 
   it('returns default dev when env is missing', () => {
-    (import.meta as any).env = {};
     expect(getEnv()).toBe('dev');
   });
 
   it('returns the configured environment value', () => {
-    (import.meta as any).env = { VITE_APP_ENV: 'prod' };
+    process.env.VITE_APP_ENV = 'prod';
     expect(getEnv()).toBe('prod');
   });
 });

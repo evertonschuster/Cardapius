@@ -24,14 +24,28 @@ export interface AuthClient {
   };
 }
 
+const readImportMetaEnv = (): Partial<Record<string, string>> => {
+  try {
+    return ((0, eval)('import.meta') as { env?: Record<string, string> })?.env ?? {};
+  } catch {
+    return {};
+  }
+};
+
+const importMetaEnv = readImportMetaEnv();
+const processEnv = typeof process !== 'undefined' ? process.env ?? {} : {};
+
+const getEnvValue = (key: string, fallback = ''): string =>
+  importMetaEnv[key] ?? (processEnv as Record<string, string | undefined>)[key] ?? fallback;
+
 export const createAuthClient = (): AuthClient => {
   const manager = new UserManager({
-    client_id: import.meta.env.VITE_OIDC_CLIENT_ID || '',
-    authority: import.meta.env.VITE_OIDC_AUTHORITY || '',
+    client_id: getEnvValue('VITE_OIDC_CLIENT_ID'),
+    authority: getEnvValue('VITE_OIDC_AUTHORITY'),
     redirect_uri: `${window.location.origin}/callback`,
     silent_redirect_uri: `${window.location.origin}/silent-renew`,
     post_logout_redirect_uri: `${window.location.origin}/login`,
-    scope: import.meta.env.VITE_OIDC_SCOPE || 'openid profile',
+    scope: getEnvValue('VITE_OIDC_SCOPE', 'openid profile'),
     response_type: 'code',
     loadUserInfo: false,
     filterProtocolClaims: true,
@@ -48,9 +62,9 @@ export const createAuthClient = (): AuthClient => {
   return {
     getUser: () => manager.getUser() as Promise<AuthUser | null>,
     signinRedirect: (args) => manager.signinRedirect(args),
-    signinRedirectCallback: () => manager.signinRedirectCallback() as Promise<AuthUser>,
+    signinRedirectCallback: () => manager.signinRedirectCallback() as unknown as Promise<AuthUser>,
     signoutRedirect: (args) => manager.signoutRedirect(args),
-    signinSilent: () => manager.signinSilent() as Promise<AuthUser>,
+    signinSilent: () => manager.signinSilent() as unknown as Promise<AuthUser>,
     events: {
       addUserLoaded: (cb) => manager.events.addUserLoaded(cb as any),
       addUserUnloaded: (cb) => manager.events.addUserUnloaded(cb),

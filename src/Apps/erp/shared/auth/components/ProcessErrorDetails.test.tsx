@@ -10,13 +10,29 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('ProcessErrorDetails', () => {
+  let originalClipboard: Clipboard | undefined;
+  let writeTextMock: jest.Mock;
+
   beforeEach(() => {
     jest.clearAllMocks();
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: jest.fn().mockResolvedValue(undefined),
-      },
+    originalClipboard = navigator.clipboard;
+    writeTextMock = jest.fn().mockResolvedValue(undefined);
+
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: { writeText: writeTextMock },
     });
+  });
+
+  afterEach(() => {
+    if (originalClipboard) {
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: originalClipboard,
+      });
+    } else {
+      delete (navigator as any).clipboard;
+    }
   });
 
   it('renders details and handles actions', async () => {
@@ -50,7 +66,7 @@ describe('ProcessErrorDetails', () => {
     expect(onHome).toHaveBeenCalled();
 
     await user.click(screen.getByText('Copiar detalhes'));
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(JSON.stringify(details, null, 2));
+    expect(writeTextMock).toHaveBeenCalledWith(JSON.stringify(details, null, 2));
 
     await user.click(screen.getByText('Ver detalhes técnicos'));
     expect(screen.getByText(JSON.stringify(details, null, 2))).toBeInTheDocument();
