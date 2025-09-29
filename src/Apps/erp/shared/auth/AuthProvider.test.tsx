@@ -146,6 +146,32 @@ describe('AuthProvider', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
   });
 
+  it('captures callback errors', async () => {
+    const client = createMockClient();
+    client.signinRedirectCallback.mockRejectedValueOnce({
+      error: 'server_error',
+      error_description: 'Callback failed',
+      state: { traceId: 'trace-cb' },
+    });
+    (OidcService.getOidcParamsFromUrl as jest.Mock).mockReturnValueOnce({});
+
+    const { result } = renderAuthHook(client);
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+    await act(async () => {
+      await result.current.signinCallback();
+    });
+
+    await waitFor(() => expect(result.current.error).not.toBeNull());
+    expect(result.current.error).toEqual(
+      expect.objectContaining({
+        code: 'server_error',
+        description: 'Callback failed',
+        traceId: 'trace-cb',
+      })
+    );
+  });
+
   it('signs out and resets user', async () => {
     const client = createMockClient();
     client.getUser.mockResolvedValueOnce({ expired: false } as any);
@@ -158,6 +184,31 @@ describe('AuthProvider', () => {
     });
 
     expect(client.signoutRedirect).toHaveBeenCalledWith({ state: { returnTo: '/' } });
+    expect(result.current.user).toBeNull();
+  });
+
+  it('captures signout errors', async () => {
+    const client = createMockClient();
+    client.signoutRedirect.mockRejectedValueOnce({
+      error: 'logout_failed',
+      error_description: 'Could not logout',
+    });
+    (OidcService.getOidcParamsFromUrl as jest.Mock).mockReturnValueOnce({});
+
+    const { result } = renderAuthHook(client);
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+    await act(async () => {
+      await result.current.signout();
+    });
+
+    await waitFor(() => expect(result.current.error).not.toBeNull());
+    expect(result.current.error).toEqual(
+      expect.objectContaining({
+        code: 'logout_failed',
+        description: 'Could not logout',
+      })
+    );
     expect(result.current.user).toBeNull();
   });
 
@@ -191,8 +242,10 @@ describe('AuthProvider', () => {
     expect(client.events.addUserLoaded).toHaveBeenCalledTimes(1);
     const addUserLoaded = client.events.addUserLoaded as jest.Mock;
     const addUserUnloaded = client.events.addUserUnloaded as jest.Mock;
+    const addSilentRenewError = client.events.addSilentRenewError as jest.Mock;
     const onUserLoaded = addUserLoaded.mock.calls[0][0] as (user: any) => void;
     const onUserUnloaded = addUserUnloaded.mock.calls[0][0] as () => void;
+    const onSilentRenewError = addSilentRenewError.mock.calls[0][0] as () => void;
 
     const user = { expired: false } as any;
     act(() => {
@@ -204,6 +257,11 @@ describe('AuthProvider', () => {
       onUserUnloaded();
     });
     expect(result.current.user).toBeNull();
+
+    act(() => {
+      onSilentRenewError();
+    });
+    expect(result.current.isLoading).toBe(false);
 
     unmount();
 

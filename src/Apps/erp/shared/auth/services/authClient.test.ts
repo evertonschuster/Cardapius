@@ -124,7 +124,13 @@ describe('createAuthClient', () => {
     client.events.addUserLoaded(cb);
     expect(managerInstance.events.addUserLoaded).toHaveBeenCalledWith(cb);
 
+    client.events.addAccessTokenExpiring(cb);
+    expect(managerInstance.events.addAccessTokenExpiring).toHaveBeenCalledWith(cb);
+
     client.events.removeSilentRenewError(cb);
     expect(managerInstance.events.removeSilentRenewError).toHaveBeenCalledWith(cb);
+
+    client.events.removeAccessTokenExpiring(cb);
+    expect(managerInstance.events.removeAccessTokenExpiring).toHaveBeenCalledWith(cb);
   });
 });
