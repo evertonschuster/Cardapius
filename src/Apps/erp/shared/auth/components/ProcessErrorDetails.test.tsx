@@ -65,12 +65,12 @@ describe('ProcessErrorDetails', () => {
     await user.click(screen.getByText('Voltar para a página inicial'));
     expect(onHome).toHaveBeenCalled();
 
-    await user.click(screen.getByText('Copiar detalhes'));
+    await user.click(screen.getByRole('button', { name: 'Copiar detalhes' }));
     await waitFor(() =>
       expect(writeTextMock).toHaveBeenCalledWith(JSON.stringify(details, null, 2)),
     );
 
-    await user.click(screen.getByText('Ver detalhes técnicos'));
+    await user.click(screen.getByRole('button', { name: 'Ver detalhes técnicos' }));
     expect(screen.getByText(JSON.stringify(details, null, 2))).toBeInTheDocument();
     expect(screen.getByRole('link', { name: details.errorUri })).toHaveAttribute('href', details.errorUri);
   });
