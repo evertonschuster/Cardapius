@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ProcessErrorDetails } from './ProcessErrorDetails';
 
@@ -66,7 +66,9 @@ describe('ProcessErrorDetails', () => {
     expect(onHome).toHaveBeenCalled();
 
     await user.click(screen.getByText('Copiar detalhes'));
-    expect(writeTextMock).toHaveBeenCalledWith(JSON.stringify(details, null, 2));
+    await waitFor(() =>
+      expect(writeTextMock).toHaveBeenCalledWith(JSON.stringify(details, null, 2)),
+    );
 
     await user.click(screen.getByText('Ver detalhes técnicos'));
     expect(screen.getByText(JSON.stringify(details, null, 2))).toBeInTheDocument();
