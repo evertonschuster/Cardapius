@@ -20,16 +20,28 @@ describe('PrivateRoute', () => {
 
   it('calls signin and shows loader when unauthenticated', () => {
     const signin = jest.fn();
-    mockUseAuth.mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      signin,
-      hasRole: () => false,
-      isLoading: false,
-      error: null,
-    });
-    render(<PrivateRoute />);
+    mockUseAuth
+      .mockImplementationOnce(() => ({
+        user: null,
+        isAuthenticated: false,
+        signin,
+        hasRole: () => false,
+        isLoading: false,
+        error: null,
+      }))
+      .mockImplementation(() => ({
+        user: null,
+        isAuthenticated: false,
+        signin,
+        hasRole: () => false,
+        isLoading: true,
+        error: null,
+      }));
+
+    const { rerender } = render(<PrivateRoute />);
     expect(signin).toHaveBeenCalled();
+
+    rerender(<PrivateRoute />);
     expect(screen.getByText('Aguardando autenticação...')).toBeInTheDocument();
   });
 

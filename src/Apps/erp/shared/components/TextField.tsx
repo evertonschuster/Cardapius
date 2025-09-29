@@ -1,12 +1,18 @@
 import React from 'react';
-import { Control, FieldValues, RegisterOptions, useController } from 'react-hook-form';
+import {
+  Control,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  useController,
+} from 'react-hook-form';
 import TextFieldMUI, { TextFieldProps } from '@mui/material/TextField';
 
 interface RHFTextFieldProps<T extends FieldValues>
   extends Omit<TextFieldProps, 'name' | 'defaultValue'> {
-  name: string;
-  rules?: RegisterOptions;
-  control?: Control<T>;
+  name: Path<T>;
+  rules?: RegisterOptions<T, Path<T>>;
+  control: Control<T>;
 }
 
 export const TextField = <T extends FieldValues>({
@@ -18,7 +24,7 @@ export const TextField = <T extends FieldValues>({
   const {
     field,
     fieldState: { error },
-  } = useController({ name, rules, control });
+  } = useController<T>({ name, rules, control });
   return (
 
     <TextFieldMUI {...field} {...props} error={!!error} helperText={error?.message} />

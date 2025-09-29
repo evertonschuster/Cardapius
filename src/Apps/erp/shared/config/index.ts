@@ -4,7 +4,19 @@ import prod from './env/prod';
 
 type AppEnv = 'dev' | 'hlg' | 'prod';
 
-const env = (import.meta.env.VITE_APP_ENV as AppEnv) || 'dev';
+const readImportMetaEnv = (): Partial<Record<'VITE_APP_ENV', string>> => {
+  try {
+    return ((0, eval)('import.meta') as { env?: { VITE_APP_ENV?: string } })?.env ?? {};
+  } catch (error) {
+    return {};
+  }
+};
+
+const env = (
+  readImportMetaEnv().VITE_APP_ENV ??
+  (typeof process !== 'undefined' ? process.env?.VITE_APP_ENV : undefined) ??
+  'dev'
+) as AppEnv;
 
 const configs = { dev, hlg, prod } as const;
 
