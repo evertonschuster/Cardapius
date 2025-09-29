@@ -19,11 +19,33 @@ export const ProcessErrorDetails: React.FC<ProcessErrorDetailsProps> = ({
     const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
 
-    const copyDetails = async () => {
+    const copyDetails = useCallback(async () => {
+        const serializedDetails = JSON.stringify(details, null, 2);
+
         try {
-            await navigator.clipboard.writeText(JSON.stringify(details, null, 2));
-        } catch { }
-    };
+            if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(serializedDetails);
+                return;
+            }
+        } catch {
+            // ignored so we can fallback to the legacy API below
+        }
+
+        if (typeof document === 'undefined' || !document.execCommand) {
+            return;
+        }
+
+        const textArea = document.createElement('textarea');
+        textArea.value = serializedDetails;
+        textArea.setAttribute('readonly', '');
+        textArea.style.position = 'absolute';
+        textArea.style.left = '-9999px';
+
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }, [details]);
 
     const contactSupport = () => {
 
@@ -31,7 +53,7 @@ export const ProcessErrorDetails: React.FC<ProcessErrorDetailsProps> = ({
 
     const handleHome = useCallback(() => {
         navigate("/");
-    }, [])
+    }, [navigate])
 
     return (
         <Box
