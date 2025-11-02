@@ -1,3 +1,4 @@
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Media;
@@ -18,6 +19,46 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
         /// <returns>The <see cref="SwaggerGenOptions"/> instance with added domain value object mappings.</returns>
         public static SwaggerGenOptions AddDomainMapping(this SwaggerGenOptions options)
         {
+            options.MapType<LegalName>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "LegalName",
+                Description = "Represent a valid Name.",
+                Example = new OpenApiString(LegalName.Empty),
+            });
+
+            options.MapType<TradeName>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "TradeName",
+                Description = "Represent a valid Trade Name.",
+                Example = new OpenApiString(TradeName.Empty),
+            });
+
+            options.MapType<CpfCnpj>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "CpfCnpj",
+                Description = "Represent a valid Cpf/Cnpj.",
+                Example = new OpenApiString(CpfCnpj.Empty),
+            });
+
+            options.MapType<StateRegistration>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "StateRegistration",
+                Description = "Represent a valid State Registration.",
+                Example = new OpenApiString(StateRegistration.Empty),
+            });
+
+            options.MapType<MunicipalRegistration>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Title = "MunicipalRegistration",
+                Description = "Represent a valid Municipal Registration.",
+                Example = new OpenApiString(MunicipalRegistration.Empty),
+            });
+
             options.MapType<Email>(() => new OpenApiSchema
             {
                 Type = "string",

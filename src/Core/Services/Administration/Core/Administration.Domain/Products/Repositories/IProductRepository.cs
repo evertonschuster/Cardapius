@@ -10,6 +10,7 @@ namespace Administration.Domain.Products.Repositories
         /// <param name="model">The product entity to be created.</param>
         /// <returns>The created product entity.</returns>
         Product Create(Product model);
+
         /// <summary>
         /// Determines whether a product with the specified unique identifier exists.
         /// </summary>
@@ -17,12 +18,14 @@ namespace Administration.Domain.Products.Repositories
         /// <param name="cancellation">A token to monitor for cancellation requests.</param>
         /// <returns><c>true</c> if the product exists; otherwise, <c>false</c>.</returns>
         bool ExistsById(Guid id, CancellationToken cancellation);
+
         /// <summary>
         /// Retrieves a product by its unique identifier, including all associated properties.
         /// </summary>
         /// <param name="productId">The unique identifier of the product to retrieve.</param>
         /// <returns>The product with all properties if found; otherwise, null.</returns>
         Product? GetWithAllPropertyByIds(Guid productId);
+
         /// <summary>
         /// Retrieves a list of products by their IDs, including all associated properties.
         /// </summary>

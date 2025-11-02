@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Polly;
+﻿using Polly;
 using System.Net;
 using System.Threading.RateLimiting;
 

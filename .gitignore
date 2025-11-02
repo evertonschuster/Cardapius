@@ -1,4 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+root = true
+
+[*]
+charset = utf-8        
+end_of_line = lf
+
 
 # dependencies
 **/node_modules

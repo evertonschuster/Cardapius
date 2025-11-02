@@ -7,4 +7,4 @@ var administrationApi = builder
     .AddProject<Projects.Administration_Api>("AdministrationApi")
     .WithReference(sentinelApi);
 
-builder.Build().Run();
+await builder.Build().RunAsync();

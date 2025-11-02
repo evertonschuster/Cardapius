@@ -28,7 +28,6 @@ public static class Extensions
                     ResourceBuilder.CreateDefault()
                         .AddService(serviceName)
                 );
-            //.AddConsoleExporter();
         });
 
         builder.Services
@@ -39,8 +38,8 @@ public static class Extensions
                 metrics
                     .AddAspNetCoreInstrumentation()
                     .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
-                //.AddConsoleExporter();
+                    .AddRuntimeInstrumentation()
+                    .AddProcessInstrumentation();
             })
             .WithTracing(tracing =>
             {
@@ -48,12 +47,12 @@ public static class Extensions
                     .AddSource(serviceName)
                     .AddAspNetCoreInstrumentation()
                     //.AddGrpcClientInstrumentation()
-                    .AddHttpClientInstrumentation();
-                //.AddConsoleExporter();
+                    .AddHttpClientInstrumentation()
+                    .AddSqlClientInstrumentation()
+                    .AddEntityFrameworkCoreInstrumentation();
             });
 
         builder.AddOpenTelemetryExporters();
-
 
         return builder;
     }

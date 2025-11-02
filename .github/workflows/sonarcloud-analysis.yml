@@ -1,0 +1,87 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches: [ develop, master ]
+  pull_request:
+    branches: [ develop, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build, Test and Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dotnet-sonarscanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Add .NET tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: Start SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          dotnet-sonarscanner begin \
+            /k:"evertonschuster_Cardapius" \
+            /o:"evertonschuster-1" \
+            /d:sonar.host.url="https://sonarcloud.io" \
+            /d:sonar.token="$SONAR_TOKEN" \
+            /d:sonar.cs.opencover.reportsPaths="coverage-report/*.xml" \
+            /d:sonar.javascript.lcov.reportPaths="src/Apps/erp/coverage/lcov.info" \
+            /d:sonar.sources="." \
+            /d:sonar.exclusions="**/node_modules/**,**/dist/**,**/build/**,**/*.stories.*,.github/**" \
+            /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/Migrations/**,**/*Api*/**/*.cs,**/.github/**,src/Apps/erp/**/__tests__/**,src/Apps/erp/**/*.stories.*,src/Apps/erp/**/*.mock.*,src/Apps/erp/**/mocks/**,src/Apps/erp/**/fixtures/**,**/*config.ts,**/*setup.ts" \
+            /d:sonar.projectBaseDir="$(pwd)"
+
+      # ---------- FRONTEND ----------
+      - name: Install frontend dependencies
+        working-directory: src/Apps/erp
+        run: npm install
+
+      - name: Run frontend tests with coverage (Jest)
+        working-directory: src/Apps/erp
+        env:
+          CI: 'true'
+        run: |
+          npm test -- --coverage --watchAll=false
+
+      - name: Ensure LCOV exists
+        run: |
+          test -f "src/Apps/erp/coverage/lcov.info" || (echo "lcov.info não encontrado em src/Apps/erp/coverage/lcov.info" && exit 1)
+
+      # (Opcional) Ajuda no debug se quiser baixar a cobertura
+      - name: Upload frontend coverage artifact (optional)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: src/Apps/erp/coverage
+
+      # ---------- BACKEND ----------
+      - name: Build solution
+        run: dotnet build src/Core/Cardapius.sln --configuration Release
+
+      - name: Run tests with coverage (backend)
+        run: bash scripts/run_tests.sh
+
+      - name: End SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"

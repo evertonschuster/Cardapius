@@ -1,4 +1,5 @@
 using BuildingBlock.Application.Entities;
+using BuildingBlock.Application.Repositories;
 using BuildingBlock.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -6,21 +7,11 @@ using Newtonsoft.Json;
 
 namespace BuildingBlock.Application.Services
 {
-    internal class DomainEventService(IOptions<MvcNewtonsoftJsonOptions> jsonOptions) : IDomainEventService
+    internal class DomainEventService(
+        IOutboxMessageRepository outboxMessageRepository,
+        IOptions<MvcNewtonsoftJsonOptions> jsonOptions
+        ) : IDomainEventService
     {
-        /// <summary>
-        /// Marks each provided outbox message entity as processed.
-        /// </summary>
-        /// <param name="events">A collection of outbox message entities to be marked as processed.</param>
-        public void EmitEvents(IEnumerable<OutboxMessageEntity> events)
-        {
-            //Emitir eventos rabbit local
-            foreach (var entity in events)
-            {
-                entity.Processed();
-            }
-        }
-
         /// <summary>
         /// Converts domain events from the provided aggregate root entities into a list of outbox message entities, serializing each event to JSON.
         /// </summary>
@@ -48,6 +39,36 @@ namespace BuildingBlock.Application.Services
                 });
             })
             .ToList();
+        }
+
+        /// <summary>
+        /// Stores domain events from outbox messages asynchronously.
+        /// </summary>
+        /// <param name="outboxMessages"></param>
+        /// <returns></returns>
+        public Task StoreDomainEventsAsync(List<OutboxMessageEntity> outboxMessages)
+        {
+            outboxMessageRepository.Insert(outboxMessages);
+
+            return Task.CompletedTask;
+        }
+
+
+        /// <summary>
+        /// Marks each provided outbox message entity as processed.
+        /// </summary>
+        /// <param name="events">A collection of outbox message entities to be marked as processed.</param>
+        public Task EmitEventsAsync(List<OutboxMessageEntity> events)
+        {
+            //Emitir eventos rabbit local
+            foreach (var entity in events)
+            {
+                entity.Processed();
+            }
+
+            outboxMessageRepository.Update(events);
+
+            return Task.CompletedTask;
         }
     }
 }

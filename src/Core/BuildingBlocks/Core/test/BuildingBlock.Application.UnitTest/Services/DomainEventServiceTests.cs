@@ -1,4 +1,5 @@
 ﻿using BuildingBlock.Application.Entities;
+using BuildingBlock.Application.Repositories;
 using BuildingBlock.Application.Services;
 using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.Events;
@@ -35,6 +36,7 @@ namespace BuildingBlock.Application.UnitTest.Services
         public void GetDomainOutboxEvents_DeveRetornarOutboxMessages_ParaAggregateRoots()
         {
             // Arrange
+            var outboxMessageRepository = Substitute.For<IOutboxMessageRepository>();
             var fakeEvent = new FakeDomainEvent();
             var fakeAggregate = new FakeAggregateRoot();
             fakeAggregate.AddDomainEvent(fakeEvent);
@@ -42,7 +44,7 @@ namespace BuildingBlock.Application.UnitTest.Services
             var jsonOptions = Substitute.For<IOptions<MvcNewtonsoftJsonOptions>>();
             jsonOptions.Value.Returns(new MvcNewtonsoftJsonOptions());
 
-            var service = new DomainEventService(jsonOptions);
+            var service = new DomainEventService(outboxMessageRepository, jsonOptions);
 
             // Act
             var result = service.GetDomainOutboxEvents(new[] { fakeAggregate });
@@ -59,17 +61,18 @@ namespace BuildingBlock.Application.UnitTest.Services
         }
 
         [Fact]
-        public void EmitEvents_DeveChamarProcessedParaCadaEvento()
+        public async Task EmitEvents_DeveChamarProcessedParaCadaEvento()
         {
             // Arrange
             var outbox = Substitute.For<OutboxMessageEntity>();
+            var outboxMessageRepository = Substitute.For<IOutboxMessageRepository>();
             var jsonOptions = Substitute.For<IOptions<MvcNewtonsoftJsonOptions>>();
             jsonOptions.Value.Returns(new MvcNewtonsoftJsonOptions());
 
-            var service = new DomainEventService(jsonOptions);
+            var service = new DomainEventService(outboxMessageRepository, jsonOptions);
 
             // Act
-            service.EmitEvents(new[] { outbox });
+            await service.EmitEventsAsync([outbox]);
 
             // Assert
             outbox.Received(1).Processed();
