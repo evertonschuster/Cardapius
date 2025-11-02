@@ -1,8 +1,10 @@
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
+using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Business;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Emails;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.PersonNames;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Phones;
@@ -45,6 +47,32 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
         /// </remarks>
         public static void AddApplicationDomainDataEFCoreConvert(this ModelConfigurationBuilder configurationBuilder)
         {
+            configurationBuilder
+                .Properties<CpfCnpj>()
+                .HaveConversion<CpfCnpjConverter>()
+                .HaveMaxLength(14);
+
+            configurationBuilder
+                .Properties<LegalName>()
+                .HaveConversion<LegalNameConverter>()
+                .HaveMaxLength(150);
+
+            configurationBuilder
+                .Properties<TradeName>()
+                .HaveConversion<TradeNameConverter>()
+                .HaveMaxLength(150);
+
+            configurationBuilder
+                .Properties<MunicipalRegistration>()
+                .HaveConversion<MunicipalRegistrationConverter>()
+                .HaveMaxLength(150);
+
+            configurationBuilder
+                .Properties<StateRegistration>()
+                .HaveConversion<StateRegistrationConverter>()
+                .HaveMaxLength(150);
+
+
             configurationBuilder
                 .Properties<Email>()
                 .HaveConversion<EmailConverter>()

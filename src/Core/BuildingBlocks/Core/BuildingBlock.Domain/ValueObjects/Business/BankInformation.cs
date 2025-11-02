@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
 public class BankInformation : IValueObject, IValidatable

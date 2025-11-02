@@ -1,6 +1,4 @@
 ﻿using Microsoft.OpenApi.Models;
-using System.Security.AccessControl;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Sentinel.Api.Extensions
 {

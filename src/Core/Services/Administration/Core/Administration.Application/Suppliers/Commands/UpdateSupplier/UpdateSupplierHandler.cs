@@ -1,4 +1,5 @@
 using Administration.Domain.Suppliers.Repositories;
+using BuildingBlock.Application;
 
 namespace Administration.Application.Suppliers.Commands.UpdateSupplier;
 

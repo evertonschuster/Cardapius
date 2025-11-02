@@ -13,7 +13,7 @@ namespace BuildingBlock.Infra.DataBase.Extensions
         /// </summary>
         public static void AddDomainEvent(this IServiceCollection services)
         {
-            services.AddSingleton<IDomainEventService, DomainEventService>();
+            services.AddScoped<IDomainEventService, DomainEventService>();
         }
 
         /// <summary>

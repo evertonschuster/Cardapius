@@ -1,0 +1,62 @@
+import React from 'react';
+import { RouteObject, useRoutes } from 'react-router-dom';
+import { AdminDashboard } from '@modules/admin';
+import { PdvSales } from '@modules/pdv';
+import { KitchenOrders } from '@modules/smart-kitchen';
+import { InventoryOverview } from '@modules/estoque';
+import { PrivateRoute, Login } from '@shared/auth';
+import { Callback } from '@shared/auth/pages/Callback';
+import { Logout } from '@shared/auth/pages/Logout';
+import { Home } from '@modules/home/pages/Home';
+
+const routes: RouteObject[] = [
+  { path: '/login', element: <Login /> },
+  { path: '/callback', element: <Callback /> },
+  { path: '/logout', element: <Logout /> },
+  {
+    path: '/',
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: 'admin',
+        element: (
+            <AdminDashboard />
+        )
+      },
+      {
+        path: 'pdv',
+        element: (
+          <PrivateRoute roles={['pdv']}>
+            <PdvSales />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'smart-kitchen',
+        element: (
+          <PrivateRoute roles={['smart-kitchen']}>
+            <KitchenOrders />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: 'estoque',
+        element: (
+          <PrivateRoute roles={['estoque']}>
+            <InventoryOverview />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '',
+        element: (
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        )
+      }
+    ]
+  }
+];
+
+export const AppRoutes = () => useRoutes(routes);

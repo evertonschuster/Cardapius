@@ -1,4 +1,5 @@
 using Administration.Application.Suppliers.Commands.UpdateSupplier;
+using BuildingBlock.Application;
 
 namespace Administration.Application.UnitTest.Suppliers.Commands;
 

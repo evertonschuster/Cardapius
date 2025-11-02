@@ -1,4 +1,5 @@
 ﻿using Administration.Domain.Restaurants.Repositories;
+using BuildingBlock.Application;
 
 namespace Administration.Application.Restaurants.Commands.CreateRestaurant
 {

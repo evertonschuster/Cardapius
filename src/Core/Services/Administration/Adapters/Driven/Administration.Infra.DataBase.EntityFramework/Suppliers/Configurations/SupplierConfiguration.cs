@@ -11,7 +11,7 @@ internal class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
         builder.HasIndex(s => s.CpfCnpj);
         builder.HasIndex(s => s.Status);
         builder.HasIndex(s => s.LegalName);
-        
+
         builder.Property(s => s.CpfCnpj).IsRequired().HasMaxLength(20);
         builder.Property(s => s.LegalName).IsRequired().HasMaxLength(200);
         builder.Property(s => s.TradeName).HasMaxLength(200);

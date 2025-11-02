@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace BuildingBlock.Domain.ValueObjects.Business;
 
 internal static class BankInformationValidator

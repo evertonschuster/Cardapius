@@ -9,7 +9,7 @@ public class Supplier : Entity
 {
     protected Supplier()
     {
-        
+
     }
 
     public Supplier(
