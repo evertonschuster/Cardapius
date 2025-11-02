@@ -55,10 +55,10 @@ public record ValidationResult
     }
 
     /// <summary>
-/// Creates a successful validation result with no errors.
-/// </summary>
-/// <returns>A <see cref="ValidationResult"/> indicating success.</returns>
-public static ValidationResult Success() => new([]);
+    /// Creates a successful validation result with no errors.
+    /// </summary>
+    /// <returns>A <see cref="ValidationResult"/> indicating success.</returns>
+    public static ValidationResult Success() => new([]);
 
     /// <summary>
     /// Creates a failed <see cref="ValidationResult"/> with errors associated to a specific field.

@@ -121,5 +121,16 @@ namespace Administration.Domain.UnitTest.Restaurants
             restaurant.Email.Should().Be(email);
             restaurant.Address.Should().Be(address);
         }
+
+        [Fact]
+        public void ProtectedConstructor_ShouldInitializeNameAndAddressAsEmpty()
+        {
+            var constructor = typeof(Restaurant).GetConstructor(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null, Type.EmptyTypes, null);
+
+            var restaurant = (Restaurant)constructor!.Invoke(null);
+
+            restaurant.Name.Should().Be(string.Empty);
+            restaurant.Address.Should().Be(Address.Empty);
+        }
     }
 }

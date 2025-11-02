@@ -1,4 +1,5 @@
 ﻿using Administration.Application.Products.Commands.CreateProduct;
+using BuildingBlock.Application;
 
 
 namespace Administration.Application.UnitTest.Products.Commands
@@ -27,7 +28,7 @@ namespace Administration.Application.UnitTest.Products.Commands
             result.IsSuccess.Should().BeTrue();
             result.Value.Should().NotBeNull();
             result.Value!.Id.Should().NotBeEmpty();
-            unitOfWork?.Received(1).Commit();
+            unitOfWork?.Received(1).CommitAsync();
         }
     }
 }

@@ -1,4 +1,6 @@
 using Administration.Application.Products.Commands.CreateProduct;
+using Administration.Application.Suppliers.Commands.CreateSupplier;
+using Administration.Application.Suppliers.Commands.UpdateSupplier;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -17,6 +19,8 @@ namespace Administration.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
+            services.AddScoped<IValidator<CreateSupplierCommand>, CreateSupplierValidator>();
+            services.AddScoped<IValidator<UpdateSupplierCommand>, UpdateSupplierValidator>();
 
             return services;
         }

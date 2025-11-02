@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {
@@ -44,5 +45,27 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// <param name="entity">The entity to be removed from the database.</param>
         Task RemoveAsync<TEntity>(TEntity entity)
             where TEntity : Entity;
+
+        /// <summary>
+        /// Begins a new database transaction asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<IDbContextTransaction> GetTransactionAsync(CancellationToken cancellationToken = default);
+
+
+        /// <summary>
+        /// Gets the list of aggregate root entities that have changes.
+        /// </summary>
+        /// <returns></returns>
+        List<IAggregateRoot> GetChangeRoot();
+
+
+        /// <summary>
+        /// Saves all changes made in this context to the database asynchronously.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

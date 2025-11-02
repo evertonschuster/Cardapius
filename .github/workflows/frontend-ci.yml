@@ -1,0 +1,27 @@
+name: Frontend CI
+
+on:
+  push:
+    paths:
+      - 'src/Apps/erp/**'
+      - '.github/workflows/frontend-ci.yml'
+  pull_request:
+    paths:
+      - 'src/Apps/erp/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: src/Apps/erp
+        run: npm install
+        
+      - name: Run tests
+        working-directory: src/Apps/erp
+        run: npm test

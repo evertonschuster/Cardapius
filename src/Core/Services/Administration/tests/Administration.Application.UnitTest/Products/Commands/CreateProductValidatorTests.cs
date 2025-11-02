@@ -54,7 +54,7 @@ namespace Administration.Application.UnitTest.Products.Commands.CreateProduct
         public void Should_Have_Error_When_Price_Is_Null()
         {
             var command = CreateValidCommand();
-            command.Price = null;
+            command.Price = null!;
 
             var result = _validator.TestValidate(command);
 

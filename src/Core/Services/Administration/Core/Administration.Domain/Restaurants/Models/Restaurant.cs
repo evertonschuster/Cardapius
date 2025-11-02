@@ -3,13 +3,15 @@ using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace Administration.Domain.Restaurants.Models
 {
-    public class Restaurant : Entity, IAggregateRoot
+    public class Restaurant : Entity
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Restaurant"/> class for ORM or serialization purposes.
         /// </summary>
         protected Restaurant()
         {
+            Name = string.Empty;
+            Address = Address.Empty;
         }
 
         /// <summary>

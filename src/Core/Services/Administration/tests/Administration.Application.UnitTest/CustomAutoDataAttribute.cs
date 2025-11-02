@@ -1,6 +1,8 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
+using BuildingBlock.Domain.ValueObjects.Location;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 
@@ -52,6 +54,14 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => Phone.Parse(Phone.Empty).Value);
             fixture.Register(() => Email.Parse(Email.Empty).Value);
             fixture.Register(() => PreparationTime.Parse(fixture.Create<TimeSpan>()).Value);
+            fixture.Register(() => Address.Parse("Rua A", "1", null, "Cidade", "ST", "00000-000").Value!);
+            fixture.Register(() => LegalName.Parse(LegalName.Empty).Value);
+            fixture.Register(() => TradeName.Parse(TradeName.Empty).Value);
+            fixture.Register(() => CpfCnpj.Parse(CpfCnpj.Empty).Value);
+            fixture.Register(() => StateRegistration.Parse(StateRegistration.Empty).Value);
+            fixture.Register(() => MunicipalRegistration.Parse(MunicipalRegistration.Empty).Value);
+            fixture.Register(() => BankInformation.Create("Banco", "0001", "123", AccountType.Checking, new[] { "pix" }).Value);
+            fixture.Register(() => SupportingDocuments.Parse(null, null, null, null).Value);
         }
     }
 }

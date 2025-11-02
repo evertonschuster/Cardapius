@@ -134,9 +134,9 @@ namespace BuildingBlock.Domain.Entities
         }
 
         /// <summary>
-/// Returns the runtime hash code for the current entity instance.
-/// </summary>
-/// <returns>The runtime hash code of this object.</returns>
-public override int GetHashCode() => RuntimeHelpers.GetHashCode(this);
+        /// Returns the runtime hash code for the current entity instance.
+        /// </summary>
+        /// <returns>The runtime hash code of this object.</returns>
+        public override int GetHashCode() => RuntimeHelpers.GetHashCode(this);
     }
 }

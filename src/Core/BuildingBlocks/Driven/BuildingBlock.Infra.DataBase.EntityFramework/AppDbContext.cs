@@ -1,11 +1,11 @@
 using BuildingBlock.Application.Entities;
-using BuildingBlock.Domain;
 using BuildingBlock.Infra.DataBase.EntityFramework.Entities;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {
-    public class AppDbContext : DbContext, IDbContext, IUnitOfWork
+    public class AppDbContext : DbContext, IDbContext
     {
         private readonly DbContextContainer? _dbContextContainer;
         public DbSet<OutboxMessageEntity> OutboxMessageEntities { get; set; }
@@ -69,31 +69,18 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
 
 
         #region Unit of Work
-        /// <summary>
-        /// Saves all changes made in the context to the database synchronously.
-        /// </summary>
-        /// <returns>The number of state entries written to the database.</returns>
-        public int Commit()
+
+        public Task<IDbContextTransaction> GetTransactionAsync(CancellationToken cancellationToken = default)
         {
-            return this.SaveChanges();
+            return this.Database.BeginTransactionAsync(cancellationToken);
         }
 
-        public Task<int> CommitAsync()
-        {
-            return this.SaveChangesAsync();
-        }
 
-        public void Rollback()
+        public List<IAggregateRoot> GetChangeRoot()
         {
-            this.Database.RollbackTransaction();
-        }
-
-        /// <summary>
-        /// Asynchronously rolls back the current database transaction, discarding any uncommitted changes.
-        /// </summary>
-        public Task RollbackAsync()
-        {
-            return this.Database.RollbackTransactionAsync();
+            return [.. ChangeTracker
+                .Entries<IAggregateRoot>()
+                .Select(e => e.Entity)];
         }
 
         #endregion
@@ -120,8 +107,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             {
                 optionsBuilder.AddInterceptors(
                     _dbContextContainer.AuditingInterceptor,
-                    _dbContextContainer.SoftDeleteInterceptor,
-                    _dbContextContainer.EmitDomainEventInterceptor
+                    _dbContextContainer.SoftDeleteInterceptor
                 );
             }
 

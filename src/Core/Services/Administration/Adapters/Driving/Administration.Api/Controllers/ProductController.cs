@@ -22,7 +22,11 @@ public class ProductController(IMediator mediator) : ControllerBase
     {
         var query = new DetailsByIdQuery(id);
         var result = await mediator.Send(query);
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+        return BadRequest(result.Errors);
     }
 
     /// <summary>
@@ -34,6 +38,10 @@ public class ProductController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> PostAsync([FromBody] CreateProductCommand command)
     {
         var result = await mediator.Send(command);
-        return Ok(result);
+        if (result.IsSuccess)
+        {
+            return Ok(result);
+        }
+        return BadRequest(result.Errors);
     }
 }
