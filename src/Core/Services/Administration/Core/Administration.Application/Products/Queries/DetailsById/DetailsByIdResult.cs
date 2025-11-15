@@ -61,6 +61,5 @@ namespace Administration.Application.Products.Queries.DetailsById
         public List<DetailsByIdResult> SideDishes { get; init; } = [];
 
         public ServesManyPeople? ServesManyPeople { get; init; }
-
     }
 }

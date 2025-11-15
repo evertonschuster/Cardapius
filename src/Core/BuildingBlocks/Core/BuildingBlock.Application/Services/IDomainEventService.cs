@@ -19,7 +19,6 @@ namespace BuildingBlock.Application.Services
         /// <returns></returns>
         Task StoreDomainEventsAsync(List<OutboxMessageEntity> outboxMessages);
 
-
         /// <summary>
         /// Processes and emits a collection of outbox message domain events.
         /// </summary>

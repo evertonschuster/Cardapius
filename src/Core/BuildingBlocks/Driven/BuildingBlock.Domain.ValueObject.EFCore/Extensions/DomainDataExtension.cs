@@ -72,7 +72,6 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
                 .HaveConversion<StateRegistrationConverter>()
                 .HaveMaxLength(150);
 
-
             configurationBuilder
                 .Properties<Email>()
                 .HaveConversion<EmailConverter>()
@@ -96,7 +95,6 @@ namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions
             configurationBuilder
                 .Properties<PreparationTime>()
                 .HaveConversion<PreparationTimeConvert>();
-
         }
     }
 }

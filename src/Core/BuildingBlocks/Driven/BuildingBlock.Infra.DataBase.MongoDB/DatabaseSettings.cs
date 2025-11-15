@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Infra.DataBase.MongoDB
+namespace BuildingBlock.Infra.DataBase.MongoDB
 {
     public class DatabaseSettings
     {

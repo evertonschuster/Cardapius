@@ -18,4 +18,3 @@ public class ListSuppliersHandlerTests
         result.Value.Should().HaveCount(suppliers.Count);
     }
 }
-

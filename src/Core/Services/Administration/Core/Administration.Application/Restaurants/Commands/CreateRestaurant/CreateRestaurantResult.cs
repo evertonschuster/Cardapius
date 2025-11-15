@@ -1,4 +1,4 @@
-﻿namespace Administration.Application.Restaurants.Commands.CreateRestaurant
+namespace Administration.Application.Restaurants.Commands.CreateRestaurant
 {
     public class CreateRestaurantResult
     {

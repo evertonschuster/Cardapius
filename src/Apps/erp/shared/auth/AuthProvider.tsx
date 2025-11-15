@@ -74,10 +74,27 @@ export const AuthProvider: React.FC<React.PropsWithChildren<AuthProviderProps>> 
     [location]
   );
 
+  const redirectReturnTo = (user: AuthUser) => {
+    const state = (user?.state as any) || {};
+    const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
+
+    sessionStorage.removeItem('returnTo');
+
+    // evita loop em rotas de auth
+    if (returnTo.startsWith('/login') ||
+      returnTo.startsWith('/callback') ||
+      returnTo.startsWith('/logout')) {
+      navigate('/', { replace: true });
+    } else {
+      navigate(returnTo, { replace: true });
+    }
+  }
+
   const signin = useCallback(async () => {
     try {
       setError(null);
       setIsLoading(true);
+      setUser(null);
       const returnTo = getUrlAtual();
       sessionStorage.setItem('returnTo', returnTo); // fallback pós-login
       await authClient.signinRedirect({ state: { returnTo } });
@@ -95,22 +112,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<AuthProviderProps>> 
       const loggedUser = await authClient.signinRedirectCallback();
       setUser(loggedUser);
 
-      const state = (loggedUser?.state as any) || {};
-      const returnTo: string =
-        state?.returnTo || sessionStorage.getItem('returnTo') || '/';
-
-      sessionStorage.removeItem('returnTo');
-
-      // evita loop em rotas de auth
-      if (
-        returnTo.startsWith('/login') ||
-        returnTo.startsWith('/callback') ||
-        returnTo.startsWith('/logout')
-      ) {
-        navigate('/', { replace: true });
-      } else {
-        navigate(returnTo, { replace: true });
-      }
+      redirectReturnTo(loggedUser);
     } catch (err: any) {
       setError(await buildAuthErrorDetails(err));
     } finally {
@@ -177,7 +179,15 @@ export const AuthProvider: React.FC<React.PropsWithChildren<AuthProviderProps>> 
     authClient.getUser().then((u) => {
       try {
         if (!mounted) return;
+
+        console.log('AuthProvider: user loaded on init', u?.expired, u);
+        if (u === null || u?.expired) {
+          signin();
+          return;
+        }
+
         setUser(u);
+        redirectReturnTo(u!);
       }
       finally {
         setIsLoading(false);

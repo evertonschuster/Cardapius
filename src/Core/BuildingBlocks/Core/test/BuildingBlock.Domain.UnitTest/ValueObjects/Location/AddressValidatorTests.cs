@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Location;
+using BuildingBlock.Domain.ValueObjects.Location;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Location
 {

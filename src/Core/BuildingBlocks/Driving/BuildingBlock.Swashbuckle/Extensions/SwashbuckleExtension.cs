@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Swashbuckle.Domain.ValueObjects.Map;
+using BuildingBlock.Swashbuckle.Domain.ValueObjects.Map;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

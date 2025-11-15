@@ -23,8 +23,8 @@ public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
     public Email SecondaryEmail { get; set; }
     public string? Website { get; set; }
 
-    public required Address Address { get; set; }
-    public required BankInformation BankInformation { get; set; }
+    public Address Address { get; set; }
+    public BankInformation BankInformation { get; set; }
 
     public string Category { get; set; } = string.Empty;
     public string PaymentTerms { get; set; } = string.Empty;
@@ -35,6 +35,7 @@ public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
     public SupportingDocuments? SupportingDocuments { get; set; }
     public string? AdditionalNotes { get; set; }
     public string? RelationshipHistory { get; set; }
+
     internal SupplierDto ToDto() => new(
         LegalName,
         TradeName,
@@ -61,4 +62,3 @@ public class UpdateSupplierCommand : ICommandRequest<UpdateSupplierResult>
         AdditionalNotes,
         RelationshipHistory);
 }
-

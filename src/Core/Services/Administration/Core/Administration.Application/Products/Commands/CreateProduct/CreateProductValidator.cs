@@ -41,7 +41,6 @@ namespace Administration.Application.Products.Commands.CreateProduct
                     return true;//TODO: Implementar a verificação de existência do tipo de produto
                 })
                 .WithMessage("Tipo de produto não encontrado.");
-
         }
     }
 }

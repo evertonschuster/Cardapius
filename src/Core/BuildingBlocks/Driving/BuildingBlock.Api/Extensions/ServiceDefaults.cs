@@ -33,7 +33,6 @@ public static class Extensions
         builder.Services.AddProblemDetails();
         builder.Services.AddServiceDiscovery();
 
-
         //Microsoft
         builder.Services
             .AddControllers()

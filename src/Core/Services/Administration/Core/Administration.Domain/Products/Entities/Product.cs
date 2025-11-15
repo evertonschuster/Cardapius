@@ -6,11 +6,11 @@ namespace Administration.Domain.Products.Entities
 
         public string? Description { get; init; }
 
-        public required ProductionPrice Price { get; init; }
+        public ProductionPrice Price { get; init; }
 
         public PreparationTime PreparationTime { get; init; }
 
-        public required List<Image> Images { get; init; }
+        public List<Image> Images { get; init; }
 
         /// <summary>
         /// Sabores

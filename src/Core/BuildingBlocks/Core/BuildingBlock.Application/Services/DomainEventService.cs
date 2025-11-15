@@ -53,7 +53,6 @@ namespace BuildingBlock.Application.Services
             return Task.CompletedTask;
         }
 
-
         /// <summary>
         /// Marks each provided outbox message entity as processed.
         /// </summary>

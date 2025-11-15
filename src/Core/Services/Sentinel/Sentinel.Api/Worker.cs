@@ -1,4 +1,3 @@
-﻿
 using Microsoft.EntityFrameworkCore;
 using Sentinel.Api.Data;
 using Sentinel.Api.Data.Seeds;
@@ -18,7 +17,6 @@ namespace Sentinel.Api
 
             await sentinelDbContext.Database.MigrateAsync();
             logger.LogInformation("Database migration completed.");
-
 
             var seeders = scope.ServiceProvider.GetServices<ISeedService>().ToList();
             foreach (var seeder in seeders)

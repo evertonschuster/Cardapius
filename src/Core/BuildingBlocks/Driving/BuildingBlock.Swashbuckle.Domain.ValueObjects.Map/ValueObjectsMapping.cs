@@ -124,7 +124,6 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                 }
             });
 
-
             options.MapType<Address>(() => new OpenApiSchema
             {
                 Type = "object",
@@ -148,7 +147,6 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
                     ["State"] = new OpenApiString("EX"),
                     ["ZIPCode"] = new OpenApiString("12345-000")
                 },
-
             });
 
             return options;

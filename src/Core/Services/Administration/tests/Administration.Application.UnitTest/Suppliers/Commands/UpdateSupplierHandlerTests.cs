@@ -24,4 +24,3 @@ public class UpdateSupplierHandlerTests
         await unitOfWork.Received(1).CommitAsync();
     }
 }
-

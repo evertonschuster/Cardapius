@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Media;
+using BuildingBlock.Domain.ValueObjects.Media;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Media
 {

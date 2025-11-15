@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Time
+namespace BuildingBlock.Domain.ValueObjects.Time
 {
     internal static class PreparationTimeValidator
     {
@@ -16,5 +16,4 @@
             return ValidationResult.Success();
         }
     }
-
 }

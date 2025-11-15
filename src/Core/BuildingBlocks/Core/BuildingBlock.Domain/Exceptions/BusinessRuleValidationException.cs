@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Rules;
+using BuildingBlock.Domain.Rules;
 
 namespace BuildingBlock.Domain.Exceptions
 {

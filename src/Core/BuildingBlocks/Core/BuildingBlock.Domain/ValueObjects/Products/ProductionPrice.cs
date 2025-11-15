@@ -10,7 +10,6 @@ namespace BuildingBlock.Domain.ValueObjects.Products
         public decimal MaxDiscount { get; init; }
         public decimal ProductionCost { get; init; }
 
-
         /// <summary>
         /// Validates this instance after deserialization.
         /// <summary>

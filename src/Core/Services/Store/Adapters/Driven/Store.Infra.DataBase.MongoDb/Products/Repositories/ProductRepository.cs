@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Infra.DataBase.MongoDB;
+using BuildingBlock.Infra.DataBase.MongoDB;
 using BuildingBlock.Infra.DataBase.Repositories;
 using Store.Domain.Products.Entities;
 using Store.Domain.Products.Repositories;

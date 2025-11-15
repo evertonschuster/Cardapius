@@ -11,4 +11,3 @@ public record ListSuppliersResult(Guid Id, LegalName LegalName, TradeName TradeN
         return new ListSuppliersResult(supplier.Id, supplier.LegalName, supplier.TradeName, supplier.Status);
     }
 }
-

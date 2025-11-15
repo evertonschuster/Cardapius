@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Infra.DataBase.Repositories
+namespace BuildingBlock.Infra.DataBase.Repositories
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {

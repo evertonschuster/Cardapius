@@ -1,4 +1,3 @@
-﻿
 namespace Administration.Application.Products.Commands.CreateProduct
 {
     public class CreateProductResult

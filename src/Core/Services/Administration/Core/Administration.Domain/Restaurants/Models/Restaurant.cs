@@ -54,7 +54,6 @@ namespace Administration.Domain.Restaurants.Models
 
         public string Name { get; private set; }
 
-
         public PersonName PrimaryContact { get; private set; }
 
         public Phone AdministrativePhone { get; private set; }
@@ -70,7 +69,6 @@ namespace Administration.Domain.Restaurants.Models
         public Email Email { get; private set; }
 
         public Address Address { get; private set; }
-
 
         //TODO: Cuisine Type: The style of cuisine offered by the restaurant, such as Italian, Mexican, Chinese, etc.
 
@@ -89,7 +87,6 @@ namespace Administration.Domain.Restaurants.Models
         /// <param name="email">The general email address.</param>
         /// <param name="address">The address of the restaurant.</param>
         /// <returns>A new <see cref="Restaurant"/> instance initialized with the provided information.</returns>
-
 
         public static Restaurant Create(string name, PersonName primaryContact, Phone administrativePhone, Phone commercialPhone, Phone phone, Email administrativeEmail, Email commercialEmail, Email email, Address address)
         {

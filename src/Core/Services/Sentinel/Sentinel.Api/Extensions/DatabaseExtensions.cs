@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Sentinel.Api.Data;
 
 namespace Sentinel.Api.Extensions

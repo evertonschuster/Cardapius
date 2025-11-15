@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Application
+namespace BuildingBlock.Application
 {
     public interface IUserContext
     {

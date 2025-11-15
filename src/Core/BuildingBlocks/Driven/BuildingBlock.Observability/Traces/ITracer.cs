@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Observability.Traces
+namespace BuildingBlock.Observability.Traces
 {
     public interface ITracer
     {

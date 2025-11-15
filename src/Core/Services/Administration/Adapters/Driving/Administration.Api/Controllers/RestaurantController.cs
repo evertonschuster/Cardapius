@@ -1,4 +1,4 @@
-﻿using Administration.Application.Restaurants.Commands.CreateRestaurant;
+using Administration.Application.Restaurants.Commands.CreateRestaurant;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

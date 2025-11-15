@@ -11,7 +11,6 @@ namespace Administration.Api.Controllers;
 [Route("api/v{version:apiVersion}/products")]
 public class ProductController(IMediator mediator) : ControllerBase
 {
-
     /// <summary>
     /// Retrieves the details of a product by its unique identifier.
     /// </summary>

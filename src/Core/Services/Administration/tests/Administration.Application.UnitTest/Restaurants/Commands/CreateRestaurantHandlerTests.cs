@@ -1,4 +1,4 @@
-﻿using Administration.Application.Restaurants.Commands.CreateRestaurant;
+using Administration.Application.Restaurants.Commands.CreateRestaurant;
 using Administration.Domain.Restaurants.Models;
 using Administration.Domain.Restaurants.Repositories;
 using BuildingBlock.Application;

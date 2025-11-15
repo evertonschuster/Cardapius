@@ -12,4 +12,3 @@ internal class UpdateSupplierValidator : AbstractValidator<UpdateSupplierCommand
         RuleFor(x => x.BankInformation).NotNull();
     }
 }
-

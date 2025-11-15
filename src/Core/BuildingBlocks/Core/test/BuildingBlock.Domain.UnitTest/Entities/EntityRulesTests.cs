@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.Rules;
 
@@ -12,10 +12,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             //Arrange
             var entity = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             Action act = () => entity.CheckValidRule();
-
 
             //Asserts
             act.Should()
@@ -28,10 +26,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             //Arrange
             var entity = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             Action act = () => entity.CheckInvalidRule();
-
 
             //Asserts
             act.Should()

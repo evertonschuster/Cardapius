@@ -1,4 +1,3 @@
-﻿
 using Microsoft.AspNetCore.Identity;
 
 namespace Sentinel.Api.Data.Seeds

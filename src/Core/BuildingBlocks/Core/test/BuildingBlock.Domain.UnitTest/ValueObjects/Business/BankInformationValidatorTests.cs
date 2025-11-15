@@ -18,7 +18,6 @@ public class BankInformationValidatorTests
         result.IsSuccess.Should().BeTrue();
     }
 
-
     [Fact]
     public void Validate_Should_Fail_When_Agency_Is_Empty()
     {

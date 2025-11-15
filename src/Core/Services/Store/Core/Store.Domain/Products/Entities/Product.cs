@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 

@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Emails;
+using BuildingBlock.Domain.ValueObjects.Emails;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Contact
 {

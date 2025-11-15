@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Application.Entities;
+using BuildingBlock.Application.Entities;
 using BuildingBlock.Application.Repositories;
 using BuildingBlock.Application.Services;
 using BuildingBlock.Domain.Entities;
@@ -25,10 +25,15 @@ namespace BuildingBlock.Application.UnitTest.Services
             public Guid Id { get; set; } = Guid.NewGuid();
             private readonly List<IDomainEvent> _events = new();
 
-            public void CheckRule(IBusinessRule rule) { }
+            public void CheckRule(IBusinessRule rule)
+            { }
+
             public IReadOnlyCollection<IDomainEvent> GetDomainEvents() => _events;
+
             public void AddDomainEvent(IDomainEvent eventItem) => _events.Add(eventItem);
+
             public void RemoveDomainEvent(IDomainEvent eventItem) => _events.Remove(eventItem);
+
             public void ClearDomainEvents() => _events.Clear();
         }
 

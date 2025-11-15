@@ -1,4 +1,4 @@
-﻿namespace Sentinel.Api.Data.Seeds
+namespace Sentinel.Api.Data.Seeds
 {
     public interface ISeedService
     {

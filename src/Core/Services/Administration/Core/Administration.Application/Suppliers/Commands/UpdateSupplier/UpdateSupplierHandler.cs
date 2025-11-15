@@ -24,4 +24,3 @@ public class UpdateSupplierHandler(ISupplierRepository repository, IUnitOfWork u
         return Result<UpdateSupplierResult>.Success(new UpdateSupplierResult());
     }
 }
-

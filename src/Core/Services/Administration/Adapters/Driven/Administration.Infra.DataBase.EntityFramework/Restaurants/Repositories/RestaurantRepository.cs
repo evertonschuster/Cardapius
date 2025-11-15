@@ -1,4 +1,4 @@
-﻿using Administration.Domain.Restaurants.Models;
+using Administration.Domain.Restaurants.Models;
 using Administration.Domain.Restaurants.Repositories;
 
 namespace Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories

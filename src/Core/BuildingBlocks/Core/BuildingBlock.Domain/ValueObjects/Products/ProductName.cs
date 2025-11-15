@@ -31,7 +31,6 @@ namespace BuildingBlock.Domain.ValueObjects.Products
             return Result<ProductName>.FromValidation(result, () => new ProductName(value!.Trim()));
         }
 
-
         public override string ToString() => Value;
     }
 }

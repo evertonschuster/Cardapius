@@ -29,7 +29,6 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
         {
             return dbContext.Products
                 .Any(x => x.Id == id);
-
         }
 
         /// <summary>

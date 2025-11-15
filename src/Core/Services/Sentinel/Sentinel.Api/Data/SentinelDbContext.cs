@@ -13,4 +13,3 @@ public class SentinelDbContext(DbContextOptions<SentinelDbContext> options) : Id
         base.OnModelCreating(modelBuilder);
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework.Interceptors
 {

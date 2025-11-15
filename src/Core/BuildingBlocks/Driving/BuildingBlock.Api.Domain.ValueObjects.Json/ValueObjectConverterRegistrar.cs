@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects;
+using BuildingBlock.Domain.ValueObjects;
 using Newtonsoft.Json;
 using System.Reflection;
 

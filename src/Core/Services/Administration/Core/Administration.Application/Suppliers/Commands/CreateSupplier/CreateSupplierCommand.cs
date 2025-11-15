@@ -8,6 +8,7 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
 {
     // Informações Gerais
     public LegalName LegalName { get; set; }
+
     public TradeName TradeName { get; set; }
     public CpfCnpj CpfCnpj { get; set; }
     public StateRegistration StateRegistration { get; set; }
@@ -18,6 +19,7 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
 
     // Contato
     public PersonName RepresentativeName { get; set; }
+
     public Phone LandlinePhone { get; set; }
     public Phone MobilePhone { get; set; }
     public Email PrimaryEmail { get; set; }
@@ -25,13 +27,14 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
     public string? Website { get; set; }
 
     // Endereço
-    public required Address Address { get; set; }
+    public Address Address { get; set; }
 
     // Informações Bancárias
-    public required BankInformation BankInformation { get; set; }
+    public BankInformation BankInformation { get; set; }
 
     // Informações Comerciais
     public string Category { get; set; } = string.Empty;
+
     public string PaymentTerms { get; set; } = string.Empty;
     public string DeliveryTime { get; set; } = string.Empty;
     public string ShippingMethod { get; set; } = string.Empty;
@@ -42,6 +45,7 @@ public class CreateSupplierCommand : ICommandRequest<CreateSupplierResult>
 
     // Observações
     public string? AdditionalNotes { get; set; }
+
     public string? RelationshipHistory { get; set; }
 
     internal SupplierDto ToDto() => new(

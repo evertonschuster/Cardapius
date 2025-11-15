@@ -14,6 +14,5 @@ namespace Administration.Application.Products.Queries.DetailsById
         }
 
         public Guid Id { get; init; }
-
     }
 }

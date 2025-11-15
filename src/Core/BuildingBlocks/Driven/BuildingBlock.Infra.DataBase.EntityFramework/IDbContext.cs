@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework
@@ -53,13 +53,11 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         /// <returns></returns>
         Task<IDbContextTransaction> GetTransactionAsync(CancellationToken cancellationToken = default);
 
-
         /// <summary>
         /// Gets the list of aggregate root entities that have changes.
         /// </summary>
         /// <returns></returns>
         List<IAggregateRoot> GetChangeRoot();
-
 
         /// <summary>
         /// Saves all changes made in this context to the database asynchronously.

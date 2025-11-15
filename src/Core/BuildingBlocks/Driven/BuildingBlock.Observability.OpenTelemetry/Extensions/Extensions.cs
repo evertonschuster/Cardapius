@@ -16,7 +16,7 @@ public static class Extensions
 
         if (string.IsNullOrWhiteSpace(serviceName))
         {
-            throw new InvalidOperationException("O nome do serviço (ServiceName) não foi configurado.");
+            throw new InvalidOperationException("O nome do serviÃ§o (ServiceName) nÃ£o foi configurado.");
         }
 
         builder.Logging.AddOpenTelemetry(logging =>

@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Time;
+using BuildingBlock.Domain.ValueObjects.Time;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Time
 {

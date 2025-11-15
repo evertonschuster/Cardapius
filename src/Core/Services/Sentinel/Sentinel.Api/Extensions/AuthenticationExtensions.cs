@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using Sentinel.Api.Data;
@@ -87,7 +87,6 @@ namespace Sentinel.Api.Extensions
                     opt.UseAspNetCore();
                 });
 
-
             var keyRingPath = configuration["DataProtection:KeyRingPath"] ?? Path.Combine(AppContext.BaseDirectory, "keys");
             Directory.CreateDirectory(keyRingPath);
             services
@@ -111,7 +110,5 @@ namespace Sentinel.Api.Extensions
 
             return services;
         }
-
-
     }
 }

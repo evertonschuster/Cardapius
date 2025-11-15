@@ -12,7 +12,6 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
         /// <param name="builder">The builder used to configure the <see cref="Product"/> entity type.</param>
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-
             builder.OwnsMany(p => p.Images, images =>
             {
                 images.WithOwner().HasForeignKey("ProductId");
@@ -69,7 +68,6 @@ namespace Administration.Infra.DataBase.EntityFramework.Products
 
             builder.OwnsOne(e => e.ServesManyPeople);
             builder.Navigation(p => p.ServesManyPeople).IsRequired();
-
 
             builder
                .HasMany(p => p.SideDishes)

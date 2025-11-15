@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Application.Entities;
+using BuildingBlock.Application.Entities;
 using BuildingBlock.Application.Repositories;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework.Repositories

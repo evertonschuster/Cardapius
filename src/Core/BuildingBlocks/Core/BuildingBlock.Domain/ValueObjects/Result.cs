@@ -1,5 +1,3 @@
-using BuildingBlock.Domain.ValueObjects.Business;
-
 namespace BuildingBlock.Domain.ValueObjects
 {
     public readonly struct Result
@@ -158,6 +156,7 @@ namespace BuildingBlock.Domain.ValueObjects
     {
         public string Message { get; }
         public string? PropertyName { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultError"/> struct with the specified property name and error message.
         /// </summary>
@@ -168,6 +167,7 @@ namespace BuildingBlock.Domain.ValueObjects
             Message = message;
             PropertyName = propertyName;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ResultError"/> struct with the specified error message and no associated property name.
         /// </summary>

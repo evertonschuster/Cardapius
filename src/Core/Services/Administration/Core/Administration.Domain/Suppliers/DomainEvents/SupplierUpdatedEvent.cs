@@ -17,4 +17,3 @@ internal class SupplierUpdatedEvent<T> : IDomainEvent<T>
     public T Before { get; }
     public T After { get; }
 }
-

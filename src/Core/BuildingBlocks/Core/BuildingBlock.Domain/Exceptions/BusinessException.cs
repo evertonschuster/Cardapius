@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.Exceptions
+namespace BuildingBlock.Domain.Exceptions
 {
     public class BusinessException : Exception
     {
@@ -7,7 +7,6 @@
         public Guid ErrorId { get; }
 
         public DateTimeOffset ErrorAt { get; }
-
 
         public BusinessException(string? message) : base(message)
         {

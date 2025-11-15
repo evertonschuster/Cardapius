@@ -11,9 +11,9 @@ public class BankInformation : IValueObject, IValidatable
         PixKeys = ["pix@teste.com"]
     };
 
-    public required string Bank { get; set; }
-    public required string Agency { get; set; }
-    public required string AccountNumber { get; set; }
+    public string Bank { get; set; }
+    public string Agency { get; set; }
+    public string AccountNumber { get; set; }
     public AccountType AccountType { get; set; }
     public List<string> PixKeys { get; set; } = [];
 

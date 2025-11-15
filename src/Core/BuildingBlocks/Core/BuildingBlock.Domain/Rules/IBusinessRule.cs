@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.Rules
+namespace BuildingBlock.Domain.Rules
 {
     public interface IBusinessRule
     {

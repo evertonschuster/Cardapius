@@ -1,4 +1,5 @@
 using BuildingBlock.Domain.Events;
+
 namespace Administration.Domain.Products.DomainEvents
 {
     internal class ProductCreatedEvent<T> : IDomainEvent<T>

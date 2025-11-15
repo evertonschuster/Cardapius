@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.Events;
 
 namespace BuildingBlock.Domain.UnitTest.Entities
@@ -11,10 +11,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             //Arrange
             var entity = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             Action act = () => entity.Make();
-
 
             //Asserts
             act.Should()
@@ -24,7 +22,6 @@ namespace BuildingBlock.Domain.UnitTest.Entities
                 .Should()
                 .HaveCount(1);
         }
-
 
         private class EntityFake : Entity
         {

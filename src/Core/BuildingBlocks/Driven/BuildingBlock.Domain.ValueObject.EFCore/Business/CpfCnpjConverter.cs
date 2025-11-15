@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Business;
+using BuildingBlock.Domain.ValueObjects.Business;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BuildingBlock.Infra.Domain.ValueObjects.EFCore.Business

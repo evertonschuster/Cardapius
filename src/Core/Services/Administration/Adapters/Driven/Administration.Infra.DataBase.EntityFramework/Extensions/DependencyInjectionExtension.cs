@@ -33,7 +33,6 @@ namespace Administration.Infra.DataBase.EntityFramework.Extensions
                 }
             });
 
-
             services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<AdministrationDbContext>());
 
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();

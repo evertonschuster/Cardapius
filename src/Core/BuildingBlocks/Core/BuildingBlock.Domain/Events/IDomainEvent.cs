@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.Events
+namespace BuildingBlock.Domain.Events
 {
     public interface IDomainEvent : INotification
     {

@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects;
+using BuildingBlock.Domain.ValueObjects;
 
 namespace Store.Domain.Products.Entities
 {

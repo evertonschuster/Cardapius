@@ -1,4 +1,4 @@
-﻿namespace Administration.Domain.Restaurants.Events
+namespace Administration.Domain.Restaurants.Events
 {
     internal class Models
     {

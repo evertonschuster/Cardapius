@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.ValueObjects.Products;
+using BuildingBlock.Domain.ValueObjects.Products;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects.Products
 {

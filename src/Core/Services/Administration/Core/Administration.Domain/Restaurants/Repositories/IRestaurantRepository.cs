@@ -1,4 +1,3 @@
-﻿
 using Administration.Domain.Restaurants.Models;
 
 namespace Administration.Domain.Restaurants.Repositories

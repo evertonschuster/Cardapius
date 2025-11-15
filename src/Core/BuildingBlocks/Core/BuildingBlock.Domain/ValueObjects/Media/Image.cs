@@ -10,13 +10,12 @@ namespace BuildingBlock.Domain.ValueObjects.Media
         public const int MaxThumbnailUriLength = 256;
         public const int MaxBlurHashLength = 1024;
 
-        public required string Uri { get; init; }
-        public required string AlternativeText { get; init; }
+        public string Uri { get; init; }
+        public string AlternativeText { get; init; }
         public int Width { get; init; }
         public int Height { get; init; }
-        public required string ThumbnailUri { get; init; }
-        public required string BlurHash { get; init; }
-
+        public string ThumbnailUri { get; init; }
+        public string BlurHash { get; init; }
 
         /// <summary>
         /// Validates this instance (after deserialization).

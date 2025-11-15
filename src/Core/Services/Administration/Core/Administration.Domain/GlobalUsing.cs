@@ -1,4 +1,4 @@
-﻿global using Administration.Domain.Products.DomainEvents;
+global using Administration.Domain.Products.DomainEvents;
 global using Administration.Domain.Products.Dtos;
 global using Administration.Domain.Products.ValueObjects;
 global using BuildingBlock.Domain.Entities;

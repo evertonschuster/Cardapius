@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.Entities
+namespace BuildingBlock.Domain.Entities
 {
     public interface ISoftDelete
     {

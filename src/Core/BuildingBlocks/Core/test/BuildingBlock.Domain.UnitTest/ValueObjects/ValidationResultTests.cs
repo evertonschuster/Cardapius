@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Exceptions;
+using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.ValueObjects;
 
 namespace BuildingBlock.Domain.UnitTest.ValueObjects
@@ -70,7 +70,6 @@ namespace BuildingBlock.Domain.UnitTest.ValueObjects
 
             act.Should().NotThrow();
         }
-
 
         [Fact]
         public void GetAllMessages_DeveRetornarNull_QuandoNaoHaErros()

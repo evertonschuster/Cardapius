@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.Entities;
 using BuildingBlock.Domain.Events;
 using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.Rules;
@@ -7,7 +7,6 @@ namespace BuildingBlock.Domain.UnitTest.Entities
 {
     public class EntityTests
     {
-
         [Fact]
         public void CompareEqualsEntityWithEqualsIdSuccess()
         {
@@ -16,10 +15,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake(id);
 
-
             //Act
             var isEquals = entity1.Equals(entity2);
-
 
             //Asserts
             isEquals.Should().BeTrue();
@@ -31,15 +28,12 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             //Arrange
             var entity1 = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             var isEquals = entity1.Equals(null);
-
 
             //Asserts
             isEquals.Should().BeFalse();
         }
-
 
         [Fact]
         public void CompareEqualsOperatorWithNullSuccess()
@@ -48,11 +42,9 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             EntityFake? entity1 = new(Guid.CreateVersion7());
             EntityFake? entity2 = null;
 
-
             //Act
             var isEquals1 = entity1 == entity2;
             var isEquals2 = entity2 == entity1;
-
 
             //Asserts
             isEquals1.Should().BeFalse();
@@ -66,11 +58,9 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             EntityFake? entity1 = new(Guid.CreateVersion7());
             EntityFake? entity2 = null;
 
-
             //Act
             var isEquals1 = entity1 != entity2;
             var isEquals2 = entity2 != entity1;
-
 
             //Asserts
             isEquals1.Should().BeTrue();
@@ -84,10 +74,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var entity1 = new EntityFake(Guid.CreateVersion7());
             var entity2 = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             var isEquals = entity1.Equals(entity2);
-
 
             //Asserts
             isEquals.Should().BeFalse();
@@ -100,10 +88,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var entity1 = new EntityFake(Guid.CreateVersion7());
             var entity2 = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             var isEquals = entity1 == entity2;
-
 
             //Asserts
             isEquals.Should().BeFalse();
@@ -116,15 +102,12 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var entity1 = new EntityFake(Guid.CreateVersion7());
             var entity2 = new EntityFake(Guid.CreateVersion7());
 
-
             //Act
             var isEquals = entity1 != entity2;
-
 
             //Asserts
             isEquals.Should().BeTrue();
         }
-
 
         [Fact]
         public void CompareEqualsReferenceEntityWithEqualsSuccess()
@@ -133,10 +116,8 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var id = Guid.CreateVersion7();
             var entity1 = new EntityFake(id);
 
-
             //Act
             var isEquals = entity1.Equals(entity1);
-
 
             //Asserts
             isEquals.Should().BeTrue();
@@ -150,14 +131,13 @@ namespace BuildingBlock.Domain.UnitTest.Entities
             var entity1 = new EntityFake(id);
             var entity2 = new EntityFake2(id);
 
-
             //Act
             var isEquals = entity1.Equals(entity2);
-
 
             //Asserts
             isEquals.Should().BeFalse();
         }
+
         [Fact]
         public void AddDomainEvent_ShouldAddEvent()
         {
@@ -423,12 +403,14 @@ namespace BuildingBlock.Domain.UnitTest.Entities
         private class BrokenRuleFake : IBusinessRule
         {
             public bool IsBroken() => true;
+
             public string Message => "Broken";
         }
 
         private class NotBrokenRuleFake : IBusinessRule
         {
             public bool IsBroken() => false;
+
             public string Message => "Not broken";
         }
     }

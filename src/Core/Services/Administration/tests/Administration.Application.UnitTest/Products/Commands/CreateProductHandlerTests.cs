@@ -1,6 +1,5 @@
-﻿using Administration.Application.Products.Commands.CreateProduct;
+using Administration.Application.Products.Commands.CreateProduct;
 using BuildingBlock.Application;
-
 
 namespace Administration.Application.UnitTest.Products.Commands
 {
@@ -13,8 +12,6 @@ namespace Administration.Application.UnitTest.Products.Commands
             var productRepository = Substitute.For<IProductRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             var sideDishes = new List<Product>();
-
-
 
             productRepository.ListWithAllPropertyByIds(Arg.Any<List<Guid>>()).Returns(sideDishes);
             productRepository.Create(Arg.Any<Product>()).Returns(x => x.Arg<Product>());

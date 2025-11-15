@@ -9,8 +9,11 @@ namespace Sentinel.Api.Services;
 public interface IUserTokenService
 {
     Task<ApplicationUser?> ValidateUserAsync(string username, string password);
+
     Task<ApplicationUser?> ValidateUserAsync(ClaimsPrincipal principal);
+
     Task SignOutAsync();
+
     Task<ClaimsPrincipal> CreatePrincipalAsync(ApplicationUser user, IEnumerable<string> requestedScopes, string? clientId);
 }
 

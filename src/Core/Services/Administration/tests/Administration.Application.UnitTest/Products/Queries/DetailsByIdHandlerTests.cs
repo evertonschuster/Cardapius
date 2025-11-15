@@ -1,4 +1,4 @@
-﻿using Administration.Application.Products.Queries.DetailsById;
+using Administration.Application.Products.Queries.DetailsById;
 
 namespace Administration.Application.UnitTest.Products.Queries.DetailsById
 {

@@ -4,15 +4,14 @@ namespace Sentinel.Api.ViewModels;
 
 public class LoginModel
 {
-    [Required(ErrorMessage = "O campo E-mail È obrigatÛrio.")]
-    [EmailAddress(ErrorMessage = "O campo E-mail n„o È um endereÁo de e-mail v·lido.")]
+    [Required(ErrorMessage = "O campo E-mail √© obrigat√≥rio.")]
+    [EmailAddress(ErrorMessage = "O campo E-mail n√£o √© um endere√ßo de e-mail v√°lido.")]
     public string Email { get; set; } = string.Empty;
 
-    [Required(ErrorMessage = "O campo Senha È obrigatÛrio.")]
+    [Required(ErrorMessage = "O campo Senha √© obrigat√≥rio.")]
     public string Password { get; set; } = string.Empty;
 
     public string? ReturnUrl { get; set; }
 
     public bool PasswordVisible { get; set; }
 }
-

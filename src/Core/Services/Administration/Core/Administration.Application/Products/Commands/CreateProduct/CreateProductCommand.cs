@@ -9,11 +9,11 @@ namespace Administration.Application.Products.Commands.CreateProduct
 
         public string? Description { get; set; }
 
-        public required ProductionPrice Price { get; set; }
+        public ProductionPrice Price { get; set; }
 
         public PreparationTime PreparationTime { get; set; }
 
-        public required List<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
 
         /// <summary>
         /// Sabores

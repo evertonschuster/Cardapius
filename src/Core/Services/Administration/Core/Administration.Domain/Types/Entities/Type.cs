@@ -1,4 +1,4 @@
-﻿namespace Administration.Domain.Types.Entities
+namespace Administration.Domain.Types.Entities
 {
     public class Type : Entity
     {

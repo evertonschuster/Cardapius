@@ -3,13 +3,13 @@ using BuildingBlock.Infra.DataBase.EntityFramework.Entities;
 using BuildingBlock.Infra.Domain.ValueObjects.EFCore.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {
     public class AppDbContext : DbContext, IDbContext
     {
         private readonly DbContextContainer? _dbContextContainer;
         public DbSet<OutboxMessageEntity> OutboxMessageEntities { get; set; }
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppDbContext"/> class with optional dependency injection support and disables automatic query tracking.
@@ -24,6 +24,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
         }
 
         #region CRUD Operations
+
         /// <summary>
         /// Returns a <see cref="DbSet{TEntity}"/> for the specified entity type.
         /// </summary>
@@ -65,8 +66,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                 .Remove(entity));
         }
 
-        #endregion
-
+        #endregion CRUD Operations
 
         #region Unit of Work
 
@@ -75,7 +75,6 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
             return this.Database.BeginTransactionAsync(cancellationToken);
         }
 
-
         public List<IAggregateRoot> GetChangeRoot()
         {
             return [.. ChangeTracker
@@ -83,7 +82,7 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                 .Select(e => e.Entity)];
         }
 
-        #endregion
+        #endregion Unit of Work
 
         /// <summary>
         /// Configures the EF Core model for the application, including domain-specific value conversions and the outbox message entity configuration.

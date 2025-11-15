@@ -13,7 +13,6 @@ namespace BuildingBlock.Domain.ValueObjects.Contact
 
         public string Value { get; init; }
 
-
         /// <summary>
         /// Attempts to create an <see cref="Email"/> value object from the provided string, validating its format.
         /// </summary>

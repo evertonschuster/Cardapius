@@ -34,7 +34,6 @@ public class TradeNameValidatorTests
         result.FirstError.Should().Be("O nome fantasia deve ter ao menos 2 caracteres.");
     }
 
-
     [Fact]
     public void Validate_Should_Fail_When_TooLong()
     {

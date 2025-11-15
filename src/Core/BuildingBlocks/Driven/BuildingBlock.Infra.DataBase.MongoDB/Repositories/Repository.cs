@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Domain.Entities;
+using BuildingBlock.Domain.Entities;
 using BuildingBlock.Infra.DataBase.MongoDB;
 using MongoDB.Driver;
 

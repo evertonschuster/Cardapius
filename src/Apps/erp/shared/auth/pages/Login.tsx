@@ -7,11 +7,12 @@ export const Login = () => {
   const { signin, error } = useAuth();
 
   useEffect(() => {
+    console.log('Redirecting to login...');
     signin();
   }, []);
 
    if (error) {
           return <ProcessErrorDetails details={error} onRetry={signin} />;
       }
-      return <LoadProgressPage title='Carregando informações...' />
+      return <LoadProgressPage title='Processando informações de login...' />
 };

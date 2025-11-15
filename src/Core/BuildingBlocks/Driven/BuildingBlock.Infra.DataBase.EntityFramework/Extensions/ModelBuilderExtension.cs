@@ -7,7 +7,6 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework.Extensions
 {
     public static class ModelBuilderExtension
     {
-
         private const string DeletedAtPropertyName = nameof(ISoftDelete.DeletedAt);
         private const string DeletedByPropertyName = nameof(ISoftDelete.DeletedBy);
 
@@ -86,7 +85,6 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework.Extensions
 
             return !string.Equals(principalTable, ownedTable, StringComparison.Ordinal);
         }
-
 
         /// <summary>
         /// Builds a lambda expression that filters entities where the "DeletedAt" property is null, indicating they are not soft deleted.

@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Domain.ValueObjects.Contact
+namespace BuildingBlock.Domain.ValueObjects.Contact
 {
     internal static class PersonNameValidator
     {

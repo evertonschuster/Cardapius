@@ -2,8 +2,6 @@ using Administration.Application;
 using Administration.Infra.DataBase.EntityFramework.Extensions;
 using BuildingBlock.Api.Extensions;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
@@ -28,8 +26,6 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddApplication();
 builder.Services.AddInfraDataBaseEntityFramework(configuration);
 
-
-
 var app = builder.Build();
 
 //BuildingBlocks
@@ -40,4 +36,3 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.Run();
-

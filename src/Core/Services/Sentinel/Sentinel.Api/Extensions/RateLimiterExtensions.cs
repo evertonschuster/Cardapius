@@ -1,4 +1,4 @@
-﻿using Polly;
+using Polly;
 using System.Net;
 using System.Threading.RateLimiting;
 
@@ -48,7 +48,7 @@ namespace Sentinel.Api.Extensions
             return app;
         }
 
-        static IPAddress? GetClientIp(HttpContext ctx)
+        private static IPAddress? GetClientIp(HttpContext ctx)
         {
             var xff = ctx.Request.Headers["X-Forwarded-For"].FirstOrDefault();
             if (!string.IsNullOrWhiteSpace(xff))

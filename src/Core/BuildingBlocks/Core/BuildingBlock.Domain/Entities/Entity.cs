@@ -84,8 +84,6 @@ namespace BuildingBlock.Domain.Entities
             }
         }
 
-
-
         /// <summary>
         /// Adds a domain event to the entity's list of domain events.
         /// </summary>
@@ -112,7 +110,6 @@ namespace BuildingBlock.Domain.Entities
         {
             _domainEvents?.Clear();
         }
-
 
         /// <summary>
         /// Returns a read-only collection of domain events associated with the entity.

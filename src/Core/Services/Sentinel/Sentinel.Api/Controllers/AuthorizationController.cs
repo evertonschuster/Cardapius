@@ -10,7 +10,6 @@ using Sentinel.Api.Services;
 
 namespace Sentinel.Api.Controllers;
 
-
 public class AuthorizationController(IUserTokenService tokenService, SignInManager<ApplicationUser> _signInManager) : Controller
 {
     [IgnoreAntiforgeryToken]

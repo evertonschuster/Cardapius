@@ -15,7 +15,6 @@ public class SupportingDocuments : IValueObject, IValidatable
     public string? AddressProof { get; set; }
     public string? SocialContract { get; set; }
 
-
     public static Result<SupportingDocuments> Parse(
         string? operatingLicense,
         string? negativeCertificates,

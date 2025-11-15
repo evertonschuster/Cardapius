@@ -1,4 +1,4 @@
-﻿using Sentinel.Api.Data.Seeds;
+using Sentinel.Api.Data.Seeds;
 using Sentinel.Api.Services;
 
 namespace Sentinel.Api.Extensions

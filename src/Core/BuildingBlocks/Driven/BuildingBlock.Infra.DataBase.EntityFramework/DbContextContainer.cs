@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Infra.DataBase.EntityFramework.Interceptors;
+using BuildingBlock.Infra.DataBase.EntityFramework.Interceptors;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework
 {

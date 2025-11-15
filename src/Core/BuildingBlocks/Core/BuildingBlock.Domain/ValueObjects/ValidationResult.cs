@@ -68,7 +68,6 @@ public record ValidationResult
     /// <returns>A <see cref="ValidationResult"/> representing failure with the provided field errors.</returns>
     public static ValidationResult Failure(string field, params IEnumerable<string> errors)
     {
-
         if (errors == null || !errors.Any())
         {
 #if DEBUG
@@ -102,7 +101,6 @@ public record ValidationResult
         return new(fieldErrors);
     }
 }
-
 
 /// <summary>
 /// Representa um erro de validação.

@@ -1,4 +1,4 @@
-﻿namespace Administration.Domain.Products.ValueObjects
+namespace Administration.Domain.Products.ValueObjects
 {
     public record ServesManyPeople : ValueObject
     {

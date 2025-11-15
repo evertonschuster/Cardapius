@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Infra.DataBase.EntityFramework.Repositories
+namespace BuildingBlock.Infra.DataBase.EntityFramework.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {

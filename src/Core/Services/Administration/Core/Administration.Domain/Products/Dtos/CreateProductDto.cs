@@ -1,4 +1,4 @@
-﻿using Administration.Domain.Products.Entities;
+using Administration.Domain.Products.Entities;
 
 namespace Administration.Domain.Products.Dtos
 {
@@ -6,7 +6,7 @@ namespace Administration.Domain.Products.Dtos
     {
         public ProductName Name { get; set; }
         public string? Description { get; set; }
-        public required ProductionPrice Price { get; set; }
+        public ProductionPrice Price { get; set; }
         public PreparationTime PreparationTime { get; set; }
         public List<Image> Images { get; set; } = [];
         public ProductSubItem? Flavor { get; set; }

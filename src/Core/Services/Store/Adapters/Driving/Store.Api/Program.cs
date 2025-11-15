@@ -1,4 +1,3 @@
-
 namespace Store.Api
 {
     public static class Program
@@ -26,7 +25,6 @@ namespace Store.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

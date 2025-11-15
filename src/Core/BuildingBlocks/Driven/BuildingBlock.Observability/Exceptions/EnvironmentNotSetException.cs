@@ -1,4 +1,4 @@
-﻿namespace BuildingBlock.Observability.Exceptions
+namespace BuildingBlock.Observability.Exceptions
 {
     public class EnvironmentNotSetException : Exception
     {

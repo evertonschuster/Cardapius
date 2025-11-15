@@ -11,4 +11,3 @@ internal class ListSuppliersHandler(ISupplierRepository repository) : IQueryHand
         return Result<List<ListSuppliersResult>>.Success(result);
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Application;
+using BuildingBlock.Application;
 using BuildingBlock.Application.Services;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework
@@ -27,7 +27,6 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                     await domainEventService.EmitEventsAsync(events);
                 }
 
-
                 var secoundSave = await dbContext.SaveChangesAsync(cancellationToken);
                 await contextTransaction.CommitAsync(cancellationToken);
 
@@ -39,6 +38,5 @@ namespace BuildingBlock.Infra.DataBase.EntityFramework
                 throw;
             }
         }
-
     }
 }

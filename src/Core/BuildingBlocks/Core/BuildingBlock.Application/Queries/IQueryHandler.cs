@@ -1,4 +1,4 @@
-﻿using BuildingBlock.Application.Queries;
+using BuildingBlock.Application.Queries;
 using BuildingBlock.Domain.ValueObjects;
 using MediatR;
 

@@ -1,4 +1,4 @@
-﻿using Administration.Application.Products.Commands.CreateProduct;
+using Administration.Application.Products.Commands.CreateProduct;
 using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
