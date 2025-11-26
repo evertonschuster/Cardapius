@@ -1,4 +1,4 @@
-export interface AuthUser {
-  profile?: Record<string, unknown>;
-  [key: string]: unknown;
+import { User } from "oidc-client-ts";
+
+export interface AuthUser extends User{
 }

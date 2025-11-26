@@ -3,12 +3,9 @@ import { AuthUser } from "./AuthUser";
 
 export interface AuthContextValue {
   user?: AuthUser | null;
-  isLoading: boolean;
   isAuthenticated: boolean;
-  signin: () => Promise<void>;
-  signinCallback: () => Promise<void>;
-  signout: () => Promise<void>;
-  refresh: () => Promise<void>;
-  hasRole: (role: string) => boolean;
-  error?: AuthErrorDetails | null;
+  signin: () => Promise<AuthErrorDetails | void>;
+  signinCallback: () => Promise<AuthErrorDetails | void>;
+  signout:  () => Promise<AuthErrorDetails | void>;
+  hasRole: (role: string | string []) => boolean;
 }

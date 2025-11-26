@@ -4,228 +4,76 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { OidcService } from './services/oidcService';
-import { AuthErrorDetails } from './types/AuthErrorDetails';
 import { AuthContextValue } from './types/AuthContextValue';
-import { AuthClient, createAuthClient } from './services/authClient';
-import { AuthUser } from './types/AuthUser';
+import authService from './services/authService';
+import { LoadProgressPage } from './components/LoadProgressPage';
+import { AuthState } from './services/authClient';
 
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const rolPropName = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
-interface AuthProviderProps {
-  client?: AuthClient;
-}
-
-export const AuthProvider: React.FC<React.PropsWithChildren<AuthProviderProps>> = ({
+export const AuthProvider: React.FC<React.PropsWithChildren> = ({
   children,
-  client,
 }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const authClient = useMemo(() => client ?? createAuthClient(), [client]);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [error, setError] = useState<AuthErrorDetails | null>(null);
-
-  const isRefreshingRef = useRef(false);
-
-  const buildAuthErrorDetails = useCallback(
-    async (err: unknown): Promise<AuthErrorDetails> => {
-      const anyErr = err as any;
-      const url = OidcService.getOidcParamsFromUrl();
-
-      const code =
-        anyErr?.error ??
-        url.error ??
-        (anyErr?.name === 'TypeError' ? 'network_error' : null);
-
-      const description =
-        anyErr?.error_description ?? url.error_description ?? anyErr?.message ?? null;
-
-      const errorUri = anyErr?.error_uri ?? url.error_uri ?? null;
-      const state = anyErr?.state ?? null;
-      const traceId = state?.traceId ?? sessionStorage.getItem('oidc:lastTraceId') ?? null;
-      const requestId = state?.requestId ?? null;
-
-      return {
-        title: code === 'login_required' ? 'Sua sessão expirou' : 'Não foi possível processar sua solicitação',
-        description,
-        code,
-        errorUri,
-        traceId,
-        requestId,
-        timestamp: new Date().toISOString(),
-        authority: authClient.settings.authority,
-        clientId: authClient.settings.client_id ?? null,
-        redirectUri: authClient.settings.redirect_uri ?? null,
-      };
-    },
-    [authClient]
-  );
-
-  const getUrlAtual = useCallback(
-    () => `${location.pathname}${location.search ?? ''}${location.hash ?? ''}`,
-    [location]
-  );
-
-  const redirectReturnTo = (user: AuthUser) => {
-    const state = (user?.state as any) || {};
-    const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
-
-    sessionStorage.removeItem('returnTo');
-
-    // evita loop em rotas de auth
-    if (returnTo.startsWith('/login') ||
-      returnTo.startsWith('/callback') ||
-      returnTo.startsWith('/logout')) {
-      navigate('/', { replace: true });
-    } else {
-      navigate(returnTo, { replace: true });
-    }
-  }
-
-  const signin = useCallback(async () => {
-    try {
-      setError(null);
-      setIsLoading(true);
-      setUser(null);
-      const returnTo = getUrlAtual();
-      sessionStorage.setItem('returnTo', returnTo); // fallback pós-login
-      await authClient.signinRedirect({ state: { returnTo } });
-    } catch (err: any) {
-      setError(await buildAuthErrorDetails(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [buildAuthErrorDetails, getUrlAtual, authClient]);
-
-  const signinCallback = useCallback(async () => {
-    try {
-      setError(null);
-      setIsLoading(true);
-      const loggedUser = await authClient.signinRedirectCallback();
-      setUser(loggedUser);
-
-      redirectReturnTo(loggedUser);
-    } catch (err: any) {
-      setError(await buildAuthErrorDetails(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [buildAuthErrorDetails, navigate, authClient]);
-
-  const signout = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      setUser(null);
-      sessionStorage.setItem('returnTo', '/');
-      await authClient.signoutRedirect({ state: { returnTo: '/' } });
-    } catch (err: any) {
-      setError(await buildAuthErrorDetails(err));
-    } finally {
-      setIsLoading(false);
-    }
-  }, [buildAuthErrorDetails, authClient]);
-
-  // refresh manual (mantido para fallback/log), com trava
-  const refresh = useCallback(async () => {
-    if (isRefreshingRef.current) return;
-    isRefreshingRef.current = true;
-    try {
-      setError(null);
-      await authClient.signinSilent();
-    } catch (err: any) {
-      setError(await buildAuthErrorDetails(err));
-    } finally {
-      isRefreshingRef.current = false;
-      setIsLoading(false);
-    }
-  }, [buildAuthErrorDetails, authClient]);
-
-  const hasRole = useCallback(
-    (role: string) => {
-      const roles = (user?.profile as any)?.roles as string[] | undefined;
-      return roles?.includes(role) ?? false;
-    },
-    [user]
-  );
+  const auth = useMemo(() => authService, []);
+  const [authInitilizaed, setAuthInitilizaed] = useState(false);
+  const [authState, setAuthState] = useState<AuthState | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-    setIsLoading(true);
-
-    const onUserLoaded = (u: AuthUser) => {
-      if (!mounted) return;
-      setUser(u);
-      setIsLoading(false);
-    };
-    const onUserUnloaded = () => {
-      if (!mounted) return;
-      setUser(null);
-      setIsLoading(false);
-    };
-    const onSilentRenewError = () => {
-      if (!mounted) return;
-      setIsLoading(false);
-    };
-
-    authClient.getUser().then((u) => {
-      try {
-        if (!mounted) return;
-
-        console.log('AuthProvider: user loaded on init', u?.expired, u);
-        if (u === null || u?.expired) {
-          signin();
-          return;
-        }
-
-        setUser(u);
-        redirectReturnTo(u!);
-      }
-      finally {
-        setIsLoading(false);
-      }
+    const unsubscribeUserLoaded = auth.addUserLoaded((user) => {
+      console.log('User loaded:', user);
+      setAuthState((prevState) => ({
+        ...prevState,
+        user: user,
+        isAuthenticated: !!user && !user.expired,
+      }));
     });
 
-    authClient.events.addUserLoaded(onUserLoaded);
-    authClient.events.addUserUnloaded(onUserUnloaded);
-    authClient.events.addSilentRenewError(onSilentRenewError);
+    auth.initAsync().then((state) => {
+      setAuthInitilizaed(true);
+      setAuthState(state);
+    });
 
     return () => {
-      mounted = false;
-      authClient.events.removeUserLoaded(onUserLoaded);
-      authClient.events.removeUserUnloaded(onUserUnloaded);
-      authClient.events.removeSilentRenewError(onSilentRenewError);
-    };
-  }, [authClient, refresh]);
+      unsubscribeUserLoaded();
+    }
+
+  }, []);
+
+  const hasRole = useCallback((role: string | string[]) => {
+    const roles = (authState?.user?.profile as any)?.[rolPropName] as string[] | undefined;
+
+    if (Array.isArray(role)) {
+      return role.every(r => roles?.includes(r));
+    }
+    return roles?.includes(role) ?? false;
+  }, [authState]);
+
+  const value = useMemo<AuthContextValue>(() => {
+    return ({
+      user: authState?.user,
+      isAuthenticated: !!authState?.isAuthenticated,
+      signin: authService.signinAsync.bind(authService),
+      signinCallback: authService.signinCallbackAsync.bind(authService),
+      signout: authService.signoutAsync.bind(authService),
+      hasRole: hasRole,
+    } as AuthContextValue)
+  }, [authState, hasRole]);
+
+  if (!authInitilizaed) {
+    return (
+      <LoadProgressPage title="Iniciando a aplicação..." />
+    );
+  }
 
 
-  const isAuthenticated = !!user && user.expired === false;
-  const value = useMemo<AuthContextValue>(
-    () => {
-      return ({
-        user,
-        isLoading,
-        isAuthenticated,
-        signin,
-        signinCallback,
-        signout,
-        refresh,
-        hasRole,
-        error,
-      })
-    },
-    [user, isLoading, signin, signinCallback, signout, refresh, hasRole, error, isAuthenticated]
-  );
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>);
 };
 
 export const useAuth = () => {

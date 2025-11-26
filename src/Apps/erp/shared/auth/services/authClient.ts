@@ -6,16 +6,10 @@ export interface AuthClient {
   signinRedirect(args?: Record<string, unknown>): Promise<void>;
   signinRedirectCallback(): Promise<AuthUser>;
   signoutRedirect(args?: Record<string, unknown>): Promise<void>;
-  signinSilent(): Promise<AuthUser>;
   events: {
     addUserLoaded(cb: (user: AuthUser) => void): void;
     addUserUnloaded(cb: () => void): void;
     addSilentRenewError(cb: (error: unknown) => void): void;
-    addAccessTokenExpiring(cb: () => void): void;
-    removeUserLoaded(cb: (user: AuthUser) => void): void;
-    removeUserUnloaded(cb: () => void): void;
-    removeSilentRenewError(cb: (error: unknown) => void): void;
-    removeAccessTokenExpiring(cb: () => void): void;
   };
   settings: {
     authority?: string;
@@ -23,6 +17,13 @@ export interface AuthClient {
     redirect_uri?: string;
   };
 }
+
+export interface AuthState {
+    user?: AuthUser | null;
+    isAuthenticated: boolean;
+}
+
+export type UserLoadedListener = (user: AuthUser | null) => void;
 
 export const createAuthClient = (): AuthClient => {
   const manager = new UserManager({
@@ -50,16 +51,10 @@ export const createAuthClient = (): AuthClient => {
     signinRedirect: (args) => manager.signinRedirect(args),
     signinRedirectCallback: () => manager.signinRedirectCallback() as Promise<AuthUser>,
     signoutRedirect: (args) => manager.signoutRedirect(args),
-    signinSilent: () => manager.signinSilent() as Promise<AuthUser>,
     events: {
       addUserLoaded: (cb) => manager.events.addUserLoaded(cb as any),
       addUserUnloaded: (cb) => manager.events.addUserUnloaded(cb),
       addSilentRenewError: (cb) => manager.events.addSilentRenewError(cb),
-      addAccessTokenExpiring: (cb) => manager.events.addAccessTokenExpiring(cb),
-      removeUserLoaded: (cb) => manager.events.removeUserLoaded(cb as any),
-      removeUserUnloaded: (cb) => manager.events.removeUserUnloaded(cb),
-      removeSilentRenewError: (cb) => manager.events.removeSilentRenewError(cb),
-      removeAccessTokenExpiring: (cb) => manager.events.removeAccessTokenExpiring(cb),
     },
     settings: manager.settings,
   };

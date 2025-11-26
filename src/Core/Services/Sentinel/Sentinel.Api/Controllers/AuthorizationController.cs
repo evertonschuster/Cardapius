@@ -34,7 +34,11 @@ public class AuthorizationController(IUserTokenService tokenService, SignInManag
         }
 
         var principal = await tokenService.CreatePrincipalAsync(user, request.GetScopes(), request.ClientId);
-        return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+        return SignIn(principal, new AuthenticationProperties()
+        {
+            IsPersistent = false,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+        }, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
     }
 
     [Authorize]

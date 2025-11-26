@@ -11,8 +11,14 @@ namespace Sentinel.Api.Extensions
         public static IServiceCollection AddAppAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services
-                .AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)
-                .AddCookie("Cookies");
+                .AddAuthentication(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
+
+            services
+                .ConfigureApplicationCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5); 
+                    options.SlidingExpiration = false; 
+                });
 
             services.AddOpenIddict()
                 .AddCore(opt =>
@@ -102,9 +108,9 @@ namespace Sentinel.Api.Extensions
                     policy.AddAuthenticationSchemes(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
                     policy.RequireAuthenticatedUser();
                     policy.RequireAssertion(ctx =>
-                        ctx.User.Claims.Any(c => c.Type == OpenIddictConstants.Claims.Scope &&
-                                                 c.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                                                        .Contains("api")));
+                        ctx.User.Claims.Any(c => c.Type == OpenIddictConstants.Claims.Scope 
+                                                && c.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                                        .Contains("api")));
                 });
             });
 

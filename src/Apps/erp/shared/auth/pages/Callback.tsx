@@ -1,18 +1,25 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../AuthProvider';
 import { LoadProgressPage } from '../components/LoadProgressPage';
 import { ProcessErrorDetails } from '../components/ProcessErrorDetails';
+import { AuthErrorDetails } from '../types/AuthErrorDetails';
 
 export const Callback = () => {
-    const { signinCallback, signin, error, isLoading, user, isAuthenticated } = useAuth();
+
+    const [error, setError] = useState<AuthErrorDetails | null>(null);
+    const { signinCallback, signin, user, isAuthenticated } = useAuth();
 
     useEffect(() => {
-        if (!isLoading && !isAuthenticated && !user) {
-            console.log('User not found, redirecting to login...');
-            signinCallback();
-            return;
-        }
-    }, [isLoading, isAuthenticated, signinCallback, user]);
+        signinCallback()
+            .then((error) => {
+                if (error) {
+                    setError(error);
+                }
+            }).catch((err) => {
+                console.error('Error during signin callback:', err);
+            });
+
+    }, [isAuthenticated, signinCallback, user]);
 
     if (error) {
         return <ProcessErrorDetails details={error} onRetry={signin} />;
