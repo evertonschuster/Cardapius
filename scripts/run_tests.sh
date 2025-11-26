@@ -23,7 +23,7 @@ for csproj in "${test_projects[@]}"; do
   echo "🧪 Executando cobertura para: $project_name"
   
   # Caminho do assembly de teste
-  dll_path="$(dirname "$csproj")/bin/Release/net9.0/${project_name}.dll"
+  dll_path="$(dirname "$csproj")/bin/Release/net10.0/${project_name}.dll"
   
   # Executa Coverlet gerando um arquivo por projeto
   coverlet "$dll_path" \

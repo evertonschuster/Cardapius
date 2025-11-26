@@ -10,14 +10,30 @@ export const Callback = () => {
     const { signinCallback, signin, user, isAuthenticated } = useAuth();
 
     useEffect(() => {
-        signinCallback()
-            .then((error) => {
-                if (error) {
+        let isMounted = true;
+
+        const processCallback = async () => {
+            if (isAuthenticated || user) {
+                return;
+            }
+
+            try {
+                const error = await Promise.resolve(signinCallback());
+                if (error && isMounted) {
                     setError(error);
                 }
-            }).catch((err) => {
-                console.error('Error during signin callback:', err);
-            });
+            } catch (err) {
+                if (isMounted) {
+                    console.error('Error during signin callback:', err);
+                }
+            }
+        };
+
+        processCallback();
+
+        return () => {
+            isMounted = false;
+        }
 
     }, [isAuthenticated, signinCallback, user]);
 

@@ -5,9 +5,9 @@ using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Text.Json.Nodes;
 
 namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
 {
@@ -21,131 +21,131 @@ namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
         {
             options.MapType<LegalName>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "LegalName",
                 Description = "Represent a valid Name.",
-                Example = new OpenApiString(LegalName.Empty),
+                Example = LegalName.Empty,
             });
 
             options.MapType<TradeName>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "TradeName",
                 Description = "Represent a valid Trade Name.",
-                Example = new OpenApiString(TradeName.Empty),
+                Example = TradeName.Empty,
             });
 
             options.MapType<CpfCnpj>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "CpfCnpj",
                 Description = "Represent a valid Cpf/Cnpj.",
-                Example = new OpenApiString(CpfCnpj.Empty),
+                Example = CpfCnpj.Empty,
             });
 
             options.MapType<StateRegistration>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "StateRegistration",
                 Description = "Represent a valid State Registration.",
-                Example = new OpenApiString(StateRegistration.Empty),
+                Example = StateRegistration.Empty,
             });
 
             options.MapType<MunicipalRegistration>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "MunicipalRegistration",
                 Description = "Represent a valid Municipal Registration.",
-                Example = new OpenApiString(MunicipalRegistration.Empty),
+                Example = MunicipalRegistration.Empty,
             });
 
             options.MapType<Email>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "Email",
                 Description = "Represent a valid email.",
-                Example = new OpenApiString(Email.Empty),
+                Example = Email.Empty,
             });
 
             options.MapType<ProductName>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "Produto",
                 Description = "Represent a valid product name.",
-                Example = new OpenApiString(ProductName.Empty),
+                Example = ProductName.Empty,
             });
 
             options.MapType<PersonName>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "Name",
                 Description = "Represent a valid person name.",
-                Example = new OpenApiString(PersonName.Empty),
+                Example = PersonName.Empty,
             });
 
             options.MapType<Phone>(() => new OpenApiSchema
             {
-                Type = "string",
+                Type = JsonSchemaType.String,
                 Title = "Phone",
                 Description = "Represent a valid phone number.",
-                Example = new OpenApiString(Phone.Empty),
+                Example = Phone.Empty,
             });
 
             options.MapType<PreparationTime>(() => new OpenApiSchema
             {
-                Type = "numeric",
+                Type = JsonSchemaType.Number,
                 Title = "Tempo de preparação",
                 Description = "Represent a valid tempo de preparação.",
-                Example = new OpenApiString(PreparationTime.Empty),
+                Example = PreparationTime.Empty,
             });
 
             options.MapType<Image>(() => new OpenApiSchema
             {
-                Type = "object",
+                Type = JsonSchemaType.Object,
                 Title = "Image",
                 Description = "Representa uma imagem.",
-                Properties = new Dictionary<string, OpenApiSchema>
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    { "Uri", new OpenApiSchema { Type = "string", Format = "uri" } },
-                    { "AlternativeText", new OpenApiSchema { Type = "string" } },
-                    { "Width", new OpenApiSchema { Type = "integer", Format = "int32" } },
-                    { "Height", new OpenApiSchema { Type = "integer", Format = "int32" } },
-                    { "ThumbnailUri", new OpenApiSchema { Type = "string", Format = "uri" } },
-                    { "BlurHash", new OpenApiSchema { Type = "string" } }
+                    { "Uri", new OpenApiSchema { Type = JsonSchemaType.String, Format = "uri" } },
+                    { "AlternativeText", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "Width", new OpenApiSchema { Type = JsonSchemaType.Integer, Format = "int32" } },
+                    { "Height", new OpenApiSchema { Type = JsonSchemaType.Integer, Format = "int32" } },
+                    { "ThumbnailUri", new OpenApiSchema { Type = JsonSchemaType.String, Format = "uri" } },
+                    { "BlurHash", new OpenApiSchema { Type = JsonSchemaType.String } }
                 },
-                Example = new OpenApiObject
+                Example = new JsonObject
                 {
-                    ["Uri"] = new OpenApiString("https://example.com/images/photo.jpg"),
-                    ["AlternativeText"] = new OpenApiString("Uma bela paisagem ao entardecer"),
-                    ["Width"] = new OpenApiInteger(1920),
-                    ["Height"] = new OpenApiInteger(1080),
-                    ["ThumbnailUri"] = new OpenApiString("https://example.com/images/photo-thumb.jpg"),
-                    ["BlurHash"] = new OpenApiString("LKO2?U%2Tw=w]~RBVZRi};RPxuwH")
+                    ["Uri"] = "https://example.com/images/photo.jpg",
+                    ["AlternativeText"] = "Uma bela paisagem ao entardecer",
+                    ["Width"] = 1920,
+                    ["Height"] = 1080,
+                    ["ThumbnailUri"] = "https://example.com/images/photo-thumb.jpg",
+                    ["BlurHash"] = "LKO2?U%2Tw=w]~RBVZRi};RPxuwH"
                 }
             });
 
             options.MapType<Address>(() => new OpenApiSchema
             {
-                Type = "object",
+                Type = JsonSchemaType.Object,
                 Title = "Address",
                 Description = "Represent a valid address.",
-                Properties = new Dictionary<string, OpenApiSchema>
+                Properties = new Dictionary<string, IOpenApiSchema>
                 {
-                    { "Street", new OpenApiSchema { Type = "string" } },
-                    { "Number", new OpenApiSchema { Type = "string" } },
-                    { "Complement", new OpenApiSchema { Type = "string" } },
-                    { "City", new OpenApiSchema { Type = "string" } },
-                    { "State", new OpenApiSchema { Type = "string" } },
-                    { "ZIPCode", new OpenApiSchema { Type = "string" } }
+                    { "Street", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "Number", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "Complement", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "City", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "State", new OpenApiSchema { Type = JsonSchemaType.String } },
+                    { "ZIPCode", new OpenApiSchema { Type = JsonSchemaType.String } }
                 },
-                Example = new OpenApiObject()
+                Example = new JsonObject()
                 {
-                    ["Street"] = new OpenApiString("123 Main St"),
-                    ["Number"] = new OpenApiString("Apt 4B"),
-                    ["Complement"] = new OpenApiString("Building XYZ"),
-                    ["City"] = new OpenApiString("Example Ville"),
-                    ["State"] = new OpenApiString("EX"),
-                    ["ZIPCode"] = new OpenApiString("12345-000")
+                    ["Street"] = "123 Main St",
+                    ["Number"] = "Apt 4B",
+                    ["Complement"] = "Building XYZ",
+                    ["City"] = "Example Ville",
+                    ["State"] = "EX",
+                    ["ZIPCode"] = "12345-000"
                 },
             });
 
