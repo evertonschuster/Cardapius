@@ -17,9 +17,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configuration .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x' 
+          dotnet-version: '10.0.x'
+          include-prerelease: true
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
