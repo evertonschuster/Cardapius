@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { PrivateRoute } from './PrivateRoute';
 import { useAuth } from './AuthProvider';
 
@@ -19,29 +19,17 @@ describe('PrivateRoute', () => {
   });
 
   it('calls signin and shows loader when unauthenticated', () => {
-    const signin = jest.fn();
-    mockUseAuth
-      .mockImplementationOnce(() => ({
-        user: null,
-        isAuthenticated: false,
-        signin,
-        hasRole: () => false,
-        isLoading: false,
-        error: null,
-      }))
-      .mockImplementation(() => ({
-        user: null,
-        isAuthenticated: false,
-        signin,
-        hasRole: () => false,
-        isLoading: true,
-        error: null,
-      }));
+    const signin = jest.fn().mockResolvedValue(undefined);
+    mockUseAuth.mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      signin,
+      hasRole: () => false,
+    });
 
-    const { rerender } = render(<PrivateRoute />);
-    expect(signin).toHaveBeenCalled();
+    render(<PrivateRoute />);
 
-    rerender(<PrivateRoute />);
+    expect(signin).toHaveBeenCalledTimes(1);
     expect(screen.getByText('Aguardando autenticação...')).toBeInTheDocument();
   });
 
@@ -51,8 +39,6 @@ describe('PrivateRoute', () => {
       isAuthenticated: true,
       signin: jest.fn(),
       hasRole: () => true,
-      isLoading: false,
-      error: null,
     });
     render(
       <PrivateRoute>
@@ -68,23 +54,22 @@ describe('PrivateRoute', () => {
       isAuthenticated: true,
       signin: jest.fn(),
       hasRole: (r: string) => r === 'user',
-      isLoading: false,
-      error: null,
     });
     render(<PrivateRoute roles={['admin']} />);
     expect(screen.getByText('Acesso negado')).toBeInTheDocument();
   });
 
-  it('renders error component when error is present', () => {
+  it('renders error component when signin returns error', async () => {
+    const signin = jest.fn().mockResolvedValue({ title: 'err' });
     mockUseAuth.mockReturnValue({
       user: null,
       isAuthenticated: false,
-      signin: jest.fn(),
+      signin,
       hasRole: () => false,
-      isLoading: false,
-      error: { title: 'err' },
     });
+
     render(<PrivateRoute />);
-    expect(screen.getByText('error:err')).toBeInTheDocument();
+
+    await waitFor(() => expect(screen.getByText('error:err')).toBeInTheDocument());
   });
 });
