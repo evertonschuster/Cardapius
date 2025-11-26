@@ -19,22 +19,23 @@ describe('Callback', () => {
   });
 
   it('calls signinCallback on mount when user not present', () => {
-    const signinCallback = jest.fn();
-    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), error: null, isLoading: false, user: null });
+    const signinCallback = jest.fn().mockResolvedValue(undefined);
+    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: false, user: null });
     render(<Callback />);
     expect(signinCallback).toHaveBeenCalled();
     expect(screen.getByText('Carregando informações...')).toBeInTheDocument();
   });
 
-  it('renders error when error is present', () => {
-    mockUseAuth.mockReturnValue({ signinCallback: jest.fn(), signin: jest.fn(), error: { title: 'err' }, isLoading: false, user: null });
+  it('renders error when error is present', async () => {
+    const signinCallback = jest.fn().mockResolvedValue({ title: 'err' });
+    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: false, user: null });
     render(<Callback />);
-    expect(screen.getByText('error:err')).toBeInTheDocument();
+    expect(await screen.findByText('error:err')).toBeInTheDocument();
   });
 
   it('does not call signinCallback when user is already authenticated', () => {
     const signinCallback = jest.fn();
-    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), error: null, isLoading: false, user: {} });
+    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: true, user: {} });
     render(<Callback />);
     expect(signinCallback).not.toHaveBeenCalled();
   });
