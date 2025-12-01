@@ -20,7 +20,9 @@ const routes: RouteObject[] = [
       {
         path: 'admin',
         element: (
+          <PrivateRoute roles={['admin']}>
             <AdminDashboard />
+          </PrivateRoute>
         )
       },
       {
