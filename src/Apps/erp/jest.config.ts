@@ -15,15 +15,10 @@ const config: Config = {
     '^.+\\.(t|j)sx?$': [
       'ts-jest',
       {
+        useESM: true,
         tsconfig: '<rootDir>/tsconfig.json'
       }
     ]
-  },
-  globals: {
-    'ts-jest': {
-      useESM: true,
-      tsconfig: '<rootDir>/tsconfig.json'
-    }
   },
   coverageThreshold: {
     global: {
