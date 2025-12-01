@@ -1,15 +1,27 @@
 import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 export function usePersistentState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
-    const [value, setValue] = useState(() => {
-        if (typeof window === "undefined") return defaultValue;
-        const saved = localStorage.getItem(key);
-        return saved ? JSON.parse(saved) : defaultValue;
-    });
+  const [value, setValue] = useState<T>(() => {
+    if (typeof window === "undefined") return defaultValue;
 
-    useEffect(() => {
-        localStorage.setItem(key, JSON.stringify(value));
-    }, [key, value]);
+    const saved = localStorage.getItem(key);
+    if (!saved) return defaultValue;
 
-    return [value, setValue];
+    try {
+      return JSON.parse(saved) as T;
+    } catch {
+      localStorage.removeItem(key);
+      return defaultValue;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // Ignore write errors (e.g., storage full) to avoid breaking rendering
+    }
+  }, [key, value]);
+
+  return [value, setValue];
 }
