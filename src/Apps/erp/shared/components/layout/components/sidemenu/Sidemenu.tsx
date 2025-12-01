@@ -1,11 +1,15 @@
 import { useMemo, useState } from 'react';
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, OutlinedInput } from '@mui/material';
+import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, OutlinedInput, Tooltip } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { Link as RouterLink } from 'react-router-dom';
 import { useAuth } from '@shared/auth';
 import { filterMenuItems, menuItems } from 'menuItems';
 
-export const Sidemenu: React.FC = () => {
+type SidemenuProps = {
+    collapsed?: boolean;
+}
+
+export const Sidemenu: React.FC<SidemenuProps> = ({ collapsed = false }) => {
     const { hasRole } = useAuth();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -24,17 +28,21 @@ export const Sidemenu: React.FC = () => {
                     flexDirection: 'column',
                 }}
             >
-                <OutlinedInput
-                    size="small"
-                    placeholder="Search"
-                    startAdornment={<SearchRoundedIcon />}
-                    sx={{
-                        margin: 0.5,
-                    }}
-                    value={searchTerm}
-                    onChange={(event) => setSearchTerm(event.target.value)}
-                />
-                <Divider />
+                {!collapsed && (
+                    <>
+                        <OutlinedInput
+                            size="small"
+                            placeholder="Search"
+                            startAdornment={<SearchRoundedIcon />}
+                            sx={{
+                                margin: 0.5,
+                            }}
+                            value={searchTerm}
+                            onChange={(event) => setSearchTerm(event.target.value)}
+                        />
+                        <Divider />
+                    </>
+                )}
 
                 <List
                     component="nav"
@@ -42,12 +50,21 @@ export const Sidemenu: React.FC = () => {
                 >
                     {filteredItems.map((item) => (
                         <ListItem key={item.path} sx={{ padding: 0 }}>
-                            <ListItemButton component={RouterLink} to={item.path}>
-                                <ListItemIcon>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
+                            <Tooltip title={collapsed ? item.label : ""} placement="right">
+                                <ListItemButton
+                                    component={RouterLink}
+                                    to={item.path}
+                                    sx={collapsed ? {
+                                        justifyContent: "center",
+                                        px: 1,
+                                    } : undefined}
+                                >
+                                    <ListItemIcon sx={collapsed ? { minWidth: 0 } : undefined}>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    {!collapsed && <ListItemText primary={item.label} />}
+                                </ListItemButton>
+                            </Tooltip>
                         </ListItem>
                     ))}
                 </List>

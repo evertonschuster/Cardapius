@@ -1,14 +1,25 @@
-import { Box } from "@mui/material";
+import { Box, Divider, IconButton, Stack, Tooltip } from "@mui/material";
 import { Logo } from "@shared/components/Logo";
 import { Sidemenu } from "../sidemenu/Sidemenu";
 import { UserCard } from "../user-card/UserCard";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useMemo, useState } from "react";
 
 export const Sidebar: React.FC = () => {
+
+    const [collapsed, setCollapsed] = useState(false);
+
+    const width = useMemo(() => collapsed ? 80 : 260, [collapsed]);
+
+    const toggleCollapsed = () => {
+        setCollapsed((value) => !value);
+    }
 
     return (
         <Box
             sx={{
-                width: 260,
+                width,
                 flexShrink: 0,
                 bgcolor: "background.paper",
                 borderRight: (theme) =>
@@ -20,11 +31,21 @@ export const Sidebar: React.FC = () => {
                 flexDirection: "column",
             }}
         >
-            <Logo />
+            <Stack direction="row" alignItems="center" justifyContent="space-between" px={1} py={1.5}>
+                <Logo showText={!collapsed} />
 
-            <Sidemenu />
+                <Tooltip title={collapsed ? "Expandir" : "Recolher"}>
+                    <IconButton size="small" onClick={toggleCollapsed}>
+                        {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </Tooltip>
+            </Stack>
 
-            <UserCard />
+            <Divider />
+
+            <Sidemenu collapsed={collapsed} />
+
+            <UserCard collapsed={collapsed} />
         </Box>
 
     )
