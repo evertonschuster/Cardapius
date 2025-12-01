@@ -4,11 +4,12 @@ import { Sidemenu } from "../sidemenu/Sidemenu";
 import { UserCard } from "../user-card/UserCard";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { usePersistentState } from "@shared/hooks/usePersistentState";
 
 export const Sidebar: React.FC = () => {
 
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = usePersistentState<boolean>("sidebar-collapsed", false);
 
     const width = useMemo(() => collapsed ? 80 : 260, [collapsed]);
 
