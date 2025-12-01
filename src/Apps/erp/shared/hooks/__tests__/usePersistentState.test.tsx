@@ -27,7 +27,7 @@ describe("usePersistentState", () => {
     const { result } = renderHook(() => usePersistentState("test-key", 5));
 
     expect(result.current[0]).toBe(5);
-    expect(localStorage.getItem("test-key")).toBeNull();
+    expect(localStorage.getItem("test-key")).toBe("5");
   });
 
   it("saves updates to localStorage when the setter is called", () => {

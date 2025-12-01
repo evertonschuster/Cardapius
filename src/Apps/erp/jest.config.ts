@@ -5,6 +5,7 @@ const config: Config = {
   testEnvironment: 'jest-environment-jsdom',
   roots: ['<rootDir>'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
@@ -14,6 +15,7 @@ const config: Config = {
     '^.+\\.(t|j)sx?$': [
       'ts-jest',
       {
+        useESM: true,
         tsconfig: '<rootDir>/tsconfig.json'
       }
     ]
