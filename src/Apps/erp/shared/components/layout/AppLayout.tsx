@@ -5,11 +5,16 @@ import { Sidebar } from './components/sidebar/Sidebar'
 
 export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
     return (
-        <>
+        <Box
+            sx={{
+                display: 'flex',
+                minHeight: '100vh',
+            }}
+        >
             <Sidebar />
-            <Box component="main">
+            <Box component="main" sx={{ flex: 1 }}>
                 <Outlet />
             </Box>
-        </>
+        </Box>
     )
 }
