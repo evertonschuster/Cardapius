@@ -3,37 +3,26 @@ import { useAuth } from '../AuthProvider';
 import { LoadProgressPage } from '../components/LoadProgressPage';
 import { ProcessErrorDetails } from '../components/ProcessErrorDetails';
 import { AuthErrorDetails } from '../types/AuthErrorDetails';
+import { useNavigate } from 'react-router-dom';
 
 export const Callback = () => {
 
-    const [error, setError] = useState<AuthErrorDetails | null>(null);
+    const navigate = useNavigate();
     const { signinCallback, signin, user, isAuthenticated } = useAuth();
+    const [error, setError] = useState<AuthErrorDetails | null>(null);
 
     useEffect(() => {
-        let isMounted = true;
-
-        const processCallback = async () => {
-            if (isAuthenticated || user) {
-                return;
-            }
-
-            try {
-                const error = await Promise.resolve(signinCallback());
-                if (error && isMounted) {
-                    setError(error);
+        signinCallback()
+            .then((response) => {
+                if (response?.error) {
+                    setError(response.error);
                 }
-            } catch (err) {
-                if (isMounted) {
-                    console.error('Error during signin callback:', err);
+                if (response?.redirectTo) {
+                    navigate(response.redirectTo);
                 }
-            }
-        };
-
-        processCallback();
-
-        return () => {
-            isMounted = false;
-        }
+            }).catch((err) => {
+                console.error('Error during signin callback:', err);
+            });
 
     }, [isAuthenticated, signinCallback, user]);
 

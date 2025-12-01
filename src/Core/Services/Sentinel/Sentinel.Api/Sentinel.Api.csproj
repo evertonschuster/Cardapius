@@ -26,7 +26,7 @@
 		<PackageReference Include="OpenIddict.AspNetCore" Version="7.2.0" />
 		<PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.2.0" />
 		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="7.2.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
                 <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
                 <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
         </ItemGroup>

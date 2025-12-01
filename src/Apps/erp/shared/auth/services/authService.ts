@@ -1,6 +1,6 @@
 import { AuthUser } from "../types/AuthUser";
 import { AuthClient, createAuthClient, AuthState, UserLoadedListener } from "./authClient";
-import { AuthErrorDetails } from "../types/AuthErrorDetails";
+import { AuthErrorDetails, SigninCallbackRespose } from "../types/AuthErrorDetails";
 import { OidcService } from "./oidcService";
 
 
@@ -34,12 +34,13 @@ class AuthService {
         }
     }
 
-    async signinCallbackAsync(): Promise<AuthErrorDetails | void> {
+    async signinCallbackAsync(): Promise<SigninCallbackRespose> {
         try {
             const loggedUser = await this.userManager.signinRedirectCallback();
-            this.redirectReturnTo(loggedUser);
+            const redirectTo = this.redirectReturnTo(loggedUser);
+            return { redirectTo };
         } catch (error) {
-            return this.buildAuthErrorDetails(error)
+            return { error: this.buildAuthErrorDetails(error) };
         }
     }
 
@@ -91,9 +92,9 @@ class AuthService {
         if (returnTo.startsWith('/login') ||
             returnTo.startsWith('/callback') ||
             returnTo.startsWith('/logout')) {
-            window.location.replace('/');
+            return '/';
         } else {
-            window.location.replace(returnTo);
+            return returnTo;
         }
     }
 

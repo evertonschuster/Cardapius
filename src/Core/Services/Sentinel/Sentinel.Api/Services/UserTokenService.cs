@@ -47,6 +47,8 @@ public class UserTokenService(
 
         principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
         principal.SetScopes(requestedScopes);
+        principal.AddClaim("name", user.UserName);
+        principal.AddClaim("email", user.Email);
 
         foreach (var claim in principal.Claims.Where(c => c.Type != options.Value.ClaimsIdentity.SecurityStampClaimType))
         {

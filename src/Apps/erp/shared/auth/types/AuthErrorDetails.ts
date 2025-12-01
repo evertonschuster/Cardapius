@@ -1,3 +1,9 @@
+
+export interface SigninCallbackRespose {
+  redirectTo?: string | null;
+  error?: AuthErrorDetails | null;
+}
+
 export interface AuthErrorDetails {
   title?: string | null;
   description?: string | null;

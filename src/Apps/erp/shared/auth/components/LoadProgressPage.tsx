@@ -9,6 +9,7 @@ export const LoadProgressPage = ({ title }: LoadProgressPageProps) => {
   return (
     <Box sx={{
       height: '100vh',
+      width: '100vw',
       alignItems: 'center',
       alignContent: 'center',
       alignSelf: 'center',
