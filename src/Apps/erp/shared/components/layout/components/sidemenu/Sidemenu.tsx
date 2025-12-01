@@ -26,6 +26,10 @@ export const Sidemenu: React.FC<SidemenuProps> = ({ collapsed = false }) => {
                     flexGrow: 1,
                     display: 'flex',
                     flexDirection: 'column',
+                    transition: (theme) => theme.transitions.create('padding', {
+                        duration: theme.transitions.duration.shorter,
+                        easing: theme.transitions.easing.easeInOut,
+                    }),
                 }}
             >
                 {!collapsed && (
@@ -54,15 +58,42 @@ export const Sidemenu: React.FC<SidemenuProps> = ({ collapsed = false }) => {
                                 <ListItemButton
                                     component={RouterLink}
                                     to={item.path}
-                                    sx={collapsed ? {
-                                        justifyContent: "center",
-                                        px: 1,
-                                    } : undefined}
+                                    sx={(theme) => ({
+                                        transition: theme.transitions.create(['padding', 'justify-content'], {
+                                            duration: theme.transitions.duration.shorter,
+                                            easing: theme.transitions.easing.easeInOut,
+                                        }),
+                                        ...(collapsed ? {
+                                            justifyContent: "center",
+                                            px: 1,
+                                        } : {}),
+                                    })}
                                 >
-                                    <ListItemIcon sx={collapsed ? { minWidth: 0 } : undefined}>
+                                    <ListItemIcon
+                                        sx={(theme) => ({
+                                            transition: theme.transitions.create(['min-width', 'margin'], {
+                                                duration: theme.transitions.duration.shorter,
+                                                easing: theme.transitions.easing.easeInOut,
+                                            }),
+                                            ...(collapsed ? { minWidth: 0, mr: 0 } : {}),
+                                        })}
+                                    >
                                         {item.icon}
                                     </ListItemIcon>
-                                    {!collapsed && <ListItemText primary={item.label} />}
+                                    <ListItemText
+                                        primary={item.label}
+                                        sx={(theme) => ({
+                                            transition: theme.transitions.create(['opacity', 'max-width'], {
+                                                duration: theme.transitions.duration.shorter,
+                                                easing: theme.transitions.easing.easeInOut,
+                                            }),
+                                            opacity: collapsed ? 0 : 1,
+                                            maxWidth: collapsed ? 0 : 200,
+                                            overflow: 'hidden',
+                                            whiteSpace: 'nowrap',
+                                        })}
+                                        primaryTypographyProps={{ noWrap: true }}
+                                    />
                                 </ListItemButton>
                             </Tooltip>
                         </ListItem>

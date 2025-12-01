@@ -27,13 +27,13 @@ export const UserCard: React.FC<UserCardProps> = ({ collapsed = false }) => {
   return (
     <Box
       sx={{
-        px: collapsed ? 0.5 : 1.5,
+        px: collapsed ? 0 : 1.5,
         py: 1.5,
-        m: .3,
-        borderRadius: 2,
+        m: collapsed ? 0 : .3,
+        borderRadius: collapsed ? 0 : 2,
         marginTop: "auto",
-        bgcolor: (theme) => theme.palette.mode === "dark" ? "#111827" : "#FFFFFF",
-        border: (theme) => theme.palette.mode === "dark" ? "1px solid #1F2937" : `1px solid ${theme.palette.divider}`,
+        bgcolor: collapsed ? "transparent" : (theme) => theme.palette.mode === "dark" ? "#111827" : "#FFFFFF",
+        border: collapsed ? "none" : (theme) => theme.palette.mode === "dark" ? "1px solid #1F2937" : `1px solid ${theme.palette.divider}`,
       }}
     >
       {collapsed ? (
@@ -42,34 +42,20 @@ export const UserCard: React.FC<UserCardProps> = ({ collapsed = false }) => {
             <Avatar src={avatarUrl} alt={name} sx={{ width: 40, height: 40 }} />
           </Tooltip>
 
-            <Stack direction="row" spacing={1}>
-              <Tooltip title="Configurações" placement="top">
+          <Stack direction="column" spacing={0.5} alignItems="center">
+            <Tooltip title="Configurações" placement="right">
               <IconButton
                 size="small"
                 onClick={() => setShowSettingDrawer(true)}
-                sx={{
-                  border: (theme) =>
-                    `1px solid ${theme.palette.mode === "dark"
-                      ? "#374151"
-                      : theme.palette.divider
-                    }`,
-                }}
               >
                 <SettingsIcon fontSize="small" />
               </IconButton>
-              </Tooltip>
+            </Tooltip>
 
-            <Tooltip title="Sair" placement="top">
+            <Tooltip title="Sair" placement="right">
               <IconButton
                 size="small"
                 onClick={() => navigate("logout")}
-                sx={{
-                  border: (theme) =>
-                    `1px solid ${theme.palette.mode === "dark"
-                      ? "#374151"
-                      : theme.palette.divider
-                    }`,
-                }}
               >
                 <LogoutIcon fontSize="small" />
               </IconButton>

@@ -20,6 +20,11 @@ export const Sidebar: React.FC = () => {
         <Box
             sx={{
                 width,
+                transition: (theme) =>
+                    theme.transitions.create("width", {
+                        duration: theme.transitions.duration.standard,
+                        easing: theme.transitions.easing.easeInOut,
+                    }),
                 flexShrink: 0,
                 bgcolor: "background.paper",
                 borderRight: (theme) =>
