@@ -58,7 +58,6 @@ export const Sidemenu: React.FC = () => {
                 <Divider />
 
                 <List
-                    sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
                 >
@@ -73,7 +72,7 @@ export const Sidemenu: React.FC = () => {
                         </ListItem>
                     ))}
                 </List>
-                
+
             </Box>
         </>
     )
