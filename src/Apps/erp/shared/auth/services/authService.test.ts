@@ -1,10 +1,3 @@
-jest.mock('./authClient', () => ({
-  createAuthClient: jest.fn(),
-}));
-
-import authService from './authService';
-import { createAuthClient } from './authClient';
-
 const addUserLoaded = jest.fn();
 const addUserUnloaded = jest.fn();
 const addSilentRenewError = jest.fn();
@@ -13,32 +6,42 @@ const signinRedirect = jest.fn();
 const signinRedirectCallback = jest.fn();
 const signoutRedirect = jest.fn();
 
+const mockUserManager = {
+  events: {
+    addUserLoaded,
+    addUserUnloaded,
+    addSilentRenewError,
+  },
+  settings: {
+    authority: 'auth',
+    client_id: 'client',
+    redirect_uri: '/callback',
+  },
+  getUser,
+  signinRedirect,
+  signinRedirectCallback,
+  signoutRedirect,
+};
+
+jest.mock('./authClient', () => ({
+  createAuthClient: jest.fn(() => mockUserManager),
+}));
+
+import authService from './authService';
+import { createAuthClient } from './authClient';
+
 const mockCreateAuthClient = createAuthClient as jest.Mock;
 
 describe('authService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockCreateAuthClient.mockReturnValue({
-      getUser,
-      signinRedirect,
-      signinRedirectCallback,
-      signoutRedirect,
-      events: {
-        addUserLoaded,
-        addUserUnloaded,
-        addSilentRenewError,
-      },
-      settings: {
-        authority: 'auth',
-        client_id: 'client',
-        redirect_uri: '/callback',
-      },
-    });
+    mockCreateAuthClient.mockClear();
     getUser.mockResolvedValue({ expired: false });
     signinRedirect.mockResolvedValue(undefined);
     signinRedirectCallback.mockResolvedValue({ state: { returnTo: '/home' } });
     signoutRedirect.mockResolvedValue(undefined);
     sessionStorage.clear();
+    window.history.pushState({}, '', '/');
   });
 
   it('initializes only once and returns auth state', async () => {
@@ -60,10 +63,7 @@ describe('authService', () => {
   });
 
   it('performs signin redirect and stores returnTo', async () => {
-    Object.defineProperty(window, 'location', {
-      value: { pathname: '/test', search: '?a=1' },
-      writable: true,
-    });
+    window.history.pushState({}, '', '/test?a=1');
 
     await authService.signinAsync();
     expect(sessionStorage.getItem('returnTo')).toBe('/test?a=1');
