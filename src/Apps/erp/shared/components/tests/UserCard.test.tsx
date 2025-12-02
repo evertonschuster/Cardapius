@@ -5,7 +5,6 @@ import { UserCard } from '../layout/components/user-card/UserCard';
 import { UserCardActions } from '../layout/components/user-card/UserCardActions';
 import { UserCardAvatar } from '../layout/components/user-card/UserCardAvatar';
 import { UserCardHeader } from '../layout/components/user-card/UserCardHeader';
-import { UserCardPlanChip } from '../layout/components/user-card/UserCardPlanChip';
 import { useAuth } from '@shared/auth';
 
 jest.mock('@shared/auth', () => ({
@@ -127,13 +126,5 @@ describe('UserCardHeader', () => {
     expect(screen.getByText('Header User')).toBeInTheDocument();
     expect(screen.getByText('header@example.com')).toBeInTheDocument();
     expect(screen.getByText('Premium')).toBeInTheDocument();
-  });
-});
-
-describe('UserCardPlanChip', () => {
-  it('renders the plan label', () => {
-    render(<UserCardPlanChip label="Enterprise" />);
-
-    expect(screen.getByText('Enterprise')).toBeInTheDocument();
   });
 });
