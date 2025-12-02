@@ -14,21 +14,31 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 
-import { getEnv } from '../utils';
-
 const SERVICE_NAME = 'erp-front';
 const DEFAULT_OTLP_ENDPOINT = 'http://localhost:4318';
 
 let initialized = false;
 
+const getImportMetaEnv = () =>
+  typeof import.meta !== 'undefined' && (import.meta as ImportMeta).env ? (import.meta as ImportMeta).env : undefined;
+
+const isDevelopmentEnvironment = () => {
+  const importMetaEnv = getImportMetaEnv();
+
+  if (importMetaEnv?.MODE === 'development' || importMetaEnv?.VITE_APP_ENV === 'dev') {
+    return true;
+  }
+
+  if (typeof process !== 'undefined') {
+    const { NODE_ENV, VITE_APP_ENV } = process.env ?? {};
+    return NODE_ENV === 'development' || VITE_APP_ENV === 'dev';
+  }
+
+  return false;
+};
+
 const getOtlpEndpoint = () => {
-  const fromImportMeta = (() => {
-    try {
-      return (0, eval)('import.meta')?.env?.VITE_OTEL_EXPORTER_OTLP_ENDPOINT as string | undefined;
-    } catch (error) {
-      return undefined;
-    }
-  })();
+  const fromImportMeta = getImportMetaEnv()?.VITE_OTEL_EXPORTER_OTLP_ENDPOINT as string | undefined;
 
   const fromProcess = typeof process !== 'undefined' ? process.env?.OTEL_EXPORTER_OTLP_ENDPOINT : undefined;
 
@@ -102,7 +112,7 @@ const configureLogs = (resource: Resource, otlpEndpoint: string) => {
 export const initializeObservability = () => {
   if (initialized) return;
   if (typeof window === 'undefined') return;
-  if (getEnv() !== 'dev') return;
+  if (!isDevelopmentEnvironment()) return;
 
   const resource = createResource();
   const otlpEndpoint = getOtlpEndpoint();
