@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { ThemeContext, ThemeMode } from '@shared/theme/ThemeContext';
 import { AppLayout } from '../AppLayout';
 import { Sidebar } from '../components/sidebar/Sidebar';
@@ -28,6 +28,14 @@ jest.mock('@shared/hooks/usePersistentState', () => ({
   usePersistentState: jest.fn(),
 }));
 
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: jest.fn(),
+  };
+});
+
 jest.mock('menuItems', () => ({
   menuItems: [
     { path: '/home', label: 'Home', icon: <span>H</span> },
@@ -39,6 +47,7 @@ jest.mock('menuItems', () => ({
 
 const mockUseAuth = useAuth as jest.Mock;
 const mockUsePersistentState = usePersistentState as jest.Mock;
+const mockUseNavigate = useNavigate as jest.Mock;
 
 const renderWithTheme = (ui: React.ReactNode, mode: ThemeMode = 'dark') =>
   render(
@@ -56,6 +65,7 @@ describe('Layout components', () => {
     mockUsePersistentState.mockImplementation((_key: string, initial: any) =>
       useState(initial)
     );
+    mockUseNavigate.mockReturnValue(jest.fn());
   });
 
   afterEach(() => {
@@ -88,10 +98,10 @@ describe('Layout components', () => {
   });
 
   it('renders Logo text conditionally', () => {
-    render(<Logo />);
+    const { rerender } = render(<Logo />);
     expect(screen.getByText('Cardapius')).toBeInTheDocument();
 
-    render(<Logo showText={false} />);
+    rerender(<Logo showText={false} />);
     expect(screen.queryByText('Cardapius')).not.toBeInTheDocument();
   });
 
@@ -160,14 +170,14 @@ describe('Layout components', () => {
     );
 
     expect(screen.getByText(/Cardapius/)).toBeInTheDocument();
-    const toggle = screen.getByRole('button');
+    const toggle = screen.getByLabelText(/recolher/i);
     fireEvent.click(toggle);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByLabelText(/recolher/i)).toBeInTheDocument();
   });
 
   it('renders UserCard in expanded mode', () => {
     const navigate = jest.fn();
-    jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigate);
+    mockUseNavigate.mockReturnValue(navigate);
 
     render(
       <ThemeContext.Provider value={{ mode: 'dark', setMode: jest.fn() }}>
@@ -184,7 +194,7 @@ describe('Layout components', () => {
 
   it('renders UserCardActions and navigates on signout', () => {
     const navigate = jest.fn();
-    jest.spyOn(require('react-router-dom'), 'useNavigate').mockReturnValue(navigate);
+    mockUseNavigate.mockReturnValue(navigate);
 
     render(
       <MemoryRouter>
