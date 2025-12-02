@@ -39,6 +39,8 @@ describe('authService', () => {
     jest.clearAllMocks();
     mockCreateAuthClient.mockClear();
     consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    (authService as any).initialized = false;
+    (authService as any).userLoadedListeners?.clear?.();
     getUser.mockResolvedValue({ expired: false });
     signinRedirect.mockResolvedValue(undefined);
     signinRedirectCallback.mockResolvedValue({ state: { returnTo: '/home' } });
