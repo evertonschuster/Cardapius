@@ -119,7 +119,6 @@ describe('UserCardHeader', () => {
         name="Header User"
         email="header@example.com"
         avatarUrl="header.png"
-        planLabel="Premium"
       />
     );
 
