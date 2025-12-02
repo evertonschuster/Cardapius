@@ -21,7 +21,6 @@ export const UserCard: React.FC<UserCardProps> = ({ collapsed = false }) => {
 
   const name = user?.profile.name ?? "Desconhecido";
   const email = user?.profile.email ?? "desconhecido";
-  const planLabel = "Starter"
   const avatarUrl = "/static/images/avatars/avatar_2.png"
 
   return (
@@ -68,7 +67,6 @@ export const UserCard: React.FC<UserCardProps> = ({ collapsed = false }) => {
             name={name}
             email={email}
             avatarUrl={avatarUrl}
-            planLabel={planLabel}
           />
 
           <UserCardActions

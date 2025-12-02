@@ -1,20 +1,17 @@
 import * as React from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { UserCardAvatar } from "./UserCardAvatar";
-import { UserCardPlanChip } from "./UserCardPlanChip";
 
 type UserCardHeaderProps = {
   name: string;
   email: string;
   avatarUrl?: string;
-  planLabel: string;
 };
 
 export const UserCardHeader: React.FC<UserCardHeaderProps> = ({
   name,
   email,
   avatarUrl,
-  planLabel,
 }) => {
   return (
     <Stack
@@ -53,8 +50,6 @@ export const UserCardHeader: React.FC<UserCardHeaderProps> = ({
           {email}
         </Typography>
       </Box>
-
-      <UserCardPlanChip label={planLabel} />
     </Stack>
   );
 };

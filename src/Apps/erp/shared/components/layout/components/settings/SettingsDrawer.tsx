@@ -9,13 +9,11 @@ export type ThemeMode = "light" | "dark";
 export interface SettingsDrawerProps {
   open: boolean;
   onClose: () => void;
-  onChangeThemeMode?: (mode: ThemeMode) => void;
 }
 
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   open,
   onClose,
-  onChangeThemeMode,
 }) => {
 
   return (
@@ -52,7 +50,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             gap: 3,
           }}
         >
-          <ModeSection onChangeThemeMode={onChangeThemeMode} />
+          <ModeSection />
         </Box>
       </Box>
     </Drawer>

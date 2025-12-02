@@ -5,10 +5,9 @@ import { ThemeMode } from "./SettingsDrawer";
 import { useThemeMode } from "@shared/theme/ThemeContext";
 
 export interface ModeSectionProps {
-  onChangeThemeMode?: (mode: ThemeMode) => void;
 }
 
-export const ModeSection: React.FC<ModeSectionProps> = ({ onChangeThemeMode }) => {
+export const ModeSection: React.FC<ModeSectionProps> = () => {
 
   const { mode, setMode } = useThemeMode();
 
@@ -16,7 +15,6 @@ export const ModeSection: React.FC<ModeSectionProps> = ({ onChangeThemeMode }) =
   ) => {
     if (!newMode) return;
     setMode(newMode);
-    onChangeThemeMode?.(newMode);
   };
 
   return (
