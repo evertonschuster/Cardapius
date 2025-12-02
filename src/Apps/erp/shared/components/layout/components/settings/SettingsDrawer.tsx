@@ -1,5 +1,5 @@
 // src/components/settings/SettingsDrawer.tsx
-import React, { useState } from "react";
+import React from "react";
 import { Drawer, Box, Divider } from "@mui/material";
 import { SettingsHeader } from "./SettingsHeader";
 import { ModeSection } from "./ModeSection";

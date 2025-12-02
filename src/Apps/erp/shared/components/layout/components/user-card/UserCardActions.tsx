@@ -15,7 +15,7 @@ export const UserCardActions: React.FC<UserCardActionsProps> = ({onOpenSettings}
 
   const handleSignout = useCallback(() => {
     navigate("logout")
-  }, []);
+  }, [navigate]);
 
   return (
     <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-end" >

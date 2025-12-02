@@ -12,8 +12,16 @@ export const Callback = () => {
     const [error, setError] = useState<AuthErrorDetails | null>(null);
 
     useEffect(() => {
+        let active = true;
+
+        if (isAuthenticated) {
+            return;
+        }
+
         signinCallback()
             .then((response) => {
+                if (!active) return;
+
                 if (response?.error) {
                     setError(response.error);
                 }
@@ -24,7 +32,11 @@ export const Callback = () => {
                 console.error('Error during signin callback:', err);
             });
 
-    }, [isAuthenticated, signinCallback, user]);
+        return () => {
+            active = false;
+        }
+
+    }, [isAuthenticated, signinCallback, navigate]);
 
     if (error) {
         return <ProcessErrorDetails details={error} onRetry={signin} />;

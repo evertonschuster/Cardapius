@@ -54,6 +54,7 @@ export const UserCardHeader: React.FC<UserCardHeaderProps> = ({
         </Typography>
       </Box>
 
+      <UserCardPlanChip label={planLabel} />
     </Stack>
   );
 };
