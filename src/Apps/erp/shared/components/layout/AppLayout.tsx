@@ -13,7 +13,7 @@ export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         >
             <Sidebar />
             <Box component="main" sx={{ flex: 1 }}>
-                <Outlet />
+                {children ?? <Outlet />}
             </Box>
         </Box>
     )

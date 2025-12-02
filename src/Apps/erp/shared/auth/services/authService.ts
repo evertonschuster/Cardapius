@@ -8,17 +8,29 @@ class AuthService {
 
     protected userManager: AuthClient = createAuthClient();
     private userLoadedListeners = new Set<UserLoadedListener>();
+    private initialized = false;
 
     async initAsync(): Promise<AuthState> {
-        this.userManager.events.addUserLoaded(this.onUserLoaded.bind(this))
-        this.userManager.events.addUserUnloaded(this.onUserUnloaded.bind(this));
-        this.userManager.events.addSilentRenewError(this.signoutAsync.bind(this));
+        if (!this.initialized) {
+            this.userManager.events.addUserLoaded(this.onUserLoaded.bind(this))
+            this.userManager.events.addUserUnloaded(this.onUserUnloaded.bind(this));
+            this.userManager.events.addSilentRenewError(this.signoutAsync.bind(this));
+            this.initialized = true;
+        }
 
-        let user = await this.userManager.getUser();
+        try {
+            const user = await this.userManager.getUser();
 
-        return {
-            user: user,
-            isAuthenticated: !!user && !user.expired,
+            return {
+                user: user,
+                isAuthenticated: !!user && !user.expired,
+            }
+        } catch (error) {
+            console.error('Error loading user session:', error);
+            return {
+                user: null,
+                isAuthenticated: false,
+            }
         }
     }
 
@@ -82,7 +94,7 @@ class AuthService {
         }
     }
 
-    private redirectReturnTo(loggedUser: AuthUser) {
+    private redirectReturnTo(loggedUser: AuthUser | null) {
         const state = (loggedUser?.state as any) || {};
         const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
 

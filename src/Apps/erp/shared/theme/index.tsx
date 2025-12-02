@@ -23,7 +23,7 @@ export const getTheme = (mode: ThemeMode) =>
 
 
 export const AppThemeContext = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = usePersistentState<ThemeMode>("thmeMode", "dark");
+  const [mode, setMode] = usePersistentState<ThemeMode>("themeMode", "dark");
   const theme = useMemo(() => getTheme(mode), [mode]);
 
   return (
