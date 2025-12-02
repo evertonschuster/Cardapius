@@ -33,15 +33,22 @@ import { createAuthClient } from './authClient';
 const mockCreateAuthClient = createAuthClient as jest.Mock;
 
 describe('authService', () => {
+  let consoleErrorSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
     mockCreateAuthClient.mockClear();
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     getUser.mockResolvedValue({ expired: false });
     signinRedirect.mockResolvedValue(undefined);
     signinRedirectCallback.mockResolvedValue({ state: { returnTo: '/home' } });
     signoutRedirect.mockResolvedValue(undefined);
     sessionStorage.clear();
     window.history.pushState({}, '', '/');
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   it('initializes only once and returns auth state', async () => {
@@ -60,6 +67,10 @@ describe('authService', () => {
 
     const state = await authService.initAsync();
     expect(state.isAuthenticated).toBe(false);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Error loading user session:',
+      expect.any(Error)
+    );
   });
 
   it('performs signin redirect and stores returnTo', async () => {
