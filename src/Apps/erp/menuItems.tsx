@@ -17,7 +17,7 @@ export type MenuItem = {
 const normalizeText = (value: string) =>
     value
         .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '')
+        .replaceAll(/\p{Diacritic}/gu, '')
         .toLowerCase();
 
 export const buildSearchTerms = (searchTerm: string) =>

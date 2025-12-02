@@ -2,7 +2,7 @@ import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 
 export function usePersistentState<T>(key: string, defaultValue: T): [T, Dispatch<SetStateAction<T>>] {
   const [value, setValue] = useState<T>(() => {
-    if (typeof window === "undefined") return defaultValue;
+    if (typeof globalThis.window === "undefined") return defaultValue;
 
     const saved = localStorage.getItem(key);
     if (!saved) return defaultValue;

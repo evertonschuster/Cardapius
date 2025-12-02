@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export const Callback = () => {
 
     const navigate = useNavigate();
-    const { signinCallback, signin, user, isAuthenticated } = useAuth();
+    const { signinCallback, signin, isAuthenticated } = useAuth();
     const [error, setError] = useState<AuthErrorDetails | null>(null);
 
     useEffect(() => {

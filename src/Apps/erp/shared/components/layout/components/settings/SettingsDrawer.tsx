@@ -15,6 +15,7 @@ export interface SettingsDrawerProps {
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   open,
   onClose,
+  onChangeThemeMode,
 }) => {
 
   return (
@@ -22,11 +23,13 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
       anchor="right"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: 360,
-          bgcolor: "background.default",
-          color: "text.primary",
+      slotProps={{
+        paper: {
+          sx: {
+            width: 360,
+            bgcolor: "background.default",
+            color: "text.primary",
+          },
         },
       }}
     >
@@ -49,7 +52,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             gap: 3,
           }}
         >
-          <ModeSection />
+          <ModeSection onChangeThemeMode={onChangeThemeMode} />
         </Box>
       </Box>
     </Drawer>

@@ -8,6 +8,7 @@ const config: Config = {
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
+    '^menuItems$': '<rootDir>/menuItems',
     '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
     '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/__mocks__/fileMock.ts'
   },
@@ -20,6 +21,7 @@ const config: Config = {
       }
     ]
   },
+  coveragePathIgnorePatterns: ['<rootDir>/__mocks__/fileMock.ts'],
   coverageThreshold: {
     global: {
       branches: 80,
