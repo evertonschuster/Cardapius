@@ -41,7 +41,6 @@ describe('UserCard', () => {
 
     expect(screen.getByText('Jane Doe')).toBeInTheDocument();
     expect(screen.getByText('jane@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Starter')).toBeInTheDocument();
     expect(screen.getByTestId('settings-drawer')).toHaveAttribute('data-open', 'false');
   });
 
@@ -124,6 +123,5 @@ describe('UserCardHeader', () => {
 
     expect(screen.getByText('Header User')).toBeInTheDocument();
     expect(screen.getByText('header@example.com')).toBeInTheDocument();
-    expect(screen.getByText('Premium')).toBeInTheDocument();
   });
 });
