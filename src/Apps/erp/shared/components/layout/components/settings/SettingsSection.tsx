@@ -15,7 +15,6 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
       <Typography
         variant="caption"
         sx={{
-          color: "text.secondary",
           fontWeight: 500,
           mb: 1,
           display: "block",

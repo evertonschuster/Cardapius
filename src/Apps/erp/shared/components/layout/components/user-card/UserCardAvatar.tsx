@@ -24,7 +24,7 @@ export const UserCardAvatar: React.FC<UserCardAvatarProps> = ({
       sx={{
         "& .MuiBadge-badge": (theme) => ({
           backgroundColor: "#22C55E",
-          border: `2px solid ${theme.palette.mode === "dark" ? "#111827" : theme.palette.background.paper}`,
+          border: `2px solid ${theme.palette.background.paper}`,
           width: 10,
           height: 10,
         }),

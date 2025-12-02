@@ -24,10 +24,7 @@ export const UserCardActions: React.FC<UserCardActionsProps> = ({onOpenSettings}
         onClick={onOpenSettings}
         sx={{
           border: (theme) =>
-            `1px solid ${theme.palette.mode === "dark"
-              ? "#374151"
-              : theme.palette.divider
-            }`,
+            `1px solid ${theme.palette.divider}`,
         }}
       >
         <SettingsIcon fontSize="small" />
@@ -38,10 +35,7 @@ export const UserCardActions: React.FC<UserCardActionsProps> = ({onOpenSettings}
         onClick={handleSignout}
         sx={{
           border: (theme) =>
-            `1px solid ${theme.palette.mode === "dark"
-              ? "#374151"
-              : theme.palette.divider
-            }`,
+            `1px solid ${theme.palette.divider}`,
         }}
       >
         <LogoutIcon fontSize="small" />

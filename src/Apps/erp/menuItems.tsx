@@ -14,40 +14,6 @@ export type MenuItem = {
     keywords?: string[];
 };
 
-const normalizeText = (value: string) =>
-    value
-        .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '')
-        .toLowerCase();
-
-export const buildSearchTerms = (searchTerm: string) =>
-    normalizeText(searchTerm)
-        .split(/\s+/)
-        .filter(Boolean);
-
-export const matchesMenuItemSearch = (item: MenuItem, terms: string[]) => {
-    if (!terms.length) return true;
-
-    const haystack = [
-        normalizeText(item.label),
-        normalizeText(item.path),
-        ...(item.keywords?.map(normalizeText) ?? []),
-    ].join(' ');
-
-    return terms.every((term) => haystack.includes(term));
-};
-
-export const filterMenuItems = (
-    items: MenuItem[],
-    searchTerm: string,
-    hasRole: (role: string) => boolean,
-) => {
-    const terms = buildSearchTerms(searchTerm);
-
-    return items.filter(
-        (item) => (!item.roles || item.roles.every(hasRole)) && matchesMenuItemSearch(item, terms),
-    );
-};
 
 export const menuItems: MenuItem[] = [
     {
@@ -84,3 +50,39 @@ export const menuItems: MenuItem[] = [
         keywords: ['inventário', 'produtos'],
     },
 ];
+
+
+const normalizeText = (value: string) =>
+    value
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase();
+
+export const buildSearchTerms = (searchTerm: string) =>
+    normalizeText(searchTerm)
+        .split(/\s+/)
+        .filter(Boolean);
+
+export const matchesMenuItemSearch = (item: MenuItem, terms: string[]) => {
+    if (!terms.length) return true;
+
+    const haystack = [
+        normalizeText(item.label),
+        normalizeText(item.path),
+        ...(item.keywords?.map(normalizeText) ?? []),
+    ].join(' ');
+
+    return terms.every((term) => haystack.includes(term));
+};
+
+export const filterMenuItems = (
+    items: MenuItem[],
+    searchTerm: string,
+    hasRole: (role: string) => boolean,
+) => {
+    const terms = buildSearchTerms(searchTerm);
+
+    return items.filter(
+        (item) => (!item.roles || item.roles.every(hasRole)) && matchesMenuItemSearch(item, terms),
+    );
+};

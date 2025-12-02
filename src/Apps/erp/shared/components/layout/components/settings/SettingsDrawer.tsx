@@ -1,4 +1,3 @@
-// src/components/settings/SettingsDrawer.tsx
 import React from "react";
 import { Drawer, Box, Divider } from "@mui/material";
 import { SettingsHeader } from "./SettingsHeader";
@@ -25,8 +24,6 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         paper: {
           sx: {
             width: 360,
-            bgcolor: "background.default",
-            color: "text.primary",
           },
         },
       }}

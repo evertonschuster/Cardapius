@@ -26,7 +26,12 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ roles, children }) =
         })
         .catch((err) => {
           console.error('Error during signin callback:', err);
-          setError({ title: 'Erro ao autenticar', description: err?.message ?? 'Não foi possível autenticar.' });
+          if (err) {
+            setError(err);
+          }
+          else {
+            setError({ title: 'Erro ao autenticar', description: err?.message ?? 'Não foi possível autenticar.' });
+          }
         });
     }
   }, [isAuthenticated, signin]);

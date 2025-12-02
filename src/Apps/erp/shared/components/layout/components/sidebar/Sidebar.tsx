@@ -21,18 +21,10 @@ export const Sidebar: React.FC = () => {
         <Box
             sx={{
                 width,
-                transition: (theme) =>
-                    theme.transitions.create("width", {
-                        duration: theme.transitions.duration.standard,
-                        easing: theme.transitions.easing.easeInOut,
-                    }),
+                transition: (theme) => theme.transitions.create("width"),
                 flexShrink: 0,
-                bgcolor: "background.paper",
                 borderRight: (theme) =>
-                    `1px solid ${theme.palette.mode === "dark"
-                        ? "#1F2937"
-                        : theme.palette.divider
-                    }`,
+                    `1px solid ${theme.palette.divider}`,
                 display: "flex",
                 flexDirection: "column",
             }}

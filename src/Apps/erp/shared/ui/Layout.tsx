@@ -12,7 +12,6 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           flex: 1,
           minHeight: "100vh",
           minWidth: "100vw",
-          bgcolor: "background.default",
         }}
       >
         {children}

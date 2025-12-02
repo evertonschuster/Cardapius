@@ -21,7 +21,10 @@ const config: Config = {
       }
     ]
   },
-  coveragePathIgnorePatterns: ['<rootDir>/__mocks__/fileMock.ts'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/__mocks__/fileMock.ts',
+    '<rootDir>/__mocks__/styleMock.ts',
+  ],
   coverageThreshold: {
     global: {
       branches: 80,

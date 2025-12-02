@@ -24,15 +24,7 @@ export const ModeSection: React.FC<ModeSectionProps> = () => {
         exclusive
         onChange={handleChange}
         fullWidth
-        sx={{
-          "& .MuiToggleButton-root": {
-            flex: 1,
-            textTransform: "none",
-            py: 1.2,
-            borderRadius: 1,
-            borderColor: "divider",
-          },
-        }}
+        size="small"
       >
         <ToggleButton value="light">Light</ToggleButton>
         <ToggleButton value="dark">Dark</ToggleButton>

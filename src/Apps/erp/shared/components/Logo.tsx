@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import logoImg from '../assets/logo.png'
 
@@ -17,7 +17,7 @@ export const Logo: React.FC<LogoProps> = ({ showText = true }) => {
                 width={40}
                 src={logoImg}
                 alt="Cardapius logo"
-                />
+            />
             {showText && (
                 <Typography
                     p={1}
