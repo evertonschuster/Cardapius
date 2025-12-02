@@ -92,7 +92,9 @@ export const Sidemenu: React.FC<SidemenuProps> = ({ collapsed = false }) => {
                                             overflow: 'hidden',
                                             whiteSpace: 'nowrap',
                                         })}
-                                        primaryTypographyProps={{ noWrap: true }}
+                                        slotProps={{
+                                            primary: { noWrap: true },
+                                        }}
                                     />
                                 </ListItemButton>
                             </Tooltip>

@@ -25,9 +25,10 @@ export const getTheme = (mode: ThemeMode) =>
 export const AppThemeContext = ({ children }: { children: ReactNode }) => {
   const [mode, setMode] = usePersistentState<ThemeMode>("themeMode", "dark");
   const theme = useMemo(() => getTheme(mode), [mode]);
+  const contextValue = useMemo(() => ({ mode, setMode }), [mode, setMode]);
 
   return (
-    <ThemeContext.Provider value={{ mode, setMode }}>
+    <ThemeContext.Provider value={contextValue}>
       <ThemeProvider theme={theme} >
 
         <CssBaseline />
