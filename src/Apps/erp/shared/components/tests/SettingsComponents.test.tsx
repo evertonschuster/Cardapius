@@ -73,7 +73,22 @@ describe('ModeSection', () => {
     const setMode = jest.fn();
     const user = userEvent.setup();
 
-    renderWithTheme(<ModeSection />, { mode: 'dark', setMode });
+    const Wrapper = () => {
+      const [mode, setModeState] = React.useState<ThemeMode>('dark');
+
+      const handleSetMode = (nextMode: ThemeMode) => {
+        setMode(nextMode);
+        setModeState(nextMode);
+      };
+
+      return (
+        <ThemeContext.Provider value={{ mode, setMode: handleSetMode }}>
+          <ModeSection />
+        </ThemeContext.Provider>
+      );
+    };
+
+    render(<Wrapper />);
 
     await user.click(screen.getByRole('button', { name: /light/i }));
     await user.click(screen.getByRole('button', { name: /dark/i }));
