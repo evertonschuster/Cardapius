@@ -82,6 +82,6 @@ public class UserTokenServiceTests
 
         result.Should().BeSameAs(principal);
         result.FindFirst(OpenIddictConstants.Claims.Subject)!.Value.Should().Be("123");
-        result.GetScopes().Should().BeEquivalentTo(new[] { "email", "profile" });
+        result.GetScopes().Should().BeEquivalentTo(["email", "profile"]);
     }
 }
