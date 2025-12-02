@@ -10,7 +10,8 @@ const config: Config = {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
     '^menuItems$': '<rootDir>/menuItems',
-    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts'
+    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
+    '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/__mocks__/fileMock.ts'
   },
   transform: {
     '^.+\\.(t|j)sx?$': [
