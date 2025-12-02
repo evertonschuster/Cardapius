@@ -39,6 +39,7 @@ describe('SettingsHeader', () => {
     render(<SettingsHeader onClose={onClose} />);
 
     expect(screen.getByText('Configurações do sistema')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /close settings/i })).toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: /close settings/i }));
     expect(onClose).toHaveBeenCalledTimes(1);
@@ -67,6 +68,19 @@ describe('ModeSection', () => {
     await user.click(screen.getByRole('button', { name: /light/i }));
     expect(setMode).not.toHaveBeenCalled();
   });
+
+  it('lets users toggle between modes sequentially', async () => {
+    const setMode = jest.fn();
+    const user = userEvent.setup();
+
+    renderWithTheme(<ModeSection />, { mode: 'dark', setMode });
+
+    await user.click(screen.getByRole('button', { name: /light/i }));
+    await user.click(screen.getByRole('button', { name: /dark/i }));
+
+    expect(setMode).toHaveBeenNthCalledWith(1, 'light');
+    expect(setMode).toHaveBeenNthCalledWith(2, 'dark');
+  });
 });
 
 describe('SettingsDrawer', () => {
@@ -79,6 +93,7 @@ describe('SettingsDrawer', () => {
 
     expect(screen.getByText('Configurações do sistema')).toBeInTheDocument();
     expect(screen.getByText(/mode/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /dark/i })).toHaveAttribute('aria-pressed', 'true');
 
     await user.click(screen.getByRole('button', { name: /close settings/i }));
     expect(onClose).toHaveBeenCalledTimes(1);
