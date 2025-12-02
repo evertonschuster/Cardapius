@@ -139,11 +139,12 @@ describe('authService', () => {
     unsubscribe();
     userLoadedHandler({ name: 'doe' } as any);
 
-    expect(okListener).toHaveBeenCalledTimes(2);
+    expect(okListener).toHaveBeenCalledTimes(1);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Erro em listener de userLoaded:',
       expect.any(Error)
     );
+    expect(consoleErrorSpy).toHaveBeenCalledTimes(2);
   });
 
   it('returns error details on signout failure', async () => {
