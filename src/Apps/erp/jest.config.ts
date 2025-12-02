@@ -29,7 +29,11 @@ const config: Config = {
       lines: 80,
       statements: 80
     }
-  }
+  },
+  collectCoverageFrom: [
+  "src/**/*.{ts,tsx}",
+  "!src/shared/config/index.ts",
+],
 };
 
 export default config;
