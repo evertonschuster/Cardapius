@@ -81,10 +81,67 @@ describe('authService', () => {
     expect(signinRedirect).toHaveBeenCalled();
   });
 
+  it('returns error details when signin redirect fails', async () => {
+    signinRedirect.mockRejectedValueOnce(new TypeError('network down'));
+
+    const error = await authService.signinAsync();
+
+    expect(error?.code).toBe('network_error');
+    expect(error?.description).toBe('network down');
+    expect(error?.authority).toBe('auth');
+  });
+
   it('returns redirect from signinCallbackAsync', async () => {
     const response = await authService.signinCallbackAsync();
     expect(response.redirectTo).toBe('/home');
     expect(sessionStorage.getItem('returnTo')).toBeNull();
+  });
+
+  it('returns error from signinCallbackAsync when callback fails', async () => {
+    window.history.pushState({}, '', '/callback?error=server_error&error_description=bad');
+    signinRedirectCallback.mockRejectedValueOnce({
+      error: 'login_required',
+      state: { traceId: 't1', requestId: 'r1' },
+    });
+
+    const response = await authService.signinCallbackAsync();
+
+    expect(response.error?.title).toBe('Sua sessão expirou');
+    expect(response.error?.description).toBe('bad');
+    expect(response.error?.traceId).toBe('t1');
+    expect(response.error?.requestId).toBe('r1');
+    expect(response.error?.clientId).toBe('client');
+  });
+
+  it('sanitizes redirect when returning from auth routes', async () => {
+    sessionStorage.setItem('returnTo', '/callback?next=1');
+    signinRedirectCallback.mockResolvedValueOnce({ state: { returnTo: '/login/step' } });
+
+    const response = await authService.signinCallbackAsync();
+
+    expect(response.redirectTo).toBe('/');
+    expect(sessionStorage.getItem('returnTo')).toBeNull();
+  });
+
+  it('notifies userLoaded listeners and handles listener errors', async () => {
+    const okListener = jest.fn();
+    const failingListener = jest.fn(() => { throw new Error('boom'); });
+
+    const unsubscribe = authService.addUserLoaded(okListener);
+    authService.addUserLoaded(failingListener);
+
+    await authService.initAsync();
+    const userLoadedHandler = addUserLoaded.mock.calls[0][0];
+
+    userLoadedHandler({ name: 'john' } as any);
+    unsubscribe();
+    userLoadedHandler({ name: 'doe' } as any);
+
+    expect(okListener).toHaveBeenCalledTimes(2);
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Erro em listener de userLoaded:',
+      expect.any(Error)
+    );
   });
 
   it('returns error details on signout failure', async () => {
