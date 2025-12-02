@@ -1,6 +1,8 @@
 import authService from './authService';
 import { createAuthClient } from './authClient';
 
+jest.mock('./authClient');
+
 const addUserLoaded = jest.fn();
 const addUserUnloaded = jest.fn();
 const addSilentRenewError = jest.fn();
@@ -9,30 +11,27 @@ const signinRedirect = jest.fn();
 const signinRedirectCallback = jest.fn();
 const signoutRedirect = jest.fn();
 
-jest.mock('./authClient', () => ({
-  createAuthClient: jest.fn(() => ({
-    getUser,
-    signinRedirect,
-    signinRedirectCallback,
-    signoutRedirect,
-    events: {
-      addUserLoaded,
-      addUserUnloaded,
-      addSilentRenewError,
-    },
-    settings: {
-      authority: 'auth',
-      client_id: 'client',
-      redirect_uri: '/callback',
-    },
-  })),
-}));
-
 const mockCreateAuthClient = createAuthClient as jest.Mock;
 
 describe('authService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCreateAuthClient.mockReturnValue({
+      getUser,
+      signinRedirect,
+      signinRedirectCallback,
+      signoutRedirect,
+      events: {
+        addUserLoaded,
+        addUserUnloaded,
+        addSilentRenewError,
+      },
+      settings: {
+        authority: 'auth',
+        client_id: 'client',
+        redirect_uri: '/callback',
+      },
+    });
     getUser.mockResolvedValue({ expired: false });
     signinRedirect.mockResolvedValue(undefined);
     signinRedirectCallback.mockResolvedValue({ state: { returnTo: '/home' } });

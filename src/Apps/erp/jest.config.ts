@@ -9,6 +9,7 @@ const config: Config = {
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
+    '^menuItems$': '<rootDir>/menuItems',
     '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts'
   },
   transform: {
