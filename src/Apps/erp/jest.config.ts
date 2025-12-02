@@ -5,11 +5,9 @@ const config: Config = {
   testEnvironment: 'jest-environment-jsdom',
   roots: ['<rootDir>'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
-    '^menuItems$': '<rootDir>/menuItems',
     '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
     '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/__mocks__/fileMock.ts'
   },
@@ -30,10 +28,6 @@ const config: Config = {
       statements: 80
     }
   },
-  collectCoverageFrom: [
-  "src/**/*.{ts,tsx}",
-  "!src/shared/config/index.ts",
-],
 };
 
 export default config;
