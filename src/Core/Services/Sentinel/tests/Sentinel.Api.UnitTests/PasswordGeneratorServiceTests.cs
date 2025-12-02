@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Sentinel.Api.Services;
 
+namespace Sentinel.Api.UnitTests;
+
 public class PasswordGeneratorServiceTests
 {
     [Fact]

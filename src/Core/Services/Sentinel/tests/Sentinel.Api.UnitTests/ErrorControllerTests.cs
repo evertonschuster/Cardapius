@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sentinel.Api.Controllers;
 
+namespace Sentinel.Api.UnitTests;
+
+
 public class ErrorControllerTests
 {
     [Fact]

@@ -8,6 +8,8 @@ using Sentinel.Api.Models;
 using Sentinel.Api.Services;
 using System.Security.Claims;
 
+namespace Sentinel.Api.UnitTests;
+
 public class UserTokenServiceTests
 {
     private static (UserTokenService Service, Mock<UserManager<ApplicationUser>> UserManager, Mock<SignInManager<ApplicationUser>> SignInManager) CreateService()
@@ -67,7 +69,12 @@ public class UserTokenServiceTests
     public async Task CreatePrincipalAsync_SetsSubjectAndScopes()
     {
         var (service, _, signInManager) = CreateService();
-        var user = new ApplicationUser { Id = "123" };
+        var user = new ApplicationUser
+        {
+            Id = "123",
+            UserName = "admin",
+            Email = "admin@gmail.com"
+        };
         var principal = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim("type", "value") }));
         signInManager.Setup(x => x.CreateUserPrincipalAsync(user)).ReturnsAsync(principal);
 
@@ -75,6 +82,6 @@ public class UserTokenServiceTests
 
         result.Should().BeSameAs(principal);
         result.FindFirst(OpenIddictConstants.Claims.Subject)!.Value.Should().Be("123");
-        result.GetScopes().Should().BeEquivalentTo(new[] { "email", "profile" });
+        result.GetScopes().Should().BeEquivalentTo(["email", "profile"]);
     }
 }

@@ -2,6 +2,8 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Sentinel.Api.Middleware;
 
+namespace Sentinel.Api.UnitTests;
+
 public class CorrelationIdMiddlewareTests
 {
     [Fact]

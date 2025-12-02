@@ -3,39 +3,40 @@ import { useAuth } from '../AuthProvider';
 import { LoadProgressPage } from '../components/LoadProgressPage';
 import { ProcessErrorDetails } from '../components/ProcessErrorDetails';
 import { AuthErrorDetails } from '../types/AuthErrorDetails';
+import { useNavigate } from 'react-router-dom';
 
 export const Callback = () => {
 
+    const navigate = useNavigate();
+    const { signinCallback, signin, isAuthenticated } = useAuth();
     const [error, setError] = useState<AuthErrorDetails | null>(null);
-    const { signinCallback, signin, user, isAuthenticated } = useAuth();
 
     useEffect(() => {
-        let isMounted = true;
+        let active = true;
 
-        const processCallback = async () => {
-            if (isAuthenticated || user) {
-                return;
-            }
-
-            try {
-                const error = await Promise.resolve(signinCallback());
-                if (error && isMounted) {
-                    setError(error);
-                }
-            } catch (err) {
-                if (isMounted) {
-                    console.error('Error during signin callback:', err);
-                }
-            }
-        };
-
-        processCallback();
-
-        return () => {
-            isMounted = false;
+        if (isAuthenticated) {
+            return;
         }
 
-    }, [isAuthenticated, signinCallback, user]);
+        signinCallback()
+            .then((response) => {
+                if (!active) return;
+
+                if (response?.error) {
+                    setError(response.error);
+                }
+                if (response?.redirectTo) {
+                    navigate(response.redirectTo);
+                }
+            }).catch((err) => {
+                console.error('Error during signin callback:', err);
+            });
+
+        return () => {
+            active = false;
+        }
+
+    }, [isAuthenticated, signinCallback, navigate]);
 
     if (error) {
         return <ProcessErrorDetails details={error} onRetry={signin} />;

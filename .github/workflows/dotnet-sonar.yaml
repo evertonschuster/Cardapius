@@ -11,6 +11,8 @@ jobs:
   build-and-test:
     name: Build, Test and Analyze
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
       - name: Checkout repository
@@ -33,7 +35,7 @@ jobs:
           dotnet-sonarscanner begin \
             /k:"evertonschuster_Cardapius" \
             /o:"evertonschuster-1" \
-            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.login="$SONAR_TOKEN" \
             /d:sonar.cs.opencover.reportsPaths="coverage-report/*.xml" \
             /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/Migrations/**,**/*Api*/**/*.cs,**/.github/**" \
             /d:sonar.projectBaseDir="$(pwd)"
@@ -45,4 +47,4 @@ jobs:
         run: bash scripts/run_tests.sh
 
       - name: End SonarCloud analysis
-        run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        run: dotnet-sonarscanner end /d:sonar.login="$SONAR_TOKEN"

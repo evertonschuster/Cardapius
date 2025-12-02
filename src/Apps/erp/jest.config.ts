@@ -8,16 +8,23 @@ const config: Config = {
   moduleNameMapper: {
     '^@modules/(.*)$': '<rootDir>/modules/$1',
     '^@shared/(.*)$': '<rootDir>/shared/$1',
-    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts'
+    '^menuItems$': '<rootDir>/menuItems',
+    '\\.(css|less)$': '<rootDir>/__mocks__/styleMock.ts',
+    '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/__mocks__/fileMock.ts'
   },
   transform: {
     '^.+\\.(t|j)sx?$': [
       'ts-jest',
       {
+        useESM: true,
         tsconfig: '<rootDir>/tsconfig.json'
       }
     ]
   },
+  coveragePathIgnorePatterns: [
+    '<rootDir>/__mocks__/fileMock.ts',
+    '<rootDir>/__mocks__/styleMock.ts',
+  ],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -25,7 +32,7 @@ const config: Config = {
       lines: 80,
       statements: 80
     }
-  }
+  },
 };
 
 export default config;

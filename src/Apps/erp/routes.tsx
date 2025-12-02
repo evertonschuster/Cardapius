@@ -1,4 +1,3 @@
-import React from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { AdminDashboard } from '@modules/admin';
 import { PdvSales } from '@modules/pdv';
@@ -8,6 +7,7 @@ import { PrivateRoute, Login } from '@shared/auth';
 import { Callback } from '@shared/auth/pages/Callback';
 import { Logout } from '@shared/auth/pages/Logout';
 import { Home } from '@modules/home/pages/Home';
+import { AppLayout } from '@shared/components/layout/AppLayout';
 
 const routes: RouteObject[] = [
   { path: '/login', element: <Login /> },
@@ -15,12 +15,14 @@ const routes: RouteObject[] = [
   { path: '/logout', element: <Logout /> },
   {
     path: '/',
-    element: <PrivateRoute />,
+    element: <AppLayout />,
     children: [
       {
         path: 'admin',
         element: (
+          <PrivateRoute roles={['admin']}>
             <AdminDashboard />
+          </PrivateRoute>
         )
       },
       {

@@ -40,7 +40,7 @@ jobs:
             echo "🔍 Check $PACKAGE_NAME version $VERSION..."
 
             # Get the latest version of the package already published on GitHub Packages
-            LATEST_VERSION=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            LATEST_VERSION=$(curl -s -H "Authorization: token $NUGET_AUTH_TOKEN" \
               "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" | \
               jq -r --arg pkg "$PACKAGE_NAME" '.data[] | select(.name==$pkg) | .version' | sort -V | tail -n 1)
 
@@ -57,7 +57,7 @@ jobs:
             echo "🚀 Publishing $package..."
             dotnet nuget push "$package" \
               --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-              --api-key ${{ secrets.GITHUB_TOKEN }} \
+              --api-key "$NUGET_AUTH_TOKEN" \
               --skip-duplicate
           done
         env:

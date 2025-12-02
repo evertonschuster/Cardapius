@@ -1,6 +1,6 @@
 import { AuthUser } from "../types/AuthUser";
 import { AuthClient, createAuthClient, AuthState, UserLoadedListener } from "./authClient";
-import { AuthErrorDetails } from "../types/AuthErrorDetails";
+import { AuthErrorDetails, SigninCallbackRespose } from "../types/AuthErrorDetails";
 import { OidcService } from "./oidcService";
 
 
@@ -8,17 +8,29 @@ class AuthService {
 
     protected userManager: AuthClient = createAuthClient();
     private userLoadedListeners = new Set<UserLoadedListener>();
+    private initialized = false;
 
     async initAsync(): Promise<AuthState> {
-        this.userManager.events.addUserLoaded(this.onUserLoaded.bind(this))
-        this.userManager.events.addUserUnloaded(this.onUserUnloaded.bind(this));
-        this.userManager.events.addSilentRenewError(this.signoutAsync.bind(this));
+        if (!this.initialized) {
+            this.userManager.events.addUserLoaded(this.onUserLoaded.bind(this))
+            this.userManager.events.addUserUnloaded(this.onUserUnloaded.bind(this));
+            this.userManager.events.addSilentRenewError(this.signoutAsync.bind(this));
+            this.initialized = true;
+        }
 
-        let user = await this.userManager.getUser();
+        try {
+            const user = await this.userManager.getUser();
 
-        return {
-            user: user,
-            isAuthenticated: !!user && !user.expired,
+            return {
+                user: user,
+                isAuthenticated: !!user && !user.expired,
+            }
+        } catch (error) {
+            console.error('Error loading user session:', error);
+            return {
+                user: null,
+                isAuthenticated: false,
+            }
         }
     }
 
@@ -34,12 +46,13 @@ class AuthService {
         }
     }
 
-    async signinCallbackAsync(): Promise<AuthErrorDetails | void> {
+    async signinCallbackAsync(): Promise<SigninCallbackRespose> {
         try {
             const loggedUser = await this.userManager.signinRedirectCallback();
-            this.redirectReturnTo(loggedUser);
+            const redirectTo = this.redirectReturnTo(loggedUser);
+            return { redirectTo };
         } catch (error) {
-            return this.buildAuthErrorDetails(error)
+            return { error: this.buildAuthErrorDetails(error) };
         }
     }
 
@@ -81,7 +94,7 @@ class AuthService {
         }
     }
 
-    private redirectReturnTo(loggedUser: AuthUser) {
+    private redirectReturnTo(loggedUser: AuthUser | null) {
         const state = (loggedUser?.state as any) || {};
         const returnTo: string = state?.returnTo || sessionStorage.getItem('returnTo') || '/';
 
@@ -91,9 +104,9 @@ class AuthService {
         if (returnTo.startsWith('/login') ||
             returnTo.startsWith('/callback') ||
             returnTo.startsWith('/logout')) {
-            window.location.replace('/');
+            return '/';
         } else {
-            window.location.replace(returnTo);
+            return returnTo;
         }
     }
 

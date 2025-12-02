@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { Callback } from './Callback';
 import { useAuth } from '../AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 jest.mock('../AuthProvider', () => ({ useAuth: jest.fn() }));
 jest.mock('../components/LoadProgressPage', () => ({
@@ -10,33 +11,54 @@ jest.mock('../components/LoadProgressPage', () => ({
 jest.mock('../components/ProcessErrorDetails', () => ({
   ProcessErrorDetails: ({ details }: any) => <div>error:{details.title}</div>,
 }));
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
 
 const mockUseAuth = useAuth as jest.Mock;
+const mockUseNavigate = useNavigate as jest.Mock;
 
-describe('Callback', () => {
-  afterEach(() => {
+describe('Callback page', () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('calls signinCallback on mount when user not present', () => {
-    const signinCallback = jest.fn().mockResolvedValue(undefined);
-    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: false, user: null });
+  it('renders loading when already authenticated', () => {
+    mockUseAuth.mockReturnValue({
+      isAuthenticated: true,
+      signinCallback: jest.fn(),
+      signin: jest.fn(),
+    });
+
     render(<Callback />);
-    expect(signinCallback).toHaveBeenCalled();
-    expect(screen.getByText('Carregando informações...')).toBeInTheDocument();
+    expect(screen.getByText(/Carregando informações/i)).toBeInTheDocument();
   });
 
-  it('renders error when error is present', async () => {
-    const signinCallback = jest.fn().mockResolvedValue({ title: 'err' });
-    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: false, user: null });
+  it('navigates after successful callback', async () => {
+    const navigate = jest.fn();
+    mockUseNavigate.mockReturnValue(navigate);
+    mockUseAuth.mockReturnValue({
+      isAuthenticated: false,
+      signinCallback: jest.fn().mockResolvedValue({ redirectTo: '/home' }),
+      signin: jest.fn(),
+    });
+
     render(<Callback />);
-    expect(await screen.findByText('error:err')).toBeInTheDocument();
+
+    await waitFor(() => expect(navigate).toHaveBeenCalledWith('/home'));
   });
 
-  it('does not call signinCallback when user is already authenticated', () => {
-    const signinCallback = jest.fn();
-    mockUseAuth.mockReturnValue({ signinCallback, signin: jest.fn(), isAuthenticated: true, user: {} });
+  it('shows error details on callback failure', async () => {
+    mockUseNavigate.mockReturnValue(jest.fn());
+    mockUseAuth.mockReturnValue({
+      isAuthenticated: false,
+      signinCallback: jest.fn().mockResolvedValue({ error: { title: 'bad' } }),
+      signin: jest.fn(),
+    });
+
     render(<Callback />);
-    expect(signinCallback).not.toHaveBeenCalled();
+
+    await waitFor(() => expect(screen.getByText('error:bad')).toBeInTheDocument());
   });
 });
