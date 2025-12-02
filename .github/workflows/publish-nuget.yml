@@ -12,10 +12,6 @@ jobs:
   build-and-publish-packages:
     runs-on: ubuntu-latest
 
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +22,8 @@ jobs:
           dotnet-version: '10.0.x'
           include-prerelease: true
           source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore src/Packages
@@ -34,32 +32,17 @@ jobs:
         run: dotnet build src/Packages --configuration Release --no-restore
 
       - name: Create and publish only updated packages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          get_latest_version() {
-            local package_name="$1"
-            local owner_type="${{ github.repository_owner_type }}"
-            local owner_path
-
-            if [ "$owner_type" = "Organization" ]; then
-              owner_path="/orgs/${{ github.repository_owner }}"
-            else
-              owner_path="/users/${{ github.repository_owner }}"
-            fi
-
-            gh api -H "Accept: application/vnd.github+json" \
-              "$owner_path/packages/nuget/${package_name}/versions?per_page=1" \
-              --jq '.[0].name'
-          }
-
           for project in $(find src/Packages -name "*.csproj"); do
             PACKAGE_NAME=$(basename "$project" .csproj)
             VERSION=$(grep -oP '(?<=<Version>).*?(?=</Version>)' "$project")
 
             echo "🔍 Check $PACKAGE_NAME version $VERSION..."
 
-            LATEST_VERSION=$(get_latest_version "$PACKAGE_NAME")
+            # Get the latest version of the package already published on GitHub Packages
+            LATEST_VERSION=$(curl -s -H "Authorization: token $NUGET_AUTH_TOKEN" \
+              "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" | \
+              jq -r --arg pkg "$PACKAGE_NAME" '.data[] | select(.name==$pkg) | .version' | sort -V | tail -n 1)
 
             if [ "$VERSION" != "$LATEST_VERSION" ]; then
               echo "📦 Creating package $PACKAGE_NAME v$VERSION..."
@@ -77,3 +60,5 @@ jobs:
               --api-key "$NUGET_AUTH_TOKEN" \
               --skip-duplicate
           done
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
