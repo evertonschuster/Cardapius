@@ -1,7 +1,9 @@
+jest.mock('./authClient', () => ({
+  createAuthClient: jest.fn(),
+}));
+
 import authService from './authService';
 import { createAuthClient } from './authClient';
-
-jest.mock('./authClient');
 
 const addUserLoaded = jest.fn();
 const addUserUnloaded = jest.fn();
