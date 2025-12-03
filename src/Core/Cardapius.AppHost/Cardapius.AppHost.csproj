@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="13.0.1" />
+    <PackageReference Include="Aspire.Hosting.NodeApp" Version="13.0.1" />
+    <PackageReference Include="Aspire.Hosting.OtlpCollector" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
