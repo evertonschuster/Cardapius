@@ -1,3 +1,4 @@
+using Administration.Domain.Ncms.Entities;
 using Administration.Domain.Products.Entities;
 using Administration.Domain.Restaurants.Models;
 using Administration.Domain.Suppliers.Entities;
@@ -11,6 +12,7 @@ namespace Administration.Infra.DataBase.EntityFramework
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Ncm> Ncms { get; set; }
 
         /// <summary>
         /// Configures the EF Core model for the Administration domain, setting the default schema, applying entity configurations from the current assembly, and enabling soft delete for all entities.
