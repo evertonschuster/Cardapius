@@ -2,7 +2,7 @@ namespace Administration.Domain.Ncms.ValueObjects
 {
     public record NcmCode : ValueObject
     {
-        public required string Code { get; init; }
+        public string Code { get; init; }
 
         public NcmCode(string code)
         {

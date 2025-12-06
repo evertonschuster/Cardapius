@@ -1,4 +1,5 @@
 using Administration.Domain.Common.Pagination;
+using BuildingBlock.Application.Queries;
 
 namespace Administration.Application.Ncms.Queries.ListNcms;
 

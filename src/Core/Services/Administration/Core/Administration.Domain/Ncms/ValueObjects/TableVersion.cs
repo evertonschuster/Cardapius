@@ -2,7 +2,7 @@ namespace Administration.Domain.Ncms.ValueObjects
 {
     public record TableVersion : ValueObject
     {
-        public required string Version { get; init; }
+        public string Version { get; init; }
         public string? FederativeUnit { get; init; }
 
         public TableVersion(string version, string? federativeUnit)
