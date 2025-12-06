@@ -1,9 +1,10 @@
+using Administration.Application.Ncms.Commands;
 using Administration.Domain.Ncms;
 using Administration.Domain.Ncms.ValueObjects;
 
 namespace Administration.Application.Ncms.Commands.UpdateNcm;
 
-public class UpdateNcmCommand : ICommandRequest<UpdateNcmResult>
+public class UpdateNcmCommand : ICommandRequest<UpdateNcmResult>, INcmCommandBase
 {
     public Guid Id { get; set; }
     public string Description { get; set; } = string.Empty;

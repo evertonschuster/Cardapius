@@ -1,10 +1,11 @@
+using Administration.Application.Ncms.Commands;
 using Administration.Domain.Ncms;
 using Administration.Domain.Ncms.Entities;
 using Administration.Domain.Ncms.ValueObjects;
 
 namespace Administration.Application.Ncms.Commands.CreateNcm;
 
-public class CreateNcmCommand : ICommandRequest<CreateNcmResult>
+public class CreateNcmCommand : ICommandRequest<CreateNcmResult>, INcmCommandBase
 {
     public string Description { get; set; } = string.Empty;
     public NcmCode Code { get; set; }
