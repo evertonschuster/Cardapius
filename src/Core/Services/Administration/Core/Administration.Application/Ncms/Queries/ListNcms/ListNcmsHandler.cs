@@ -1,6 +1,5 @@
 using Administration.Domain.Common.Pagination;
 using Administration.Domain.Ncms.Repositories;
-using System.Linq;
 
 namespace Administration.Application.Ncms.Queries.ListNcms;
 

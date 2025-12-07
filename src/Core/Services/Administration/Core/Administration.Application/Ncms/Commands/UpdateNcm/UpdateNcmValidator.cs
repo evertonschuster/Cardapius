@@ -1,5 +1,3 @@
-using Administration.Application.Ncms.Commands;
-
 namespace Administration.Application.Ncms.Commands.UpdateNcm;
 
 public class UpdateNcmValidator : NcmCommandValidator<UpdateNcmCommand>

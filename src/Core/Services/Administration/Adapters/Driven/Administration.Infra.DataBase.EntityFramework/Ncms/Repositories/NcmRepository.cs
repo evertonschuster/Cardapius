@@ -2,7 +2,6 @@ using Administration.Domain.Common.Pagination;
 using Administration.Domain.Ncms.Entities;
 using Administration.Domain.Ncms.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Administration.Infra.DataBase.EntityFramework.Ncms.Repositories;
 

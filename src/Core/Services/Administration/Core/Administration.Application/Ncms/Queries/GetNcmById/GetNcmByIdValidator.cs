@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace Administration.Application.Ncms.Queries.GetNcmById;
 
 public class GetNcmByIdValidator : AbstractValidator<GetNcmByIdQuery>

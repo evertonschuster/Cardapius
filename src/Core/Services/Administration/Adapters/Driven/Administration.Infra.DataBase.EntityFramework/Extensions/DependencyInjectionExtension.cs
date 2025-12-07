@@ -1,10 +1,10 @@
+using Administration.Domain.Ncms.Repositories;
 using Administration.Domain.Products.Repositories;
 using Administration.Domain.Restaurants.Repositories;
-using Administration.Domain.Ncms.Repositories;
 using Administration.Domain.Suppliers.Repositories;
+using Administration.Infra.DataBase.EntityFramework.Ncms.Repositories;
 using Administration.Infra.DataBase.EntityFramework.Products;
 using Administration.Infra.DataBase.EntityFramework.Restaurants.Repositories;
-using Administration.Infra.DataBase.EntityFramework.Ncms.Repositories;
 using Administration.Infra.DataBase.EntityFramework.Suppliers.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

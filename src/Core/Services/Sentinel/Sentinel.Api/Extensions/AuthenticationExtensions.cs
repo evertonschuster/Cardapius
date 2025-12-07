@@ -16,8 +16,8 @@ namespace Sentinel.Api.Extensions
             services
                 .ConfigureApplicationCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5); 
-                    options.SlidingExpiration = false; 
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                    options.SlidingExpiration = false;
                 });
 
             services.AddOpenIddict()
@@ -108,7 +108,7 @@ namespace Sentinel.Api.Extensions
                     policy.AddAuthenticationSchemes(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
                     policy.RequireAuthenticatedUser();
                     policy.RequireAssertion(ctx =>
-                        ctx.User.Claims.Any(c => c.Type == OpenIddictConstants.Claims.Scope 
+                        ctx.User.Claims.Any(c => c.Type == OpenIddictConstants.Claims.Scope
                                                 && c.Value.Split(' ', StringSplitOptions.RemoveEmptyEntries)
                                         .Contains("api")));
                 });

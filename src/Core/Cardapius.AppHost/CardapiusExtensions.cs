@@ -11,9 +11,9 @@ namespace Cardapius.AppHost
                 .AddPostgres("postgres-1")
                 .WithUserName(userPostgres)
                 .WithPassword(senhaPostgres)
-                .WithHostPort(port) 
-                .WithContainerName("cardapius-postgres") 
-                .WithDataVolume("Cardapius-postgres") 
+                .WithHostPort(port)
+                .WithContainerName("cardapius-postgres")
+                .WithDataVolume("Cardapius-postgres")
                 .WithLifetime(ContainerLifetime.Persistent);
 
             return postgresServer.AddDatabase(resourceName);

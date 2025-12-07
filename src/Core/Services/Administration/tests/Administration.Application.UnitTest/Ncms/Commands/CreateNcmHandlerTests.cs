@@ -1,6 +1,4 @@
 using Administration.Application.Ncms.Commands.CreateNcm;
-using Administration.Domain.Ncms.Entities;
-using Administration.Domain.Ncms.Repositories;
 using Administration.Domain.Ncms.ValueObjects;
 using BuildingBlock.Application;
 
