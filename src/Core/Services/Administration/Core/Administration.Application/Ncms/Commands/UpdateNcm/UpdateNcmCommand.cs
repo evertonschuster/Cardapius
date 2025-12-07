@@ -3,7 +3,7 @@ using Administration.Domain.Ncms.ValueObjects;
 
 namespace Administration.Application.Ncms.Commands.UpdateNcm;
 
-public class UpdateNcmCommand : ICommandRequest<UpdateNcmResult>, INcmCommandBase
+public class UpdateNcmCommand : ICommandRequest<UpdateNcmResult>
 {
     public Guid Id { get; set; }
     public string Description { get; set; } = string.Empty;

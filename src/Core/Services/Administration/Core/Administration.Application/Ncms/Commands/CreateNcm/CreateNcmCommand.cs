@@ -4,7 +4,7 @@ using Administration.Domain.Ncms.ValueObjects;
 
 namespace Administration.Application.Ncms.Commands.CreateNcm;
 
-public class CreateNcmCommand : ICommandRequest<CreateNcmResult>, INcmCommandBase
+public class CreateNcmCommand : ICommandRequest<CreateNcmResult>
 {
     public string Description { get; set; } = string.Empty;
     public NcmCode Code { get; set; }
