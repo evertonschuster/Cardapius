@@ -54,7 +54,7 @@ jobs:
       # ---------- FRONTEND ----------
       - name: Install frontend dependencies
         working-directory: src/Apps/erp
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Run frontend tests with coverage (Jest)
         working-directory: src/Apps/erp
