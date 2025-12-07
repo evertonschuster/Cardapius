@@ -9,7 +9,7 @@ namespace Sentinel.Api.Extensions
         {
             services.AddDbContext<SentinelDbContext>(options =>
             {
-                var cs = configuration.GetConnectionString("Default");
+                var cs = configuration.GetConnectionString("SentinelDb");
                 if (string.IsNullOrWhiteSpace(cs))
                     throw new InvalidOperationException("Missing connection string 'Default'.");
 
