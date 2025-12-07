@@ -1,6 +1,5 @@
 using Administration.Application.Ncms.Commands.UpdateNcm;
-using Administration.Domain.Ncms.Entities;
-using Administration.Domain.Ncms.Repositories;
+using Administration.Domain.Ncms;
 using Administration.Domain.Ncms.ValueObjects;
 using BuildingBlock.Application;
 
