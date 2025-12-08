@@ -28,7 +28,6 @@ namespace Administration.Application
             services.AddScoped<IValidator<UpdateSupplierCommand>, UpdateSupplierValidator>();
             services.AddScoped<IValidator<UpdateNcmCommand>, UpdateNcmValidator>();
             services.AddScoped<IValidator<GetNcmByIdQuery>, GetNcmByIdValidator>();
-            services.AddScoped<IValidator<ListNcmsQuery>, ListNcmsValidator>();
 
             return services;
         }
