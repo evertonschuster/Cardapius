@@ -1,6 +1,7 @@
 using Administration.Application.Ncms.Queries.ListNcms;
 using Administration.Domain.Common.Pagination;
 using Administration.Domain.Ncms.ValueObjects;
+using AutoFixture.Xunit2;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -19,13 +20,12 @@ namespace Administration.Application.UnitTest.Ncms.Queries
             _handler = new ListNcmsHandler(_repository);
         }
 
-        [Fact]
-        public async Task Handle_DeveRetornarItensPaginadosMapeados()
+        [Theory, CustomAutoData]
+        public async Task Handle_DeveRetornarItensPaginadosMapeados(Ncm ncmModels)
         {
             // Arrange
             var query = new ListNcmsQuery { PageNumber = 1, PageSize = 2 };
-            var ncmModels = new[] { Substitute.For<Ncm>(), Substitute.For<Ncm>() };
-            var pagedResult = new PaginatedResult<Ncm>(ncmModels, 1, 2, 10);
+            var pagedResult = new PaginatedResult<Ncm>([ncmModels, ncmModels], 1, 2, 10);
 
             _repository.ListAsync(1, 2, Arg.Any<CancellationToken>())
                 .Returns(Task.FromResult(pagedResult));

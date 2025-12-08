@@ -32,13 +32,11 @@ namespace Administration.Application.UnitTest.Ncms.Queries
                 .Which.PropertyName.Should().Be(nameof(query.Id));
         }
 
-        [Fact]
-        public async Task Handle_DeveRetornarSucesso_QuandoNcmEncontrada()
+        [Theory, CustomAutoData]
+        public async Task Handle_DeveRetornarSucesso_QuandoNcmEncontrada(Ncm ncmModel)
         {
             // Arrange
             var query = new GetNcmByIdQuery(Guid.NewGuid());
-
-            var ncmModel = Substitute.For<Ncm>();
 
             _repositorySubstitute.GetByIdAsync(query.Id).Returns(ncmModel);
 
