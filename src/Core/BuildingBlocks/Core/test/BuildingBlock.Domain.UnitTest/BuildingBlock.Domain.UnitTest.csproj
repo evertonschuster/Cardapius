@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
 		<SonarQubeExclude>true</SonarQubeExclude>
+		<SonarQubeTestProject>true</SonarQubeTestProject>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.4">
