@@ -1,7 +1,7 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Linq.Expressions;
 
 namespace BuildingBlock.Infra.DataBase.EntityFramework.Extensions
 {

@@ -23,7 +23,7 @@ namespace Sentinel.Api.Extensions
                 {
                     [new OpenApiSecuritySchemeReference("bearer", document)] = []
                 });
-            
+
             });
 
             return services;

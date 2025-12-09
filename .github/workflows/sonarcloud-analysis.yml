@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
-          include-prerelease: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,6 +38,26 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          EXCLUSIONS_RAW="
+          **/node_modules/**
+          **/dist/**
+          **/build/**
+          **/*.stories.*
+          .github/**
+          "
+
+          COVERAGE_RAW="
+          **/*UnitTest*/**/*.cs
+          **/*Infra*/**/*.cs
+          **/Migrations/**
+          **/*Api*/**/*.cs
+          **/*Event.cs
+          src/Apps/erp/**/__tests__/**
+          "
+
+          IGNORE_FILES=$(echo "$EXCLUSIONS_RAW" | tr -d ' ' | tr '\n' ',' )
+          IGNORE_COVERAGE=$(echo "$COVERAGE_RAW" | tr -d ' ' | tr '\n' ',' )
+          
           dotnet-sonarscanner begin \
             /k:"evertonschuster_Cardapius" \
             /o:"evertonschuster-1" \
@@ -47,14 +66,14 @@ jobs:
             /d:sonar.cs.opencover.reportsPaths="coverage-report/*.xml" \
             /d:sonar.javascript.lcov.reportPaths="src/Apps/erp/coverage/lcov.info" \
             /d:sonar.sources="." \
-            /d:sonar.exclusions="**/node_modules/**,**/dist/**,**/build/**,**/*.stories.*,.github/**" \
-            /d:sonar.coverage.exclusions="**/*UnitTest*/**/*.cs,**/*Infra*/**/*.cs,**/Migrations/**,**/*Api*/**/*.cs,**/.github/**,src/Apps/erp/**/__tests__/**,src/Apps/erp/**/*.stories.*,src/Apps/erp/**/*.mock.*,src/Apps/erp/**/mocks/**,src/Apps/erp/**/fixtures/**,**/*config.ts,**/*setup.ts" \
-            /d:sonar.projectBaseDir="$(pwd)"
+            /d:sonar.projectBaseDir="$(pwd)" \
+            /d:sonar.exclusions="$IGNORE_FILES" \
+            /d:sonar.coverage.exclusions="$IGNORE_COVERAGE"
 
       # ---------- FRONTEND ----------
       - name: Install frontend dependencies
         working-directory: src/Apps/erp
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Run frontend tests with coverage (Jest)
         working-directory: src/Apps/erp

@@ -1,6 +1,6 @@
+using System.Collections.Concurrent;
 using BuildingBlock.Domain.ValueObjects;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.Collections.Concurrent;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json.Validators
 {

@@ -1,8 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
 using Sentinel.Api.Models;
-using System.Security.Claims;
 
 namespace Sentinel.Api.Services;
 

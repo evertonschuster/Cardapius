@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Administration.Application.Ncms.Commands.CreateNcm;
+using Administration.Application.Ncms.Commands.UpdateNcm;
+using Administration.Application.Ncms.Queries.GetNcmById;
 using Administration.Application.Products.Commands.CreateProduct;
 using Administration.Application.Suppliers.Commands.CreateSupplier;
 using Administration.Application.Suppliers.Commands.UpdateSupplier;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Administration.Application
 {
@@ -19,8 +22,11 @@ namespace Administration.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.AddScoped<IValidator<CreateProductCommand>, CreateProductValidator>();
+            services.AddScoped<IValidator<CreateNcmCommand>, CreateNcmValidator>();
             services.AddScoped<IValidator<CreateSupplierCommand>, CreateSupplierValidator>();
             services.AddScoped<IValidator<UpdateSupplierCommand>, UpdateSupplierValidator>();
+            services.AddScoped<IValidator<UpdateNcmCommand>, UpdateNcmValidator>();
+            services.AddScoped<IValidator<GetNcmByIdQuery>, GetNcmByIdValidator>();
 
             return services;
         }

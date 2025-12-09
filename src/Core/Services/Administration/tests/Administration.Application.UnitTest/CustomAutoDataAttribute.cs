@@ -62,6 +62,7 @@ namespace Administration.Application.UnitTest
             fixture.Register(() => MunicipalRegistration.Parse(MunicipalRegistration.Empty).Value);
             fixture.Register(() => BankInformation.Create("Banco", "0001", "123", AccountType.Checking, new[] { "pix" }).Value);
             fixture.Register(() => SupportingDocuments.Parse(null, null, null, null).Value);
+            fixture.Register(() => DateOnly.Parse("12/12/2026"));
         }
     }
 }

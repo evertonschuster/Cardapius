@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,6 @@ using Moq;
 using OpenIddict.Abstractions;
 using Sentinel.Api.Models;
 using Sentinel.Api.Services;
-using System.Security.Claims;
 
 namespace Sentinel.Api.UnitTests;
 

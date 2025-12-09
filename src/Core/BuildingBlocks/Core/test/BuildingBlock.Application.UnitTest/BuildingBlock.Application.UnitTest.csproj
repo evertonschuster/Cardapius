@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
-	  <SonarQubeExclude>true</SonarQubeExclude>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<SonarQubeExclude>true</SonarQubeExclude>
+		<SonarQubeTestProject>true</SonarQubeTestProject>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.4">
@@ -24,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\BuildingBlock.Application\BuildingBlock.Application.csproj" />
+		<ProjectReference Include="..\..\BuildingBlock.Application\BuildingBlock.Application.csproj" />
 	</ItemGroup>
- 
+
 </Project>

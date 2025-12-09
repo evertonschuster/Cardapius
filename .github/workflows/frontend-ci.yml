@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: src/Apps/erp
-        run: npm install
+        run: npm install --ignore-scripts
         
       - name: Run tests
         working-directory: src/Apps/erp

@@ -1,5 +1,5 @@
-using OpenIddict.Abstractions;
 using System.Globalization;
+using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Sentinel.Api.Data.Seeds

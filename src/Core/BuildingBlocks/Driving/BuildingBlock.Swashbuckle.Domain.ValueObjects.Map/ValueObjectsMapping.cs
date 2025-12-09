@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using BuildingBlock.Domain.ValueObjects.Business;
 using BuildingBlock.Domain.ValueObjects.Contact;
 using BuildingBlock.Domain.ValueObjects.Location;
@@ -7,7 +8,6 @@ using BuildingBlock.Domain.ValueObjects.Time;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Text.Json.Nodes;
 
 namespace BuildingBlock.Swashbuckle.Domain.ValueObjects.Map
 {
