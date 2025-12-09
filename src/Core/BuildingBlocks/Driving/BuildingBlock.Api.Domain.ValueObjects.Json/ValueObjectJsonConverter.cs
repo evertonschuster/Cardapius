@@ -1,6 +1,6 @@
+using System.ComponentModel;
 using BuildingBlock.Domain.ValueObjects;
 using Newtonsoft.Json;
-using System.ComponentModel;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json
 {

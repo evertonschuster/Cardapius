@@ -1,6 +1,6 @@
+using System.Reflection;
 using BuildingBlock.Domain.ValueObjects;
 using Newtonsoft.Json;
-using System.Reflection;
 
 namespace BuildingBlock.Api.Domain.ValueObjects.Json
 {

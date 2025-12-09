@@ -1,8 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using BuildingBlock.Domain.Events;
 using BuildingBlock.Domain.Exceptions;
 using BuildingBlock.Domain.Rules;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 namespace BuildingBlock.Domain.Entities
 {

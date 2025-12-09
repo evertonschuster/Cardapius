@@ -1,5 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BuildingBlock.Api.Application.Extensions
 {

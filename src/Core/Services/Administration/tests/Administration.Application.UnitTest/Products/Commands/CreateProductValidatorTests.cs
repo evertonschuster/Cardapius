@@ -2,7 +2,6 @@ using Administration.Application.Products.Commands.CreateProduct;
 using BuildingBlock.Domain.ValueObjects.Media;
 using BuildingBlock.Domain.ValueObjects.Products;
 using BuildingBlock.Domain.ValueObjects.Time;
-using FluentValidation.TestHelper;
 
 namespace Administration.Application.UnitTest.Products.Commands.CreateProduct
 {

@@ -1,6 +1,4 @@
 using Administration.Application.Ncms.Queries.GetNcmById;
-using Administration.Domain.Products.Entities;
-using NSubstitute;
 
 namespace Administration.Application.UnitTest.Ncms.Queries
 {

@@ -1,11 +1,5 @@
 using Administration.Application.Ncms.Queries.ListNcms;
 using Administration.Domain.Common.Pagination;
-using Administration.Domain.Ncms.ValueObjects;
-using AutoFixture.Xunit2;
-using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Administration.Application.UnitTest.Ncms.Queries
 {

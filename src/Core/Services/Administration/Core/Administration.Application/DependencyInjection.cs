@@ -1,13 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Administration.Application.Ncms.Commands.CreateNcm;
 using Administration.Application.Ncms.Commands.UpdateNcm;
 using Administration.Application.Ncms.Queries.GetNcmById;
-using Administration.Application.Ncms.Queries.ListNcms;
 using Administration.Application.Products.Commands.CreateProduct;
 using Administration.Application.Suppliers.Commands.CreateSupplier;
 using Administration.Application.Suppliers.Commands.UpdateSupplier;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace Administration.Application
 {

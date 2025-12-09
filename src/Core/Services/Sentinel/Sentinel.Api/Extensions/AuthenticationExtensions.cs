@@ -1,8 +1,8 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.DataProtection;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using Sentinel.Api.Data;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Sentinel.Api.Extensions
 {

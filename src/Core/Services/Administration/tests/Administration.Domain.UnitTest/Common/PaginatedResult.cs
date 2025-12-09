@@ -1,8 +1,5 @@
 using Administration.Domain.Common.Pagination;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Administration.Domain.UnitTest.Common
 {

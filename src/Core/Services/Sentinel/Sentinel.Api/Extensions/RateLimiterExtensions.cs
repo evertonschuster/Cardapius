@@ -1,6 +1,6 @@
-using Polly;
 using System.Net;
 using System.Threading.RateLimiting;
+using Polly;
 
 namespace Sentinel.Api.Extensions
 {
