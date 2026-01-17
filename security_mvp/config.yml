@@ -1,0 +1,20 @@
+cameras:
+  - camera_id: classroom1
+    url: rtsp://user:pass@192.168.1.10:554/stream1
+    fps: 5
+  - camera_id: classroom2
+    url: rtsp://user:pass@192.168.1.11:554/stream1
+    fps: 5
+queue:
+  url: amqp://guest:guest@rabbitmq:5672/
+  exchange: security.events
+sample_fps: 5
+resize_width: 640
+resize_height: 360
+window_secs: 5
+rate_limit_secs: 10
+save_blurred_snapshots: false
+snapshot_dir: snapshots
+http_host: 0.0.0.0
+http_port: 8080
+log_level: INFO
